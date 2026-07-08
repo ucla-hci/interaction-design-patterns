@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Tracker — Pattern-conditioned (discover/curated-sections)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #e8eaed;
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #fff;
+    border-radius: 36px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .screen { flex: 1; overflow-y: auto; padding-bottom: 96px; }
+
+  /* ── header: category_tabs (horizontal_scroll_tabs, role: filter) ── */
+  .tabs {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff;
+    display: flex; gap: 22px;
+    padding: 56px 20px 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #ececf0;
+  }
+  .tab {
+    font-size: 14px; font-weight: 600;
+    color: #7a7f8a;
+    padding-bottom: 11px;
+    white-space: nowrap;
+    border-bottom: 2.5px solid transparent;
+  }
+  .tab.active { color: #17181c; border-bottom-color: #d9230f; }
+
+  /* ── body: section[] ─────────────────────────────────────── */
+  .section { margin-top: 22px; }
+  .section-header {
+    display: flex; align-items: baseline;
+    padding: 0 20px 12px;
+  }
+  .section-header .titles { flex: 1; }
+  .section-header h2 { font-size: 19px; font-weight: 700; color: #17181c; letter-spacing: -0.3px; }
+  .section-header p { font-size: 13px; color: #7a7f8a; margin-top: 2px; }
+  .see-all { font-size: 20px; color: #17181c; }
+
+  .card-row {
+    display: flex; gap: 12px;
+    overflow-x: auto;
+    padding: 0 20px 4px;
+    scrollbar-width: none;
+  }
+  .card-row::-webkit-scrollbar { display: none; }
+
+  .card { flex-shrink: 0; width: 240px; }
+  .card.wide { width: 300px; }
+  .hero {
+    height: 130px;
+    border-radius: 14px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    overflow: hidden;
+  }
+  .badge {
+    position: absolute; top: 10px; left: 10px;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 9px; border-radius: 999px;
+    background: rgba(255,255,255,0.94);
+  }
+  .b-live    { color: #17803d; }
+  .b-alert   { color: #c0342a; }
+  .b-neutral { color: #4b5058; }
+  .heart {
+    position: absolute; top: 8px; right: 10px;
+    font-size: 16px; color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  .card h3 { font-size: 15px; font-weight: 700; color: #17181c; margin-top: 9px; }
+  .meta { font-size: 12.5px; color: #7a7f8a; margin-top: 3px; }
+  .meta b { color: #17181c; font-weight: 600; }
+
+  /* ── footer: persistent_search (sticky bottom) ───────────── */
+  .search-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 12px 16px 30px;
+    background: linear-gradient(to top, #fff 75%, rgba(255,255,255,0));
+    display: flex; gap: 10px;
+  }
+  .search-input {
+    flex: 1;
+    background: #f1f2f5;
+    border-radius: 999px;
+    padding: 13px 18px;
+    font-size: 14px; color: #9aa0ab;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 2px 12px rgba(20,22,28,0.10);
+  }
+  .ask-btn {
+    background: #17181c; color: #fff;
+    border-radius: 999px;
+    padding: 13px 20px;
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 12px rgba(20,22,28,0.18);
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="screen">
+    <!-- category_tabs · role: filter — pivots sections below -->
+    <div class="tabs">
+      <div class="tab active">All</div>
+      <div class="tab">Arriving today</div>
+      <div class="tab">In transit</div>
+      <div class="tab">Needs attention</div>
+      <div class="tab">Delivered</div>
+    </div>
+
+    <!-- section[1] -->
+    <div class="section">
+      <div class="section-header">
+        <div class="titles">
+          <h2>Arriving today</h2>
+          <p>2 packages on the move near you</p>
+        </div>
+        <div class="see-all">›</div>
+      </div>
+      <div class="card-row">
+        <div class="card">
+          <div class="hero" style="background:linear-gradient(135deg,#dbe9ff,#b7d3f5)">
+            🚚<span class="badge b-live">● Out for delivery</span><span class="heart">♡</span>
+          </div>
+          <h3>Anker USB-C Charger 65W</h3>
+          <div class="meta">Amazon · UPS · <b>by 8:00 PM</b> · 4 stops away</div>
+        </div>
+        <div class="card">
+          <div class="hero" style="background:linear-gradient(135deg,#e4f4ff,#bfe3f8)">
+            📦<span class="badge b-live">● Out for delivery</span><span class="heart">♡</span>
+          </div>
+          <h3>Echo Dot (5th Gen)</h3>
+          <div class="meta">Amazon · Amazon Logistics · <b>by 10:00 PM</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- section[2] -->
+    <div class="section">
+      <div class="section-header">
+        <div class="titles">
+          <h2>Needs attention</h2>
+          <p>Act on these to avoid missed deliveries</p>
+        </div>
+        <div class="see-all">›</div>
+      </div>
+      <div class="card-row">
+        <div class="card wide">
+          <div class="hero" style="background:linear-gradient(135deg,#fde8e6,#f6c9c4)">
+            ⚠️<span class="badge b-alert">Delayed — was Jul 9</span>
+          </div>
+          <h3>Standing Desk Frame</h3>
+          <div class="meta">Wayfair · FedEx · new estimate <b>Sat, Jul 12</b></div>
+        </div>
+        <div class="card wide">
+          <div class="hero" style="background:linear-gradient(135deg,#fdf3dc,#f5e0ae)">
+            ✍️<span class="badge b-neutral">Signature required</span>
+          </div>
+          <h3>Passport Renewal Documents</h3>
+          <div class="meta">USPS Priority · <b>Fri, Jul 11</b> · set instructions</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- section[3] -->
+    <div class="section">
+      <div class="section-header">
+        <div class="titles">
+          <h2>On the way</h2>
+          <p>Everything else in transit</p>
+        </div>
+        <div class="see-all">›</div>
+      </div>
+      <div class="card-row">
+        <div class="card">
+          <div class="hero" style="background:linear-gradient(135deg,#efe9fb,#d5c8f0)">
+            📷<span class="badge b-neutral">In transit</span><span class="heart">♡</span>
+          </div>
+          <h3>Vintage Camera Lens 50mm</h3>
+          <div class="meta">eBay · USPS · <b>Thu, Jul 10</b></div>
+        </div>
+        <div class="card">
+          <div class="hero" style="background:linear-gradient(135deg,#e8f7ec,#c4e8cd)">
+            📖<span class="badge b-neutral">In transit</span><span class="heart">♡</span>
+          </div>
+          <h3>Kindle Paperwhite Case</h3>
+          <div class="meta">Amazon · <b>Tomorrow</b> · estimated</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- section[4] -->
+    <div class="section">
+      <div class="section-header">
+        <div class="titles">
+          <h2>Recently delivered</h2>
+          <p>Past 7 days</p>
+        </div>
+        <div class="see-all">›</div>
+      </div>
+      <div class="card-row">
+        <div class="card">
+          <div class="hero" style="background:linear-gradient(135deg,#f0f1f4,#dcdee4)">
+            ✅<span class="badge b-neutral">Delivered Jul 7</span>
+          </div>
+          <h3>LEGO Botanical Set</h3>
+          <div class="meta">Target · UPS · left at <b>front door, 2:14 PM</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- persistent_search: [search_input, ai_action_button] -->
+  <div class="search-bar">
+    <div class="search-input">🔍 Search deliveries</div>
+    <div class="ask-btn">✦ Ask</div>
+  </div>
+</div>
+</body>
+</html>

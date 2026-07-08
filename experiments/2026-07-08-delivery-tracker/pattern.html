@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Tracker — Pattern-conditioned (monitor/grouped-items)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #e8eaed;
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #f7f8fa;
+    border-radius: 36px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen { flex: 1; overflow-y: auto; }
+
+  /* ── header: app_bar (sticky) ───────────────────────────── */
+  .app-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: #fff;
+    padding: 52px 16px 10px;
+    display: flex; align-items: center;
+    border-bottom: 1px solid #ececf0;
+  }
+  .util { display: flex; gap: 14px; font-size: 19px; width: 76px; }
+  .brand { flex: 1; text-align: center; font-size: 17px; font-weight: 700; color: #17181c; letter-spacing: -0.2px; }
+  .profile {
+    width: 76px; display: flex; justify-content: flex-end;
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #0f4c81; color: #fff;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── header: quick_action_chip[] (role: action) ─────────── */
+  .chips {
+    display: flex; gap: 8px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    background: #fff;
+    border-bottom: 1px solid #ececf0;
+  }
+  .chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #eef3f9;
+    color: #0f4c81;
+    font-size: 13px; font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── body: item_group[] ─────────────────────────────────── */
+  .body { padding: 14px 16px 96px; }
+  .group { margin-bottom: 16px; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(20,22,28,0.06); }
+  .group-header {
+    background: #0f4c81;
+    color: #fff;
+    padding: 13px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .group-header .name { font-size: 14px; font-weight: 700; }
+  .group-header .name span { font-weight: 400; opacity: 0.75; }
+  .group-header .aggregate { font-size: 13px; font-weight: 600; opacity: 0.95; }
+  .rows { background: #fff; }
+  .row {
+    padding: 14px 16px;
+    display: flex; align-items: center;
+    border-bottom: 1px solid #f0f1f4;
+  }
+  .row:last-child { border-bottom: none; }
+  .row-main { flex: 1; min-width: 0; padding-right: 12px; }
+  .row .item-name { font-size: 14px; font-weight: 600; color: #17181c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .item-id { font-size: 11px; color: #8a8f99; margin-top: 2px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 999px;
+    margin-top: 6px;
+  }
+  .b-success { background: #e6f6ea; color: #17803d; }
+  .b-warning { background: #fdf3e0; color: #9a6a00; }
+  .b-alert   { background: #fdeceb; color: #c0342a; }
+  .row-value { text-align: right; flex-shrink: 0; }
+  .row-value .value { font-size: 15px; font-weight: 700; color: #17181c; }
+  .row-value .label { font-size: 11px; color: #8a8f99; margin-top: 2px; }
+
+  /* trend_indicator: shipment progress dots */
+  .trend { display: flex; gap: 3px; justify-content: flex-end; margin-top: 7px; }
+  .dot { width: 14px; height: 4px; border-radius: 999px; background: #e2e4e9; }
+  .dot.on { background: #0f4c81; }
+  .dot.alert { background: #c0342a; }
+
+  /* ── footer: bottom_nav ─────────────────────────────────── */
+  .bottom-nav {
+    background: #fff;
+    border-top: 1px solid #ececf0;
+    display: flex;
+    padding: 10px 6px 26px;
+  }
+  .nav-tab {
+    flex: 1; text-align: center;
+    font-size: 10.5px; color: #8a8f99;
+  }
+  .nav-tab .icon { font-size: 20px; display: block; margin-bottom: 3px; }
+  .nav-tab.active { color: #0f4c81; font-weight: 700; }
+  .nav-tab.active .icon { filter: none; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="screen">
+    <!-- app_bar: [utility_icon[], brand_logo, profile_icon] -->
+    <div class="app-bar">
+      <div class="util"><span>🔔</span><span>➕</span></div>
+      <div class="brand">Parcel Hub</div>
+      <div class="profile"><div class="avatar">XC</div></div>
+    </div>
+
+    <!-- quick_action_chip[] · role: action -->
+    <div class="chips">
+      <div class="chip">＋ Add tracking</div>
+      <div class="chip">✉️ Scan inbox</div>
+      <div class="chip">📦 Archive delivered</div>
+      <div class="chip">🚚 Delivery instructions</div>
+    </div>
+
+    <div class="body">
+      <!-- item_group[1] -->
+      <div class="group">
+        <div class="group-header">
+          <div class="name">Amazon <span>(3)</span></div>
+          <div class="aggregate">2 arriving today</div>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Anker USB-C Charger 65W</div>
+              <div class="item-id">UPS · …6784</div>
+              <div class="badge b-success">✓ Out for delivery</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Today</div>
+              <div class="label">by 8:00 PM</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Echo Dot (5th Gen)</div>
+              <div class="item-id">Amazon Logistics · …3210</div>
+              <div class="badge b-success">✓ Out for delivery</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Today</div>
+              <div class="label">by 10:00 PM</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Kindle Paperwhite Case</div>
+              <div class="item-id">Amazon Logistics · …8892</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Tomorrow</div>
+              <div class="label">estimated</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- item_group[2] -->
+      <div class="group">
+        <div class="group-header">
+          <div class="name">eBay <span>(1)</span></div>
+          <div class="aggregate">1 in transit</div>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Vintage Camera Lens 50mm</div>
+              <div class="item-id">USPS · …0000</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Thu, Jul 10</div>
+              <div class="label">estimated</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- item_group[3] -->
+      <div class="group">
+        <div class="group-header">
+          <div class="name">Other retailers <span>(3)</span></div>
+          <div class="aggregate">1 delayed</div>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Standing Desk Frame</div>
+              <div class="item-id">Wayfair · FedEx · …4839</div>
+              <div class="badge b-alert">! Delayed — was Jul 9</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Sat, Jul 12</div>
+              <div class="label">new estimate</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot alert"></div><div class="dot"></div></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">Passport Renewal Documents</div>
+              <div class="item-id">USPS Priority · …0000</div>
+              <div class="badge b-warning">Signature required</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Fri, Jul 11</div>
+              <div class="label">estimated</div>
+              <div class="trend"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row-main">
+              <div class="item-name">LEGO Botanical Set</div>
+              <div class="item-id">Target · UPS · …5432</div>
+              <div class="badge b-success">✓ Delivered yesterday</div>
+            </div>
+            <div class="row-value">
+              <div class="value">Jul 7</div>
+              <div class="label">2:14 PM</div>
+              <div class="trend"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom_nav · active_indicator: required -->
+  <div class="bottom-nav">
+    <div class="nav-tab active"><span class="icon">📦</span>Deliveries</div>
+    <div class="nav-tab"><span class="icon">🗺️</span>Map</div>
+    <div class="nav-tab"><span class="icon">🕘</span>History</div>
+    <div class="nav-tab"><span class="icon">⚙️</span>Settings</div>
+  </div>
+</div>
+</body>
+</html>
