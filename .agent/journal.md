@@ -112,6 +112,131 @@
 
 **Next.** See `next-up` at the top of this file.
 
+## 7/13/2026
+<!-- AGENT: for each task, once you start working on it, create and update a subsubsection (### task: xxx) below -->
+```
+- [x] cf. the thoughts below and conduct a lit search (including recent arxiv papers or online technical reports) to help us ground our reflection
+- [x] perhaps there should be some studies that measure the difference in terms of task performance: users prefer a GenUI version of LM response but what for? to make it easier to read? easier to apply for downstream tasks? first, critically think about this push-back; then, if needed, do some lit search on how to measure task performance gain of GenUI
+- [x] so we can first survey papers to summarize a taxonomy of LLM downstream tasks (or subtasks that serve as building blocks of various other domain-specific tasks), then measure performance across different response format (e.g., text-only vs. with GenUI)
+- [x] building on C1-4 and P1-2: if we are to use them for the study of LM response presentation format (text-only vs. with GenUI), does it make sense to have stand-alone subtasks, or should we come up with more compositional higher-level tasks (which collectively will cover all six although each might consists of just a subset)?
+- [x] your reasoning here on questioning the fundamental benefits/value of GenUI is too intertwined with and biased by the PatternGUI project. write a hand-off doc and i will start a new project
+```
+
+### task: hand-off doc — GenUI-value question spun off as standalone project
+
+**Deliverable:** `handoff-genui-value/` at repo root — a portable bundle: `README.md` (the hand-off doc, founding document for the new repo) + `literature/` with the 18 relevant paper notes and both synthesis reports (20 files). Copy the directory wholesale to start the new project. Original draft also at `.agent/drafts/handoff-genui-value-project.md`; feedback saved to persistent memory.
+
+**Core of the doc is a bias audit (§2) — five specific contaminations in today's reasoning, each with a correction:**
+1. *Directional reading of the collapse finding*: I read "59.5% of episodes end at the answer" as "format is the whole game"; the equally valid reading is **episodes collapse because text was sufficient** (collapse was flat across task types — if format hunger were real, harder tasks should collapse less). Reframed as ambiguous; the new study can discriminate the readings.
+2. *"Act is categorical" used the wrong baseline*: buttons are impossible in markdown, but the real alternative is **the conversation itself** — typing "reschedule it" is as easy as clicking. Chat is interactive. This dissolves the one "needs no measurement" claim; a fourth condition (text + conversational follow-up) becomes the study's most important addition — it tests whether interactivity must be *spatial* or whether *conversational* suffices.
+3. *Monitor elevated because the flagship has monitor patterns*: neutrally, its ecological share is unknown and it presumes persistent-artifact products that barely exist; demoted to one forward-looking cell among equals.
+4. *Scenario selection was convenience-driven* (delivery tracker reuses PatternGenUI artifacts): new project draws scenario domains from measured usage shares (Chatterji: practical guidance 28.8%, info seeking 24.4%, writing 23.3% — none dashboard-shaped).
+5. *Predictions framed as "where GenUI should win"*: replaced with symmetric pre-registered hypotheses including null and anti-GenUI (fragmented layouts hurt comprehension/retention; latency+error costs wipe out per-task gains).
+
+**What survives de-biasing:** the C1–C4/P1–P2 taxonomy (with monitor as dimension), the measurement toolkit, and the layered scenario+probe design — including the format × atomicity argument, which is load-bearing independent of patterns. Headline analysis for the new project: the **preference–performance dissociation** (collect preference *after* performance; if halo confirmed, that alone is a field-level finding).
+
+**Boundary set (§5):** projects share taxonomy and instruments but not predictions or artifacts. If the new project finds null/negative format effects outside narrow task types, that *bounds* PatternGenUI's claims (patterns matter exactly where UI helps) — but that reading must be earned by data.
+
+### task: study design — atomic subtasks vs. compositional tasks
+
+**Full write-up:** `.agent/drafts/study-design-1-task-structure.md`
+
+**Recommendation: compositional scenarios as carrier, atomic probes as instrument** — the layered design InfoVis converged on after its own version of this fight (North's benchmark-task vs. insight evaluation → LITE hybrid).
+
+**The decisive argument (format × atomicity confound):** in real use the LLM generates the response *before* knowing which operation the user will perform — the artifact must serve a distribution of subtasks, which is what layout topology is *for*. Under atomic per-probe generation, the text condition can always be a perfectly targeted one-sentence answer and all formats converge: text is unbeatable by construction. Under one shared multi-purpose artifact probed multiple times, the formats genuinely diverge. Composites aren't just more realistic — they're the only structure under which the manipulation exists. Secondary arguments: transitions carry effect (Pirolli & Card chaining + interactive state persistence), and the monitor dimension can't be operationalized atomically at all.
+
+**But pure composites lose attribution** (reproduces the field's aggregate-preference problem one level down), so: scripted probe chains inside each scenario, individually timed/scored, fixed order across formats; every cell covered by ≥2 scenarios to de-confound cell from scenario content.
+
+**Coverage design (4 scenarios):** S1 delivery tracker (`monitor`: C1, C3, P1, monitor — artifacts already exist) · S2 choose among options (`compare`: C1, C3, C4, P2) · S3 learn a topic (`detail`: C2, C4, P2 — the honest test where GenUI may lose) · S4 plan & execute (`transact`: C1, C2, P1, monitor). All cells ≥2. One artifact per scenario per format, independent LLM calls, frozen across participants.
+
+**Fit with the pattern argument:** the scenario unit IS the screen-intent unit — an intent is a subtask bundle (`monitor/grouped-items` ≈ {C1, C3, P1} repeated). The three-arm pattern ablation drops into the same scenario+probe machinery with format held at GenUI, and yields a sharp falsifiable prediction: the wrong-pattern arm should *selectively* degrade C3 + monitor probes while leaving C1 intact — a probe-level deficit, much stronger than "raters liked it less." Longer-term: patterns could declare their own probe profiles (`expects` + intent → self-describing evaluation targets).
+
+**Risks handled:** probe order effects (fixed order, position as covariate), scripted-probe blindness (free-use + think-aloud window at end of one scenario, per the insight-method critique), content parity across formats (pilot-rate artifacts for same-facts before running).
+
+### task: survey — taxonomy of LLM downstream tasks
+
+**Approach.** Survey across five literatures (LLM usage logs, information seeking, sensemaking, cognitive/educational, InfoVis): 12 papers, 10 new note files. Synthesis: `literature/_approaches-llm-downstream-task-taxonomy.md`.
+
+**Key convergences found:**
+1. **Consume vs. produce is the universal first cut** — Brehmer & Munzner (InfoVis, 2013) and OpenAI's 1.1M-conversation study (Asking 49% / Doing 40%, Chatterji et al. NBER 2025) arrive at the same top split by unrelated methods; Bloom's taxonomy and the 41% "workbench layer" (Iannelli & Ai 2026) agree.
+2. **The consumption side decomposes consistently into ~4 operations** across Marchionini, Bloom, Amar & Stasko: locate, comprehend, compare/decide, synthesize.
+3. **Monitor appears in NO prior taxonomy** — it's a temporal property (repeated return to changing state), not an operation, and single-session study designs never see it.
+4. **The structural gap**: LLM-era taxonomies classify the *request*; classical taxonomies classify operations on a *given artifact*. Nobody has taxonomized what users do *with an LLM response* — even though Iannelli & Ai 2026 show the response terminates 59.5% of episodes and verification searches occur in ~1% (the response is the user's terminal interface).
+
+**Synthesized taxonomy v2** (revised from yesterday's six-purpose draft):
+- Consume: **C1 locate · C2 comprehend · C3 compare/decide · C4 synthesize** (new — investigate/sensemaking too well-attested to fold into comprehend)
+- Produce: **P1 act · P2 produce** (communicate dropped — literature locates it inside produce)
+- **Monitor reclassified from category to orthogonal temporal dimension** (any purpose repeated over changing state) — the honest reading of its absence from every taxonomy, and cleaner for us: `monitor/*` patterns serve *repeated* consumption, which is exactly where static prose fails.
+- Covariate dimensions: iteration structure (Tang & Yang 2022), delegation level (Anthropic Economic Index).
+- Each cell has validated probe types + metrics mapped (Amar & Stasko probes for C1/C3, Bloom item-writing for C2, chained probes per Pirolli & Card for C4).
+- Ecological weights from OpenAI: consumption ≈ 50%, production ≈ 35–40%; prioritize C1/C3/P1/monitor (where GenUI should win) and C2 (where it may lose — the honest test).
+
+**Best new ammunition for the premise:** Iannelli & Ai 2026 — for ~60% of episodes the LLM answer is where the task ends, median episodes touch zero onward sources, verification ≈ 1%. If the response is the terminal artifact, its format is the whole game.
+
+**Untried combinations (open space we can occupy):**
+1. Response-side task taxonomy induced from logs (run Amar & Stasko's derivation method on post-response behavior)
+2. Monitor as a measured condition — no format study has ever tested repeated-glance performance on LLM outputs
+3. The full format × purpose interaction matrix is empty — even a partial fill would be the first "when does GenUI help" evidence
+
+**New notes:** Chatterji (NBER, A), Anthropic Economic Index (C), Bodonhelyi (B), Marchionini (B), Tang & Yang (B), Athukorala (B), Iannelli & Ai (B), Pirolli & Card (B), Anderson & Krathwohl/Bloom (B), Amar & Stasko (A), Brehmer & Munzner (A).
+
+### task: critical reflection — preference vs. task performance
+
+**Full write-up:** `.agent/drafts/reflection-2-genui-task-performance.md`
+
+**Critical analysis (part 1).** Decomposed "prefer, but for what?" into six downstream purposes of an LLM response: comprehend / locate / compare-decide / act / monitor / communicate. UI's benefit is task-contingent: marginal-to-negative for pure comprehension (classic InfoVis: graphs 13.5% *less* accurate than text), strong for locate and monitor, *categorical* for act (forms/buttons are impossible in markdown). Preference studies average over all six, which is why they show big aggregate effects with no mechanism.
+
+Four confounds inflate the preference numbers: (1) aesthetics–usability halo (documented dissociations where aesthetics raise perceived usability while lowering actual performance); (2) raters were spectators, not users — no task was performed with the rated artifacts; (3) baseline strawman — the fair comparison is *well-formatted markdown* vs. GenUI, isolating interactivity+layout, and no study does it; (4) preference heterogeneity — Luera et al. 2025 (~1000 respondents): tables 41.7% > charts 36.3% > text 22%, flipping by role/age/expertise; consistent with Peng's κ = 0.25.
+
+Steelman: preference drives adoption; InfoVis shows format effects on speed/accuracy are real and measurable, just unmeasured in GenUI; the act category needs no measurement debate. Verdict: the premise isn't dead, it's **underspecified**.
+
+**Measurement methodology (part 2).** The toolkit exists in InfoVis + risk communication: accuracy + response time per task type (text/table/graph studies), immediate quiz + 6-week recall (fact-boxes RCT), speed/accuracy decomposition for interactivity (mixed results — static sometimes faster with more errors), Amar & Stasko's 10 low-level tasks + Brehmer & Munzner typology as validated task batteries. Proposed design: 3 formats (plain text / rich markdown / GenUI) × 5 purpose-matched task instruments, metrics = accuracy, time-to-fact, decision quality, completion rate, glance accuracy, TLX, delayed recall.
+
+**Key strategic insight: the pattern intent taxonomy IS a task taxonomy.** Each pattern declares what the screen is for (`monitor` → glance accuracy, `search` → time-to-target, `detail` → comprehension, `transact` → completion rate) — so patterned GenUI arrives with its own measurement instrument, while unpatterned GenUI forces the vague preference measures the field is stuck with. Implication for the planned three-arm ablation: use **intent-matched task performance** as the primary metric — the wrong-pattern arm (condition C) should measurably *hurt* glance accuracy, not just be dispreferred. This is a methodological step past both anchor papers and a second framing of the contribution: patterns make GenUI evaluation tractable, not just generation better.
+
+### task: lit search — does GenUI really matter?
+
+**Approach.** Survey search: 8 papers found and read (6 new note files written), synthesis at `literature/_synthesis-genui-vs-text-evidence.md`. Existing "Generative Interfaces" note updated with richer evaluation details.
+
+**What the literature says:**
+
+*The "GenUI > text" premise is empirically supported — but only at the preference level, not at task-performance level.*
+
+Two substantial preference studies establish the claim:
+- **Leviathan et al. (Google, 2026, arxiv 2604.09577)**: 5-condition pairwise study across 192 prompts. GenUI preferred over plain text 97%; over markdown 82.8–90.5%. Matches expert human websites ~50% of the time. No task-completion data. Capability is emergent — only top-tier models (Gemini 3, 2.5 Pro) achieve near-zero errors; smaller models fail at 29–60%.
+- **"Generative Interfaces for Language Models" (ACL Findings 2026, already in library)**: 84% win rate vs. ConvUI, with 76 real users using their own queries. Moderate κ = 0.525.
+
+*The "task performance" gap:* No paper compares GenUI vs. text on task completion rate, accuracy, or time-on-task. The one study that comes close (GenerativeGUI, CHI EA 2025) shows a tradeoff — GenUI reduces mental demand and task time, but the clarifying-question step that enables it increases them.
+
+*OpenUI/A2UI specifically:*
+- OpenUI (openui.com) is a practitioner standard with no peer-reviewed evaluation study.
+- A2UI (Macaron, Kong et al. 2026): evaluated on A2UI-Bench (LLM-judge + visual quality), no user study, no text comparison. Score: 75.6.
+
+*A complication:* Peng et al. (2026) find inter-designer agreement on GenUI quality is only κ = 0.25 — suggesting that "good GenUI" is highly subjective. This casts some doubt on preference studies: users may be rating novelty/aesthetics rather than utility.
+
+**Strategic implications for PatternGenUI:**
+
+1. **Don't re-establish "GenUI > text"** — two large studies already do this. Cite Leviathan 2026 and Generative Interfaces 2026 as the empirical anchor for the premise.
+
+2. **Sharpen the claim one level down**: the literature gap is not "does GenUI help?" (answered: yes, at preference level) but "does patterned GenUI help more than unpatterned GenUI?" and "does pattern use give designers meaningful control?" — both completely unaddressed.
+
+3. **κ = 0.25 as secondary motivation**: if designer agreement on GenUI quality is very low, patterns could be the anchoring mechanism that reduces disagreement by grounding generation in shared design knowledge. This is a potential secondary contribution.
+
+4. **Acknowledge the preference/performance gap**: a one-sentence acknowledgment in the paper that "the mechanism underlying the preference advantage is not yet understood" is appropriate, citing the CHI 2026 workshop.
+
+**New note files written:**
+- `Leviathan — Generative UI LLMs Effective Generators ...`
+- `Kong — Macaron-A2UI Generative UI Personal Agents ...`
+- `Chen — GenUI Study UX Practitioners DIS ...`
+- `Cifliku — Hidden Technical Debt GenUI CHI Workshop ...`
+- `Park — Bridging Gulfs UI Generation Semantic Guidance ...`
+- `Peng — Efficient Personalization Generative UI ...`
+
+### thoughts: does it really matter
+- the high-level motivation of this project is that LLM need to generate UI as a better way of presenting their findings and design patterns allows them to generate better UIs
+- but what if this assumption is flawed? what if the improvements of UI-response is only marginal compared to text-only LLM response? or what if existing pretrained models can already generate pretty good UI and the benefits of having patterns is only marginal?
+- there are existing solutions for enhancing LLM's GenUI abilities, e.g., OpenUI and A2UI, but has there been any studies to justify their benefits (not marginal)?
+
 ## 7/8/2026
 
 ```
