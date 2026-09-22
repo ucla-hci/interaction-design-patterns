@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>inquiry-frame</title><style>
+:root { --ink:#171717; --muted:#6b6b6b; --line:#e5e5e5; --paper:#fff; --canvas:#f3f3f1;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+html,body { margin:0; background:var(--canvas); color:var(--ink); font-family:var(--sans); }
+main { max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+h1 { font-size:19px; margin:0 0 6px; }
+h3 { font-size:11px; font-family:var(--mono); text-transform:uppercase; letter-spacing:.09em;
+     color:var(--muted); font-weight:500; margin:22px 0 8px; }
+p.lede { font-size:15px; line-height:1.6; max-width:62ch; margin:0 0 8px; }
+p.where { font-size:12px; font-family:var(--mono); color:var(--muted); margin:0 0 6px;
+          max-width:72ch; line-height:1.5; }
+p.note { font-size:13px; color:var(--muted); max-width:64ch; line-height:1.55; }
+var { font-style:italic; color:#6f6350; }
+
+/* States sit side by side, in the order a user meets them. */
+.screens { display:flex; align-items:stretch; gap:14px; flex-wrap:wrap; margin:14px 0 6px; }
+.screen { margin:0; background:var(--canvas); border:1px solid #d8d8d4; border-radius:16px;
+          padding:10px; flex:1 1 320px; max-width:520px; display:flex; flex-direction:column; gap:8px; }
+.screen figcaption { font:10px var(--mono); text-transform:uppercase; letter-spacing:.09em;
+                     color:var(--muted); padding:1px 4px; }
+.screen > .surface { background:var(--paper); border:1px solid var(--line); border-radius:11px;
+                     padding:12px; flex:1; }
+.move { flex:0 0 76px; display:flex; flex-direction:column; align-items:center;
+        justify-content:center; gap:4px; color:var(--muted); }
+.move .arrow { font-size:19px; line-height:1; }
+.move .on { font:10px var(--mono); text-align:center; line-height:1.35; word-break:break-word; }
+ul.moves { font-size:12.5px; color:var(--muted); line-height:1.6; padding-left:18px; margin:4px 0; }
+ul.moves li { font-family:var(--mono); }
+
+/* A surface is as wide as it needs to be, and no wider. */
+.surface { width:auto; max-width:100%; }
+
+.el { min-width:0; }
+.card { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+.card .card { background:#fafafa; border-radius:9px; padding:10px 12px; }
+.column { display:flex; flex-direction:column; gap:9px; }
+.row { display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+.row > .column { flex:1 1 260px; }
+.row > .card { flex:1 1 320px; }
+.text { margin:0; font-size:13px; color:var(--ink); line-height:1.45; }
+
+/* The first line of a card reads as its title. */
+.card > .column > .text:first-child { font-size:14px; font-weight:600; }
+
+.button { border:0; background:var(--ink); color:var(--paper); border-radius:9px;
+          padding:8px 14px; font-size:13px; cursor:pointer; flex:0 0 auto; align-self:flex-start; }
+.row .button { align-self:center; }
+.field { display:flex; flex-direction:column; gap:4px; flex:1 1 220px; font-size:12px; color:var(--muted); }
+.field input { border:1px solid var(--line); border-radius:9px; padding:8px 10px;
+               font-size:13px; font-family:var(--sans); width:100%; box-sizing:border-box; }
+.field input::placeholder { color:#a2a2a2; font-style:italic; }
+.unknown { border:1px dashed #b9a06a; border-radius:9px; padding:9px 11px; background:#fdfaf3; }
+.tag { font:10px var(--mono); text-transform:uppercase; letter-spacing:.08em; color:#8a6d3b;
+       display:block; margin-bottom:4px; }
+[data-event]::after { content:" \2192 " attr(data-event); font:10px var(--mono); opacity:.6; }
+</style></head><body><main>
+<h1>inquiry-frame</h1>
+<p class="lede">Holds what the user works toward, and the criteria that judge it, in one place that every
+later step reads. The user fills it in before the work starts. It stays visible beside the
+work, and a proposed change to it arrives here for a decision.</p>
+<p class="where">Used in: A1 Set Targets (WF-A) · S1 Frame the Root (WF-B, WF-C)</p>
+<div class="screens">
+<figure class="screen">
+  <figcaption>setup</figcaption>
+  <div class="surface">
+  <section class="el card" id="root">
+    <div class="el column">
+      <p class="el text" id="title"><var>what the user works toward</var></p>
+      <div class="el column" id="entry">
+        <label class="field"><span>starting point</span><input type="text" placeholder="the object the work starts from"></label>
+        <label class="field"><span>name of one criterion</span><input type="text" placeholder="value the user gives that criterion"></label>
+        <label class="field"><span>name of one criterion</span><input type="text" placeholder="value the user gives that criterion"></label>
+        <button class="el button" id="add" data-event="add_criterion">Add criterion</button>
+        <button class="el button" id="begin" data-event="start_work">Start</button>
+      </div>
+    </div>
+  </section>
+  </div>
+</figure><div class="move"><span class="arrow">&#8594;</span><span class="on">start_work</span></div><figure class="screen">
+  <figcaption>running</figcaption>
+  <div class="surface">
+  <section class="el card" id="root">
+    <div class="el column">
+      <p class="el text" id="title"><var>what the user works toward</var></p>
+      <div class="el column" id="summary">
+        <p class="el text" id="startval">starting point: <var>the object the work starts from</var></p>
+        <p class="el text" id="crit-0" data-repeat="*@/root/criteria"><var>name of one criterion</var>: <var>value the user gives that criterion</var></p>
+        <p class="el text" id="crit-1" data-repeat="*@/root/criteria"><var>name of one criterion</var>: <var>value the user gives that criterion</var></p>
+        <button class="el button" id="edit" data-event="edit_frame">Edit</button>
+      </div>
+      <section class="el card" id="proposal">
+        <div class="el column">
+          <p class="el text" id="field"><var>the field a proposed change affects</var></p>
+          <p class="el text" id="before">before: <var>the current content of that field</var></p>
+          <p class="el text" id="after">after: <var>the proposed content</var></p>
+          <p class="el text" id="why">reason: <var>why the change is proposed</var></p>
+          <div class="el row" id="decide">
+            <button class="el button" id="accept" data-event="accept_revision">Accept</button>
+            <button class="el button" id="reject" data-event="reject_revision">Reject</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+  </div>
+</figure>
+</div>
+<h3>other transitions</h3><ul class="moves"><li>running &#8594; running — accept_revision</li></ul>
+<h3>fallback</h3><p class="note"><var>what the user works toward</var>. starting point: <var>the object the work starts from</var>. one field per criterion.</p>
+<h3>about this preview</h3><p class="note">Plain HTML, from the spec in <code>pattern-language/refs/component-specs.md</code>. Italic text stands for content that the running system supplies. A repeat draws 2 instances. A state is one moment of the work, not one design option. A dashed box is an element with no plain HTML equivalent, and it draws anyway.</p>
+</main></body></html>
