@@ -1,0 +1,3317 @@
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures,
+Traceable Rationale, and Researcher-Steered Replanning
+ANONYMOUS AUTHOR(S)
+Hypothesis validation requires decomposing broad claims, designing experiments, and revising plans as evidence accumulates. Existing
+
+AI tools assist individual stages or automate discovery end-to-end with limited human involvement, but provide limited support
+
+for maintaining evolving relationships among hypotheses, experiments, results, and rationale. We present THESEUS, a human–AI
+
+system that organizes this validation state as an evolving branch structure with literature-grounded rationales, supporting branch-
+
+specific result interpretation and experiment- and hypothesis-level replanning while researchers decide which proposed revisions to
+
+adopt. In a lab study (𝑁 = 16), participants rated THESEUS higher than a strong linear AI baseline on plan organization, rationale
+traceability, and control, while reporting lower workload. In a one-week comparison (𝑁 = 10), explicit result–hypothesis links helped
+researchers compare next steps and revise affected branches selectively. These findings highlight branch-structured validation state
+and researcher-steered replanning as design directions for scientific AI.
+CCS Concepts: • Human-centered computing → Human computer interaction (HCI).
+Additional Key Words and Phrases: human-AI collaboration, hypothesis validation
+ACM Reference Format:
+
+Anonymous Author(s). 2026. THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+
+Researcher-Steered Replanning. 1, 1 (September 2026), 43 pages. https://doi.org/10.1145/nnnnnnn.nnnnnnn
+
+Introduction
+
+Recent AI systems increasingly support scientists in generating research ideas and hypotheses [1, 45, 46, 61], but
+
+scientific work does not end once a hypothesis is proposed. A broad hypothesis is rarely resolved by a single experiment;
+
+instead, evidence accumulates across multiple tests, often leaving some claims supported, others uncertain, and new
+
+explanations to consider. Scientific reasoning research characterizes this process as an iterative coordination between
+
+hypotheses and experiments [38], while the Hierarchy of Hypotheses approach emphasizes decomposing broad claims
+
+into testable branches and connecting evidence at the appropriate level [29]. We focus on this process of hypothesis
+
+validation, in which hypotheses and experimental plans evolve as evidence accumulates.
+
+Effective hypothesis validation therefore requires scientists to coordinate several forms of reasoning over time. First,
+they must maintain an evolving branch structure that makes explicit how broad hypotheses, sub-hypotheses, and
+
+experiments relate to one another. Second, they must keep the rationale and evidence supporting these hypotheses and
+
+experiments traceable, so that researchers can understand why a branch was introduced, how an experiment tests it,
+
+and what evidence bears on it. Third, they must connect result interpretation to subsequent replanning: an unexpected
+
+or inconclusive result may motivate repeating or modifying an experiment, testing another mechanism, revising a
+
+sub-hypothesis, or pursuing an alternative branch. Together, these demands make hypothesis validation an ongoing
+
+coordination problem rather than a sequence of isolated experiments and analyses.
+
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not
+made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components
+of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on
+servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+© 2026 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+Manuscript submitted to ACM
+
+Manuscript submitted to ACM
+
+Anon.
+
+1. Hypothesis Decomposition
+
+2. Explicit Epistemic Traceability
+
+Main hypothesis
+
+KRAS G12D inhibition reduces
+pancreatic organoid growth
+
+A
+
+Decomposition Rationale
+
+Intermediate
+
+...
+
+...
+
+Literature Evidence
+
+sub-hypotheses
+
+A
+
+Sub-H1
+Growth inhibition
+
+...
+
+Sub-H2
+
+...
+
+MAPK suppression
+
+Sub-H3
+Adaptive resistance
+
+AI Confidence:
+
+74%
+
+B
+
+E1 Experiment
+
+E2 Experiment
+
+E3 Experiment
+
+B
+
+Experiment Rationale
+
+E1
+
+Scientist conducts
+experiments
+
+CSV
+
+E2
+
+Upload
+Results
+
+CSV
+
+Experiment Details
+
+3. Interpretation & Next-Step Decisions
+
+Supports
+Sub-H1
+
+Sub-H2
+not supported
+
+Control
+
+Treatment
+
+No result yet
+
+Measurements
+
+Readouts, timing, and replicates.
+
+Replace hypothesis
+
+Protocol
+
+Step 1.
+
+Further experiment
+
+Review generated candidates
+Candidate 1
+
+Candidate 2
+
+Candidate 3
+
+Step 2.
+
+...
+
+Fig. 1. Overview of THESEUS. THESEUS supports iterative hypothesis validation through three connected capabilities: (1) whereas
+linear and fragmented artifacts mismatch scientists’ mental model, THESEUS externalizes an evolving branch structure connecting
+hypotheses, sub-hypotheses, experiments, and accumulating results; (2) while rationale and evidence are often scattered across
+documents and conversations, THESEUS keeps literature-grounded rationale and evidence attached to the relationships they justify,
+making them explicit and inspectable; and (3) rather than treating result interpretation as an isolated output, THESEUS situates
+results within the corresponding hypothesis branch and supports experiment- and hypothesis-level replanning under researcher
+control.
+
+Prior work supports different parts of hypothesis validation. Heger et al. [29] organize broad hypotheses into
+
+hierarchical, testable sub-hypotheses, while White et al. [58] use reasoning maps to make relationships among claims
+
+and evidence explicit. Jun et al. [34] help researchers translate conceptual hypotheses into executable analyses; Suh et
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+al. [53] structure the questions that guide data analysis; and Feng et al. [18] help researchers construct and coordinate
+research plans. AI systems similarly support particular episodes: Co-Scientist generates and refines hypotheses and
+
+research proposals [25], POPPER designs and executes falsification tests for given hypotheses [31], and Boiko et
+
+al. [5] support experimental planning and execution in chemistry. More recent systems span broader cycles: The AI
+
+Scientist [41] connects idea generation, experimentation, and analysis, while Robin [22] generates hypotheses, proposes
+experiments, interprets laboratory results, and updates hypotheses across iterative experimental cycles. However, these
+
+systems are primarily designed to automate increasingly large portions of scientific discovery rather than to support
+
+scientists in inspecting and steering how validation reasoning evolves over time. Because interpreting ambiguous
+
+evidence and deciding how it should change an investigation require scientific judgment, we focus on human–AI support
+in which AI can propose interpretations and next steps while consequential revisions remain subject to researcher
+review and adoption.
+In this work, we investigate how scientists manage hypothesis validation as evidence accumulates and how AI can
+support this process. We first conducted an artifact-centered formative interview study [13] with ten researchers. Using
+participants’ own planning documents, protocols, notes, slides, analysis files, and experimental results, we identified
+
+three recurring breakdowns: Challenge 1, mental-model mismatch between branching hypothesis reasoning and linear,
+
+fragmented artifacts required researchers to reconstruct relationships across their investigations; Challenge 2, the
+
+rationale and evidence behind hypotheses and experiments were often implicit and difficult to trace; and Challenge 3,
+noisy or ambiguous results were difficult to translate into situated next steps. Guided by these findings, we designed
+
+THESEUS, a human–AI system for iterative hypothesis validation (Figure 1). THESEUS supports this process through
+
+three connected capabilities corresponding to our design goals. First, to address Challenge 1, THESEUS externalizes an
+
+evolving branch structure connecting broad hypotheses, testable sub-hypotheses, experiments, and accumulated results
+(DG1). Second, to address Challenge 2, it connects hypotheses and experiments with supporting literature, rationale,
+
+and evidence so that these relationships remain explicit and inspectable as the investigation evolves (DG2). Third, to
+
+address Challenge 3, it interprets new results in the context of the corresponding branch and supports experiment- and
+
+hypothesis-level replanning by presenting possible revisions for researcher review (DG3).
+To evaluate THESEUS, we conducted a two-phase user study comparing it with a strong linear AI baseline that
+
+provided the same core AI functions. Both conditions used the same underlying AI model and backend workflows and
+
+provided the same categories of AI-generated scientific content, while the baseline delivered this support through an
+
+editable linear document and function-specific conversations. In Phase I, a lab study with 16 scientists, participants
+selected two hypotheses from their own research, matched them with the study team for comparable scope and difficulty,
+
+and used one in each condition to construct and revise a hypothesis-validation plan. In Phase II, 10 participants continued
+
+working with the same matched hypotheses as they conducted experiments, brought experimental results back into
+
+the systems, interpreted the evidence, and decided how to proceed. Participants rated THESEUS significantly higher
+in structure and organization (𝑝 H < .001), rationale and traceability (𝑝 H < .001), steerability and control (𝑝 H < .001),
+
+and result interpretation and next-step support (𝑝 H = .010), while also reporting lower workload. For blinded expert
+
+assessment, we converted the Phase I outputs from both conditions into standardized linear validation-plan documents.
+
+Experts rated THESEUS plans higher on most assessed dimensions, with the largest difference in evidence–hypothesis
+traceability, although the improvement in feasibility and actionability did not remain significant after correction.
+
+Qualitative findings showed that evolving branch structure and explicit result–hypothesis links reduced the need to
+
+reconstruct prior context, helped participants compare alternative next steps, and supported local revision without
+
+Manuscript submitted to ACM
+
+Anon.
+
+losing surrounding reasoning. However, participants still wanted clearer histories and easier access to previous versions,
+
+indicating that support for tracing how decisions changed across iterations remained limited.
+
+In summary, this paper makes the following contributions:
+
+• An artifact-centered formative interview study with ten researchers that identifies three challenges in iterative
+
+hypothesis validation, together with a prototype co-design study with six additional researchers that translates
+
+these challenges into concrete interaction designs.
+
+• Based on these findings, the design and implementation of THESEUS, a human–AI system that supports hypothe-
+
+sis validation by (1) externalizing an evolving branch structure, (2) connecting hypotheses and experiments with
+
+their supporting rationale and evidence, and (3) linking result interpretation to experiment- and hypothesis-level
+
+replanning.
+
+• A two-phase within-subject user study showing that participants rated THESEUS more highly on validation-
+
+plan structure, rationale and evidence traceability, result interpretation, next-step planning, steerability, and
+
+confidence, while reporting lower workload than with a text-based AI baseline, together with a blinded expert
+
+assessment of the resulting validation plans.
+
+Related Work
+
+2.1
+
+Prior work characterizes hypothesis validation as a non-linear coordination between hypotheses, experiments, and
+
+Hypothesis Validation in Scientific Practice
+
+accumulating evidence [38]. Because an experiment typically bears most directly on a particular sub-hypothesis, a local
+
+result may weaken one branch without invalidating its parent hypothesis or alternatives. Laboratory studies show
+
+that unexpected results can expose incorrect assumptions and motivate competing explanations [15, 16]. Scientists
+
+must also coordinate conceptual hypotheses with computational models, experimental measurements, operational
+
+variables, and executable analyses across repeated cycles [17, 34]. A longitudinal study of biomedical research further
+
+demonstrates that hypothesis work extends across data exploration, literature synthesis, external representations, and
+
+investigation histories [43].
+
+Scientific communities have developed several approaches to manage this complexity. The hierarchy-of-hypotheses
+
+approach organizes broad hypotheses and sub-hypotheses so evidence can be associated with appropriate branches [29],
+
+while natural-language formalization makes specification, decomposition, and operationalization relationships ex-
+
+plicit [30]. Methods of multiple working hypotheses preserve competing explanations rather than prematurely selecting
+
+one account [9, 60]. Computational tools support literature-based discovery, hypothesis generation, idea refinement,
+
+and analysis planning [14, 45, 46, 50, 61]. More directly, Reasoning Maps externalize relationships among hypotheses,
+
+experiments, results, and conclusions [58]; confirmatory visualization systems compare conceptual expectations with
+
+observed data [7, 8]; and a Grammar of Hypotheses formalizes relationships among data, analysis questions, and visual-
+
+ization capabilities [53]. Visual belief elicitation can further improve inferential accuracy and reduce false discovery [40],
+
+while HypoChainer supports hypothesis exploration and validation prioritization through LLMs, knowledge graphs,
+
+and visualization [32].
+
+These approaches also connect to a broader HCI tradition of externalizing reasoning, alternatives, and histories of
+exploratory work. Design-rationale systems such as gIBIS showed how decisions, arguments, and their justifications
+
+can be represented explicitly [11]. Systems for analytic provenance and exploratory programming similarly preserve
+
+intermediate states, alternatives, and revision histories so that users can revisit how an analysis developed. VisTrails
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+captures the evolution and provenance of exploratory computational workflows [19]; Variolite supports lightweight local
+versioning of alternative analysis code [35]; Verdant helps data scientists recover past analysis choices from notebook
+
+histories [36]; and Fork It supports forking and revisiting alternative computational states [57]. These systems establish
+
+the value of preserving rationale, alternatives, and prior states during exploratory work. However, they are not designed
+
+around the epistemic relationships specific to iterative hypothesis validation: which experiment bears on which subhypothesis, how returned evidence changes the interpretation of a particular branch, and how that interpretation informs
+
+subsequent experiment- or hypothesis-level actions. Related HCI systems further support interactive sensemaking
+
+over alternatives and AI-generated content. OverCode helps users inspect and compare large collections of alternative
+
+solutions [24], while more recent interfaces support prompt experimentation, comparison of model outputs, and iterative
+exploration [2, 3, 21]. AbstractExplorer supports structured comparison across documents [27], while Ding et al. use a
+
+shared diagram to organize GenAI-assisted hypothesis exploration [12]. Together, these systems provide techniques
+
+for externalizing alternatives and supporting comparison, but do not directly address how experimental evidence is
+
+incorporated into an evolving, branch-structured hypothesis-validation process.
+2.2
+
+AI Systems for Scientific Research
+
+AI systems increasingly support scientific workflows involving literature synthesis, hypothesis generation, experiment
+design, execution, and result analysis [26, 55]. Coscientist combines language-model planning with literature search,
+code execution, and laboratory tools for chemical experimentation [5]. The AI Scientist and Agent Laboratory support
+workflows spanning idea generation, experimentation, analysis, and report writing [41, 48]. Google’s AI Co-Scientist
+generates, debates, ranks, and refines biomedical hypotheses [25], while Robin connects literature-based hypotheses
+with experiment planning, data analysis, and subsequent refinement [22]. LabOS extends AI support into physical
+laboratories through multimodal perception, extended-reality interfaces, and real-time assistance during biomedical
+
+experiments [10]. Complementing these broad workflow systems, other work focuses more directly on hypothesis
+
+testing and iterative experimentation. POPPER translates hypotheses into executable falsification tests [31], while
+
+LATCH and VERITAS conduct analyses over clinical and multimodal medical data [23, 52]. AutoScientists organizes
+research teams around competing hypotheses, conducts experiments in parallel, and records successful results and
+
+failed directions in a shared experimental state [20]. Related systems maintain hypothesis lineage, evidence, belief
+
+changes, experimental plans, and repair histories throughout scientific workflows [54, 56]. These systems demonstrate
+
+the value of maintaining state across iterative scientific workflows, but primarily use that state to coordinate, execute,
+or audit broader AI-driven research processes. They provide less support for organizing scientist-facing validation
+
+around explicit sub-hypothesis branches in which researchers can inspect why a particular experiment bears on a claim,
+
+situate a returned result within that branch, and determine how that local evidence should affect subsequent actions.
+
+Successfully executing a research workflow also does not imply that model-generated scientific reasoning is reliable.
+DiscoveryBench and Scientific Discovery Evaluation identify difficulties with multistep discovery, experiment design, and
+
+result interpretation [42, 51], while EXP-Bench reports only a 0.5% success rate for complete executable experiments [39].
+
+Other evaluations find that AI systems may fail to revise their reasoning appropriately after receiving experimental
+
+feedback [28, 47]. These findings motivate interaction designs in which model-generated interpretations and revisions
+remain inspectable and contestable rather than being treated as authoritative scientific decisions. In this work, we
+
+therefore ask how AI can support scientist-led validation while keeping evidence linked to the specific sub-hypothesis it
+
+bears on, situating interpretations within the surrounding branch, and leaving consequential changes to the validation
+
+structure under researcher control.
+Manuscript submitted to ACM
+
+Anon.
+
+Formative Interview Study and Prototype Co-Design
+
+We conducted an artifact-centered formative interview study to identify recurring challenges in scientists’ iterative
+
+hypothesis-validation practices. We then conducted a prototype co-design study with a group of researchers to translate
+
+these challenges into concrete interaction requirements and design goals. All participant-facing studies reported in
+
+this paper were reviewed and approved by our institution’s Institutional Review Board (IRB). Participants provided
+informed consent before participation, including consent for audio recording and the use of anonymized quotations.
+
+3.1
+
+3.1.1 Participants. We recruited ten researchers, five Ph.D. students and five research scientists, through personal
+
+Formative Study
+
+networks and targeted email outreach. Participants worked in biology, chemistry, materials science, or related fields
+
+and had between three and nine years of research experience. To be eligible, participants needed to be actively
+
+engaged in empirical research and to have recently worked on a project involving repeated hypothesis development,
+
+experimentation, result interpretation, and revision. Appendix A reports participants’ anonymized demographic and
+research backgrounds. Each participant received a $40 gift card.
+
+3.1.2 Procedure. We conducted 45–60-minute semi-structured interviews online or in person, following an artifact-
+
+centered interview approach [13]. Each participant selected a recent or ongoing project centered on a scientific
+
+hypothesis and involving multiple rounds of empirical investigation. We examined how participants organized and
+
+revisited their validation work across artifacts and tools, with particular attention to how they maintained relationships
+
+among different parts of the investigation and responded to new experimental evidence. These discussions were
+
+grounded in participants’ own artifacts, including laboratory notes, presentation slides, manuscripts, and AI chat
+
+histories. We probed which hypothesis or assumption an experiment examined, what motivated the experiment, what
+
+alternative explanations were considered, and how particular results led to subsequent actions.
+
+With participants’ consent, interviews were audio-recorded and transcribed. We analyzed transcripts and notes
+
+using open coding followed by thematic analysis. Initial codes captured concrete practices and difficulties, including
+
+keeping hypotheses and experiments across separate artifacts, recalling which experiment tested which hypothesis,
+
+recovering why an experiment had been conducted, leaving rationale in conversation or memory, re-explaining project
+
+context to AI tools, and deciding what to do after reviewing a result. We grouped related codes into three recurring
+
+challenges in participants’ hypothesis-validation workflows.
+
+3.1.3
+
+Findings.
+
+Challenge 1: Mental-model mismatch between branching reasoning and linear, fragmented artifacts. Participants
+
+consistently described hypothesis validation as a branching process, yet the artifacts they used to represent this work
+
+were often linear or fragmented. This created a mismatch between how participants mentally organized relationships
+
+among hypotheses, experiments, and accumulating evidence and how those relationships were externally represented.
+
+A broad hypothesis could be decomposed into several sub-hypotheses, each examined through different experiments,
+
+controls, or conditions; as results accumulated, branches could be continued, modified, suspended, or replaced. However,
+
+all ten participants reported that their existing artifacts captured only parts of this evolving structure. Laboratory
+
+notebooks, protocols, spreadsheets, analysis files, presentation slides, papers, and AI conversations typically recorded
+
+individual hypotheses, plans, or results rather than the relationships among them. P3, for example, explained that links
+
+among hypotheses, data, interpretations, and decisions were often worked out through discussions with collaborators
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+rather than "fully represented in one structured artifact." P4 similarly relied on Word documents, papers, AI conversations,
+and personal memory, but had no explicit structure showing how assumptions changed over time or how one result led
+to a new direction.
+Because this branching mental model was not persistently externalized, participants had to reconstruct the branch
+structure from scattered artifacts and memory when revisiting a project, preparing for meetings, or explaining their work
+to collaborators. Nine participants explicitly described this recovery as difficult or incomplete. P6 described keeping track
+
+of the structure "using my mind," which created "much cognitive load," and wanted to see a "whole tree of hypotheses"
+
+that could be examined one branch or level at a time. The challenge was therefore not that hypotheses, experiments, or
+
+results were undocumented, but that their branching relationships did not persist in an external representation aligned
+with how participants reasoned about the investigation. Researchers consequently had to repeatedly reconstruct which
+experiments tested which sub-hypotheses and how intermediate evidence had changed the investigation.
+
+Challenge 2: Literature-grounded rationale remained implicit and difficult to trace. Beyond reconstructing what was
+
+connected, participants struggled to recover why a particular sub-hypothesis, experiment, interpretation, or next step
+
+had been considered reasonable. All ten participants described at least some rationale as implicit or incompletely
+
+documented. Their reasoning drew on prior literature, domain knowledge, experimental experience, mechanistic
+
+assumptions, and conversations with collaborators, but these sources were rarely linked explicitly to the hypothesis-
+
+validation relationships they supported. As a result, participants’ artifacts more reliably preserved what they had done
+
+than why they had done it. P7 described the relationship between a result and the subsequent decision as "clear in the
+
+mind, but not written down." P8 similarly identified the "rationale and linkage" between evidence of molecular binding
+
+and a subsequent claim about biological function as difficult to capture, while P10 noted that "the link and rationale is
+
+not explicitly shown."
+
+This missing epistemic traceability became especially consequential after multiple iterations. Participants could often
+recover protocols, data, or final conclusions but not the full reasoning behind why one modification or explanation
+
+had been selected over another. When rationale remained in memory or conversation, researchers had to reconstruct
+
+the basis for earlier decisions and could not always recover it completely. The problem was therefore not a lack of
+
+scientific reasons, but the absence of a persistent external record linking literature and assumptions to sub-hypotheses,
+
+experiments, results, interpretations, and decisions. This made rationale difficult to inspect, communicate, and revise as
+the investigation evolved.
+Challenge 3: Actionable insight gap between interpretation and next-step decisions. Across all ten cases, participants
+
+described situations in which interpreting a result did not uniquely determine what to do next. An unexpected, noisy,
+
+or weak result could support several explanations and lead researchers to repeat an experiment, add a control, modify a
+
+protocol, test another sub-hypothesis, or revise the broader hypothesis. P1 explained that after annealing, "it is not just
+one variable changing," because the material, metal stack, anchor structure, and stress state could all change together. P2
+
+similarly noted that a failed output could arise from the assay, robotic operation, sample, readout, or analysis, and that
+
+"a bad final result does not automatically tell me which part failed." In both cases, the result indicated that something
+
+had changed or failed without identifying which explanation should be investigated first.
+Participants therefore needed to compare several possible actions. P4, for example, considered changing the electrode
+
+material, measurement arrangement, substrate, wire connection, or machine settings, repeating the measurement,
+
+testing an artificial tissue model, or reconsidering the sub-hypothesis itself. These options were evaluated based on
+
+factors such as feasibility, signal quality, relevance to the main hypothesis, and their ability to distinguish remaining
+Manuscript submitted to ACM
+
+Anon.
+
+explanations. P6 described the difficulty of deciding whether a weak result indicated an incorrect hypothesis, a flawed
+
+testing method, insufficient rigor, or a need for additional replication and statistical confirmation. As P8 explained,
+
+determining whether a candidate binder worked "can be straightforward, but deciding what to do next is harder."
+
+The challenge was thus not only interpreting what a result might mean, but identifying which next action could best
+
+distinguish the remaining explanations while accounting for prior evidence and the state of the broader validation plan.
+
+3.2
+
+Prototype Co-Design Study
+
+The formative interviews identified three recurring challenges, but they did not specify how a system should address
+
+these challenges in practice. We therefore developed an early branch-based prototype and used it as a co-design probe
+
+with six additional researchers. Rather than evaluating a finished design, this study examined how participants wanted
+
+to construct, inspect, and revise an evolving hypothesis-validation structure, and what forms of AI assistance, editing,
+and control they considered appropriate.
+
+3.2.1 Participants and Procedure. The prototype represented hypotheses, sub-hypotheses, experiments, results, inter-
+
+pretations, and next-step decisions in a connected graph and included preliminary AI-generated rationales, experiment
+
+plans, expected outcomes, result interpretations, and suggested next steps. We recruited six researchers with experi-
+
+ence in empirical biological research, including three Ph.D. students and three research scientists. Each completed an
+
+approximately 30-minute semi-structured walkthrough using a hypothesis from a current project, previous project, or
+
+published paper.
+
+During the walkthrough, participants inspected and critiqued the generated graph, including whether it matched
+their understanding of the investigation, what they would change before using a proposed experiment, whether the
+
+evidence and rationale were sufficient to evaluate a claim, how realistic results should be recorded, and what operations
+
+they expected at the end of a branch. In the concluding interview, they distinguished information they wanted AI to
+
+propose from decisions they wanted to make themselves and suggested missing interactions. We consolidated recurring
+
+feedback into four concrete interaction outcomes.
+3.2.2
+
+Co-Design Outcomes.
+
+Co-Design Outcome 1: Editable experiment plans across multiple experimental contexts. Participants treated AIgenerated experiment plans as useful starting points but emphasized that protocols must remain editable before
+
+and after execution. They wanted to modify parameters such as concentration, volume, temperature, duration, controls,
+
+and measurement procedures without regenerating the entire plan. They also noted that the same experimental logic
+
+might be applied across different cell lines, organisms, treatment groups, materials, or sample contexts. This led us
+
+to support editable protocol fields and context-specific experiment variants connected to the same sub-hypothesis,
+preserving a shared experimental purpose without creating disconnected copies.
+Co-Design Outcome 2: Explicit expected outcomes and inspectable model confidence. Participants wanted the system to
+
+specify in advance which outcomes would support, weaken, or leave a sub-hypothesis unresolved. Making these expec-
+
+tations explicit could help researchers assess whether an experiment can discriminate among competing explanations
+
+and reduce post-hoc reinterpretation of results. Participants also wanted an explicit indication of how confident the
+
+AI was in proposed hypothesis decompositions and experiment–hypothesis relationships, so that lower-confidence
+
+suggestions could receive greater scrutiny. They emphasized that such confidence cues should support inspection rather
+
+than replace scientific judgment.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+Co-Design Outcome 3: Replanning operations at both the experiment and hypothesis levels. Participants distinguished
+changes to an experiment from changes to the hypothesis structure. An inconclusive result might call for another
+
+replicate, an additional control, or a redesigned protocol, whereas evidence against an explanation might motivate
+
+an alternative sub-hypothesis or broader revision. They wanted explicit end-of-branch operations for repeating or
+
+modifying an experiment, creating another experiment for the same claim, introducing an alternative sub-hypothesis,
+and merging related branches. Participants wanted these operations to preserve prior results and decision rationales
+
+and, ideally, make earlier versions recoverable so that changing direction would not erase the reasoning that produced
+
+the current state.
+
+Co-Design Outcome 4: Structured result entry that accommodates experimental complexity. Participants found a
+
+single free-text result field insufficient for experiments involving multiple samples, conditions, measurements, files, or
+
+replicates, while also noting that a rigid schema would not fit diverse procedures. Their feedback led to result entry
+
+supporting multiple observations and attachments, along with adaptable tables containing fields such as condition,
+
+sample or cell type, replicate, measurement, and notes. This keeps results associated with the relevant experimental
+
+context while leaving control over the required fields to researchers.
+
+Collectively, these outcomes shifted the prototype from an AI-generated visualization into a co-experimentation
+system in which scientists could edit plans, inspect evidence, record heterogeneous results, compare possible actions,
+and determine when the validation structure should change.
+
+3.3
+
+Design Goals
+
+Synthesizing the formative interview findings with the prototype co-design outcomes, we derived three higher-level
+design goals that capture the core forms of support THESEUS should provide for iterative hypothesis validation.
+
+DG1: Externalize hypothesis validation as an evolving branch structure (Challenge 1). Researchers described hypothesis
+
+validation as branching, yet the linear and fragmented artifacts they used did not preserve these relationships, creating
+
+a mismatch between how they organized the investigation and how it was externally represented. We thus aim to
+
+provide an editable branch-based representation that preserves these relationships and helps researchers follow how
+
+different validation branches evolve over time.
+
+DG2: Externalize literature-grounded rationale behind hypothesis-validation links (Challenge 2). Researchers often
+
+relied on literature, domain knowledge, and experimental assumptions to justify how hypotheses were decomposed and
+
+why particular experiments were selected, but these rationales frequently remained implicit or scattered across artifacts.
+
+We thus aim to make the supporting literature, evidence, assumptions, and reasoning behind each hypothesis-validation
+
+link explicit and inspectable.
+
+DG3: Support context-aware result interpretation and experiment- and hypothesis-level replanning. (Challenge 3).
+
+Researchers found it difficult to choose the next action when noisy or ambiguous results were compatible with multiple
+
+explanations. We thus aim to help researchers interpret results within the context of the surrounding validation branch,
+
+compare experiment-level and hypothesis-level next steps, and decide which proposed changes are incorporated into
+
+the evolving plan.
+
+Manuscript submitted to ACM
+
+Anon.
+
+THESEUS: Traceable Hypothesis-validation system with Evolving Structure, sourced Evidence, and
+
+User-Steered replanning
+
+Guided by our design goals, we present THESEUS (Fig. 2), a graph-based human–AI system for iterative hypothesis
+
+validation. THESEUS uses GPT-5.4-mini for its LLM agents and LangGraph to orchestrate their workflow. THESEUS
+
+represents the evolving validation plan as a directed graph connecting a root hypothesis and its testable sub-hypotheses
+with experiments (DG1). Result and follow-up nodes show how new evidence affects each branch. Supporting literature
+
+and rationale remain accessible for inspection, together with the assumptions and criteria that guide result interpretation
+
+(DG2). Hypothesis-edge scores indicate confidence in the proposed parent–child decomposition, while experiment-edge
+
+scores indicate confidence that an experiment can test its linked hypotheses. When experimental results arrive, THESEUS
+interprets them within the context of the corresponding experiment and hypothesis branch and presents concrete,
+
+reviewable next steps (DG3). Throughout this process, the AI proposes scientific content, while the researcher reviews
+
+and edits proposals and decides which proposed changes are committed to the evolving validation state. Figures 2–3
+
+illustrate the workflow from hypothesis decomposition and experiment planning to result interpretation and replanning.
+
+Further decomposition
+Further decomposition
+
+E
+E
+
+A
+
+Main hypothesis
+
+Rationale & evidence
+
+C
+
+Selected
+sub-hypothesis
+
+B
+
+Experiment family
+
+D
+
+Fig. 2. Hypothesis decomposition and experiment planning workflow. Starting from a user-provided main hypothesis (A),
+THESEUS decomposes it into testable sub-hypotheses (B). For a selected sub-hypothesis, the evidence panel (C) presents the
+decomposition rationale and supporting literature, while associated experiment families (D) translate the hypothesis into concrete
+experiments. Researchers can also request further decomposition of an approved leaf into more specific sub-hypotheses (E).
+
+4.1
+
+Building and Inspecting the Hypothesis Map
+
+The researcher begins on the landing page, where previously saved analyses are also available. She enters a broad
+
+hypothesis and configures the initial decomposition depth on the landing page. The walkthrough starts with one
+
+level of sub-hypotheses; researchers can choose greater depths to generate a multilevel hypothesis map. THESEUS
+
+retrieves relevant literature and method evidence, then proposes a directed graph of sub-hypotheses (Appendix B.2).
+
+For each sub-hypothesis, the LLM interprets relevant background, mechanisms, findings, and methods in the retrieved
+
+literature and synthesizes this evidence with the parent hypothesis’s scientific context to generate a rationale explaining
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+the parent–child relationship. Each proposed sub-hypothesis is a self-contained, testable statement. Its typed fields
+specify the experimental system and independent and dependent variables. Suggested controls and measurements are
+
+recorded alongside its assumptions, preserving the conditions inherited from the parent hypothesis as the claim is
+
+decomposed into more specific branches. Before presenting the graph, an AI critic checks scientific coherence and
+
+evidence use and can trigger a bounded revision. Deterministic validation additionally checks required fields, graph
+structure, and evidence references. Candidates that fail these checks are marked as blocked and retain their critique
+history for inspection.
+THESEUS keeps the root claim and its sub-hypotheses visible in one map, with rationales displayed on hypothesis
+nodes (Fig. 2–A, B). Researchers can collapse or expand branches and rearrange the layout. Selecting a hypothesis opens
+an evidence panel showing its statement and scientific fields alongside its decomposition rationale and supporting
+
+literature (Fig. 2–C). Blocked candidates from the same run remain available in this panel. The researcher can manually
+
+enter a new sub-hypothesis under the root or an approved non-leaf hypothesis. Each proposal undergoes the same
+
+critique process and is added to the map if approved. For an approved leaf, she can request further decomposition,
+extending the selected branch by one level with optional guidance (Fig. 2–E).
+
+4.2
+
+Planning Experiments and Recording Observations
+
+Every sub-hypothesis is formulated as a testable statement. In the initial map, THESEUS creates an experiment family
+for each leaf hypothesis at the configured decomposition depth (Fig. 2–D). It also creates group-scoped families for
+
+compatible leaves that can be tested together. Each family groups one base experiment with zero or more variants in a
+
+single node, keeping the map compact. Variant labels identify the factor and level that distinguish each variant from the
+
+base, such as a different dose or model. For an approved leaf hypothesis, the researcher can also submit an experiment
+
+plan in her own words, together with a confidence rating of how well it tests the hypothesis. THESEUS reviews the
+
+plan and generates a corresponding experiment package and protocol. For each experiment, a protocol-writing LLM
+
+combines the proposed design, mapped hypotheses, method information, and laboratory context with available public
+
+protocol references to generate a step-by-step protocol (Appendix B.3). A separate LLM reviewer checks the draft for
+
+alignment with the hypotheses, consistency of the intervention, controls, and readouts, and measurement feasibility.
+
+The researcher selects a base or variant experiment to open its full-width protocol view (Fig. 3–F, G). Appendix B.1
+
+presents the layout of this interface and explains its individual sections. The accompanying design explains the
+
+experiment’s purpose and specifies what will be varied and measured within its experimental system. Controls and
+
+assumptions are documented alongside the expected patterns so that the researcher can evaluate the proposed test
+
+before conducting it. She compares family members and reviews the proposed controls, readouts, and step-by-step
+
+protocol to assess whether they fit her laboratory’s practice, then edits the selected protocol as needed. Saving applies
+
+the edits to the selected experiment’s protocol while leaving other family members unchanged.
+
+After conducting the experiment, the researcher records the observed values and outcomes in the selected member’s
+
+CSV template and uploads the completed file (Fig. 3–H). THESEUS verifies that the submission matches the experiment
+
+package and covers every hypothesis mapped to it. Results remain associated with that specific member, so an upload
+
+for the base experiment does not become evidence for a sibling variant. Repeated rows are preserved as replicates, and
+
+the source file is retained with the saved analysis. Each analysis remains linked to the experiment and hypotheses it
+
+evaluated. Subsequent edits to the selected protocol invalidate its associated analysis, while analyses for unchanged
+
+experiments remain current.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Experiments Selector
+
+F
+
+G
+
+Experiment Details
+
+Follow-up outcomes
+
+Result upload
+& decision
+
+I
+
+H
+
+Fig. 3. Experiment execution, result interpretation, and hypothesis refinement workflow. Users select a specific base or variant
+experiment from an experiment family (F) and conduct it following the provided protocol, contextual information, and experimentaldesign details (G). After users upload the experimental results, THESEUS interprets their implications for the corresponding hypothesis
+(H). The follow-up view (I) presents two directions: hypothesis revision or further experimentation. Once users select a direction,
+THESEUS generates three corresponding candidate next steps for review.
+
+4.3
+
+Interpreting Evidence and Replanning
+
+For each experiment–hypothesis pair, THESEUS interprets the submitted observations in relation to the hypothesis and
+
+its canonical protocol context (Fig. 3–H). THESEUS obtains three assessments from separate invocations of the same
+
+model using distinct prompts: an Evidence Analyst examines observed patterns, an Experimental Validity Reviewer
+
+examines the adequacy of the experimental evidence, and a Hypothesis Inference Reviewer examines whether the
+
+observations support the scope of the claim (Appendix F.4.1). Each invocation receives the same evidence and returns a
+
+vote on the whole mapped hypothesis with a concise rationale. Deterministic majority voting aggregates these votes
+
+into a model-generated interpretation label: approved or not approved by the submitted result. The label summarizes
+
+whether the observed results support the hypothesis under the tested conditions. This decision remains specific to the
+
+submitted evidence and serves as a review aid for the researcher.
+
+To determine whether replanning is needed, THESEUS considers all experiments connected to the hypothesis (Fig. 3–
+
+I). Follow-up options remain unavailable until every connected experiment has a current analysis. If all current analyses
+
+receive an approved-by-result label, THESEUS indicates that no corrective follow-up is currently suggested by the model.
+
+Otherwise, the system presents two directions: replace the hypothesis or run further experiments. The researcher selects
+
+which direction to explore before THESEUS generates three preview candidates. These candidates are proposals: the
+
+validation state changes only when the researcher submits a candidate for adoption. Submitted replacement hypotheses
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+update the branch’s connections while retaining prior experiments as history, whereas submitted experiment candidates
+become new, fully structured experiment families.
+
+4.4
+
+Discussing and Revisiting the system
+
+At any point, the researcher can select a hypothesis or experiment and open a discussion drawer scoped to that node
+
+and its nearby branch. The discussion agent explains the current rationale or drafts structured field edits, including
+
+changes to protocol steps. Drafts remain pending until the researcher applies or discards them. A draft is rejected
+
+if the underlying graph has changed since the discussion began, while suggestions that would alter graph topology
+
+remain advisory. Before an accepted scientific change is applied, deterministic checks validate its structure, identities,
+
+and revision context. The researcher can save the workspace as a single session containing its current hypotheses,
+
+experiments, completed analyses, follow-up state, and discussions. Reopening the session through its URL restores
+
+these linked elements so that she can continue working from the current validation state. THESEUS preserves this
+
+branch-structured state across sessions, but does not maintain a complete temporal history of every prior graph
+
+configuration or edit.
+
+User Study
+
+We conducted a two-phase user study comparing THESEUS with a strong linear AI baseline. Phase I was a lab study
+
+examining how 16 researchers constructed, organized, and revised hypothesis-validation plans and inspected the
+
+rationales connecting hypotheses and experiments. Phase II followed 10 participants for one week to examine how the
+
+two conditions supported the interpretation of experimental results, comparison of possible next steps, and revision of
+validation plans as new evidence was incorporated.
+
+Reflecting common AI-assisted research practices reported by participants in the formative study, the baseline
+
+combined a structured, editable document with a task-oriented AI assistant for developing and maintaining a hypothesis-
+
+validation plan. The document was initialized with a template for organizing the plan, and participants could retain,
+revise, and organize generated content throughout the study. The AI assistant provided six functions spanning the
+
+main activities in the validation workflow: hypothesis decomposition, experiment planning, protocol generation,
+
+result interpretation, replacement-hypothesis generation, and open-ended discussion. Both conditions used the same
+
+underlying AI model and backend workflows and provided the same categories of AI-generated scientific content. In
+the baseline, these capabilities were accessed through the editable linear document and function-specific conversations,
+
+whereas THESEUS organized hypotheses, rationales, experiments, results, interpretations, and revisions within an
+
+evolving branch-based system. Appendix C provides additional details about the baseline interface and individual
+
+functions.
+Our study addressed four research questions:
+
+• RQ1: How does a branch-based structure affect researchers’ ability to explore and organize sub-hypotheses?
+
+• RQ2: How does externalized rationale affect researchers’ understanding of why sub-hypotheses and experiments
+
+are included?
+• RQ3: How do branch-specific interpretations and alternative LLM suggestions support researchers’ next-step
+decisions?
+• RQ4: How does the user experience of THESEUS compare with that of the strong linear AI baseline?
+Manuscript submitted to ACM
+
+Anon.
+
+5.1
+
+Study Design
+
+5.1.1 Participants. We recruited 16 researchers engaged in hypothesis-driven, biology-related research. All 16 completed
+
+Phase I, and 10 opted to continue to the one-week Phase II study. The user-study sample was separate from the 10
+
+formative-interview participants and six intermediate co-design participants. Participants were recruited through
+
+email outreach and personal networks and were eligible if they were actively engaged in scientific research involving
+hypothesis validation; Phase I was conducted in both in-person and remote settings over approximately 75 minutes,
+
+with compensation of $40 for Phase I and $40 for Phase II. Participant-level condition order and Phase II participation
+
+are reported in Appendix D.1.
+
+5.1.2 Task. Participants first selected two hypothesis candidates from their own current or recent research. Before
+
+condition assignment, the researcher and participant compared the two candidates in terms of scope, scientific maturity,
+
+anticipated difficulty, and the amount of experimental planning required. If the two hypotheses differed substantially on
+these dimensions, the participant selected or adjusted a candidate so that the pair was more comparable. This matching
+
+process helped ensure that the two conditions were evaluated on hypotheses of comparable difficulty while allowing
+
+participants to work on research they knew well.
+
+One hypothesis was assigned to THESEUS and the other to the baseline, with hypothesis assignment and condition
+order counterbalanced across participants. The 10 participants who continued to Phase II retained the same matched
+
+hypothesis pair and continued working with the hypothesis previously assigned to each condition. This allowed Phase
+
+II to examine continued interpretation and revision within the same research context across the two conditions.
+
+5.1.3 Procedure. Phase I: controlled planning comparison. Participants first received a standardized introduction
+
+to THESEUS and the baseline and completed a brief practice task using a hypothesis unrelated to their two study
+
+hypotheses. Condition order was counterbalanced across participants, with half using THESEUS first and half using the
+baseline first. For each condition, participants entered one of the two hypotheses they had selected from their own
+
+research and generated an initial hypothesis-validation plan. They reviewed the resulting sub-hypotheses, rationales,
+
+and experiment plans; identified content that was important, missing, unclear, or insufficiently justified; and edited
+
+sub-hypotheses and experiments as needed until they were satisfied with the plan. After each condition, participants
+completed a post-condition questionnaire assessing their experience with planning, rationale inspection, control,
+
+confidence, and workload. After both conditions, we conducted a comparative semi-structured interview focused on
+
+how THESEUS and the baseline supported hypothesis organization, rationale inspection, plan revision, and the overall
+
+planning workflow.
+Phase II: one-week field comparison. The 10 returning participants continued working on the same two hypotheses
+
+selected and matched in Phase I and retained their Phase I condition order. They used one condition for two working
+
+days and the other condition for two working days, with the fifth day reserved for the final comparative survey
+
+and interview. In each condition, participants conducted experiments based on their planned protocols, recorded the
+resulting observations in the provided CSV format, and uploaded two or three experimental results to the system. They
+
+reviewed the interpretation of each result and the suggested next steps and revised the validation plan when appropriate.
+
+After each condition, participants completed a post-condition questionnaire assessing result interpretation, next-step
+
+support, confidence, and control. After both conditions, we conducted a final comparative survey and semi-structured
+
+interview focused on result interpretation, replanning, and continued hypothesis-validation work.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+5.1.4 Measurement and Analysis. We developed the post-condition questionnaire items from the formative-study
+findings and design goals and grouped them into measures aligned with the research questions. The same questionnaire
+
+items were administered after both conditions. The items assessed participants’ perceived support for organizing, tracing,
+
+and revising a validation plan. In Phase I, two items assessed structure and organization (RQ1), four assessed rationale
+
+and evidence–hypothesis traceability (RQ2), two assessed steerability and control, and one assessed confidence in the
+resulting validation plan (RQ4); five adapted NASA-TLX items assessed mental demand, temporal demand, perceived
+
+success, effort, and frustration (RQ4). In Phase II, five items assessed result interpretation and next-step support and two
+
+assessed context-aware interpretation and workflow support (RQ3), while two assessed steerability of interpretations and
+
+next steps and one assessed whether the condition helped participants evaluate their confidence in result interpretations
+(RQ4). All closed-ended items used seven-point response scales. Appendix D.2 reports the exact wording, grouping, and
+
+scale anchors for the questionnaire items included in the analysis. For each participant and condition, we averaged items
+
+within each multi-item measure. Because the comparisons were paired and based on ordinal ratings from small samples,
+
+we used two-sided exact Wilcoxon signed-rank tests and report the smaller signed-rank sum 𝑊 , Holm-adjusted 𝑝-values
+computed from the exact tests, and matched-pairs rank-biserial correlations 𝑟𝑟𝑏 ; zero-difference pairs were omitted
+
+from the corresponding tests. Appendix D.3 provides additional statistical reporting conventions. To complement the
+
+self-reported evidence for RQ1 and RQ2, three domain experts independently rated anonymized Phase I plans on
+
+hypothesis clarity, hierarchical coherence, evidence–hypothesis traceability, testability, scientific validity, and feasibility
+and actionability. We assessed agreement among the experts and compared participant-level mean ratings using the
+
+same paired procedure. Appendix E provides the full blinded expert evaluation rubric and judge backgrounds. For
+
+the qualitative analysis, three researchers collaboratively coded the Phase I and Phase II interview responses through
+
+iterative open coding, assigning labels and refining their definitions in a shared codebook. Initial codes captured
+hypothesis organization, rationale use, result interpretation, next-step decision making, confidence, control, workload,
+
+and condition preference and were grouped into higher-level themes corresponding to the four RQs. Reported qualitative
+
+counts indicate the number of participants expressing each pattern and are not mutually exclusive. Appendix D.4
+
+summarizes the qualitative codes, operational criteria, and descriptive counts. The complete interview protocols are
+included in the Supplementary Material, Section S1.
+
+5.2
+
+Results and Findings
+
+We report findings organized by our research questions, combining quantitative and qualitative results from both
+phases of the user study.
+
+5.2.1 RQ1: Branches Made the Hypothesis Space Easier to Organize and Revise. Participants rated THESEUS more highly
+than the baseline on structure and organization. The median rating was 6.50 for THESEUS and 4.50 for the baseline
+(𝑊 = 0, 𝑝 Holm < .001, 𝑟𝑟𝑏 = 1.00; Table 1).
+
+This quantitative difference was consistent with the interviews: all 16 participants described the branch structure as
+
+making the validation plan easier to organize or inspect. They attributed this benefit to the persistent relationships
+
+among hypotheses, rationales, and experiments, not simply to the visual presentation. P11 explained, "The baseline felt
+
+like a collection of useful pieces, while THESEUS showed me the shape of the whole plan. I spent much less time trying
+
+to reconstruct the structure." P5 similarly described the tree as a "cognitive map of the hypothesis space" that allowed
+
+them to focus on one sub-hypothesis without losing its relationship to the broader plan. The externalized overview
+
+also helped participants identify overlapping branches, neglected alternatives, and evidence that could distinguish
+
+Manuscript submitted to ACM
+
+Anon.
+
+Table 1. Phase I paired questionnaire and adapted NASA-TLX results across RQ1, RQ2, and RQ4 (1–7 scales; 𝑁 = 16). Condition
+values are median [IQR]. 𝑛 ≠0 denotes the number of nonzero paired differences, 𝑊 the Wilcoxon signed-rank statistic, 𝑝 Holm the
+Holm-adjusted 𝑝-value from exact two-sided tests, and 𝑟𝑟𝑏 the rank-biserial correlation. Holm correction was applied separately to
+the questionnaire and NASA-TLX measures. Arrows indicate the favorable direction; positive 𝑟𝑟𝑏 favors THESEUS on higher-is-better
+measures, and negative 𝑟𝑟𝑏 favors THESEUS on lower-is-better measures.
+
+Measure
+
+Baseline
+
+THESEUS
+
+𝑛 ≠0
+
+𝑊
+
+𝑝 Holm
+
+𝑟𝑟𝑏
+
+4.50 [4.38, 5.00]
+
+6.50 [5.88, 6.62]
+
+0.0
+
+< .001
+
+1.00
+
+RQ1: Branch-based structure
+Structure and organization (2 items)
+RQ2: Externalized rationale
+Rationale and traceability (4 items)
+RQ4: User experience
+Steerability and control (2 items)
+Confidence in the validation plan (1 item)
+
+4.38 [3.50, 4.88]
+
+6.00 [5.94, 6.50]
+
+0.0
+
+< .001
+
+1.00
+
+4.25 [3.50, 5.00]
+3.50 [3.00, 5.00]
+
+6.25 [5.50, 6.62]
+6.50 [6.00, 7.00]
+
+3.5
+0.0
+
+< .001
+< .001
+
+.94
+1.00
+
+RQ4: Adapted NASA-TLX dimensions
+Mental demand ↓
+Temporal demand ↓
+Perceived success ↑
+Effort ↓
+Frustration ↓
+
+4.00 [3.75, 5.00]
+4.00 [2.75, 4.00]
+4.00 [3.75, 5.00]
+3.00 [3.00, 4.00]
+3.00 [3.00, 4.00]
+
+2.00 [2.00, 3.00]
+2.00 [2.00, 3.00]
+6.00 [5.75, 6.25]
+2.00 [2.00, 3.25]
+2.00 [1.75, 2.00]
+
+0.0
+6.0
+0.0
+10.0
+0.0
+
+.001
+.016
+< .001
+.016
+< .001
+
+−1.00
+−.85
+1.00
+−.78
+−1.00
+
+competing explanations. P13 explained that keeping alternatives visible allowed them to explore one direction "without
+
+forgetting the others or committing to one explanation too early." In contrast, the baseline required participants to
+
+relocate where one line of reasoning ended and another began within a longer document.
+
+Fifteen participants also described targeted revision as easier because each branch made the target and scope of a
+
+change explicit. P10 noted that a baseline instruction could alter content they wanted to preserve, whereas THESEUS
+
+allowed them to focus a revision on one node or branch. This benefit depended partly on plan complexity: P12 found
+
+branching most useful once a plan became large enough that alternatives were difficult to track, while P1 preferred
+
+revising through direct conversation in the baseline. P1 and P2 also initially needed clearer guidance about the meanings
+
+of nodes and edges. Together, these findings indicate that branch-based organization reduced the effort required to
+
+reconstruct, compare, and locally revise complex validation plans, while introducing initial learning and navigation
+
+costs.
+5.2.2 RQ2: Externalized Rationale Made the Reasoning Chain Inspectable. Participants also rated THESEUS more highly
+
+on rationale and traceability. The median rating was 6.00 for THESEUS and 4.38 for the baseline (𝑊 = 0, 𝑝 Holm < .001,
+
+𝑟𝑟𝑏 = 1.00; Table 1). All 16 participants valued having each rationale located next to the hypothesis–experiment
+
+relationship it supported. Participants noted that the baseline could also generate useful explanations; the important
+
+difference was whether those explanations remained attached to the decisions they justified. As P10 explained, "The
+
+rationale itself was useful in both conditions, but it became more actionable in THESEUS because its location made the
+
+connection to a particular hypothesis or experiment unambiguous."
+
+Attached rationales also served as a retrievable record of earlier decisions. P15 distinguished remembering which
+experiment had been selected from remembering why it had been preferred over another option, while P7 emphasized
+
+that THESEUS eliminated the need to search earlier text to recover that reasoning. P5 used the visible links to assess
+
+both individual rationales and the coherence of the larger reasoning chain, and P14 found that missing or weak
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+justifications became easier to identify. Participants did not interpret this visibility as a reason to accept the AI’s
+reasoning automatically. They continued to evaluate whether each rationale was scientifically defensible and whether
+revising one branch introduced inconsistencies elsewhere.
+The blinded artifact assessment provided independent evidence for the structural and traceability findings from RQ1
+and RQ2. Agreement among the three experts was high across the 192 artifact-by-dimension targets (ICC(𝐴, 1) = .78
+for a single expert and ICC(𝐴, 3) = .91 for the mean of three experts).
+
+Table 2. Blinded expert ratings of Phase I artifacts (1–7 scales; three judges). Condition values are median [IQR] after averaging
+judges’ ratings within each participant and condition. Participants are the unit of paired analysis.
+
+Quality dimension
+
+Baseline
+
+THESEUS
+
+𝑛 ≠0
+
+𝑊
+
+𝑝 Holm
+
+𝑟𝑟𝑏
+
+Hypothesis clarity
+Hierarchical coherence
+Evidence–hypothesis traceability
+Testability
+Scientific validity
+Feasibility and actionability
+
+6.00 [5.92, 6.67]
+5.67 [5.25, 6.00]
+4.67 [4.33, 5.08]
+6.00 [5.00, 6.00]
+5.00 [4.92, 5.33]
+5.00 [4.92, 5.00]
+
+6.67 [6.58, 6.67]
+6.33 [6.00, 6.67]
+7.00 [7.00, 7.00]
+7.00 [6.58, 7.00]
+5.33 [5.33, 5.67]
+5.00 [4.92, 5.67]
+
+0.0
+4.5
+0.0
+0.0
+0.0
+21.5
+
+.002
+.002
+< .001
+< .001
+.002
+.052
+
+1.00
+.93
+1.00
+1.00
+1.00
+.59
+
+Overall artifact quality
+
+5.31 [5.17, 5.61]
+
+6.28 [6.10, 6.33]
+
+0.0
+
+< .001
+
+1.00
+
+After averaging the expert ratings within participant, THESEUS plans received higher overall ratings than baseline
+plans (𝑀 = 6.22, 𝑆𝐷 = .21 versus 𝑀 = 5.31, 𝑆𝐷 = .42; 𝑊 = 0, 𝑝 Holm < .001, 𝑟𝑟𝑏 = 1.00; Table 2). The largest
+
+difference was in evidence–hypothesis traceability (6.98 versus 4.85). THESEUS plans also received significantly higher
+
+ratings for hypothesis clarity, hierarchical coherence, testability, and scientific validity. Feasibility and actionability was
+
+descriptively higher for THESEUS (𝑀 = 5.23 versus 𝑀 = 4.83), but the difference did not remain significant after Holm
+
+correction (𝑊 = 21.5, 𝑝 Holm = .052, 𝑟𝑟𝑏 = .59). Thus, the expert assessment indicates that THESEUS plans were judged
+
+more coherent, traceable, and testable, while not establishing that the resulting experiments were more practical to
+
+execute.
+
+5.2.3 RQ3: Result-Linked Branches Supported Deliberate Next-Step Planning. Both RQ3 questionnaire measures favored
+
+THESEUS. The median result-interpretation and next-step-support rating was 6.50 for THESEUS and 3.50 for the
+
+baseline (𝑊 = 0, 𝑝 Holm = .010, 𝑟𝑟𝑏 = 1.00). The median context-aware interpretation and workflow rating was 6.50 for
+THESEUS and 3.25 for the baseline (𝑊 = 0, 𝑝 Holm = .010, 𝑟𝑟𝑏 = 1.00; Table 3).
+
+Table 3. Phase II paired questionnaire results across RQ3 and RQ4 (1–7 scales; 𝑁 = 10). Condition values are median [IQR]. One
+participant’s baseline score for result interpretation and next-step support used four of five items because one item was unanswered.
+
+Measure
+RQ3: Interpretation and next-step support
+Result interpretation and next-step support (5 items)
+Context-aware interpretation and workflow (2 items)
+RQ4: User experience
+Confidence in result interpretation (1 item)
+Steerability of interpretation and next steps (2 items)
+
+Baseline
+
+THESEUS
+
+𝑛 ≠0
+
+𝑊
+
+𝑝 Holm
+
+𝑟𝑟𝑏
+
+3.50 [3.06, 4.00]
+3.25 [2.50, 4.00]
+
+6.50 [6.40, 6.60]
+6.50 [6.12, 6.50]
+
+0.0
+0.0
+
+.010
+.010
+
+1.00
+1.00
+
+3.00 [1.25, 3.75]
+3.00 [2.12, 3.38]
+
+6.00 [6.00, 7.00]
+7.00 [6.50, 7.00]
+
+0.0
+0.0
+
+.010
+.010
+
+1.00
+1.00
+
+Manuscript submitted to ACM
+
+Anon.
+
+All 10 Phase II participants described the explicit connection between a result and its affected hypothesis as central
+
+to this difference. P11 characterized a baseline interpretation as another piece of text that had to be manually connected
+
+to the plan, whereas THESEUS showed "what was tested, what the evidence changed, and what remained uncertain."
+
+P5 further explained that a result could update the status of one branch while also affecting the plausibility of nearby
+
+alternatives. As P13 described it, THESEUS turned result interpretation from a separate reading task into an update to
+
+an external representation of the hypothesis space. Participants also reported that THESEUS made alternative next
+
+steps easier to compare. Because repetition, additional controls, and competing explanations were presented as distinct
+
+actions with their own rationales, participants could consider which option addressed the most important source of
+
+uncertainty. P13 used the visible alternatives to compare which action would reduce uncertainty most effectively. P10
+
+noted that both systems could suggest a reasonable next action, but THESEUS made the trade-offs among several
+
+possibilities easier to examine. Participants nevertheless treated these suggestions as options rather than decisions: P8
+emphasized that the researcher remained responsible for evaluating their scientific quality.
+
+P3’s experience illustrates how these capabilities worked together. After locating a result on the affected branch,
+
+P3 compared repeating the experiment, adding a control, and investigating an alternative explanation, reviewed the
+
+rationale for each option, and revised only the affected part of the plan. They described the resulting artifact as "an
+
+evolving research record rather than a sequence of disconnected conversations." However, this continuity remained
+
+incomplete. P4 requested a clearer history or timeline, and P9 wanted easier access to previous versions. THESEUS
+
+therefore supported next-step decisions by connecting results, uncertainty, alternative actions, and local revision within
+
+the same branch, but provided limited support for inspecting how those decisions changed across iterations.
+
+5.2.4 RQ4: Participants Reported Greater Control and Confidence and Lower Workload with THESEUS. The cross-cutting
+
+user-experience measures favored THESEUS in both phases. In Phase I, the median steerability-and-control rating
+
+was 6.25 for THESEUS and 4.25 for the baseline (𝑊 = 3.5, 𝑝 Holm < .001, 𝑟𝑟𝑏 = .94), while the median confidence rating
+
+was 6.50 for THESEUS and 3.50 for the baseline (𝑊 = 0, 𝑝 Holm < .001, 𝑟𝑟𝑏 = 1.00; Table 1). In Phase II, the median
+
+confidence-in-interpretation rating was 6.00 for THESEUS and 3.00 for the baseline, while the median steerability rating
+
+was 7.00 and 3.00, respectively. Every participant-level difference favored THESEUS for both Phase II measures (𝑊 = 0,
+
+𝑝 Holm = .010, 𝑟𝑟𝑏 = 1.00; Table 3). The adapted NASA-TLX results showed a consistent workload pattern: compared with
+
+the baseline, THESEUS reduced mental demand, temporal demand, effort, and frustration while increasing perceived
+success. All five comparisons remained significant after Holm correction (Table 1).
+
+Participant accounts and preferences helped explain these quantitative differences. All 16 Phase I participants
+
+preferred THESEUS for planning, and all 10 Phase II participants preferred it for result interpretation and next-step
+
+planning. Participants attributed the lower workload to spending less effort reconstructing relationships, recovering
+
+previous rationales, and restating context. P5 clarified that the tree did not remove the intellectual work of evaluating
+
+the science; instead, it allowed more attention to be directed toward scientific judgment. P16 similarly associated
+
+the lower workload with preserving prior reasoning and making alternatives available for comparison. Participants
+
+connected their confidence and control to the same visibility. P11 explained that visible links made weak or missing
+
+elements easier to identify before treating a plan as complete, while 15 Phase I participants described THESEUS as at
+
+least somewhat easier to steer because they could specify where a revision belonged and which surrounding context
+
+should remain unchanged.
+
+These benefits were not universal and depended partly on the complexity of the task. P1 preferred the baseline’s
+
+conversational approach to revision, P12 considered the baseline adequate for producing a quick initial list of ideas, and
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+P8 found it sufficient for a simple, one-time interpretation. Participants also identified interface costs: P4 requested
+larger text and clearer controls for revising or regenerating individual branches, while P1 and P2 initially found the
+meanings of nodes and edges unclear. These findings suggest that THESEUS provided a better overall experience for
+sustained and structurally complex validation work, but its advantages were smaller for simple, one-time tasks and
+were accompanied by readability, navigation, and onboarding costs.
+
+Discussion
+
+In this section, we reflect on our findings from the design and evaluation of THESEUS. We also discuss the broader
+design implications and future opportunities for supporting human–AI collaboration in hypothesis validation.
+
+6.1
+
+Design Implication 1: From AI Responses to Branch-Structured Validation State
+
+Prior work has explored hierarchical representations of hypotheses and evidence and interactive representations for
+externalizing scientific reasoning [12, 29, 58]. Our findings suggest that such representations can play a broader role
+during hypothesis validation. Participants used THESEUS not only to inspect generated hypotheses or experiments, but
+
+to maintain relationships among hypotheses, rationales, experiments, results, and interpretations as their validation
+
+plans evolved. The expert assessment similarly showed improvements in hierarchical coherence, traceability, and
+
+testability. Together, these findings suggest that scientific AI systems should treat hypothesis validation as a branchstructured and revisable validation state, rather than as information reconstructed from a sequence of AI responses.
+
+This matters because validation is cumulative and selective: a new result may strengthen one explanation, weaken
+
+another, motivate a new experiment, or change how an existing result is interpreted without invalidating the rest of the
+
+plan. When these relationships remain implicit in a conversation history, researchers must repeatedly reconstruct what
+changed, what remains supported, and how earlier decisions relate to the current investigation.
+
+Maintaining rationale within this branch-structured state also elevates it from an explanation of an individual
+
+AI output to a traceable scientific justification. Participants valued seeing why an experiment was connected to a
+
+particular hypothesis, while the expert assessment showed improvements in evidence–hypothesis traceability. Rather
+than disappearing after an AI response is generated, rationale can remain attached to the relationship it justifies
+
+and be revisited when new evidence changes how that relationship should be understood. This extends work on
+
+transparent and controllable AI workflows [44, 59] from exposing individual AI operations toward maintaining the
+
+reasons behind scientific relationships as an investigation evolves. Keeping sources, assumptions, prior evidence, and
+rationales associated with these relationships can help researchers inspect not only what a validation plan contains, but
+why its components are connected and how new evidence changes their interpretation.
+At the same time, structured and continuous validation state should not imply correctness. A well-organized graph
+can still contain weakly supported links, incorrect interpretations, unresolved assumptions, or plausible-sounding but
+insufficiently grounded rationales. Systems should therefore preserve the sources and assumptions behind scientific
+
+relationships, expose conflicting evidence and alternative interpretations, and allow rationales to be revised without
+
+silently changing the claims they support. The goal is not simply clearer organization, but an evolving validation state
+
+whose justification remains inspectable, contestable, and revisable. This distinction is important for scientific AI because
+making reasoning visible should support scrutiny rather than turn model-generated structure into a proxy for scientific
+validity.
+Manuscript submitted to ACM
+
+Anon.
+
+6.2
+
+Design Implication 2: Use Locality to Coordinate Human–AI Revision
+
+Once hypothesis validation is represented as persistent state, a central interaction question is how researchers and
+
+AI should coordinate changes to it. Our findings suggest that a validation branch provides a useful locality for such
+
+coordination. Participants used branches to understand where experiments belonged, identify which part of a plan was
+
+affected by new evidence, and revise one direction while preserving unrelated reasoning. The branch therefore served
+not only as a visual grouping, but as a meaningful scope for change. This is important because new evidence often has
+
+selective effects: an experiment may weaken one mechanism while leaving sibling hypotheses and their associated
+
+reasoning intact.
+
+This suggests a different model of steerability from linear conversational interaction. In a chat interface, correcting an
+unsatisfactory response often requires another prompt and then checking whether accepted information also changed. In
+
+a structured validation system, the researcher can instead indicate the particular hypothesis, experiment, interpretation,
+
+or branch that should be reconsidered while the system uses surrounding context to support a localized revision.
+
+Structure thus becomes more than an external representation of reasoning; it becomes an interaction mechanism
+for specifying the scope of AI action. Making dependencies visible could further help researchers understand what a
+
+proposed revision would affect before accepting it and preserve portions of the validation state that remain valid. A
+
+related principle appears in Cobi, which recommends schedule edits and visualizes their consequences while leaving
+
+final decisions to organizers [37]. This becomes especially important in longer-running work, where regenerating an
+accepted plan can create unnecessary review effort and blur the distinction between deliberate revisions and incidental
+changes in model output.
+The branch should nevertheless remain a flexible coordination boundary of scientific reasoning. Real investigations
+revisit parent claims, connect evidence across hypotheses, merge related explanations, and reactivate previously paused
+directions. The broader design opportunity is therefore not to force scientific reasoning into a tree, but to provide
+
+a meaningful locality within which AI suggestions can be generated, inspected, accepted, or revised while allowing
+
+relationships to cross branch boundaries when the science requires them. In this way, structure can support selective
+
+intervention without requiring the researcher or the system to reconsider the entire validation plan.
+
+6.3
+
+Design Implication 3: Separate AI Proposals from Researcher Commitments
+
+Our findings further suggest a distinction between generating a plausible interpretation or next action and committing it
+
+to an evolving validation plan. After reviewing experimental results, participants valued comparing possible next steps,
+
+such as repeating or modifying an experiment, adding a control, testing another mechanism, revising a hypothesis,
+
+or preserving an alternative direction. This reflects the method of multiple working hypotheses [9, 60]: experimental
+
+evidence can strengthen or weaken explanations without uniquely determining what a researcher should do next.
+
+Scientific AI should therefore avoid treating a model-generated interpretation as the automatic continuation of the
+
+research process. AI can articulate possible interpretations and broaden the space of actions, but these outputs should
+
+remain proposals until researchers decide what should change. This preserves room for scientific judgment when the
+same result supports several plausible interpretations or follow-up strategies.
+
+Separating proposals from commitments also allows researchers to compare alternatives in the context of the evidence
+
+that motivated them. Interpretations and possible next steps can remain connected to the result that prompted them,
+
+and rejected or deferred alternatives need not disappear. Because scientific conclusions are provisional, an explanation
+
+that appears less plausible under one set of observations may become relevant again as evidence changes. Retaining
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+alternatives, the evidence available at the time, and the action ultimately selected can create a decision history that
+researchers can revisit without reconstructing it from a chat transcript or inferring it from the final graph alone. This is
+
+particularly useful when a deferred explanation becomes relevant again after later evidence changes the interpretation
+
+of an earlier branch.
+
+More broadly, this distinction suggests a model of human–AI collaboration in which AI expands and organizes
+possible scientific actions while researchers retain authority over how the validation process changes. This is particularly
+
+important because explanations and confidence cues can increase reliance without guaranteeing correctness [4, 6]. AI-
+
+generated interpretations and next-step suggestions should remain contestable, and accepting one suggestion should not
+
+silently erase the alternatives or reasoning that preceded it. Rather than framing scientific AI as progressively automating
+scientific decisions, this approach treats AI as a partner for maintaining and interrogating possible interpretations and
+
+actions while leaving consequential research decisions under researcher control. The design challenge is therefore not
+
+only to generate better next steps, but to make the boundary between AI suggestion and researcher commitment visible
+
+and actionable.
+6.4
+
+Limitations and Future Work
+
+Our study involved 16 participants in Phase I and a 10-participant subset in the one-week Phase II study, with participants
+concentrated in biology-related research. While the consistency across questionnaire responses, interviews, workload
+measures, and expert assessment provides evidence within this setting, longer deployments across broader scientific
+
+domains are needed to understand how THESEUS performs as validation plans evolve over months or years and scale
+
+to larger or collaborative projects.
+
+Our evaluation compared THESEUS and the baseline as complete systems, so we cannot isolate the contributions
+of individual components such as hierarchical organization, explicit rationale, local editing, or structured result
+
+interpretation. Several outcomes also rely on self-report, while the blinded expert assessment involved three judges
+
+and evaluated validation-plan quality. Future studies could use component-level ablations, larger expert panels, and
+
+prospective evaluations of how system-supported decisions affect subsequent experiments and conclusions.
+Finally, THESEUS does not fully capture practical experimental constraints and inherits limitations from its underlying
+
+language models and retrieval systems. Although the expert evaluation showed improvements across several dimensions
+
+of plan quality, feasibility and actionability did not reach the corrected significance threshold (𝑝 𝐻 = .052), and generated
+
+hypotheses, rationales, experiments, or interpretations may still be incomplete or incorrect. Our evaluation examined
+how these model-generated interpretations supported researchers’ validation workflows; it did not establish the
+
+scientific accuracy of the approved/not-approved interpretation labels against independent ground truth. Work on LLM-
+
+assisted evaluation similarly highlights the need to validate model-generated evaluators against human judgments [49].
+
+Future work should evaluate these judgments against domain-expert assessments and examine how laboratory-specific
+constraints, source reliability, and conflicting evidence can be incorporated while preserving researcher oversight.
+
+While existing scientific AI systems increasingly support hypothesis generation and experiment planning, this work
+
+Conclusion
+
+focuses on the iterative process of hypothesis validation, where researchers must interpret emerging evidence and
+
+continually decide how their validation plans should evolve. We introduced THESEUS, a human–AI system that
+
+externalizes hypotheses and experiments as an evolving branch structure, makes the rationale and evidence behind their
+
+relationships explicit and traceable, and connects experimental results to context-aware interpretation and next-step
+Manuscript submitted to ACM
+
+Anon.
+
+replanning. Across our studies, THESEUS helped researchers better organize and trace their validation reasoning,
+
+interpret results in relation to the affected hypothesis, and compare experiment- and hypothesis-level next steps against
+
+a strong linear AI baseline. These findings highlight the importance of supporting hypothesis validation as an evolving
+
+human–AI process in which reasoning persists across experiments and results, while researchers retain control over
+
+how new evidence changes the direction of the investigation.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+References
+[1] Atilla Kaan Alkan, Shashwat Sourav, Maja Jablonska, Simone Astarita, Rishabh Chakrabarty, Nikhil Garuda, Pranav Khetarpal, Maciej Pióro, Dimitrios
+Tanoglidis, Kartheik G. Iyer, Mugdha S. Polimera, Michael J. Smith, Tirthankar Ghosal, Marc Huertas-Company, Sandor Kruk, Kevin Schawinski,
+and Ioana Ciucă. 2025. A Survey on Hypothesis Generation for Scientific Discovery in the Era of Large Language Models. arXiv:2504.05496 [cs.CL]
+https://arxiv.org/abs/2504.05496
+[2] Shm Garanganao Almeda, J.D. Zamfirescu-Pereira, Kyu Won Kim, Pradeep Mani Rathnam, and Bjoern Hartmann. 2024. Prompting for Discovery:
+Flexible Sense-Making for AI Art-Making with Dreamsheets. In Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems.
+Association for Computing Machinery, New York, NY, USA, Article 160, 17 pages. doi:10.1145/3613904.3642858
+[3] Ian Arawjo, Chelse Swoopes, Priyan Vaithilingam, Martin Wattenberg, and Elena L. Glassman. 2024. ChainForge: A Visual Toolkit for Prompt
+Engineering and LLM Hypothesis Testing. In Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems (CHI ’24). Association
+for Computing Machinery, New York, NY, USA, Article 304, 18 pages. doi:10.1145/3613904.3642016
+[4] Gagan Bansal, Tongshuang Wu, Joyce Zhou, Raymond Fok, Besmira Nushi, Ece Kamar, Marco Tulio Ribeiro, and Daniel Weld. 2021. Does the
+Whole Exceed its Parts? The Effect of AI Explanations on Complementary Team Performance. In Proceedings of the 2021 CHI Conference on Human
+Factors in Computing Systems. Association for Computing Machinery, New York, NY, USA, Article 81, 16 pages. doi:10.1145/3411764.3445717
+[5] Daniil A Boiko, Robert MacKnight, Ben Kline, and Gabe Gomes. 2023. Autonomous chemical research with large language models. Nature 624, 7992
+(2023), 570–578. doi:10.1038/s41586-023-06792-0
+[6] Zana Buçinca, Maja Barbara Malaya, and Krzysztof Z. Gajos. 2021. To Trust or to Think: Cognitive Forcing Functions Can Reduce Overreliance on
+AI in AI-assisted Decision-making. Proc. ACM Hum.-Comput. Interact. 5, CSCW1, Article 188 (2021), 21 pages. doi:10.1145/3449287
+[7] In Kwon Choi, Taylor Childers, Nirmal Kumar Raveendranath, Swati Mishra, Kyle Harris, and Khairi Reda. 2019. Concept-Driven Visual Analytics:
+an Exploratory Study of Model- and Hypothesis-Based Reasoning with Visualizations. In Proceedings of the 2019 CHI Conference on Human Factors
+in Computing Systems. Association for Computing Machinery, New York, NY, USA, 1–14. doi:10.1145/3290605.3300298
+[8] In Kwon Choi, Nirmal Kumar Raveendranath, Jared Westerfield, and Khairi Reda. 2019. Visual (dis)Confirmation: Validating Models and Hypotheses
+with Visualizations. In 2019 23rd International Conference in Information Visualization - Part II. Institute of Electrical and Electronics Engineers,
+Adelaide, Australia, 116–121. doi:10.1109/IV-2.2019.00032
+[9] Martyn P. Clark, Dmitri Kavetski, and Fabrizio Fenicia. 2011. Pursuing the Method of Multiple Working Hypotheses for Hydrological Modeling.
+Water Resources Research 47, 9 (2011). doi:10.1029/2010WR009827
+[10] Le Cong, David Smerkous, Xiaotong Wang, Di Yin, Zaixi Zhang, Ruofan Jin, Yinkai Wang, Michal Gerasimiuk, Ravi K. Dinesh, Alex Smerkous, Lihan
+Shi, Joy Zheng, Ian Lam, Xuekun Wu, Shilong Liu, Peishan Li, Yi Zhu, Ning Zhao, Meenal Parakh, Simran Serrao, Imran A. Mohammad, Chao-Yeh
+Chen, Xiufeng Xie, Tiffany Chen, David Weinstein, Greg Barbone, Belgin Caglar, John B. Sunwoo, Fuxin Li, Jia Deng, Joseph C. Wu, Sanfeng Wu, and
+Mengdi Wang. 2025. LabOS: The AI-XR Co-Scientist That Sees and Works With Humans. arXiv:2510.14861 [cs.AI] https://arxiv.org/abs/2510.14861
+[11] Jeff Conklin and Michael L. Begeman. 1988. gIBIS: a hypertext tool for exploratory policy discussion. ACM Trans. Inf. Syst. 6, 4 (1988), 303–331.
+doi:10.1145/58566.59297
+[12] Zijian Ding, Michelle Brachman, Joel Chan, and Werner Geyer. 2025. "The Diagram is like Guardrails": Structuring GenAI-assisted Hypotheses
+Exploration with an Interactive Shared Representation. In Proceedings of the 2025 Conference on Creativity and Cognition. Association for Computing
+Machinery, New York, NY, USA, 606–625. doi:10.1145/3698061.3726935
+[13] Elliot P. Douglas, Shawn S. Jordan, Micah Lande, and Amy Elizabeth Bumbaco. 2015. Artifact Elicitation as a Method of Qualitative Inquiry in
+Engineering Education. In 2015 ASEE Annual Conference & Exposition. ASEE Conferences, Seattle, Washington, 26.235.1–26.235.10. doi:10.18260/p.
+23574
+[14] Ian Drosos, Advait Sarkar, Xiaotong Xu, Carina Negreanu, Sean Rintel, and Lev Tankelevitch. 2024. ‘"It’s like a rubber duck that talks back":
+Understanding Generative AI-Assisted Data Analysis Workflows through a Participatory Prompting Study. In Proceedings of the 3rd Annual Meeting
+of the Symposium on Human-Computer Interaction for Work. Association for Computing Machinery, New York, NY, USA, Article 16, 21 pages.
+doi:10.1145/3663384.3663389
+[15] Kevin Dunbar. 1993. Concept Discovery in a Scientific Domain. Cognitive Science 17, 3 (1993), 397–434. doi:10.1207/s15516709cog1703_3
+[16] Kevin Dunbar. 2000. How Scientists Think in the Real World: Implications for Science Education. Journal of Applied Developmental Psychology 21, 1
+(2000), 49–58. doi:10.1016/S0193-3973(99)00050-7
+[17] Lukas Endler, Nicolas Rodriguez, Nick Juty, Vijayalakshmi Chelliah, Camille Laibe, Chen Li, and Nicolas Le Novère. 2009. Designing and Encoding
+Models for Synthetic Biology. Journal of The Royal Society Interface 6, Suppl 4 (2009), S405–S417. doi:10.1098/rsif.2009.0035.focus
+[18] K. J. Kevin Feng, Kevin Pu, Matt Latzke, Tal August, Pao Siangliulue, Jonathan Bragg, Daniel S Weld, Amy X. Zhang, and Joseph Chee Chang.
+2026. Cocoa: Co-Planning and Co-Execution with AI Agents. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems.
+Association for Computing Machinery, New York, NY, USA, Article 16, 23 pages. doi:10.1145/3772318.3791673
+[19] Juliana Freire, Cláudio T. Silva, Steven P. Callahan, Emanuele Santos, Carlos E. Scheidegger, editor="Moreau Luc Vo, Huy T.", and Ian Foster. 2006.
+Managing Rapidly-Evolving Scientific Workflows. In Provenance and Annotation of Data. Springer Berlin Heidelberg, 10–18. doi:10.1007/11890850_2
+[20] Shanghua Gao, Ada Fang, and Marinka Zitnik. 2026. AutoScientists: Self-Organizing Agent Teams for Long-Running Scientific Experimentation.
+arXiv:2605.28655 [cs.AI] https://arxiv.org/abs/2605.28655
+
+Manuscript submitted to ACM
+
+[21] Katy Ilonka Gero, Chelse Swoopes, Ziwei Gu, Jonathan K. Kummerfeld, and Elena L. Glassman. 2024. Supporting Sensemaking of Large Language
+Model Outputs at Scale. In Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery,
+New York, NY, USA, Article 838, 21 pages. doi:10.1145/3613904.3642139
+[22] Ali E. Ghareeb, Benjamin Chang, Ludovico Mitchener, Angela Yiu, Caralyn J. Szostkiewicz, Dmytro Shved, Gavin J. Gyimesi, Jon M. Laurent,
+Samantha M. Wright, Muhammed T. Razzak, Andrew D. White, Silvia C. Finnemann, Michaela M. Hinks, and Samuel G. Rodriques. 2026. A
+multi-agent system for automating scientific discovery. Nature 655, 8122 (2026), 497–505. doi:10.1038/s41586-026-10652-y
+[23] Nayoon Gim, In Gim, Yu Jiang, Yuka Kihara, Marian Blazes, Yue Wu, Cecilia S. Lee, and Aaron Y. Lee. 2026. An LLM-assisted framework for
+accelerated and verifiable clinical hypothesis testing from electronic health records. doi:10.64898/2026.02.10.26346008
+[24] Elena L. Glassman, Jeremy Scott, Rishabh Singh, Philip J. Guo, and Robert C. Miller. 2015. OverCode: Visualizing Variation in Student Solutions to
+Programming Problems at Scale. ACM Trans. Comput.-Hum. Interact. 22, 2, Article 7 (2015), 35 pages. doi:10.1145/2699751
+[25] Juraj Gottweis, Wei-Hung Weng, Alexander Daryin, Tao Tu, Petar Sirkovic, Artiom Myaskovsky, Grzegorz Glowaty, Felix Weissenberger, Alessio
+Orlandi, Dan Popovici, Anil Palepu, Keran Rong, Ryutaro Tanno, Khaled Saab, Fan Zhang, Jacob Blum, Andrew Carroll, Kavita Kulkarni, Nenad
+Tomašev, Dina Zverinski, Ivor Rendulic, Elahe Vedadi, Florian Hasler, Luka Rimanic, Marina Boia, Ivan Budiselic, Ben Feinstein, Mathias Bellaiche,
+Tom Sheffer, Jan Freyberg, Jeremy Ratcliff, Ottavia Bertolli, Katherine Chou, Avinatan Hassidim, Burak Gokturk, Amin Vahdat, Yuan Guan, Vikram
+Dhillon, Eeshit Dhaval Vaishnav, Byron Lee, Tiago R. D. Costa, José R. Penadés, Gary Peltz, Yossi Matias, James Manyika, Demis Hassabis, Yunhan
+Xu, Pushmeet Kohli, Annalisa Pawlosky, Alan Karthikesalingam, and Vivek Natarajan. 2026. Accelerating scientific discovery with Co-Scientist.
+Nature 655, 8122 (2026), 487–496. doi:10.1038/s41586-026-10644-y
+[26] Mourad Gridach, Jay Nanavati, Khaldoun Zine El Abidine, Lenon Mendes, and Christina Mack. 2025. Agentic AI for Scientific Discovery: A Survey
+of Progress, Challenges, and Future Directions. arXiv:2503.08979 [cs.CL] https://arxiv.org/abs/2503.08979
+[27] Ziwei Gu, Joyce Zhou, Ning-Er (Nina) Lei, Jonathan K. Kummerfeld, Mahmood Jasim, Narges Mahyar, and Elena L. Glassman. 2025. AbstractExplorer:
+Leveraging Structure-Mapping Theory to Enhance Comparative Close Reading at Scale. In Proceedings of the 38th Annual ACM Symposium on User
+Interface Software and Technology. Association for Computing Machinery, New York, NY, USA, Article 85, 25 pages. doi:10.1145/3746059.3747773
+[28] Rushil Gupta, Jason Hartford, and Bang Liu. 2025. LLMs for Experiment Design in Scientific Domains: Are We There Yet?. In ICML 2025 Generative
+AI and Biology (GenBio) Workshop. https://openreview.net/forum?id=dIEeOwrmOe
+[29] Tina Heger, Carlos A Aguilar-Trigueros, Isabelle Bartram, Raul Rennó Braga, Gregory P Dietl, Martin Enders, David J Gibson, Lorena Gómez-Aparicio,
+Pierre Gras, Kurt Jax, Sophie Lokatis, Christopher J Lortie, Anne-Christine Mupepele, Stefan Schindler, Jostein Starrfelt, Alexis D Synodinos, and
+Jonathan M Jeschke. 2021. The Hierarchy-of-Hypotheses Approach: A Synthesis Method for Enhancing Theory Development in Ecology and
+Evolution. BioScience 71, 4 (2021), 337–349. doi:10.1093/biosci/biaa130
+[30] Tina Heger, Alsayed Algergawy, Marc Brinner, Jonathan M. Jeschke, Birgitta König-Ries, Daniel Mietchen, and Sina Zarrieß. 2024. Natural Language
+Hypotheses in Scientific Papers and How to Tame Them. In Robust Argumentation Machines, Philipp Cimiano, Anette Frank, Michael Kohlhase, and
+Benno Stein (Eds.), Vol. 14638. Springer Nature Switzerland, Cham, 3–19. doi:10.1007/978-3-031-63536-6_1
+[31] Kexin Huang, Ying Jin, Ryan Li, Michael Y. Li, Emmanuel Candes, and Jure Leskovec. 2025. Automated Hypothesis Validation with Agentic
+Sequential Falsifications. In Proceedings of the 42nd International Conference on Machine Learning (Proceedings of Machine Learning Research, Vol. 267),
+Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix Berkenkamp, Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu (Eds.). PMLR,
+Vancouver, Canada, 25372–25437. https://proceedings.mlr.press/v267/huang25n.html
+[32] Haoran Jiang, Shaohan Shi, Yunjie Yao, Chang Jiang, and Quan Li. 2025. HypoChainer: A Collaborative System Combining LLMs and Knowledge
+Graphs for Hypothesis-Driven Scientific Discovery. arXiv:2507.17209 [cs.HC] https://arxiv.org/abs/2507.17209
+[33] Xia Jing, Yuchun Zhou, James J. Cimino, Jay H. Shubrook, Vimla L. Patel, Sonsoles De Lacalle, Aneesa Weaver, and Chang Liu. 2025. Development,
+validation, and usage of metrics to evaluate the quality of clinical research hypothese. BMC Medical Research Methodology 25, 1 (Jan 2025), 11.
+doi:10.1186/s12874-025-02460-1
+[34] Eunice Jun, Melissa Birchfield, Nicole De Moura, Jeffrey Heer, and René Just. 2022. Hypothesis Formalization: Empirical Findings, Software
+Limitations, and Design Implications. ACM Trans. Comput.-Hum. Interact. 29, 1, Article 6 (2022), 28 pages. doi:10.1145/3476980
+[35] Mary Beth Kery, Amber Horvath, and Brad Myers. 2017. Variolite: Supporting Exploratory Programming by Data Scientists. In Proceedings of the
+2017 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery, 1265–1276. doi:10.1145/3025453.3025626
+[36] Mary Beth Kery, Bonnie E. John, Patrick O’Flaherty, Amber Horvath, and Brad A. Myers. 2019. Towards Effective Foraging by Data Scientists
+to Find Past Analysis Choices. In Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems. Association for Computing
+Machinery, 1–13. doi:10.1145/3290605.3300322
+[37] Juho Kim, Haoqi Zhang, Paul André, Lydia B. Chilton, Wendy Mackay, Michel Beaudouin-Lafon, Robert C. Miller, and Steven P. Dow. 2013. Cobi: a
+community-informed conference scheduling tool. In Proceedings of the 26th Annual ACM Symposium on User Interface Software and Technology.
+Association for Computing Machinery, New York, NY, USA, 173–182. doi:10.1145/2501988.2502034
+[38] David Klahr and Kevin Dunbar. 1988. Dual Space Search During Scientific Reasoning. Cognitive Science 12, 1 (1988), 1–48. doi:10.1207/
+s15516709cog1201_1
+[39] Patrick Tser Jern Kon, Jiachen Liu, Xinyi Zhu, Qiuyi Ding, Jingjia Peng, Jiarong Xing, Yibo Huang, Yiming Qiu, Jayanth Srinivasa, Myungjin
+Lee, Mosharaf Chowdhury, Matei Zaharia, and Ang Chen. 2025. EXP-Bench: Can AI Conduct AI Research Experiments? arXiv:2505.24785
+https://arxiv.org/abs/2505.24785
+
+Anon.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+[40] Ratanond Koonchanok, Gauri Yatindra Tawde, Gokul Ragunandhan Narayanasamy, Shalmali Walimbe, and Khairi Reda. 2023. Visual Belief
+Elicitation Reduces the Incidence of False Discovery. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems. Association
+for Computing Machinery, New York, NY, USA, 17 pages. doi:10.1145/3544548.3580808
+[41] Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha. 2024. The AI Scientist: Towards Fully Automated Open-Ended
+Scientific Discovery. arXiv:2408.06292 [cs.AI] https://arxiv.org/abs/2408.06292
+[42] Bodhisattwa Prasad Majumder, Harshit Surana, Dhruv Agarwal, Bhavana Dalvi Mishra, Abhijeetsingh Meena, Aryan Prakhar, Tirth Vora, Tushar Khot,
+Ashish Sabharwal, and Peter Clark. 2024. DiscoveryBench: Towards Data-Driven Discovery with Large Language Models. arXiv:2407.01725 [cs.CL]
+https://arxiv.org/abs/2407.01725
+[43] Barbara Mirel and Carsten Görg. 2014. Scientists’ sense making when hypothesizing about disease mechanisms from expression data and their
+needs for visualization support. BMC Bioinformatics 15, 1, Article 117 (2014), 12 pages. doi:10.1186/1471-2105-15-117
+[44] Rock Yuren Pang, K. J. Kevin Feng, Shangbin Feng, Chu Li, Weijia Shi, Yulia Tsvetkov, Jeffrey Heer, and Katharina Reinecke. 2026. Interactive
+Reasoning: Visualizing and Controlling Chain-of-Thought Reasoning in Large Language Models. In Proceedings of the 31st International Conference
+on Intelligent User Interfaces. Association for Computing Machinery, New York, NY, USA, 852–867. doi:10.1145/3742413.3789091
+[45] Kevin Pu, K. J. Kevin Feng, Tovi Grossman, Tom Hope, Bhavana Dalvi Mishra, Matt Latzke, Jonathan Bragg, Joseph Chee Chang, and Pao Siangliulue.
+2025. IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback. In
+Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery, New York, NY, USA, 31 pages.
+doi:10.1145/3706598.3714057
+[46] Marissa Radensky, Simra Shahid, Raymond Fok, Pao Siangliulue, Tom Hope, and Daniel S. Weld. 2026. Human-LLM Compound System for Scientific
+Ideation through Facet Recombination and Novelty Evaluation. arXiv:2409.14634 [cs.HC] doi:10.48550/arXiv.2409.14634
+[47] Martiño Ríos-García, Nawaf Alampara, Chandan Gupta, Indrajeet Mandal, Sajid Mannan, Ali Asghar Aghajani, N. M. Anoop Krishnan, and
+Kevin Maik Jablonka. 2026. AI scientists produce results without reasoning scientifically. arXiv:2604.18805 [cs.AI] https://arxiv.org/abs/2604.18805
+[48] Samuel Schmidgall, Yusheng Su, Ze Wang, Ximeng Sun, Jialian Wu, Xiaodong Yu, Jiang Liu, Michael Moor, Zicheng Liu, and Emad Barsoum. 2025.
+Agent Laboratory: Using LLM Agents as Research Assistants. arXiv:2501.04227 [cs.HC] https://arxiv.org/abs/2501.04227
+[49] Shreya Shankar, J.D. Zamfirescu-Pereira, Bjoern Hartmann, Aditya Parameswaran, and Ian Arawjo. 2024. Who Validates the Validators? Aligning
+LLM-Assisted Evaluation of LLM Outputs with Human Preferences. In Proceedings of the 37th Annual ACM Symposium on User Interface Software
+and Technology. Association for Computing Machinery, New York, NY, USA, Article 131, 14 pages. doi:10.1145/3654777.3676450
+[50] Neil R Smalheiser and Don R Swanson. 1998. Using ARROWSMITH: a computer-assisted approach to formulating and assessing scientific hypotheses.
+Computer Methods and Programs in Biomedicine 57, 3 (1998), 149–153. doi:10.1016/S0169-2607(98)00033-9
+[51] Zhangde Song, Jieyu Lu, Yuanqi Du, Botao Yu, Thomas M. Pruyn, Yue Huang, Kehan Guo, Xiuzhe Luo, Yuanhao Qu, Yi Qu, Yinkai Wang, Haorui
+Wang, Jeff Guo, Jingru Gan, Parshin Shojaee, Di Luo, Andres M Bran, Gen Li, Qiyuan Zhao, Shao-Xiong Lennon Luo, Yuxuan Zhang, Xiang
+Zou, Wanru Zhao, Yifan F. Zhang, Wucheng Zhang, Shunan Zheng, Saiyang Zhang, Sartaaj Takrim Khan, Mahyar Rajabi-Kochi, Samantha
+Paradi-Maropakis, Tony Baltoiu, Fengyu Xie, Tianyang Chen, Kexin Huang, Weiliang Luo, Meijing Fang, Xin Yang, Lixue Cheng, Jiajun He, Soha
+Hassoun, Xiangliang Zhang, Wei Wang, Chandan K. Reddy, Chao Zhang, Zhiling Zheng, Mengdi Wang, Le Cong, Carla P. Gomes, Chang-Yu Hsieh,
+Aditya Nandy, Philippe Schwaller, Heather J. Kulik, Haojun Jia, Huan Sun, Seyed Mohamad Moosavi, and Chenru Duan. 2026. Evaluating Large
+Language Models in Scientific Discovery. arXiv:2512.15567 [cs.AI] https://arxiv.org/abs/2512.15567
+[52] Lucas Stoffl, Benedikt Wiestler, and Johannes C. Paetzold. 2026. VERITAS: A Multi-Agent Co-Scientist for Verifiable Image-Derived Hypothesis
+Testing. arXiv:2604.12144 [cs.MA] https://arxiv.org/abs/2604.12144
+[53] Ashley Suh, Ab Mosca, Eugene Wu, and Remco Chang. 2023.
+A Grammar of Hypotheses for Visualization, Data, and Analysis.
+arXiv:2204.14267 [cs.HC] https://arxiv.org/abs/2204.14267
+[54] Izumi Takahara and Teruyasu Mizoguchi. 2026. Toward Auditable AI Scientists: A Hypothesis Evolution Protocol for LLM Agents.
+arXiv:2607.09195 [cs.AI] https://arxiv.org/abs/2607.09195
+[55] Hanchen Wang, Tianfan Fu, Yuanqi Du, Wenhao Gao, Kexin Huang, Ziming Liu, Payal Chandak, Shengchao Liu, Peter Van Katwyk, Andreea Deac,
+Anima Anandkumar, Karianne Bergen, Carla P. Gomes, Shirley Ho, Pushmeet Kohli, Joan Lasenby, Jure Leskovec, Tie-Yan Liu, Arjun Manrai, Debora
+Marks, Bharath Ramsundar, Le Song, Jimeng Sun, Jian Tang, Petar Veličković, Max Welling, Linfeng Zhang, Connor W. Coley, Yoshua Bengio, and
+Marinka Zitnik. 2023. Scientific Discovery in the Age of Artificial Intelligence. Nature 620, 7972 (2023), 47–60. doi:10.1038/s41586-023-06221-2
+[56] Zijian Wang, Hanqi Li, Ziyue Yang, Zijian Hu, Shenghan Zuo, Yunzhe Zhang, Da Ma, Danyu Luo, Chenrun Wang, Jing Peng, Tiancheng Huang,
+Sijia Guo, Huayang Wang, Zichen Zhu, Senyu Han, Yilu Cao, Bo Chen, Xin Chen, Kai Yu, and Lu Chen. 2026. Externalizing Research Synthesis and
+Validation in AI Scientists through a Research Harness. arXiv:2606.18874 [cs.AI] https://arxiv.org/abs/2606.18874
+[57] Nathaniel Weinman, Steven M. Drucker, Titus Barik, and Robert DeLine. 2021. Fork It: Supporting Stateful Alternatives in Computational Notebooks.
+In Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery, Article 307, 12 pages.
+doi:10.1145/3411764.3445527
+[58] Brian White. 2004. Reasoning maps: a generally applicable method for characterizing hypothesis-testing behaviour. International Journal of Science
+Education 26, 14 (2004), 1715–1731. doi:10.1080/0950069042000243718
+[59] Tongshuang Wu, Michael Terry, and Carrie Jun Cai. 2022. AI Chains: Transparent and Controllable Human-AI Interaction by Chaining Large
+Language Model Prompts. In Proceedings of the 2022 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery,
+New York, NY, USA, Article 385, 22 pages. doi:10.1145/3491102.3517582
+Manuscript submitted to ACM
+
+[60] Scott W. Yanco, Andrew McDevitt, Clive N. Trueman, Laurel Hartley, and Michael B. Wunder. 2020. A Modern Method of Multiple Working
+Hypotheses to Improve Inference in Ecology. Royal Society Open Science 7, 6 (2020), 200231. doi:10.1098/rsos.200231
+[61] Yangqiaoyu Zhou, Haokun Liu, Tejes Srivastava, Hongyuan Mei, and Chenhao Tan. 2024. Hypothesis Generation with Large Language Models. In
+Proceedings of the 1st Workshop on NLP for Science (NLP4Science). Association for Computational Linguistics, Miami, FL, USA, 117–139. doi:10.18653/
+v1/2024.nlp4science-1.10
+
+Anon.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+A
+
+Formative Interview Participant Demographics
+
+Table 4. Anonymized demographic and research backgrounds of participants in the artifact-centered formative interview study.
+Research YoE refers to the number of years participants had conducted academic or professional research at the time of the study.
+
+ID
+
+Gender
+
+Age range
+
+Position
+
+Research area
+
+Research YoE
+
+P1
+
+Male
+
+25–34
+
+Research scientist
+
+Cell biology
+
+P2
+
+Male
+
+25–34
+
+Ph.D. student
+
+Bioengineering
+
+P3
+
+Female
+
+25–34
+
+Research scientist
+
+Biology
+
+P4
+
+Male
+
+18–24
+
+Ph.D. student
+
+Biology
+
+P5
+
+Male
+
+25–34
+
+Research scientist
+
+Bioengineering
+
+P6
+
+Male
+
+25–34
+
+Ph.D. student
+
+Materials science
+
+P7
+
+Male
+
+25–34
+
+Research scientist
+
+Materials science
+
+P8
+
+Male
+
+18–24
+
+Ph.D. student
+
+Biochemistry
+
+P9
+
+Male
+
+25–34
+
+Ph.D. student
+
+Biochemistry
+
+P10
+
+Female
+
+25–34
+
+Research scientist
+
+Biology
+
+Manuscript submitted to ACM
+
+Anon.
+
+B
+
+THESEUS System Details
+
+B.1
+
+Experiment-Detail Interface
+
+Figure 4 presents the experiment-detail interface. Labels A–I correspond to the components described in this subsection;
+ellipses indicate omitted content in longer panels.
+A: Experiment selection. The header identifies the experiment’s title, purpose, review status, and hypothesis coverage.
+
+The family selector distinguishes the base experiment from its variants, indicating which experiment’s protocol and
+
+results are displayed.
+
+B: Generated protocol. The protocol presents procedural steps and information to record, with numerical parameters
+highlighted inline for inspection.
+C: Protocol context. The two-column grid documents materials, setup, controls, measurements, recording guidance,
+expected patterns, safety notes, and assumptions alongside the procedural steps.
+D: Experiment design. Separate fields identify the experimental system and independent and dependent variables,
+making clear what is manipulated and measured.
+E: Controls, measurements, and interpretation. The cards present comparison conditions, planned readouts, and criteria
+for interpreting observed patterns, allowing researchers to review the test and its interpretation logic together.
+
+F: Design support. The card reports the design classification and support notes. In the illustrated example, it states
+that PyDOE was not used and G*Power was noted, followed by the system’s explanation.
+G: Result upload and decisions. The panel provides CSV template download and result upload for the selected
+experiment. The saved analysis shows the source filename and completion status; the decision card identifies the
+evaluated hypothesis and majority vote. Expandable areas show the observed outcome and submitted observation.
+H: Connected hypotheses. The panel presents the linked hypothesis’s statement and rationale, together with its
+supporting evidence, assumptions, and confidence.
+I: Protocol review. The review panel presents the judgment, rationale, blocking issues, and feedback on hypothesis
+alignment. The illustrated example is marked for revision and identifies unresolved details.
+B.2
+
+Literature Retrieval and Use
+
+THESEUS retrieves literature for the parent hypothesis being decomposed. An LLM generates concise search queries
+
+based on the hypothesis’s experimental system, mechanism, variables, and relevant methods, then submits them to
+
+Semantic Scholar and OpenAlex. Retrieved records are deduplicated using persistent identifiers and normalized titles,
+
+then ranked using keyword overlap with the hypothesis, citation counts, abstract availability, open-access indicators,
+
+and source-specific weights. The system prioritizes the highest-ranked papers for full-text retrieval, targeting full-text
+
+evidence from three papers per parent hypothesis. It continues through subsequent candidates when this target is
+
+unmet and uses available titles and abstracts when full text cannot be retrieved. Relevant passages are selected from the
+
+available text and supplied to the decomposition agent with source references to support sub-hypothesis generation
+
+and its accompanying rationales.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+B.3
+
+Public Protocol Retrieval and Protocol Generation
+
+To support protocol generation, THESEUS searches protocols.io for public protocols relevant to each proposed experi-
+
+ment. An LLM generates short queries from the experiment candidate and laboratory context, favoring established
+
+technique names and assay terms. Retrieved records are deduplicated and ranked for relevance to the experiment.
+
+For selected references, the system retrieves descriptions, materials, and compact previews of procedural steps when
+
+available, retaining source titles, URLs, and DOIs. THESEUS also provides experiment-design support according to the
+
+proposed factors and endpoints. When factorial design support is applicable, pyDOE generates a full-factorial design
+
+matrix from the identified factors and their levels. For experiments identified as requiring statistical power analysis,
+
+the system prepares guidance for a manual G*Power analysis, including the number of conditions, significance level,
+
+and target power. Researchers select the statistical test and supply an effect-size estimate from prior data, literature,
+
+or a pilot study to determine the final sample size in G*Power. Any provisional replicate count remains a planning
+
+assumption until this analysis is completed. The protocol-writing LLM interprets the available procedural references
+
+and design-support information alongside the proposed experiment, mapped hypotheses, method information, and
+
+laboratory context to generate a structured protocol with materials, setup, actions, controls, measurements, recording
+
+instructions, and expected patterns. Hypothesis-defining conditions must be preserved, while proposed defaults for
+
+other operational details are identified as assumptions. A separate LLM reviewer checks the resulting draft and flags
+issues requiring revision before laboratory use.
+
+Manuscript submitted to ACM
+
+Anon.
+A
+
+Experiment
+selection
+Experiment
+selection
+
+A
+
+Generated
+protocol
+Generated
+protocol
+
+B
+B
+
+Experiment
+design
+Experiment
+design
+
+D
+
+Controls,
+measurements
+& interpretation
+Controls,
+measurements
+
+E
+
+D
+
+E
+
+& interpretation
+
+Protocol
+context
+Protocol
+context
+
+C
+C
+
+Design
+support
+Design
+support
+
+FF
+
+Result
+upload
+& decisions
+Result
+upload
+& decisions
+
+G
+G
+
+Connected
+hypotheses
+Connected
+hypotheses
+
+H
+
+H
+
+In pancreatic cancer organoids carrying KRAS G12D, reducing
+MAPK signaling will be necessary for the growth-inhibitory
+
+Protocol
+review
+Protocol
+review
+
+II
+
+Fig. 4. Experiment-detail interface overview. Labels A–I identify the sections described in this appendix. The assembled excerpts
+retain the interface arrangement, with ellipses indicating omitted content in longer sections.
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+C
+C.1
+
+Baseline Details
+Baseline System Interface
+
+Figure 5 shows the baseline interface. Participants organize their validation plan in a structured, editable Markdown
+document on the left and consult a task-oriented AI assistant on the right.
+
+Fig. 5. Baseline interface. A structured, editable validation plan appears on the left, alongside an AI assistant providing six research
+functions on the right.
+
+C.2
+
+Baseline System Functions
+
+The assistant provides six research functions (Table 5). Participants can inspect the generated content and retain or
+
+revise it in their document.
+
+Manuscript submitted to ACM
+
+Anon.
+Table 5. Functions available in the strong linear AI baseline.
+
+Function
+
+Description
+
+Hypothesis decomposition
+
+Generates testable sub-hypotheses from the main hypothesis, together with supporting
+
+rationale and evidence.
+Experiment planning
+
+Generates candidate experiments specifying purpose, variables, controls, measurements,
+
+Protocol generation
+
+Generates procedural steps and experimental parameters for a proposed experiment.
+
+Result interpretation
+
+Interprets what submitted observations imply for the corresponding hypothesis and
+
+Replacement hypotheses
+
+Generates alternative or revised hypotheses and possible follow-up directions.
+
+Open-ended discussion
+
+expected outcomes, and assumptions.
+
+experiment.
+
+Supports questions about hypotheses, evidence, experiment plans, results, and the ongoing
+validation process.
+
+D
+D.1
+
+User Study Details
+User-Study Participant Demographics
+
+Table 6 summarizes participant demographics, research backgrounds, Phase II participation, and condition order.
+
+Research areas are reported broadly to protect participants’ identities. Participants who continued to Phase II used the
+
+same condition order as in Phase I.
+
+Table 6. Anonymized demographic and research backgrounds of user-study participants. Research YoE refers to years of experience
+conducting academic research.
+
+ID
+P1
+P2
+P3
+P4
+P5
+P6
+P7
+P8
+P9
+P10
+P11
+P12
+P13
+P14
+P15
+P16
+
+Gender
+Male
+Female
+Male
+Male
+Male
+Male
+Male
+Female
+Female
+Female
+Male
+Male
+Female
+Male
+Male
+Male
+
+Age range
+18–24
+25–34
+18–24
+25–34
+25–34
+25–34
+25–34
+25–34
+18–24
+25–34
+25–34
+25–34
+18–24
+18–24
+25–34
+18–24
+
+Manuscript submitted to ACM
+
+Position
+Research scientist
+Ph.D. student
+Ph.D. student
+Research scientist
+Ph.D. student
+Research scientist
+Ph.D. student
+Research scientist
+Ph.D. student
+Research scientist
+Research scientist
+Ph.D. student
+Ph.D. student
+Ph.D. student
+Research scientist
+Ph.D. student
+
+Research area
+Bioengineering
+Biology
+Materials science
+Bioengineering
+Biology
+Materials science
+Biochemistry
+Biology
+Bioengineering
+Bioengineering
+Chemistry
+Biomolecular
+Materials science
+Biology
+Bioengineering
+Biology
+
+Research YoE
+
+Phase II
+N
+N
+Y
+Y
+Y
+N
+N
+Y
+Y
+Y
+Y
+Y
+Y
+N
+Y
+N
+
+First condition
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+THESEUS
+Baseline
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+D.2
+
+Post-Condition Questionnaire Items
+
+The following lists present the closed-ended questionnaire items included in the analysis. In both conditions, "the
+
+system" referred to the system that the participant had just used. Administrative fields are omitted. The complete
+
+questionnaires and interview protocols are provided in the supplementary material.
+D.2.1 Phase I Questionnaire. Structure and organization (RQ1). Participants rated the following statements from 1
+(Strongly disagree) to 7 (Strongly agree).
+(1) The system made the relationships among the main hypothesis, sub-hypotheses, and experiments easy to
+
+understand.
+(2) The structure helped organize the hypothesis-validation plan in a clear and structured way.
+
+Rationale and evidence–hypothesis traceability (RQ2). Participants rated the following statements from 1 (Strongly
+
+disagree) to 7 (Strongly agree).
+
+(1) The system made the rationale behind each sub-hypothesis easy to understand.
+
+(2) The system made the connection between each experiment and its related sub-hypothesis easy to understand.
+
+(3) The system helped trace the relationship among hypothesis, sub-hypotheses, and experiment plans.
+
+(4) The externalized rationale helped evaluate the quality of the generated experiment plan.
+
+Steerability and control (RQ4). Participants rated the following statements from 1 (Strongly disagree) to 7 (Strongly
+
+agree).
+
+(1) The system made it easy to guide the validation plan toward the desired direction.
+
+(2) The system provided enough control over the final validation plan.
+
+Confidence in the validation plan (RQ4). Participants rated the following statement from 1 (Strongly disagree) to 7
+(Strongly agree).
+(1) The system made me confident about developing a hypothesis-validation plan.
+Adapted NASA-TLX items (RQ4).
+(1) How much mental and perceptual activity was required?
+
+Scale: 1 (Very low) to 7 (Very high).
+(2) How much time pressure did you feel due to the pace at which the tasks or task elements occurred?
+Scale: 1 (Very low) to 7 (Very high).
+
+(3) How successful were you in performing the task?
+
+Scale: 1 (Failure) to 7 (Perfect).
+(4) How hard did you have to work (mentally and physically) to accomplish your level of performance?
+Scale: 1 (Very low) to 7 (Very high).
+
+(5) How irritated, stressed, and annoyed versus content, relaxed, and complacent did you feel during the task?
+
+Scale: 1 (Very low) to 7 (Very high).
+
+Phase II Questionnaire. Result interpretation and next-step support (RQ3). Participants rated the following
+
+D.2.2
+
+statements from 1 (Strongly disagree) to 7 (Strongly agree).
+
+(1) The system helped connect experimental results to relevant sub-hypotheses and clarify whether they were
+supported, weakened, or still uncertain.
+(2) The system helped identify what should be revised in the hypothesis-validation plan.
+Manuscript submitted to ACM
+
+Anon.
+
+(3) The system generated useful and actionable next-step suggestions based on the results.
+
+(4) The system helped compare alternative next steps, such as repeating experiments, adding controls, or testing
+
+alternative explanations.
+
+(5) The system preserved the reasoning behind its next-step suggestions.
+
+Support for assessing interpretation confidence (RQ4). Participants rated the following statement from 1 (Strongly
+
+disagree) to 7 (Strongly agree).
+
+(1) The system helped me assess my confidence in the interpretation of the experimental results.
+
+Context-aware interpretation and workflow support (RQ3). Participants rated the following statements from 1
+
+(Strongly disagree) to 7 (Strongly agree).
+
+(1) The system helped me consider uncertainty and alternative explanations when interpreting results.
+
+(2) The system fits well with how I interpret results and organize follow-up work over time.
+
+Steerability of interpretations and next steps (RQ4). Participants rated the following statements from 1 (Very low)
+to 7 (Very high).
+
+(1) The system made it easy to revise interpretations and correct or refine inappropriate suggestions.
+
+(2) The system made it easy to guide the next-step plan toward my research goals.
+
+D.3
+
+Statistical Reporting Conventions
+
+Questionnaire items were averaged within participant, condition, and construct before comparison. We used two-sided
+
+exact Wilcoxon signed-rank tests. Pairs with a zero condition difference remained in the descriptive summaries but
+
+were omitted from the corresponding signed-rank calculation. Tables report 𝑛 ≠0 , the smaller signed-rank sum 𝑊 , and
+
+the matched-pairs rank-biserial correlation
+
+𝑊+ − 𝑊−
+.
+𝑊+ + 𝑊−
+Positive values favor THESEUS for higher-is-better measures. Negative values favor THESEUS for the lower-is-better
+𝑟𝑟𝑏 =
+
+workload measures. Tied absolute differences receive average ranks, which is why 𝑊 can include a half rank (e.g., 4.5
+
+or 21.5). Exact 𝑝-values were Holm-adjusted within each reported family of comparisons.
+
+D.4
+
+Qualitative Coding Summary
+
+Interview and open-ended responses were coded around the four research questions. Table 7 summarizes each code
+
+and its operational criterion. Counts indicate the number of participants whose responses contained the code and are
+
+descriptive.
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+Table 7. Qualitative coding summary for Phase I and Phase II. Counts indicate the number of participants associated with each code
+out of the total participants in that phase.
+
+Phase
+
+Code
+
+Operational criterion
+
+Count
+
+I
+
+Branch legibility
+
+Described the visible hierarchy as making the plan
+
+16/16
+
+easier to organize or inspect.
+I
+
+Adjacent rationale
+
+I
+
+Targeted revision
+
+I
+
+Planning preference
+
+I
+
+Baseline adequate for bounded work
+
+I
+
+Node–edge ambiguity
+
+I
+
+Legibility or control discoverability
+
+II
+
+Explicit result linkage
+
+Described the baseline as sufficient for a short or
+
+2/16
+
+Expressed uncertainty about which information
+
+2/16
+
+Reported small/light text or difficulty finding
+
+1/16
+
+Described the result-to-hypothesis connection as
+
+10/10
+
+explicit.
+II
+
+Alternative comparison
+
+Described side-by-side next-step alternatives as
+
+10/10
+
+easier to compare.
+II
+
+Branch-local updating
+
+Valued revising the affected branch while pre-
+
+10/10
+
+serving other hypotheses, rationale, or interpretations.
+II
+
+Continuing-work preference
+
+Preferred THESEUS for continued interpretation
+
+10/10
+
+and next-step planning.
+
+16/16
+
+branch-regeneration controls.
+
+Preferred THESEUS for constructing and inspect-
+
+belonged on nodes versus edges.
+
+15/16
+
+preliminary task.
+
+Described revision of a selected part as easier in
+
+ing a validation plan.
+
+16/16
+
+THESEUS.
+
+Valued keeping rationale near the hypothesis–
+experiment relationship it justified.
+
+II
+
+Baseline adequate for one-time result
+
+Described the baseline as sufficient for a simple,
+
+1/10
+
+one-time result.
+II
+
+Need for temporal provenance
+
+Requested a clearer history or timeline across re-
+
+2/10
+
+vision rounds.
+
+E
+E.1
+
+Blinded Expert Evaluation
+Evaluation Rubric
+
+Both conditions’ Phase I artifacts were converted to the same document format and stripped of participant and condition
+labels before evaluation. The evaluation dimensions were adapted primarily from the hypothesis-quality metrics
+developed and validated by Jing et al. [33], with Heger et al.’s hierarchy-of-hypotheses approach [29] and a recent
+
+survey of scientific hypothesis generation [1] providing additional support for dimensions concerning hierarchical
+
+coherence, testability, clarity, and feasibility. Three judges independently rated every artifact on the following six
+
+dimensions using seven-point scales.
+Manuscript submitted to ACM
+
+Anon.
+
+Table 8. Questions and criteria shown to the expert judges.
+
+Dimension
+
+Expert-facing question and evaluation criteria
+
+Hypothesis clarity
+
+Are the main hypothesis and sub-hypotheses stated clearly and precisely? Highquality plans explicitly state the main hypothesis, express each sub-hypothesis as
+
+a distinct scientific claim, specify relevant mechanisms, variables, populations, and
+
+conditions, and avoid vague or ambiguous language.
+
+Hierarchical coherence
+
+Does the plan organize the main hypothesis and sub-hypotheses into a clear and
+logically coherent hierarchy? High-quality plans decompose the main claim into
+
+meaningful and increasingly specific sub-hypotheses, maintain clear parent–child
+
+relationships, distinguish rather than repeat branches, and avoid contradictions or
+
+disconnected components.
+
+Evidence–hypothesis
+
+Can each hypothesis and validation decision be traced to its supporting rationale,
+
+traceability
+
+experiment, and evidence? High-quality plans explain why each element is included,
+
+connect literature and assumptions to the claims they support, identify which experi-
+
+ment or result bears on each sub-hypothesis, and show how the evidence informs the
+
+broader hypothesis.
+Can the proposed sub-hypotheses be evaluated using observable and distinguishable
+
+Testability
+
+evidence? High-quality plans specify measurable variables or outcomes, derive ob-
+
+servable predictions, define evidence that could support, weaken, or leave a claim
+
+unresolved, and distinguish competing sub-hypotheses where possible.
+Scientific validity
+
+Can the proposed experiments provide scientifically credible evidence about the
+
+corresponding hypotheses? High-quality plans align experiments with claims, use
+
+suitable manipulations, readouts, and comparisons, include necessary controls, address
+
+major confounds and alternatives, and support conclusions warranted by the possible
+
+results.
+
+Feasibility and actionabil- Is the validation plan realistic, sufficiently specific, and actionable in the stated research
+
+ity
+
+context? High-quality plans use reasonably available methods and resources, provide
+sufficient procedural detail, sensibly order or prioritize experiments, and identify
+
+useful next actions or contingencies.
+
+E.2
+
+Expert-Judge Demographics
+
+Table 9. Demographic and research backgrounds of the three blinded expert judges.
+
+ID
+
+Position
+
+Research area
+
+Age range
+
+Research years
+
+E1
+E2
+E3
+
+Research scientist
+Professor
+Professor
+
+Biochemistry
+Bioengineering
+Materials science
+
+25–34
+35–44
+25–34
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+F
+
+THESEUS LLM Prompts
+
+This section presents the complete system prompts used by the LLM agents, organized by workflow stage. Prompt
+
+wording is preserved, with line breaks adjusted for typesetting.
+
+F.1
+
+Literature and Protocol Search Query Planning
+
+F.1.1
+
+Scientific-Literature Query Planner.
+
+You generate concise scholarly search queries for Semantic Scholar. Given a parent scientific
+hypothesis, return keyword queries that improve paper discovery. Focus on experimental system,
+mechanism, method, independent variable, dependent variable, and common synonyms. Do not invent
+citations or paper titles. Do not use Boolean operators. Each query should be short, search-engine
+friendly, and suitable for scientific literature metadata search.
+
+F.1.2
+
+You draft concise protocols.io search queries for public lab protocol discovery. The search endpoint
+is a metadata keyword search over protocol name, description, and authors, so over-specific
+experiment sentences often return no results. Given an experiment candidate and lab context, return
+broad natural keyword queries that would help find concrete experimental protocols. Prefer
+established protocol phrases and technique names over disease mutations, drug names, or full
+hypotheses. Useful examples include cell viability assay, organoid culture, drug screening,
+CellTiter-Glo, western blot, immunofluorescence staining, and qPCR gene expression. Avoid exact
+quotes, Boolean operators, and fragile combinations such as organoid viability assay or phospho ERK
+western blot unless the phrase is clearly a common protocol title. Do not invent protocol titles,
+URLs, IDs, citations, or source claims. Keep each query under about 6 words.
+
+F.2
+
+Public-Protocol Query Planner.
+
+Hypothesis Decomposition and Critique
+
+The same decomposition and critique prompts are reused for further decomposition of an approved leaf hypothesis.
+F.2.1
+
+Hypothesis Decomposition Agent.
+
+You are a scientific hypothesis decomposition agent. Generate smaller, operational, testable child
+hypotheses using only the supplied paper evidence context. Use introduction/background statements,
+mechanistic rationale, relationship/result statements, and experimental methods when they help
+explain what detailed sub-claims are included in the parent and why each child is related to the
+main hypothesis. Do not browse or invent citations. Prefer full-text evidence; when evidence is
+marked metadata_abstract, treat it as weaker and state assumptions. As you decompose the parent,
+look for the main entities, variables, and relationship claimed in the hypothesis. Let the child set
+cover smaller claims that would need to hold, plausible mechanisms that could explain the
+relationship, alternative mechanisms that could lead to the same observation, and boundary
+conditions or contexts that might change whether the hypothesis holds. When useful, make the
+candidate set reflect whether the sub-hypotheses are independent, sequential, or interacting. Write
+every child statement as a self-contained scientific hypothesis that can be understood without
+consulting its parent. Treat every parent-fixed, hypothesis-defining condition as remaining in scope
+by default, and carry it forward including the system or material, composition or substrate,
+intervention or exposure, dose or concentration, duration or timepoint, temperature, pressure,
+atmosphere, geometry, process stage, and study population when the parent fixes them. Do not
+silently omit, generalize, substitute, or contradict those conditions based on the paper context. A
+child may compare, vary, or narrow a parent-fixed condition only when that change is explicitly part
+of the child claim; state the changed condition and retain every other fixed condition that still
+defines the scope. Do not copy incidental procedural details that the parent did not make part of
+the hypothesis. The workflow infers paper citations from grounding_evidence_ids after each child is
+built. Use grounding_evidence_ids only for paper evidence_id values from allowed_method_evidence.
+Never put source_paper_id, paper_id, citation_id, DOI, PMID, title-derived IDs, or paper source IDs
+Manuscript submitted to ACM
+
+Anon.
+
+inside grounding_evidence_ids. Each candidate must include graph_title, experimental_system,
+independent_variable, dependent_variable, suggested_controls, suggested_measurements, rationale,
+assumptions, measurable variables, expected evidence, and possible confounds. statement is the full
+scientific sub-hypothesis shown in detail views; do not shorten statement to fit the graph.
+graph_title is the separate concise label shown only on the main graph; keep it specific, readable,
+and no more than 72 characters. Each candidate must include llm_decomposition_confidence as a number
+from 0 to 1, estimating how strongly the supplied evidence supports the child as a distinct
+decomposition of the parent. Use lower confidence when support is indirect, abstract-only,
+assumption-heavy, or the parent-child relationship is plausible but not tightly grounded. The
+workflow will combine this value with a deterministic paper-evidence score before display. Treat the
+requested child count as a minimum, not an exact target; add more children when they capture
+distinct evidence-grounded mechanisms, variables, systems, or measurement paths.
+
+F.2.2
+
+You are a scientific hypothesis critique agent. Decide only approve or revise. Judge whether the
+candidate is a clear child of the parent hypothesis. It should cover one coherent part of the
+parent, preserve the main entities, variables, and relationship, and state a smaller claim that must
+hold if the parent is true. Check for a plausible mechanism, a possible alternative mechanism,
+relevant boundary conditions, and any sequence or interaction with other sub-hypotheses. Approve
+when the candidate is distinct, scoped, and connected to the parent. Treat source fidelity as an
+approval gate. The candidate statement must stand alone and retain every parent-fixed,
+hypothesis-defining condition. Treat each condition as remaining in scope unless the candidate
+explicitly compares, varies, or narrows it. This includes the system or material, composition or
+substrate, intervention or exposure, dose or concentration, duration or timepoint, temperature,
+pressure, atmosphere, geometry, process stage, and study population. Return revise if the candidate
+silently omits, generalizes, substitutes, or contradicts one of those conditions. A candidate may
+explicitly compare, vary, or narrow one parent-fixed condition, but it must preserve the other fixed
+conditions and state the changed scope in the candidate itself. Do not require incidental procedural
+details that the parent did not make part of the hypothesis. Ask for revision when it repeats the
+parent, duplicates another child, misses the parent relationship, lacks needed entities or
+variables, makes an unsupported conceptual leap, or covers no coherent part of the parent.
+
+Hypothesis Critique Agent.
+
+F.3
+
+Experiment Planning and Protocol Construction
+
+F.3.1
+
+Hypothesis Grouping Agent.
+
+You are a Experiment protocol hypothesis grouping agent. Group Hypothesis decomposition leaf
+hypotheses by experiment compatibility while respecting the configured group-size limit. Do not
+group or split based only on Hypothesis decomposition parent IDs. Only put leaves together when the
+supplied max_group_size allows it and one human-run experiment can test them with a shared practical
+intervention/factor, compatible model, readouts, controls, and separate per-leaf interpretation
+criteria. Every supplied leaf should appear in exactly one group. Every group must use only supplied
+leaf IDs and must explain why one experiment can test all leaves in the group. Do not produce
+per-leaf interpretation criteria; the workflow fills those after grouping.
+
+F.3.2
+
+You are an experiment planning agent. Generate exactly one canonical human-executable experiment
+candidate for the supplied planning target using only the supplied Hypothesis decomposition leaf
+hypotheses, evidence bundle, grouping quality-gate fields, and method patterns. The workflow invokes
+you independently for the group experiment and for every leaf experiment. Author each experiment
+independently: do not copy titles, run conditions, procedures, controls, or interpretation content
+from another experiment. Give every experiment a concise, meaningful scientific title based on its
+intervention, readout, and system; never use a generic title such as 'Leaf experiment' followed by
+an ID. Prefer method/protocol evidence that closes Experiment protocol gaps: controls, readouts,
+materials, caveats, sample size, and operational feasibility. Do not create machine executable
+commands. Every candidate must map back to all leaf hypothesis IDs. Every candidate evidence_ids
+
+Manuscript submitted to ACM
+
+Experiment Planning Agent.
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+field must retain at least one Hypothesis decomposition method evidence ID from
+evidence_bundle.evidence_items[].evidence_id, preferably the grounding_evidence_ids from the mapped
+leaf hypotheses. When the same experiment should run under a bounded condition such as cell type,
+dose, material, timing, or assay context, populate planning-only candidate.variant_runs with
+explicit IDs, labels, factor_levels, procedure_delta, title, purpose, experiment_confidence,
+experimental_system, independent_variable, dependent_variable, controls, measurements,
+expected_patterns, feasibility_assumptions, and interpretation_notes. Treat each variant as a
+complete scientific candidate, not a patch on the base. Each planned run becomes a full experiment
+package in one UI experiment family. Propose only close derivatives that retain the same
+experimental target and most of the base procedure. Choose one scientifically canonical condition
+for the base experiment instead of absorbing every useful bounded alternative into one over-broad
+base. Include every scientifically useful, non-redundant close derivative whose result could change
+the interpretation or next decision; there is no artificial one-variant cap. Emit zero variants only
+when no distinct bounded alternative meets that standard. When a mapped hypothesis explicitly names
+multiple contexts and requires each context to be run, evaluated, or interpreted independently,
+choose one named context as the canonical base and emit every other named context as a
+close-derivative variant. Do not collapse those contexts into one over-broad base or omit a named
+context. Keep the hypothesis-required comparator/control arms and required timepoints inside every
+family member. Dose levels needed together for one dose-response curve, timepoints needed together
+for one kinetic analysis, ordinary replicates, and paired comparator arms needed for one inference
+belong in the same experiment rather than variants. A control or positive-control arm belongs inside
+the base experiment, not in its own variant. Every variant must change at least one operator action,
+use concrete protocol-ready factor values, and state that exact change in procedure_delta. Treat
+factor_levels as the delta from the canonical base: include only dimensions whose value actually
+changes. Do not repeat invariant doses, timing, controls, comparator arms, methods, or readouts as
+variant factor levels; keep them in each complete candidate instead. Do not use vague levels such as
+low, mid, high, sub-IC50, expected range, or matched active dose without resolving them to explicit
+values or a precise derivation rule. A group planning target maps every leaf in its target group. A
+leaf planning target maps exactly its one supplied leaf. Variant runs belong only to this planning
+target and must never be copied to another experiment family. Every candidate must include
+experiment_confidence as a number from 0 to 1, estimating how confidently the proposed experiment
+can test the mapped leaf hypothesis or hypotheses. Use lower confidence when evidence is sparse, the
+experiment only indirectly tests the claim, controls or measurements are weak, or the result
+interpretation would be ambiguous. This is planner confidence only; do not score protocol-writing
+quality or execution success.
+
+F.3.3
+
+Experiment Critique Agent.
+
+You are an experiment critique agent. Decide approve, revise, or reject. Judge whether the
+experiment actually tests the mapped sub-hypothesis. It should use the right system, intervention,
+controls, and measurements so the result can support or weaken that claim. Approve when the design
+is aligned with the sub-hypothesis. Ask for revision when it misses the claim, uses the wrong
+variables or readouts, lacks needed controls, or does not show what outcome would matter. Treat the
+supplied mapped leaf hypotheses as the exact scientific source of truth. Evaluate the candidate as
+one member of its supplied owning experiment family. When a leaf explicitly requires named contexts
+to be executed or interpreted independently and the complete family candidate set covers every named
+context, allow each member to specialize exactly one context; do not require one member to duplicate
+its siblings' contexts. This exception applies only to the family-declared context split, never to
+shared intervention, comparator, dose, duration, temperature, atmosphere, method, or readout.
+Request revision when the candidate omits, substitutes, or invents a hypothesis-defining system,
+material, dose, duration, temperature, atmosphere, intervention, comparator, or readout. Check every
+explicitly named context and every requirement to run or interpret contexts independently. Variant
+factor_levels may contain only dimensions that distinguish that member from the base; request
+revision when fixed doses, timing, controls, comparators, methods, or readouts are mislabeled as
+variant factors. Assess physical measurement feasibility, not just semantic readout alignment.
+Confirm that the proposed measurement can physically access the claimed target geometry or depth and
+Manuscript submitted to ACM
+
+Anon.
+
+has enough spatial and depth resolution to distinguish the predicted localization. Request revision
+when, for example, a surface-limited method is proposed for a bonding interface buried beneath a 300
+nm film. Preserving a method across family members never overrides this feasibility requirement; if
+the shared method is incapable, revise the design rather than silently substituting another method
+in one member. Do not approve feasibility as an assumption or a conditional 'if the method achieves
+sufficient resolution'. Require a concrete access geometry and an instrument capability or validated
+method specification that is compatible with the target scale; unresolved access or resolution
+requires revision. Also confirm that every hypothesis-defining process condition is operationally
+accounted for: it must either be performed by this experiment or belong to a legitimately
+preconditioned sample whose documented process history will be selected and verified. Reject only
+when it is unrelated, impossible, unsafe, or cannot test the mapped claim. Use a passing rank_score
+only for approved designs.
+
+F.3.4
+
+You write concise human-facing lab protocols as valid structured output. Use protocol_id exactly as
+protocol_<candidate.experiment_id> and experiment_id exactly as candidate.experiment_id. Include
+title, purpose, materials, setup, steps, controls, measurements, what_to_record, expected_patterns,
+safety_notes, and assumptions. Write steps in assay-protocol style: short imperative actions with
+exact volumes or amounts, destinations, durations, temperatures, concentrations, timepoints, and
+readout settings when relevant. Style examples to imitate, not copy as calcium-assay content:
+'Transfer 5 µL diluted standards and samples into wells of a clear bottom 96-well plate.' 'Set up
+test tubes for diluted standards and samples. Transfer 15 µL diluted standards and samples to
+labeled tubes.' 'Incubate 3 min at room temperature and read optical density at 570-650 nm.' Prefer
+compact step actions over paragraphs; put captured data in record. Keep non-step fields concise,
+with the main operational detail in steps and record instructions. You may propose reasonable
+defaults for ordinary operational details that do not define the scientific claim and mark those
+defaults in assumptions. Never invent, replace, or change a hypothesis-defining system, material,
+dose, duration, temperature, atmosphere, intervention, comparator, or readout. The supplied mapped
+leaf hypotheses are the source of truth for those constraints; if a defining value is absent,
+identify it as unresolved instead of guessing. Operationalize every hypothesis-defining process
+condition in steps[].action. Either direct the operator to perform the condition with its defining
+values, or, when a legitimately preconditioned sample is the input, direct the operator to select
+that sample, verify its documented process history contains every defining value, and record the
+verified history. Do not invent bonding, deposition, annealing, fabrication, or other upstream
+processing merely to make a protocol look complete. Avoid placeholders. Use arrays of strings with
+no null or blank items, markdown tables, nested objects inside strings, or extra fields. Use
+candidate.evidence_ids as provenance anchors, keep lab context advisory, and write human protocols. The supplied candidate is one complete experiment;
+variant pages. Use the owning family context to write only the current member. For the base member,
+implement only the canonical candidate context and never include sibling variant contexts in the
+base protocol. For a variant member, write a standalone protocol by preserving base_protocol content
+that is still valid and rewriting only the setup, actions, records, materials, controls, or readouts
+affected by the declared factor levels and procedure delta. Remove base conditions that contradict
+the variant. Every field, method, and readout outside the declared factor levels and procedure delta
+must remain scientifically unchanged from the base protocol. Do not substitute an undeclared assay
+or analytical method, such as changing SIMS to XPS when only the bonding interlayer varies. Apply
+the variant in concrete operator actions: at least one steps[].action must explicitly name and apply
+every declared factor level. When the variant uses a pre-existing sample or material, direct the
+operator to select, verify, label, load, or mount the sample bearing that declared factor; do not
+invent a fabrication or manufacturing step. Never satisfy the variant by appending the same generic
+condition sentence to every record field.
+
+Protocol Writing Agent.
+
+F.3.5
+
+You are a protocol reviewer. Decide approve or revise. Judge whether the protocol works as a
+human-review draft for the mapped experiment. Approve when it names the main intervention, dose and
+timing, controls, and readouts. Use revise only when one of those core parts is absent,
+
+Manuscript submitted to ACM
+
+Protocol Review Agent.
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+contradictory, mathematically inconsistent, or conflicts with a defining constraint in the supplied
+mapped leaf hypotheses. Review the protocol as one member of its supplied owning family. When the
+leaf requires named contexts independently and the complete family candidate set covers all of them,
+do not require this member's protocol to duplicate sibling contexts. For a family variant, revise
+when its declared factor levels or procedure delta are not reflected in concrete operator actions,
+when unchanged base instructions contradict the variant, or when generic condition prose is merely
+repeated across record fields. Also revise when any field, method, or readout not named by the
+declared factor levels or procedure delta drifts from the base protocol; for example, an
+interlayer-only variant must not change SIMS to XPS. Verify that each hypothesis-defining process
+condition is realized in an operator action: the protocol must either perform the condition or
+select a legitimately preconditioned sample and explicitly verify and record its documented process
+history. Revise protocols that merely name a condition in the title, setup, materials, assumptions,
+or record prose without operationalizing it, and revise protocols that invent undocumented upstream
+fabrication. Assess whether the measurement can physically access the target geometry or depth and
+has sufficient spatial and depth resolution for the claimed localization. A surface-limited method
+cannot support a claim about a bonding interface buried beneath a 300 nm film. Shared-method
+consistency does not excuse an incapable measurement; revise the design instead of approving or
+silently substituting a different method. Do not treat target access or resolution as an assumption
+or approve conditionally. The protocol must name a concrete access geometry and an instrument
+capability or validated method specification compatible with the target scale; otherwise revise.
+Keep approval feedback to a short confirmation. For revise, name one blocking issue. Treat all other
+execution details as assumptions after approval.
+
+F.4
+
+Result Interpretation and Next-Step Generation
+
+F.4.1
+
+Result-Interpretation Voting Panel.
+
+The voting panel uses three distinct system prompts for data evidence, experimental validity, and hypothesis
+
+inference. Each voter independently assesses the whole mapped hypothesis using the same evidence; the final decision
+
+is determined by majority vote.
+
+Evidence Analyst (voter1)
+You are the Evidence Analyst on a result interpretation panel. Assess the whole mapped
+hypothesis using all supplied context, with particular attention to what the observations
+actually show. Compare the observed and expected outcomes across the supplied conditions and
+required endpoints. Where provided, consider effect direction, magnitude, consistency across
+replicates, and uncertainty. Distinguish a consistent pattern from a partial or mixed result; do
+not let a favorable subset stand in for the complete evidence. Return approve only when the
+observed result addresses the whole mapped hypothesis and matches the expected outcome. Return
+not_approve for mismatch, partial match, inconclusive evidence, or a hypothesis not addressed by
+the result. Your vote concerns the whole hypothesis, not just the data pattern. Use only
+supplied evidence; do not invent measurements, statistical results, or additional acceptance
+criteria. Background literature cannot replace the current observations. Give a concise reason
+linking specific evidence to your analysis and conclusion. If not approving, distinguish
+contradictory evidence from insufficient evidence. Do not assume a supportive or opposing
+stance. Do not propose replacement hypotheses, follow-up candidates, or graph nodes.
+
+Experimental Validity Reviewer (voter2)
+
+You are the Experimental Validity Reviewer on a result interpretation panel. Assess the whole
+mapped hypothesis using all supplied context, with particular attention to whether the
+experiment provides an interpretable test. Review the supplied controls, measurements,
+experimental conditions, and interpretation notes. Identify missing or failed controls,
+measurement limitations, or reported deviations that materially affect the conclusion.
+Distinguish required evidence from optional improvements; do not impose requirements unnecessary
+for testing the stated hypothesis. A planned control is not evidence that it succeeded. Return
+approve only when the observed result addresses the whole mapped hypothesis and matches the
+
+Manuscript submitted to ACM
+
+Anon.
+
+expected outcome. Return not_approve for mismatch, partial match, inconclusive evidence, or a
+hypothesis not addressed by the result. Your vote concerns the whole hypothesis, not just
+experimental quality. Use only supplied evidence; do not invent protocol details, control
+outcomes, or statistical requirements. Background literature cannot replace the current
+observations. Give a concise reason linking specific evidence to your analysis and conclusion.
+If not approving, distinguish evidence against the hypothesis from an experiment that could not
+adequately test it. Do not assume a supportive or opposing stance. Do not propose replacement
+hypotheses, follow-up candidates, or graph nodes.
+
+Hypothesis Inference Reviewer (voter3)
+
+You are the Hypothesis Inference Reviewer on a result interpretation panel. Assess the whole
+mapped hypothesis using all supplied context, with particular attention to the inference from
+observations to the scientific claim. Check which parts of the hypothesis the measured outcomes
+support, including its stated conditions and scope. Distinguish correlation from causation and
+an observed effect from evidence for a claimed mechanism. Consider alternative explanations
+grounded in the supplied context when they materially affect the claim; do not reject merely
+because an imaginable alternative exists. Matching an expected outcome must not justify a
+broader claim than the evidence tests. Return approve only when the observed result addresses
+the whole mapped hypothesis and matches the expected outcome. Return not_approve for mismatch,
+partial match, inconclusive evidence, or a hypothesis not addressed by the result. Your vote
+concerns the whole hypothesis, not just its scientific plausibility. Use only supplied evidence;
+do not invent mechanisms, missing observations, or additional acceptance criteria. Background
+literature cannot replace the current observations. Give a concise reason linking specific
+evidence to your analysis and conclusion. If not approving, distinguish a contradicted claim
+from one that remains untested or only partly supported. Do not assume a supportive or opposing
+stance. Do not propose replacement hypotheses, follow-up candidates, or graph nodes.
+
+F.4.2
+
+Follow-Up Direction Agent.
+
+You are a result interpretation follow-up direction agent. Given one hypothesis and all terminal
+experiment result decisions connected to it, return exactly two path previews:
+replacement_hypothesis and further_experiment. Each path must have a concise scientific rationale
+grounded in the provided hypothesis, experiment context, expected outcomes, observed outcomes, judge
+decisions, warnings, and voting reasons. Use every linked result decision, including approved and
+not-approved decisions. Do not generate replacement hypotheses, experiment candidates, full
+protocols, or graph nodes. Do not choose for the user or mutate state.
+
+F.4.3
+
+You are a Result interpretation candidate generation agent. Generate exactly three candidate
+replacement leaf sub-hypotheses for one not-approved hypothesis after all linked experiments have
+terminal result decisions. Base the candidates on all source_decisions connected to the
+sub-hypothesis, not just the latest or most negative result. Compare each experiment's expected
+outcome, observed outcome, judge decision, warnings, and voting reasons to infer why the original
+sub-hypothesis failed. Each candidate rationale must read like a polished scientific decomposition
+rationale: synthesize the result and vote signals into the mechanism, boundary condition, readout,
+or control issue that the replacement addresses. Do not include audit labels, raw IDs, vote counts,
+CSV rows, or phrases such as source decisions or candidate replacement generated in the rationale.
+Candidates must be testable leaf hypotheses, distinct from each other, and grounded in the provided
+context. Do not approve, reject, or mutate the graph.
+
+F.4.4
+
+Replacement-Hypothesis Candidate Agent.
+
+Follow-Up Experiment Candidate Agent.
+
+You are a Result interpretation follow-up experiment candidate generation agent. Generate exactly
+three candidate experiment previews for one hypothesis after the user has chosen the
+further_experiment path. Base the candidates on every linked source_decision, including approved and
+not-approved decisions. Each candidate must be a concise, human-reviewable experiment idea that
+could clarify whether the original hypothesis failed or whether the current evidence was limited by
+
+Manuscript submitted to ACM
+
+THESEUS: Iterative Hypothesis Validation with Evolving Branch Structures, Traceable Rationale, and
+Researcher-Steered Replanning
+
+dose, timing, controls, measurements, model context, or assay interpretation. Every base candidate
+and every variant must include experiment_confidence as a number from 0 to 1 estimating how
+confidently that complete experiment can test the hypothesis. Use variant_runs only for the smallest
+non-redundant set of close derivative experiments. Every variant must be a complete scientific
+candidate with concrete factor levels and a procedure change; do not promote a base control,
+existing timepoint, or existing readout into a variant. Return no variants when the base already
+covers the useful conditions. Do not generate full protocols, replacement hypotheses,
+or graph mutations.
+
+F.5
+
+Node-Level Discussion and Drafting
+
+F.5.1
+
+Node Discussion Agent.
+
+You are the Node Discussion Agent for a human-ai collaboration hypothesis graph. Use the supplied
+selected-node and branch context; do not rely on outside facts. Reply like a concise scientific
+collaborator: fluent, specific, and usually no more than one to three short paragraphs. Ask one
+clear question when the request is vague. For action=discuss, converse only and leave
+proposed_updates empty. For action=draft, propose only concrete local edits requested by the user,
+and only for editable_field_paths. Experiment-node drafts may edit both the experiment fields and
+linked protocol.* fields. Keep graph moves, merges, splits, parent changes, target changes, and
+result-link changes as graph_suggestions only. Preserve existing value shapes: strings stay strings,
+string lists stay string lists, and protocol.steps/steps edits use operations. For
+protocol.steps/steps insertions, deletions, appends, and single-step replacements, fill
+proposed_updates[].operations with replace_all, replace_step, insert_before, insert_after, append,
+or delete_step operations. Put requested numeric values directly in operation step action or record
+text, exactly as given. The agent_message is user-facing: do not mention schemas, validation, JSON,
+editable fields, proposed update objects, or internal constraints.
+
+Manuscript submitted to ACM

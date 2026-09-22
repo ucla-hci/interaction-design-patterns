@@ -107,7 +107,7 @@
 
 **Open.**
 - `data/` is in `.gitignore`: 46 MB of PDFs, and they are anonymous submissions. The papers stay local. `resources/` (the mobile UI taxonomy, 109 MB with its own `.git`) was deleted. The 6/24 entry still refers to it.
-- The plain-text extractions of the four papers are not in the repository. They were written to a session scratchpad and are lost when it clears. To keep them, extract them again into a tracked directory.
+- The four papers are in the repository as text, in `data-text/` (464 KB), with the method in its README. The text holds no figure, and a table loses its columns.
 - The three `literature/` notes, the journal entries before 9/22, and paper prose keep their old style, by your call.
 
 **Next.** See `next-up` at the top of this file.

@@ -15,7 +15,8 @@ systems, and it states each pattern in terms that hold in any domain.
 | `tools/render_specs.py` | Builds those previews from the specs |
 | `pattern-language/refs/exemplar-systems-review.md` | The review of the four systems in `data/` |
 | `pattern-language/refs/borchers-translation.md` | What the language takes from Borchers (2000) |
-| `data/` | Exemplar system papers |
+| `data/` | Exemplar system papers, as PDFs. Not in git |
+| `data-text/` | The same four papers, as text |
 | `literature/` | Reading notes on the design pattern literature |
 | `archive/` | The earlier GenUI work, and the screen-level spec drafts |
 

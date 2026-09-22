@@ -1,0 +1,2537 @@
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for
+Research Ideation
+ANONYMOUS AUTHOR(S)
+
+Perspective Formation
+
+Perspective-Guided Deliberation
+
+Perspective Evolution
+
+Investigation
+
+Problem
+
+Framing
+
+How do progress indicators
+
+Reject
+
+Edit
+
+Accept
+
+shape perceived wait time?
+
+Working Document
+
+Thread 1
+
+Literature Discovery
+
+P1
+
+Perspective 1
+
+P1
+
+Perspective 1
+
+Integration
+
+P2
+
+Perspective 2
+
+P2
+
+Perspective 2
+
+P2
+
+Answering
+
+P3
+
+Perspective 3
+
+P4
+
+Perspective 4
+
+Perspective 2
+
+Updated
+
+@Perspective 1
+
+Before
+
+P2
+
+Now · v2
+
+P2
+
+Synthesize
+
+Reflection
+
+P1
+
+N
+
+P2
+
+P3
+
+Perspective N
+
+Suggested Threads with New Ensemble
+
+Thread 2
+
+Perspective Ensemble
+
+P3
+
+Framing
+
+P3
+
+P4
+
+Perspective 3
+Hypothesis
+
+Thread 3
+
+Position
+
+Insights
+
+Scope
+
+Explanation
+
+Approach
+
+Significance
+
+P2
+
+Working Synthesis
+
+Agreement
+
+P1
+
+P2
+
+Disagreement
+
+P1
+P1
+
+P2
+P2
+
+P3
+
+Thread 4
+
+Open question
+
+Exploration
+
+Fig. 1. PerspectEvolver interface. The system supports sensemaking around the configuration and evolution of perspectives as
+deliberation develops through three main components: ➀ Perspective Formation, where each perspective is built from a cluster of
+papers and represented as six inspectable elements: Framing, Position, Scope, Explanation, Approach, and Significance; ➁ PerspectiveGuided Deliberation, where the perspectives answer one another in a topic thread, which Synthesize condenses into a Working
+Synthesis recording the hypothesis, insights, agreements, disagreements, and open questions the thread produced; and ➂ Perspective
+Evolution, where that synthesis is carried in parallel into the Working Document (integration), elements of perspectives (reflection),
+new threads (exploration), for which the user assembles a new perspective ensemble from evolved and formed perspectives in
+Perspective Formation.
+Research ideation involves exploring alternative ways of framing, explaining, and investigating a problem. Collaboration expands
+this exploration as different perspectives come together, allowing new ideas and directions to emerge. Current multi-agent systems
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not
+made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components
+of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on
+servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+© 2026 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+Manuscript submitted to ACM
+
+Manuscript submitted to ACM
+
+Anon.
+
+(MAS) support ideation through diverse agent perspectives, but offer limited support for understanding how perspectives are formed,
+how they contribute to research ideas, and how they evolve. We present PerspectEvolver, an interactive MAS with three phases:
+1) Perspective Formation constructs literature-grounded Perspectives; 2) Perspective-Guided Deliberation develops directions and
+synthesizes discussions into Working Syntheses; and 3) Perspective Evolution uses these syntheses to revise Perspectives, refine the
+
+Investigation Brief, and generate follow-up questions. In a 10-participant within-subjects study, PerspectEvolver produced significantly
+
+greater improvements in hypothesis novelty than a group-chat baseline. Participants rated PerspectEvolver higher for usability and
+
+support for divergent and convergent thinking, while reporting significantly lower mental demand and effort. We discuss implications
+
+for evolving perspectives throughout research ideation.
+
+ACM Reference Format:
+
+Anonymous Author(s). 2026. PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation. In
+
+Proceedings of 2027 CHI Conference on Human Factors in Computing Systems (CHI ’27). ACM, New York, NY, USA, 31 pages. https:
+
+//doi.org/XXXXXXX.XXXXXXX
+
+Introduction
+
+Developing a research idea requires exploring a vast hypothesis space and refining promising possibilities into hypotheses
+
+worth pursuing [39, 43]. Colleagues with different perspectives broaden this exploration by exposing assumptions and
+
+introducing possibilities researchers may not consider independently [1, 16, 43]. Those perspectives can also change
+
+as new distinctions, explanations, or evidence revise how researchers understand the problem and what they pursue
+
+next [25].
+
+LLM-based multi-agent systems increasingly support collaborative ideation by assigning agents different perspec-
+
+tives [29–31, 40]. These perspectives expose researchers to alternative interpretations and can broaden the ideas
+
+considered during research ideation [29–31, 40].
+
+However, prior multi-agent systems primarily support configuring diverse agent perspectives, with less support
+
+for understanding how those perspectives contribute to and change as the research direction develops [29, 30, 40].
+
+Researchers must reassess the developing research direction, including which perspectives remain relevant, how
+
+they have changed, and which questions warrant further investigation. Supporting this ongoing sensemaking around
+
+perspective configuration, contribution, and evolution remains a design challenge for multi-agent research tools.
+
+To understand how researchers manage perspectives in AI-supported ideation, we conducted a formative study with
+
+six researchers using general-purpose LLMs in their existing workflows. We found three challenges: (1) distinguishing
+
+what each perspective represents, (2) understanding how each shapes the developing research direction, and (3)
+
+determining how those perspectives should change as that direction develops. Researchers had to reconstruct and
+update this context manually across interactions.
+
+Building on these findings, we developed PerspectEvolver (Figure 1), an interactive multi-agent system that externalizes
+
+literature-grounded Perspectives as inspectable and revisable representations. Perspective Formation organizes relevant
+
+literature into regions and forms Perspectives for researchers to assemble into a Perspective Ensemble. Perspective-
+
+Guided Deliberation develops research directions through Deliberative Threads and consolidates each discussion into a
+
+Working Synthesis. Perspective Evolution uses these syntheses to revise Perspectives and the Investigation Brief and
+
+generate follow-up questions.
+
+We evaluated PerspectEvolver in a within-subjects study with 10 participants from bioengineering, computer science,
+
+health sciences, electrical and computer engineering, and mechanical engineering. We compared PerspectEvolver against
+
+a group-chat multi-agent baseline that retained literature retrieval, multi-agent deliberation, and hypothesis editing, but
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+omitted structured Perspective representation, attribution of each Perspective’s contribution, Perspective Evolution, and
+
+follow-up question generation. We analyzed system logs, survey responses, think-aloud data, interviews, and changes
+
+in participants’ submitted hypotheses. Compared with the baseline, PerspectEvolver produced significantly greater
+
+improvements in hypothesis novelty and received higher usability ratings from participants. Participants also reported
+
+lower cognitive load, with significant reductions in mental demand and effort.
+
+Our work contributes to HCI research on multi-agent systems for scientific ideation in three ways:
+
+• Design and implementation of PerspectEvolver. We introduce an interactive multi-agent system that
+
+externalizes literature-grounded Perspectives as inspectable and revisable representations. Researchers form
+
+Perspectives from the literature, deliberate with them through Perspective Agents, and revise them as the
+
+investigation develops. Deliberative Threads and Working Syntheses preserve how interpretations develop and
+
+inform subsequent Perspective revision and inquiry.
+
+• Empirical evidence from a within-subjects study. Participants using PerspectEvolver developed hypotheses
+
+with significantly greater improvements in novelty, while plausibility, significance, and testability also improved
+
+more on average but did not differ significantly from the baseline. They also rated PerspectEvolver higher in
+
+usability and in its support for divergent and convergent thinking, while reporting significantly lower mental
+
+demand and effort. Prompt analyses further showed that interactions with PerspectEvolver focused more on
+
+advancing the hypothesis through generation, exploration, synthesis, and selection, whereas baseline
+
+interactions focused more on establishing the grounds for those moves.
+
+• Design implications for perspective-based multi-agent systems. We identify three design implications:
+
+maintaining the context and provenance needed to ground research decisions while preserving researcher
+
+judgment over how the inquiry advances; providing an outlet for unresolved disagreement through subsequent
+
+exploration; and expanding perspective diversity without proportionally increasing cognitive load.
+
+Related work
+
+We review prior work on how perspectives evolve through collaboration and why that evolution requires sensemaking
+
+(§2.1), on how multi-agent ideation systems configure and evolve the perspectives they assign to agents (§2.2), and on
+
+the divergent and convergent activities that perspective evolution sustains (§2.3).
+
+2.1
+
+Perspective Evolution in Collaborative Hypothesis Generation
+
+Research ideation is an iterative, non-linear process in which ideas emerge, develop, and take new directions as
+
+researchers encounter new information and interpretations [39, 43]. As researchers develop hypotheses, they interpret
+
+relevant literature through their current understanding of the problem, while new findings can in turn change that
+
+understanding [17, 25]. Klein’s data–frame account captures this reciprocal process: a frame guides which information
+
+researchers attend to and how they interpret it, while incoming data can prompt them to question and revise that
+
+frame [25]. Hypothesis generation therefore depends on both the evidence available and the perspective through which
+
+researchers interpret it. Collaboration introduces additional perspectives into this process. Colleagues may approach the
+
+same problem with different assumptions, explanations, and criteria, drawing attention to relationships or limitations
+
+that are less visible from a single framing [43]. Working through these differences can change both the hypotheses
+
+researchers develop and the perspectives through which they understand the problem. As perspectives evolve, they
+
+influence what researchers consider next, creating new starting points for further ideation.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Table 1. Comparison with multi-agent ideation systems along how perspectives are configured for the agents, whether each
+perspective’s contribution to the deliberation is surfaced, and whether perspectives evolve with the deliberation. = supported; G
+#=
+partial; – = not supported.
+
+System
+
+Perspective configuration
+for multi-agents
+
+Perspective contribution
+in deliberation
+
+Perspective evolution
+with deliberation
+
+MultiColleagues [40]
+CritiqueCrew [6]
+NarrativeLoom [31]
+PersonaFlow [30]
+Perspectra [29]
+
+Role-based
+Role-based
+Role-based
+Domain-based
+Domain-based
+
+PerspectEvolver
+
+Literature-based
+
+#
+G (attribution only)
+#
+G (attribution only)
+–
+–
+#
+G (attribution only)
+
+–
+–
+–
+–
+G
+# (implicit)
+
+(to the synthesis)
+
+(explicit)
+
+First, collaboration reveals differences in how researchers understand and develop an initial research direction. When
+
+a researcher brings a tentative direction to colleagues, they may reach different conclusions because they rely on
+
+different assumptions, explanations, and criteria [1]. These differences can introduce alternative ways of understanding
+
+the problem and broaden the directions considered during hypothesis generation [16].
+
+Second, researchers work through these differences through deliberation, examining where their perspectives conflict,
+
+where they align, and whether and how the developing hypothesis should change [41]. Disagreements identify questions
+
+that remain unresolved, while areas of agreement establish a shared basis for further reasoning. In this way, deliberation
+
+clarifies differences among perspectives while bringing together insights that can refine the developing hypothesis.
+
+Third, deliberation can change the perspectives themselves. Counterarguments can qualify earlier assumptions, new
+
+evidence can change how researchers interpret the problem, and alternative explanations can become part of their
+
+perspective [5]. These revised perspectives then shape how researchers interpret subsequent information and which
+
+directions they consider next [35]. The researchers’ perspectives, therefore, develop alongside the hypotheses they
+explore.
+
+2.2
+
+Configuring and Evolving Perspectives in Multi-Agent Ideation Systems
+
+Recent LLM-based multi-agent systems support ideation by assigning agents distinct personas that expose users to
+
+different perspectives on a problem [6, 29–31, 40]. Across these systems, agent perspectives are configured through
+
+two broad approaches: role-based personas and domain-based personas. Role-based systems differentiate agents by
+
+assigning functional, occupational, or genre roles that shape how each contributes to the task. MultiColleagues represents
+
+occupation-based personas as colleagues that interact in explore and focus modes [40]. CritiqueCrew assigns UX,
+
+product, and engineering roles to provide complementary design critiques, which a lead coordinator synthesizes and
+
+compares [6]. NarrativeLoom uses ten genre-specific personas to generate alternative story beats in parallel for users to
+
+review and select [31]. Domain-based systems differentiate agents by the research areas or expertise they represent.
+
+PersonaFlow constructs domain-expert personas from the research question, retrieved literature, or profiles of relevant
+
+authors, representing each through a role and associated expertise [30]. Perspectra selects personas from a catalog
+
+organized around research areas, focus areas, and methodological skills [29].
+
+Table 1 compares these systems across three aspects of perspective use: how perspectives are configured, whether
+
+their contributions remain visible during deliberation, and whether the perspectives themselves evolve as the discussion
+
+develops.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Configuration divides into two approaches. Role-based systems assign agents fixed functional or genre roles—
+
+colleagues in MultiColleagues [40], UX, product, and engineering reviewers in CritiqueCrew [6], genre storytellers
+
+in NarrativeLoom [31]. Domain-based systems derive agents from research areas instead: PersonaFlow synthesizes
+
+domain-expert personas from the research question or from retrieved papers and their authors [30], and Perspectra
+
+draws agents from a catalog built by clustering a taxonomy of research areas and methodological skills [29].
+
+In systems where agents deliberate with one another, attribution specifies the speaker of each message and thereby
+identifies the perspective to which that message belongs [6, 29, 31]. MultiColleagues, for instance, gives each persona
+
+a distinct profile image and role-based message styling so that contributions remain identifiable across an extended
+
+discussion; participants reported that anchoring contributions to individual colleagues made it easier to follow up
+
+on an idea and to combine ideas into coherent outcomes [? ]. Attribution alone, however, requires the researcher to
+
+reconstruct how a given perspective contributed to the developing discussion: what it supported or challenged, whether
+its contribution was taken up or revised, and which disagreements remained unresolved.
+
+Support for perspective evolution is more limited. In MultiColleagues, CritiqueCrew, NarrativeLoom, and PersonaFlow,
+
+agents retain their initially configured personas throughout the interaction; changing a persona requires separate
+
+user intervention [6, 30, 31, 40]. The discussion may introduce new ideas or disagreements, but the agent does not
+
+incorporate them into its perspective in later interactions. Perspectra provides partial support for this evolution through
+
+long-term memory, which periodically distills an agent’s previous contributions, retrieved literature, and challenges
+
+from other agents into research-idea snippets that inform its subsequent reasoning [29]. However, the system does not
+
+surface which parts of the deliberation motivated a particular change in the agent’s perspective.
+
+Taken together, prior systems provide mechanisms for introducing diverse agent perspectives, but offer less support
+
+for understanding how those perspectives develop through deliberation. Attribution can identify which agent produced
+
+a response, and Perspectra allows information from prior interaction to inform later reasoning, yet the relationship
+
+between what a perspective contributes and how it subsequently changes remains largely implicit. Researchers therefore
+
+have limited support for understanding how a perspective is configured, how it contributes during deliberation, and
+
+whether and how it changes through that deliberation [38].
+
+PerspectEvolver addresses this gap by making the development of Perspectives inspectable across formation, deliberation, and evolution. Perspective Formation forms literature-grounded Perspectives so researchers can examine
+
+what informs each interpretation. Perspective-Guided Deliberation makes each Perspective’s contributions visible during
+
+deliberation and shows how those contributions affect the developing discussion. Perspective Evolution makes subse-
+
+quent Perspective changes inspectable by showing what changed, why it changed, and which discussion prompted it.
+Together, these phases support researchers in understanding how Perspectives are formed, how they contribute during
+deliberation, and how they develop through that deliberation.
+
+2.3
+
+Divergent and Convergent Thinking Activities in Research Ideation
+
+Scientific hypothesis generation is an iterative process of reasoning, exploring a vast hypothesis space and refining
+
+hypothesis candidates [39, 43]. Divergent thinking widens the region of the hypothesis space a researcher explores,
+
+pushing exploration past what they already know; Schunn and Klahr [44] observe that exhaustively searching available
+
+datasets surfaces insightful features precisely because it works through scientific facts thoroughly. Convergent
+
+thinking then narrows that space, weighing candidates against multiple criteria, and Dunbar [10] argues that verifying
+
+and focusing on particular data types or characteristics is indispensable to scientific discovery. Iteration of both modes,
+
+repeating cycles of divergence and convergence, iteratively filters the expanded space until a small set of dependable
+
+Manuscript submitted to ACM
+
+Anon.
+
+candidates remains. As Sawyer [42] emphasizes, a creative idea does not develop linearly within either mode, but through
+
+a non-linear process in which the two alternate again and again. Supporting both modes, along with the movement
+
+between them, is what enables researchers to arrive at hypotheses they can hold with confidence [24, 37, 43, 44].
+
+Researchers’ work in this alternation divides into two kinds, which we call advancing and grounding. Advancing
+
+changes the state of the working hypothesis: a candidate is introduced, two are merged, or one is kept and the rest set
+
+aside. Grounding leaves that state intact and brings existing material to bear on it—prior work, established criteria,
+
+or the researcher’s own knowledge. Both are essential for developing promising hypotheses, but they contribute
+
+differently: grounding shapes how candidates are judged, while advancing is what changes them. Introducing, merging,
+
+and committing to candidates each leave the working hypothesis in a different state, and the next round of deliberation
+
+builds on that updated state [42]. Through this repeated updating, the region of the hypothesis space a researcher
+
+covers widens, and a promising hypothesis emerges within that region [16, 44].
+
+In this work, we explore designs that nudge participants to engage in divergent and convergent thinking through
+
+sensemaking over perspectives and deliberation. More specifically, we design perspective-guided deliberation in which
+
+users interact with diverse perspectives through activities such as synthesis, integration, reflection, and exploration, so
+
+that the interaction itself provides grounding and researchers can focus on advancing the working hypothesis.
+
+Formative study
+
+The formative study aimed to understand (1) how researchers collaborate with colleagues to develop scientific hypotheses;
+
+(2) how researchers turn to AI as an alternative when collaboration with colleagues is not feasible; and (3) the limitations
+
+and opportunities of existing AI systems for supporting hypothesis development, which informed our design goals for
+
+a multi-agent system.
+
+3.1
+
+Participants
+
+We recruited six participants: three postdoctoral researchers and three PhD candidates from bioengineering, electrical
+
+and computer engineering, mechanical engineering, and chemical engineering (Table 2). Participants had 4–8 years of
+
+research experience (𝑀 = 5.5, 𝑆𝐷 = 1.87). We recruited participants through personal referrals and outreach to research
+
+labs. The Institutional Review Board (IRB) approved the study, and all participants provided informed consent. Each
+
+participant received a $30 gift certificate. When reporting interview quotes, we use 𝑃𝑛 to denote the participant number.
+
+3.2
+
+Study Procedure
+
+The study consisted of three parts. First, we conducted a 30-minute in-depth interview covering (1) participants’
+
+workflow in collaboration for hypothesis ideation, (2) their goals and strategies for using AI tools when collaborating
+
+with colleagues is not feasible, and (3) the challenges and limitations they encounter when using AI tools for hypothesis
+
+development. Because participants had no prior experience with multi-agent systems, we focused on their use of
+
+existing AI tools. Next, we observed participants for 20 minutes as they developed a hypothesis for a research problem
+
+from their ongoing work. Participants used their usual general-purpose LLM service (ChatGPT for all six) as they
+
+normally would, prompting it to adopt perspectives relevant to the research problem. Finally, a 30-minute post-task
+
+interview examined participants’ refinement strategies, challenges, and desired support. Each session lasted 1.5 hours.
+
+We analyzed the interview transcripts using thematic analysis and iterative open coding [8]. Two authors coded the
+
+transcripts for emerging themes, which the co-authors discussed until reaching consensus.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+3.3
+
+Findings
+
+3.3.1 Collaboration for Hypothesis Generation. We found that collaborative hypothesis development involved three
+
+recurring stages: (1) formulating an initial hypothesis from domain literature, (2) engaging with collaborators who held
+
+different perspectives, and (3) evolving perspectives and refining hypotheses around unresolved issues. First, researchers
+
+formulated an initial hypothesis by interpreting domain literature through their own perspective. They reviewed prior
+
+work to identify findings, mechanisms, and unexplored areas, then organized them around questions aligned with their
+
+interests and perspectives. As 𝑃6 described, “I start with papers that align with my interests and perspectives, particularly
+
+work by researchers whose perspectives are similar to my own. I also look through papers that I have already identified or
+
+listed, tracing what has been tried and what has not, until the hypothesis feels sharp enough.” Next, researchers engaged
+with collaborators who held different perspectives. These collaborators introduced alternative viewpoints that revealed
+
+blind spots in the researchers’ initial perspectives. This prompts researchers to reconsider and expand their perspectives.
+
+As 𝑃1 described “During our meeting, other researchers challenged my perspective on the differentiation timeline, asking
+
+if the early-stage cell population was too heterogeneous. That feedback made me reconsider my assumptions about the
+
+timing of differentiation and scrutinize our flow cytometry data from scratch.” Finally, researchers used unresolved issues
+
+from earlier discussions to initiate further rounds, evolving their perspectives and refining their hypotheses through
+
+continued collaboration. For example, 𝑃 3 described “After a few months working with the control engineers, their pushback
+
+on the hardware side stopped feeling like a roadblock. I started reading it as a constraint I just hadn’t accounted for yet.
+
+Once I could think in their terms too, the hypothesis got a lot sharper.”
+
+This collaborative process typically unfolds over several weeks to months before experimental validation. However,
+
+collaboration faced practical barriers from limited professional networks, scheduling constraints, and discomfort
+
+receiving critical feedback. For example, “At first, I found their questions difficult because they felt like challenges to
+
+myself. It was uncomfortable to share an idea that was still incomplete.” (𝑃5 ). “The collaborators I can work with are largely
+
+limited by my own network. Also, it is often difficult to meet regularly because of our individual schedules.” (𝑃2 ). As a result,
+
+researchers used AI as an accessible alternative for exploring and refining hypotheses.
+
+3.3.2 Roles of AI in Research Ideation. Although prior multi-agent systems support diverse agent perspectives, none
+
+of our participants had prior experience with such systems. Instead, they relied on general-purpose AI services
+
+such as ChatGPT1 for individual hypothesis ideation. To simulate collaboration, participants constructed alternative
+
+perspectives, deliberated with them, and updated them as discussions developed. First, participants constructed an
+
+alternative perspective by uploading papers with views different from or opposing their own and providing instructions
+
+to contextualize that perspective.
+
+As 𝑃4 described, “When I was thinking about how to improve AI accuracy, I uploaded papers that focused more on
+
+efficiency, because that was a somewhat different perspective from my own. I wanted the LLM to help me compare these
+
+perspectives and find where they could be connected.”
+
+Second, participants deliberated with these perspectives, either introducing them into an existing conversation
+or using separate conversations to keep their responses independent. Participants then summarized the discussions
+
+and compared their outputs to identify converging and conflicting points. As 𝑃5 described, “Sometimes I bring another
+
+perspective into the same conversation, but when I want to keep the opinions separate, I start a new chat. Then I look
+
+at the summary or at what each perspective said, and work out how to develop my hypothesis from there.” Participants
+
+also reconsidered how they framed the research problem in response to different perspectives. As 𝑃 2 described, “I was
+1 https://chatgpt.com/
+
+Manuscript submitted to ACM
+
+Anon.
+
+initially thinking about toxicity as a problem with the compound itself, but the AI pointed out that the toxicity could depend
+
+on a specific metabolic pathway or cell type. That made me reconsider whether to focus on the compound or the underlying
+
+biological pathway.”
+
+Finally, participants refined their hypotheses and updated the AI perspectives based on the discussion before
+
+continuing to further rounds. They incorporated convincing feedback into the hypothesis, while other feedback
+
+prompted them to search related literature or reframe the problem before updating the perspective and continuing. As
+
+𝑃6 described, “When I searched for ways to improve the drug’s solubility, the AI suggested polar groups with very different
+
+structures from my original compound, which made me reconsider the shape of the drug. When I was not fully convinced by
+
+something in the conversation, I looked for papers on similar structural modifications and used them to update the AI’s
+
+perspective so we could have a more productive discussion.”
+
+3.3.3 Key Challenges in the Current Workflow. Our workflow observations revealed three challenges in configuring,
+deliberating with, and updating AI perspectives.
+
+First, participants had no structured way to specify how an agent should interpret uploaded papers, leaving its
+
+stance, assumptions, and evidentiary standards opaque and sometimes misaligned with their intent. As 𝑃1 described, “I
+
+gave it three of Baker’s papers and said ‘think like this,’ but I couldn’t tell what it actually took from them. It just sounded
+
+like a generic biologist.” 𝑃2 described a related difficulty distinguishing multiple perspectives: “I would set up several
+
+perspectives, but it was hard to tell clearly what made them different. The more the discussion went on, the stronger that
+
+ambiguity got.”
+
+Second, participants had difficulty understanding how each perspective shaped the discussion. Even when the
+discussion reached an agreement or exposed a disagreement, they could not tell what each perspective had contributed
+
+to that result. As 𝑃2 described, “Using several agents was useful, but it was hard to know what each of them had contributed
+
+to a given agreement.” This made it harder to judge how the discussion had arrived at its conclusions and which
+
+perspective to involve next. 𝑃6 added, “An agreement would come out, but I couldn’t tell whether one side’s position had
+
+been taken up or whether the two had met somewhere. So nothing came to mind about which perspective to add next.”
+
+Third, participants had difficulty determining how discussion outcomes should revise each perspective. They
+
+summarized the discussion, interpreted its implications themselves, and manually updated the corresponding perspective
+
+prompts. As 𝑃3 described, “The agents sometimes drifted away from the new discussion and its context, so I updated their
+
+perspectives myself. If I didn’t, the context seemed to get tangled later on.” These revisions were not tracked as part of the
+
+discussion, leaving participants to remember what had changed and why across rounds. 𝑃4 also described uncertainty
+
+about how to translate discussion insights into perspective updates: “Even when I pull an insight out of the deliberation,
+
+I’m not sure how to reflect it. If I miss it, a gap seems to open between me and the perspectives later, so I go back and update
+
+them again.”
+3.3.4 Elements of a Perspective. Our findings showed that participants often defined AI perspectives indirectly through
+papers and instructions, making it difficult to understand what distinguished one perspective from another. We
+
+therefore asked participants to examine their own research papers and identify the elements that distinguished different
+
+perspectives. Drawing on prior work on framing [11], we used two higher-level concepts as a starting point: Framing,
+
+how a perspective understands the research problem, and Position, where it stands within that framing. From these
+
+interviews, we identified four foundational elements, which we represent as Perspective Fragments: Scope, Explanation,
+
+Approach, and Significance. These fragments characterize different aspects of a perspective and can inform both its
+
+Framing and Position.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+• Scope: what a perspective covers, including the phenomena, populations, settings, and conditions under consid-
+
+eration.
+
+• Explanation: how a perspective accounts for the phenomenon through relevant relationships, mechanisms, and
+
+processes.
+
+• Approach: how a perspective investigates the problem through measurement, comparison, testing, or evaluation.
+
+• Significance: why the problem matters, including the consequences or implications that make it worth investi-
+
+gating.
+
+3.4
+
+Design Goals
+
+Based on these findings, we proposed three design goals for our system:
+
+• DG1. Representing a perspective as inspectable elements. When configuring perspectives for multiple
+
+agents, the interface should make explicit what each perspective takes from the literature, so that users can tell
+
+one perspective from another.
+
+• DG2. Surfacing each perspective’s contribution to the deliberation. When several perspectives deliberate,
+
+the interface should record what each perspective contributed across the deliberations, so that users can judge
+how far those outcomes can be trusted without rereading the exchanges.
+
+• DG3. Carrying what the deliberation settled into the perspective evolution and the hypothesis. When
+
+a deliberation concludes, the interface should make explicit how its outcome revises each perspective and the
+
+hypothesis, and leave what remains open as the starting point for the round that follows.
+
+System and Implementation
+
+Building on these design goals (DG1–3), we present PerspectEvolver, an interactive multi-agent system for research
+
+ideation through deliberation among diverse Perspectives. Each Perspective is grounded in an area of scientific literature
+
+and represents how research in that area frames, explains, and investigates the research problem. Researchers select
+
+Perspectives to form a Perspective Ensemble. Within the Ensemble, PerspectEvolver externalizes each Perspective as a
+
+Perspective Agent that contributes its interpretation and supporting evidence during deliberation.
+
+PerspectEvolver organizes this process into three phases. Perspective Formation supports researchers in exploring the
+
+literature and forming an initial Perspective Ensemble. Perspective-Guided Deliberation develops research directions
+
+through Proposals, Deliberative Threads, and Working Syntheses. Perspective Evolution refines affected Perspectives,
+
+proposes Investigation Brief revisions, and generates follow-up questions from synthesized discussions. Additional
+
+technical details appear in Appendix A.4.
+
+4.1
+
+Perspective Formation: Exploring and Forming Perspectives (DG1)
+
+Perspective Formation supports researchers in exploring alternative interpretations of a research problem by forming
+
+Perspectives grounded in relevant literature (Figure 2). Elicitation establishes the Investigation Brief, Discovery retrieves
+
+and organizes relevant literature, and Formation constructs candidate Perspectives for researchers to assemble into a
+Perspective Ensemble.
+4.1.1 Elicitation. Researchers begin by defining an Investigation Brief comprising the Problem, Framing, Previous Work,
+
+Methodology, and Expected Results (Figure 2-➀). The brief remains visible and editable throughout the investigation
+
+(Figure 4, left), recording the researcher’s problem framing and intended study.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Fig. 2. Perspective Formation interface. ➀ The Investigation Brief records the Problem, Framing, Previous Work, Methodology, and
+Expected Results and remains editable throughout the investigation. ➁ The Literature Map presents the retrieved corpus (674
+papers) within labeled literature regions from which candidate Perspectives (seven) are formed. ➂ Perspective Cards present each
+Perspective’s Framing, Position, Scope, Explanation, Approach, and Significance with supporting sources. Researchers select two or
+three Perspectives and choose Create panel to form the Perspective Ensemble.
+
+4.1.2 Discovery. From the Investigation Brief, PerspectEvolver generates research directions and translates them into
+
+queries for Semantic Scholar’s snippet search [23].The search returns relevance-ranked passages from indexed titles,
+
+abstracts, and body text, allowing retrieval through findings, methods, or arguments not prominent in titles or abstracts.
+
+Retrieved passages can prompt additional searches for topics not covered by the initial queries.
+
+The system obtains metadata and SPECTER2 embeddings [46] for retrieved papers and organizes them into literature
+
+regions using UMAP [33] for dimensionality reduction and HDBSCAN [32] for density-based clustering. The Literature
+
+Map presents papers within these labeled regions for researchers to inspect and compare (Figure 2-➁). Papers in each
+
+region provide source material for a candidate Perspective.
+
+4.1.3 Formation. From each literature region, PerspectEvolver forms a candidate Perspective representing one interpre-
+
+tation of the research problem. Each Perspective includes a Framing that describes how it understands the problem and
+
+a Position that expresses its conclusions, qualifications, uncertainties, or proposed directions. Perspective Fragments
+
+characterize its Scope, Explanation, Approach, and Significance. Each field references the Literature Evidence used to
+
+form it, with each evidence item linked to its source passage.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Fig. 3. Perspective-guided deliberation and the transition to Perspective Evolution. ➀ Deliberative Threads are organized as Active or
+Open, with each card showing its research question, activity, and participating Perspectives. ➁ Selecting a thread opens its discussion,
+where contributions identify the contributing Perspective and what they address. Researchers request additional turns with Discuss
+or select Synthesize to produce a Working Synthesis. ➂ Perspective Reflection presents affected fields by comparing their previous
+and revised content.
+
+Candidate Perspectives appear as Perspective Cards alongside the Literature Map (Figure 2-➂). Researchers compare
+
+the candidate interpretations and inspect their supporting sources before selecting two or three to form a Perspective
+
+Ensemble. Choosing Create panel begins deliberation with the selected Perspective Agents.
+
+4.2
+
+Perspective-Guided Deliberation: Thread-based Deliberation (DG2)
+
+Perspective-Guided Deliberation develops research directions through Proposals, Deliberative Threads, and Working
+
+Syntheses (Figure 3-➀–➁). Proposals introduce directions for inquiry, Deliberative Threads develop them through
+
+discussion among Perspective Agents, and Working Syntheses record discussion outcomes at points chosen by the
+
+researcher.
+
+4.2.1 Proposals. Each selected Perspective introduces a Proposal comprising a research question, tentative hypothesis,
+
+and rationale. Researchers Keep or Skip each Proposal and can Undo either decision. Confirming retained Proposals
+
+creates a Deliberative Thread for each direction.
+
+Each thread initially includes the selected Perspectives so that a Proposal from one can be examined through the
+
+others’ interpretations and literature. Researchers can also introduce their own research question and choose which
+
+Perspectives participate.
+
+4.2.2 Deliberative Threads. Each Deliberative Thread organizes discussion around one research question. Perspective
+Agents contribute interpretations and supporting evidence from their respective Perspectives. One Perspective may
+
+challenge an explanation with contrary evidence, qualify it by introducing a relevant condition, or offer an alternative
+
+explanation.
+
+Threads are organized as Active or Open, with each card showing its research question, discussion activity, and
+participating Perspectives (Figure 3-➀). The Canvas presents threads as branches from the investigation’s research
+
+question, allowing researchers to move among research questions while seeing how their threads relate (Figure 4, right).
+
+Active threads can continue to develop, while Open threads remain available for later investigation.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Fig. 4. Document and Canvas views of an investigation. The Document view (left) presents the Investigation Brief with the research
+problem and participating Perspectives. The Canvas view (right) organizes Deliberative Threads as branches from the research
+question. Synthesized threads can expose resulting hypotheses, open questions, and follow-up directions, while suggestions appear
+as prospective branches before researchers decide whether to pursue them.
+
+Selecting a thread opens its discussion. Each contribution identifies its Perspective and the earlier contribution or
+
+passage it addresses (Figure 3-➁). Empirical claims include numbered literature references so researchers can distinguish
+
+a Perspective’s interpretation from its supporting evidence.
+
+Discuss requests one to six additional turns, while Stop interrupts the exchange. Researchers can reply to or @-mention
+
+a Perspective and add another Perspective when its interpretation becomes relevant. Selecting text focuses the next
+
+interaction on that passage. Quote response responds directly to its author, Challenge requests supporting evidence, and
+
+Expand asks for further explanation.
+
+4.2.3 Working Synthesis. Selecting Synthesize produces a Working Synthesis of the discussion at that point. It con-
+
+solidates findings, limitations, unresolved disagreements, and open questions. Compatible ideas are integrated while
+
+unresolved differences remain explicit, and empirical findings retain links to supporting literature. When the discussion
+
+motivates a testable hypothesis, the synthesis also records a tentative prediction and rationale.
+
+The thread’s Artifacts view stores a Prediction, its Limitations, and an Evaluation Plan. On the Canvas, a synthesized
+
+thread can expose its hypothesis, open questions, and follow-up directions within the investigation structure (Figure 4,
+
+right). Researchers can return to a synthesized thread, question or extend its conclusions, and synthesize it again.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Fig. 5. Perspective Evolution workflow. A Deliberative Thread produces a Working Synthesis of the discussion. Reflection compares
+participating Perspectives with provenance-linked inputs extracted from that discussion and refines affected content. The Working
+Synthesis also informs proposed Investigation Brief refinements and follow-up questions.
+
+After synthesis, PerspectEvolver examines whether the discussion requires refinement of participating Perspectives
+(Figure 3-➂).
+
+4.3
+
+Perspective Evolution: Reflection, Refinement, and Emergent Threads (DG3)
+
+Following synthesis, Perspective Evolution refines affected Perspectives, proposes Investigation Brief changes, and
+generates follow-up questions. Reflection evaluates whether Discussion Inputs require changes to participating Perspec-
+
+tives, while document refinement compares the Working Synthesis with the Investigation Brief (Figure 5). Unresolved
+
+questions can become new Deliberative Threads for subsequent investigation.
+
+4.3.1 Perspective Reflection. After synthesis, PerspectEvolver extracts Discussion Inputs that distinguish empirical
+
+findings from scientific considerations and retain references to their supporting evidence and discussion sources.
+
+Reflection compares these inputs with each participating Perspective and refines it only when an input contradicts or
+qualifies an existing statement or resolves an expressed uncertainty.
+
+Reflection is constrained to change only affected Perspective fields. When a Perspective changes, revision cards
+
+compare its previous and revised content by field (Figure 3-➂). Researchers can inspect how the discussion refined a
+
+Perspective rather than seeing only its current state. History records each revision with its previous and revised text,
+Why this changed, and the Deliberative Thread that prompted it.
+
+4.3.2 Document Refinement. From the same Working Synthesis, PerspectEvolver proposes revisions to affected sections
+
+of the Investigation Brief (Figure 5). Each proposal shows additions and deletions within the affected section together
+
+with the reason for the revision.
+
+Researchers decide which changes enter the Investigation Brief through Accept, Edit, or Reject, then confirm them
+
+with Apply decisions. This keeps changes to the research direction under researcher control. Researchers can also revise
+
+the brief directly. Annotate attaches a note to selected text or lets the researcher @-mention a Perspective, while Rewrite
+
+Manuscript submitted to ACM
+
+Anon.
+
+previews a proposed replacement before application. Direct editing remains available throughout. The Document view
+
+presents the revised Investigation Brief (Figure 4, left), which subsequent deliberation uses as context.
+
+4.3.3 Emergent Threads. PerspectEvolver uses the Working Synthesis and current Investigation Brief to propose follow-
+
+up questions from unresolved disagreements, limitations, and open questions. Suggestions appear under Suggested
+
+Threads and as prospective Canvas branches (Figure 4, right) for researchers to review before opening them. Selecting
+
+a suggestion opens a new Deliberative Thread linked to its originating discussion. Subsequent threads use the latest
+versions of participating Perspectives.
+
+4.4
+
+Implementation
+
+PerspectEvolver is implemented as a web application with a Next.js2 , React, and TypeScript frontend and a Python
+
+backend. React Flow3 and Dagre4 implement the Canvas, D35 renders the Literature Map, and Tiptap6 supports document
+
+editing and annotations. FastAPI7 exposes backend endpoints, PostgreSQL8 stores investigation and revision state, and
+
+LangGraph9 coordinates checkpointed human-in-the-loop workflows.
+
+DSPy [22] implements structured language-model operations. Perspective Agents share task-specific modules, which
+
+receive the current Perspective, evidence, and discussion context as inputs. We use OpenAI’s gpt-5.6-luna and
+
+gpt-5.6-terra models10 . gpt-5.6-luna supports search planning, evidence extraction, Perspective naming, proposal
+
+generation, and interactive deliberation, while gpt-5.6-terra supports Perspective synthesis, Working Synthesis,
+
+Reflection, document revision, and follow-up generation. Literature retrieval follows the Discovery pipeline described
+
+in §4.1.2. Voyage rerankers11 select evidence during Formation and deliberation. Evidence extraction identifies scientific
+
+claims and study details from retrieved passages and retains only items whose supporting quotations occur verbatim in
+
+their mapped source passages. Perspective validation requires Literature Evidence references for every nonempty field.
+
+Perspective Reflection compares Discussion Inputs with each Perspective and proposes refinements only to fields it
+
+identifies as affected. Additional model, retrieval, agent, and workflow details appear in Appendix A.4.
+
+User study
+
+We conducted a within-subjects study comparing PerspectEvolver with a group-chat baseline. We examined hypothesis
+
+generation, system use, and divergent and convergent thinking through three research questions.
+
+• RQ1: How does PerspectEvolver affect hypothesis quality and researchers’ cognitive load during hypothesis
+generation?
+
+• RQ2: How do researchers use PerspectEvolver’s features over a session?
+
+• RQ3: How does PerspectEvolver shape divergent and convergent thinking activities?
+
+2 https://nextjs.org/
+3 https://reactflow.dev/
+4 https://github.com/dagrejs/dagre
+5 https://d3js.org/
+
+6 https://tiptap.dev/
+
+7 https://fastapi.tiangolo.com/
+
+8 https://www.postgresql.org/
+9 https://www.langchain.com/langgraph
+
+10 https://developers.openai.com/api/docs/models
+
+11 https://docs.voyageai.com/docs/reranker
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Table 2. Participant demographics and involvement. YoE: years of research experience. F: formative study; U: user study; C: prompt
+coding; R: hypothesis rating.
+
+ID
+
+Major / Discipline
+
+Profession
+
+YoE
+
+F
+
+𝑃1
+𝑃2
+𝑃3
+𝑃4
+𝑃5
+𝑃6
+
+Bioengineering
+Bioengineering
+Electrical and Computer Engineering
+Electrical and Computer Engineering
+Mechanical Engineering
+Chemical Engineering
+
+Postdoctoral Researcher
+Postdoctoral Researcher
+PhD Student
+PhD Student
+PhD Student
+Postdoctoral Researcher
+
+✓
+✓
+✓
+✓
+✓
+✓
+
+𝑃7
+𝑃8
+𝑃9
+𝑃10
+𝑃11
+𝑃12
+𝑃13
+𝑃14
+
+Computer Science
+Health Sciences
+Electrical and Computer Engineering
+Health Sciences
+Computer Science
+Mechanical Engineering
+Mechanical Engineering
+Computer Science
+
+Undergraduate Student
+PhD Student
+Master’s Student
+Master’s Student
+Master’s Student
+PhD Student
+PhD Student
+PhD Student
+
+U
+
+C
+
+R
+
+✓
+✓
+✓
+✓
+
+✓
+✓
+
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+✓
+
+5.1
+
+Baseline
+
+Based on our formative study, in which researchers used mainstream chat-based LLMs for hypothesis development,
+
+we implemented a group-chat MAS baseline that preserved the core workflow of literature retrieval, multi-agent
+
+deliberation, and hypothesis revision while omitting PerspectEvolver’s explicit perspective-sensemaking mechanisms.
+
+Perspective Formation retained query recommendation and paper retrieval, but represented Perspectives through
+
+simpler paper-grounded personas rather than literature clustering and structured Perspective extraction. Perspective-
+
+Guided Deliberation retained multi-agent deliberation, suggested topics, and discussion summaries, but did not explicitly
+
+surface how each Perspective contributed to the discussion. The document-refinement workflow retained the hypothesis
+
+document and transfer of discussion outcomes, but did not support explicit Perspective evolution or follow-up question
+
+generation.
+
+5.2
+
+Study Procedures
+
+We conducted a within-subjects study with 10 participants to compare PerspectEvolver and a baseline group-chat MAS.
+
+The study evaluated how the different interaction designs affected research ideation outcomes and perceived cognitive
+
+load (RQ1), feature use over a session (RQ2), and divergent and convergent thinking activities (RQ3).
+5.2.1 Participants. We recruited 10 participants (Table 2), including engineering and science undergraduates, master’s
+
+students, PhD students, and postdoctoral researchers with research experience ranging from 2 to 6 years (𝑀 = 3.60,
+
+𝑆𝐷 = 1.43). Participants had diverse domain backgrounds and were recruited through university mailing lists and social
+
+media platforms. The study was conducted remotely over Zoom12 and participants were compensated with $40. This
+
+study was approved by the university’s Institutional Review Board (IRB).
+12 https://www.zoom.com/
+
+Manuscript submitted to ACM
+
+Anon.
+
+5.2.2 Study Design and Procedure. We used a counterbalanced within-subjects design in which each participant
+
+completed two hypothesis-generation tasks: one using PerspectEvolver and one using the baseline group-chat interface.
+
+Participants submitted a scientific hypothesis on their research problem as the final output, consisting of four sections:
+
+motivation, previous work, methodology, and expected results. Before the study, participants completed a pre-session
+
+questionnaire covering demographics, research background, and frequency of LLM use. The questionnaire also collected
+
+two research problems, one for each condition, which participants had prepared to meet two criteria: interest and
+
+familiarity, in that the problem concerned a topic they were interested in and sufficiently familiar with; and comparable
+
+difficulty, in that the two problems were similar in scope and complexity and demanded a similar level of effort and
+
+domain knowledge.
+
+Each session lasted approximately 120 minutes: a five-minute introduction covering the study goals and consent
+procedures; two 50-minute tasks separated by a five-minute break; and a 10-minute semi-structured interview. Each
+
+task lasted 50 minutes and comprised four phases. First, participants completed a five-minute walk-through of the
+
+corresponding interface, in which the researcher demonstrated every feature using a sample research idea, and
+
+participants practiced using the system. Second, participants completed a 10-minute solo phase in which they drafted
+
+the four sections of a hypothesis while consulting papers on Google Scholar; this draft served as the point of comparison
+
+for the final output. Third, 30 minutes interacting with the system. Fourth, a five-minute post-session survey covering
+
+cognitive load, usability, and divergent and convergent thinking support, all on seven-point Likert scales. The session
+
+concluded with a 10-minute semi-structured interview on participants’ experience with both systems, changes in their
+
+scientific reasoning, the experience of configuring and evolving perspectives during hypothesis generation, divergent
+
+and convergent thinking, and which features they found most helpful for scientific ideation (§A.2 in the appendix).
+
+Throughout both tasks, participants were instructed to think aloud, verbalizing their thoughts, reactions, and decisions,
+
+and we recorded these sessions for later analysis.
+
+5.3
+
+Measurement
+
+To evaluate our research questions, we collected and analyzed qualitative and quantitative data, including improved
+
+hypothesis quality, surveys, think-aloud data, and interviews.
+
+5.3.1 Quality of Submitted Hypotheses. We performed an LLM-as-a-judge evaluation of the quality of participants’
+
+hypotheses. We used OpenAI’s GPT-5.6 Luna 13 to assess quality on the same criteria as the self-assessment survey:
+
+novelty, plausibility, significance, testability, and evidence support. We supplied both the initial hypothesis and the
+
+revised final hypothesis as context, and prompted the model to rate each on a 1–7 Likert scale across all five dimensions
+
+(§ A.3 in the appendix) in a pairwise manner. We then took the difference between the two scores of the final and the
+
+final − 𝜇 init .
+initial hypotheses as the degree of improvement, where the delta for each metric 𝑚 and pair 𝑖 is Δ𝑖,𝑚 = 𝜇𝑖,𝑚
+𝑖,𝑚
+
+To ensure consistency, we ran ten independent judgments and averaged the scores by dimension for each participant
+
+and condition. To establish the reliability of the LLM-as-a-judge ratings, we sampled ten hypothesis pairs (the five
+
+rated highest and the five rated lowest by the LLM) and had two PhD candidate researchers in electrical and computer
+
+engineering (𝑃 4 ) and mechanical engineering (𝑃5 ), who participated in only the formative study, rate them independently
+
+using the same rubric. Across the five dimensions, we obtained an average Krippendorff’s alpha of 0.75 with the LLM,
+indicating substantial agreement.
+
+13 https://developers.openai.com/api/docs/models/gpt-5.6-luna
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Table 3. Codebook for participants’ prompts. Eight subprocesses adapted from Boldt [2] and Boldt and Kaufman [3].
+
+Code
+
+Definition
+
+Example
+
+generation
+
+Proposes a new idea that builds on the discussion
+so far
+
+exploration
+
+Pushes the discussion toward a new direction outside what has been discussed
+
+synthesis
+
+Combines two or more existing candidates into
+one and carries it forward
+
+selection
+
+Commits to one candidate and sets the rest aside
+
+comparison
+
+Brings in a new reference, methods, or cases to
+check the current discussion against
+Draws on prior knowledge or experience as
+grounds for the current discussion
+
+“Does annealing-induced interlayer crystallization improve electronic transport by simultaneously reducing
+residual stress and eliminating interfacial structural defects in GaN-on-Si?”
+“SO, the user satisfication has no impact, which means,
+researchers had to look into cognitive load? What does
+that mean for this question”
+“The diffusion-kinetics account and the baseline-stability
+account both explain the 37 °C signal advantage—is there
+something that satisfies both?”
+“Between user satisfaction and cognitive load, go with
+cognitive load and narrow the hypothesis to that.”
+“Okay, is that more effective than the clinic based monitoring?”
+“In most of the competitive ELISA, the nonspecifci binding is always the highest signal which could concentrate,
+so it is somehow impossible to incrase the binding.”
+“then any limitations for applying home monitoring for
+the patients?”
+“keep in mind we are building to specifically simulate a
+scientist not just any human. A domain expert who can
+on behalf of human interact with a H-AI or HCI system”
+
+knowledge
+
+evaluation
+
+anchoring
+
+Judges the validity, strength, or fit of a candidate
+already present
+Revisits the goals and constraints of the task, tightening the criteria the discussion rests on
+
+5.3.2 Analysis of System Logs and Prompts. We collected every prompt participants sent to the agents in both conditions
+
+and analyzed them qualitatively for moments of divergent and convergent thinking (Table 3). We first compiled the full
+
+set of creative subprocess codes from two prior works [2, 3], yielding 13 codes (§A.1 in the appendix). Two researchers,
+
+one in electrical and computer engineering (𝑃4 ) and one in bioengineering (𝑃1 ), who participated only in the formative
+
+study, piloted this set on a subset of the prompts. We merged rarely used codes into related ones or dropped them,
+
+producing the final set of eight codes reported in Table 3. The same two researchers then coded all prompts independently
+
+with the final codebook, reaching a Cohen’s 𝜅 of 0.82. Remaining discrepancies were resolved through discussion. After
+
+excluding prompts that could not be assigned to any code (e.g., vague or off-task responses), 23 prompts were excluded
+
+from the original 162 prompts (83 Baseline, 79 PerspectEvolver), leaving 55 Baseline and 61 PerspectEvolver instances
+
+(116 total) that were coded using the eight categories.
+
+5.3.3 Survey. Post-session surveys collected participants’ subjective feedback on their experience: the NASA-TLX [14]
+
+for cognitive load, the System Usability Scale (SUS) [4] for usability, and questions on support for divergent and
+
+convergent thinking [20]. The full set of survey items is provided in Table 4 in the appendix.
+
+Manuscript submitted to ACM
+
+Anon.
+
+(a) NASA-TLX workload
+
+(b) Usability (SUS)
+
+(c) Divergent / convergent
+
+3-item mean, lower is better
+
+10-item mean, higher is better
+
+3-item mean, higher is better
+
+** p = .004
+
+** p = .008
+
+Rating (1–7)
+
+** p = .002
+
+Baseline
+
+PerspectEvolver
+
+Baseline
+
+PerspectEvolver
+
+individual participant (n = 10)
+
+Baseline
+
+PerspectEvolver
+
+group mean
+
+Fig. 7. Line plots showing workload, usability, and divergent/convergent support by condition (𝑛 = 10, within-subjects). Participants
+rated (a) NASA-TLX workload, (b) usability, and (c) divergent/convergent support for both the baseline and PerspectEvolver using a
+7-point Likert scale. Lower is better in (a) and higher in (b) and (c). Light lines show individual participants; bold lines show group
+means. Wilcoxon signed-rank exact (∗ 𝑝 < 0.05, ∗∗ 𝑝 < 0.01, ∗∗∗ 𝑝 < 0.001).
+
+Baseline
+
+PerspectEvolver
+
+Novelty
+
+Novelty
+
+Initial
+Final
+
+Improvement (Final − Initial)
+Novelty
+
+Initial
+Final
+
+Baseline
+PerspectEvolver
+
+**
+
+**
+Evidence
+Support
+
+Plausibility
+
+*
+
+Evidence
+Support
+
+Plausibility
+
+Evidence
+Support
+
+Plausibility
+
+0.5
+
+1.5
+
+Testability
+
+Significance
+
+Testability
+
+Significance
+
+Testability
+
+Significance
+
+Fig. 6. Radar graphs of hypothesis quality across five dimensions for the Baseline and PerspectEvolver conditions (∗ 𝑝 < 0.05,
+∗∗ 𝑝 < 0.01, ∗∗∗ 𝑝 < 0.001). Initial and final ratings (1–7) per condition (left, center) and improvement between them (right).
+
+Results
+
+We report findings organized by our research questions (RQ1-3), analyzing user interactions, survey responses, and
+
+think-aloud data results from the user study. All comparisons use two-sided Wilcoxon signed-rank exact tests [47] on
+
+within-participant pairs, with matched-pairs rank-biserial correlation as the effect size.
+
+6.1
+
+PerspectEvolver Enhances Hypothesis Quality without Increasing Cognitive Load (RQ1)
+
+In this section, we present improvements in users’ hypothesis edits (§6.1.1), the user-perceived usability and cognitive
+
+load across each condition (§6.1.2).
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+6.1.1 Improved Novelty of Written Hypotheses. Figure 6 shows how hypothesis quality changed from the initial draft
+
+to the final version under each condition, as rated by an LLM judge on five dimensions (§5.3.1). We compare the
+
+initial-to-final change in each arm, paired across participants.
+
+Novelty improved substantially more under PerspectEvolver than under the baseline (M = +1.60 vs. −0.07, difference
+
++1.67, 𝑝 = .002∗∗ ), with all ten participants moving in the same direction. Plausibility (M = +0.44 vs. +0.15, 𝑝 = .641),
+
+Significance (M = +0.15 vs. +0.02, 𝑝 = .297), and Testability (M = +0.37 vs. +0.11, 𝑝 = .373) leaned the same way without
+
+reaching significance. Evidence Support ran counter to this pattern: improvement was greater under the baseline than
+
+under PerspectEvolver (M = +0.30 vs. +0.79, 𝑝 = .195), and the within-condition improvement was significant for the
+
+baseline alone (𝑝 = .016).
+
+Taken together, PerspectEvolver was associated with greater improvements in hypothesis novelty. Plausibility,
+significance, and testability moved in the same direction, although none differed significantly from the baseline.
+
+Evidence support moved in the opposite direction. This pattern may reflect a tension between novelty and existing
+
+evidentiary support [34]: a hypothesis that prior work does not already entail may also be less strongly supported by
+
+that prior work. These results suggest that supporting broader exploration may increase novelty while also increasing
+
+the need to establish an evidentiary basis for newly developed directions.
+
+6.1.2 Higher Usability and Lower Cognitive Load. PerspectEvolver was rated higher on usability than the baseline
+
+(Figure 7; SUS: 𝑝 < .01∗∗ ; per-item results in Table 4 in the appendix). Participants described the session as straightforward
+
+and quick to pick up, and said that the discussion and updated perspectives from each deliberation helped them grasp a
+
+complex multi-agent exchange at a glance. As 𝑃8 explained, “Every step was intuitive, and I picked it up quickly.” 𝑃11
+
+further noted, “There is a lot to think about when you are talking with several agents, but it was organized intuitively, and
+
+having the whole thing in view on the canvas helped a great deal.”
+
+PerspectEvolver also significantly reduced cognitive load (Figure 7; mental demand: 𝑝 < .01∗∗ ; effort: 𝑝 < .01∗∗ ;
+frustration: 𝑝 = .109). Participants noted that the perspectives updated without their intervention, leaving them with
+
+less to do between rounds. As 𝑃13 described, “Having the perspectives updated automatically was genuinely useful. It
+
+cut down the burden a lot.” 𝑃7 added that the agents seemed to carry the earlier context with them, which made the
+
+exchange easier to stay with, “It felt like talking together and keeping pace, rather than pulling something along on my
+
+own.”
+
+6.2
+
+PerspectEvolver Achieves Design Goals: Configuring, Deliberating, and Evolving (RQ2)
+
+In this section, we analyze system logs and think-aloud data to identify the designed affordances researchers drew on
+
+and how they read the system and its agents.
+
+6.2.1 Fewer Perspectives, Continually Evolved (DG1, DG3). Under PerspectEvolver, participants used a mean of 3.30
+perspectives (SD 1.06) from 8.40 generated candidates drawn from a mean of 1,370 retrieved papers (SD 298). Building
+
+a perspective from a cluster made the perspective’s stance easier to anticipate. As 𝑃8 explained, “Seeing the whole
+
+thing on the cluster map and going by the representative paper for each cluster, the perspectives were easier to understand
+
+than in the baseline.” 𝑃9 further noted, “Each paper came in six elements, so I could tell right away what the paper was
+
+saying.” In contrast, the baseline produced more perspectives (M = 3.70, SD 1.16). In the baseline, participants configured
+
+Perspectives directly from individual retrieved papers. This made a Perspective quick to construct when a suitable
+
+paper was available, but the resulting Perspective could be narrower or less representative. As 𝑃10 described, “When it
+
+Manuscript submitted to ACM
+
+Anon.
+
+was hard to find a paper that could represent a perspective, creating that perspective was hard and I wasn’t confident about
+
+it. In the deliberation I didn’t really pay attention to that one.”
+
+PerspectEvolver started from fewer perspectives than the baseline, but those perspectives went through a mean of
+
+2.95 updates (SD 2.03). Each time a thread closes, the perspectives are updated against the working synthesis and the
+
+researcher reviews the update. Over a session, then, a researcher obtained positions suited to how the discussion had
+
+developed without configuring perspectives again. As 𝑃12 put it, “Every time the perspectives evolved, things moved along
+
+with where the discussion was, so it felt like collaborating with a colleague. Like they already knew without me saying it.”
+
+𝑃14 added, “Because the perspectives evolved, they picked up the context right away, so the load was definitely lower, and I
+
+could use the AI more actively.”
+
+Overall, participants used both construction and evolution: starting from fewer perspectives, a researcher could
+carry a discussion through positions that fit the developing context, at a lower cost than rebuilding the panel.
+
+6.2.2 Separate Threads, Visible Contributions, Recorded Revisions (DG2). Participants opened 42 threads in total; 27
+
+were activated and 26 resolved, with a mean of 3.08 researcher turns per thread (SD 1.61, range = 1–7 turns). Threads
+
+ran mostly in sequence: a thread was opened before the previous one closed on 5 occasions, and 4 of 10 participants ran
+
+threads in parallel at least once. When a participant wanted one perspective’s opinion, they named that perspective
+
+directly in the prompt. Interaction inside a thread took three broad shapes. Among the 26 resolved threads, 1) in
+
+14 threads a participant drove the thread by asking perspectives directly: 𝑃10 put six consecutive questions to one
+
+perspective, and 𝑃8 named three perspectives together across seven questions (𝑃8 , 𝑃9 , 𝑃10 , 𝑃12 , 𝑃 13 , 𝑃14 ). 2) In 7 threads a
+
+participant let the panel run on its own for several turns and then began questioning on the basis of that exchange: 𝑃11
+
+took two continuations before stepping in (𝑃9 , 𝑃10 , 𝑃11 ); 3) In the last 5 threads a participant lifted a specific passage
+
+from Working Synthesis and asked the authoring perspective to expand it: 𝑃2 sent a claim about closed-loop revision
+
+failing under misleading verification feedback back to its authoring perspective for elaboration (𝑃 2 , 𝑃3 , 𝑃7 ). 10 of the 26
+
+threads addressed a single perspective, and 16 addressed more than one.
+
+After close interaction with the perspectives, each thread closed with a working synthesis, making visible what each
+perspective contributed and driving revision of the hypothesis. The system proposed 91 revisions; participants accepted
+
+64 (70.3%) as is, edited 25 (27.5%) before accepting, and rejected 2 (2.2%). Eighty-nine revisions reached the document
+
+(M = 8.90, SD 4.15, range 4–17). Methodology and Expected Results received 26 revisions each, Previous Work 21, and
+
+Framing 16, so the way a problem was approached and what it was expected to show changed more often than the
+
+problem statement itself. 𝑃11 mentioned “It very helpful that perspective-guided deliberation made visible what each agent
+
+had done and how it had contributed, and participants judged what to carry into the document with the source of each
+
+contribution in view.” As 𝑃2 described the loop, “With the baseline it felt like I was passively steering something, but here it
+
+felt like everyone was talking together with the same rhythm, and with more back and forth it came more naturally to
+
+stretch my thinking.”
+
+Deliberation and revision therefore worked as one loop rather than as separate stages. A participant directed the
+
+discussion by addressing specific Perspectives, the discussion closed on a working synthesis showing which perspective
+
+contributed what, and the decision to carry that into the document followed from the same view. Moving a discussion
+
+into the document required no separate step, so a participant could run the loop several times within one session.
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Baseline
+
+Number of prompts
+
+22.9%
+
+*
+-14.6%
+20.3%
+
++8.5%
+
+17.1%
+
+-4.5%
+
+17.4%
+14.5%
+
+12.9%
+
+-3.0%
+10.1%
+
+10.0%
+7.2%
+
+2.9%
+
+4.3%
+
+tion
+
+era
+Gen
+
+*
+-14.5%
+
++9.9%
+
+*
+
+18.8%
+
+*
+
+24.3%
+
++14.1%
+
++4.0%
+
+PerspectEvolver
+
+*
+
+Exp
+
+tion
+
+lora
+
+sis
+
+the
+
+Syn
+
+n
+
+ctio
+
+Sele
+
+Com
+
+ison
+
+par
+
+5.7%
+
+wle
+
+Kno
+
+dge
+
+7.2%
+4.3%
+
+ion
+
+luat
+Eva
+
+Anc
+
+ing
+
+hor
+
+Fig. 8. Comparison of users’ prompts coded with the eight creative subprocesses across conditions (∗ 𝑝 < 0.05). Percentages inside each
+bar give that code’s share of the condition’s total; percentages above give the difference between conditions (positive = PerspectEvolver
+higher, negative = the baseline higher)
+
+6.3
+
+PerspectEvolver Facilitates Advancing Divergent and Convergent Thinking Activities (RQ3)
+
+PerspectEvolver was rated as supporting both divergence and convergence (Figure 7; 3-item mean: 𝑝 < .01∗∗ ; per-item
+
+results in Table 4 in the appendix). Participants explored new regions of the hypothesis space through PerspectEvolver
+
+and developed what they found into a hypothesis; across that process, exploration and convergence felt like one
+
+continuous movement rather than two separate efforts. 𝑃9 described expanding and then narrowing ideas as effortless
+
+and reported that the support was most helpful during convergence, adding that the evolving perspectives were
+
+something they could feel over the session. 𝑃 13 reported that the system helped with both divergence and convergence,
+
+and that having a direction offered was what made the difference; they also noted that seeing perspectives develop let
+them proceed iteratively with more context.
+
+6.3.1 Advancing under PerspectEvolver, Grounding under the Baseline. To understand how participants engage in
+
+divergent and convergent thinking during system use, we analyzed prompts used in PerspectEvolver and the baseline
+
+(§5.3.2). As shown in Figure 8, the distribution of subprocesses differed between the two conditions. PerspectEvolver
+
+significantly increased exploration (4.3% vs. 12.9%, 𝑝 = .012∗ ), synthesis (10.1% vs. 24.3%, 𝑝 = .004∗ ), and selection
+
+(7.2% vs. 17.1%, 𝑝 = .027∗ ), and significantly decreased comparison (17.4% vs. 2.9%, 𝑝 = .002∗ ) and knowledge (20.3% vs.
+
+5.7%, 𝑝 = .002∗ ). generation rose without reaching significance (18.8% vs. 22.9%, 𝑝 = .359), and neither evaluation
+
+(7.2% vs. 4.3%, 𝑝 = .875) nor anchoring (14.5% vs. 10.0%, 𝑝 = .492) differed between conditions.
+
+Under PerspectEvolver, participants more often issued prompts that moved the discussion forward. For example, 𝑃 10
+asked the system synthesis, “What is the overall conclusion when you put all of your findings together?”, carrying the
+
+accounts into one statement rather than dropping any of them. After examining the alternatives and where they met,
+
+𝑃10 moved to selection: “Of the three angles you raised—telemonitoring intensity, high-risk subgroups, and comparison
+
+against standard follow-up—I want to focus on the last. Tell me what that comparison involves.” These moves were available
+
+to participants because they did not have to assemble the grounds for advancing by hand. Updating the perspectives
+
+and the hypothesis against the current context reduced workload (Figure 7; 𝑝 < .01∗∗ ), which in turn supported planning
+
+Manuscript submitted to ACM
+
+Anon.
+
+for the subsequent step. 𝑃13 reported that, “after exploring several hypotheses, reading what the Working Synthesis had
+
+settled made the choice of direction straightforward.” 𝑃12 similarly mentioned, “The suggested threads told me exactly what
+
+the next step had to be, so moving on just felt natural.”
+
+By contrast, baseline participants more often issued prompts that grounded the existing direction in prior material.
+
+𝑃13 first set the current direction against work already in hand (comparison): “Drift-diffusion work treats the boundary
+
+as set before the trial starts. Set my ‘revised during the task’ claim against that framing.” Next came what the agents had
+
+not raised, supplied from personal experience (knowledge): “In the pilot runs I did, participants only slowed down after
+they had already made one visible error. Take that into account when you assess the expected results.”
+
+The baseline provided discussion summaries, but did not maintain a structured Working Synthesis linked to Perspec-
+
+tive contributions or use discussion outcomes to evolve the Perspectives. Continuing the discussion therefore required
+
+participants to supply more of that grounding themselves. comparison and knowledge together accounted for 37.7%
+
+of baseline prompts against 8.6% under PerspectEvolver. The two conditions differed not in the number of agents, but in
+
+how the grounding needed to move the deliberation forward was represented and carried across the interaction.
+
+Discussion
+
+In this section, we reflect on what designing and evaluating PerspectEvolver revealed, and draw three design implications
+
+for multi-agent systems that support hypothesis generation. We then discuss the limitations of the present work and
+
+directions for future research.
+
+7.1
+
+Beyond Configuration: Evolving Perspectives in Human–AI Sensemaking
+
+Sensemaking in human–AI research ideation involves both constructing multiple perspectives on a problem and evolving
+
+those perspectives as new evidence and interpretations reshape the research direction. As the research direction
+
+develops, researchers must assess how each perspective interprets the problem and whether it remains relevant to the
+research being pursued.
+
+Prior multi-agent ideation systems primarily support configuring perspectives, while subsequent changes are
+
+manual or implicit [29, 30, 40]. PerspectEvolver makes perspective evolution inspectable by externalizing how each
+
+Perspective contributes to the developing research direction and how its interpretation shifts over time. Participants
+
+using PerspectEvolver achieved greater improvements in hypothesis novelty, rated the system higher in usability, and
+
+reported lower cognitive load. Unresolved disagreements and questions can redirect research by identifying aspects of
+
+the problem that require further examination. PerspectEvolver preserves these issues as follow-up questions, allowing
+
+outcomes from earlier deliberation to shape what researchers investigate next.
+Beyond scientific research, this approach may apply to domains in which work develops through deliberation among
+
+multiple perspectives. Such settings require that (1) perspectives can be represented through interpretable elements,
+
+(2) deliberation outcomes can be traced to the perspectives that shaped them, and (3) those outcomes can revise the
+
+perspectives used as the work develops. For example, in legal counsel, (1) perspectives can be represented through issue,
+
+governing doctrine, scope, and anticipated counterargument [13]; (2) deliberation can establish a provisional position
+
+on the governing doctrine while preserving which perspectives and authorities shaped that position and leaving issues
+
+such as damage calculation unresolved; and (3) subsequent argument or evidence can revise those perspectives as
+
+unresolved issues are examined further.
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+7.2
+
+Design Implication 1: Externalize Grounding, Preserve Researcher Judgment
+
+Under PerspectEvolver, a larger share of participants’ coded activities involved exploring, synthesizing, and selecting
+
+ideas, while a smaller share involved comparison, prior knowledge, evaluation, and anchoring. This shift accompanied
+
+greater improvements in hypothesis novelty, suggesting that reducing the effort required to reconstruct and ground
+
+prior reasoning can leave more attention for developing the research direction.
+
+The formative study shows what this grounding required (§3.3.3). Participants had to reconstruct what prior
+
+discussions had established, trace ideas to the perspectives that introduced them, and determine how discussion
+
+outcomes should affect the hypothesis and the perspectives. These are forms of information the system can externalize
+
+through persistent threads, contribution provenance, and linked revisions, reducing the need for researchers to recover
+
+them from conversation history [15, 19].
+
+Ideation systems have largely focused on generating and narrowing candidate ideas. This addresses only part of
+
+the grounding required when the perspectives used to interpret those ideas also develop. When a research direction
+
+changes while those perspectives remain fixed, researchers must reconcile the developing direction with interpretations
+
+that no longer reflect it [25]. Maintaining this correspondence becomes recurring grounding work as ideation continues.
+
+Grounding of this kind can be absorbed because such grounding is a matter of record rather than judgment: what a
+
+thread settled, where a claim originated, and which insights bear on which perspective are facts the system already
+
+holds and can keep in view. What the system should not absorb is the decision that follows—which candidate to retain,
+
+merge, or set aside—since no body of prior work determines what is worth pursuing in a researcher’s own inquiry [18].
+
+A system that supports divergence and convergence should therefore be designed to carry the grounding that recovers
+
+what has already been produced, while leaving the researcher to advance the hypothesis.
+
+The principle extends from the individual perspective to the ensemble. When a new thread takes up a different
+
+aspect of the research problem, the ensemble assembled for earlier threads becomes less relevant to what is now under
+
+discussion, and that mismatch is itself an occasion for grounding: the same literature that grounds a perspective’s
+
+revision can be searched for the perspectives the new thread calls for. A system that supports this loop—retrieving
+
+relevant perspectives, recomposing the ensemble for the thread that follows—would allow researchers to sustain
+
+divergent and convergent thinking with the perspectives each stage of the inquiry requires.
+
+7.3
+
+Design Implication 2: Friction Needs an Outlet
+
+Prior work holds that friction in ideation systems is productive: exposing researchers to opposing views leads them to
+
+scrutinize what an agent proposes rather than accept it outright [7, 27, 30]. In design ideation, agents that challenge
+
+the dominant proposal reduce design fixation [27]; in group decision-making, devil’s-advocate agents voice minority
+
+positions against conformity pressure [7]. However, friction is not always beneficial. Cognitive forcing interventions
+
+improve the accuracy of judgment, but lower user satisfaction and trust, and counterargument agents loosen the
+
+discussion at the cost of higher cognitive load [26, 50]. More fundamentally, friction that never resolves closes off new
+
+ideation rather than opening it, producing idea fixation or premature convergence [28].
+
+Our design gives unresolved friction a different meaning. Where the perspectives converge, the agreement enters
+
+the hypothesis; where they do not, the disagreement becomes an open question that configures the perspectives for the
+
+next round. Treating the unresolved as material for the next round makes it not a stalled state but a signal that the topic
+
+requires a new ensemble of perspectives. A system that introduces counterarguments to support diversity in ideation
+
+must therefore not only consider their strength and frequency, but also provide an outlet for the friction they produce.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Without an outlet, even a well-placed counterargument remains a burden the researcher must carry; with one, the same
+
+counterargument becomes material for the next step.
+
+However, opening the next round automatically from what remains unresolved carries its own cost. If a researcher
+
+does not follow why the loop reopened where it did, the loop that never closes becomes a trap of a different kind from
+
+fixation [36, 48], and our system offers no account of when the space has been explored enough. Two forms of support
+
+are therefore required. The first is an agent-generated account of the provenance of each perspective revision and
+
+each suggested thread. The second is a macro-level representation of the investigation’s trajectory, through which
+researchers can assess whether the space has been explored sufficiently.
+
+7.4
+
+Design Implication 3: Extending Ensembles by Evolution Rather Than Addition
+
+Widening the hypothesis space an ensemble of perspectives covers encourages new ideas. If perspectives can only
+
+be revised manually as an idea develops, the only way to extend the ensemble to fit the context is to add agents, and
+
+cognitive load rises accordingly [38]. Our work instead kept the number of perspectives small, supported sensemaking
+
+of how perspectives evolve, and produced hypotheses rated more novel than in the baseline.
+
+An evolved Perspective accumulates changes across rounds while remaining a single inspectable unit. Because
+
+that unit is made explicit, each element showing what the perspective now holds, the researcher works with the unit
+
+rather than with the individual changes inside it, a form of chunking that suggests load need not scale with what each
+
+perspective has accumulated [9]. This points to a further dimension along which an ensemble can be extended: not
+
+only the number of perspectives present, but the capacity of those perspectives to develop through deliberation.
+
+Room for improvement remains in how far sensemaking of perspective evolution reduces load. As deliberation
+
+proceeds and evolved perspectives converge, contrast weakens, and admitting a new perspective into the ensemble
+
+can raise the load again. As 𝑃10 mentioned, When I bring a new agent into the discussion, it is still hard to decide what
+
+belongs in the ensemble. A recommendation that reflects the context of my deliberation would free more energy for creative
+
+decisions.” Supporting sensemaking of perspective evolution may therefore defer the point at which load arises rather
+
+than remove the load itself: while perspective evolution sustains diversity, the ensemble needs no recomposition, and
+
+the cost of selection returns only once evolution alone no longer produces contrast. For cognitive load, this points to
+
+recommending new perspectives from the context of the deliberation and the researcher’s intent, rather than leaving
+that selection to the researcher alone.
+
+7.5
+
+Limitations and Future Work
+
+First, the duration of the user study (30 minutes) and the size of the participant pool (N = 10) may limit the generalizability
+
+of our findings. Participants discovered several high-quality hypotheses within the session, but in research practice a
+
+promising hypothesis takes shape over weeks and several meetings. The ten participants may also not fully represent
+
+the space of research ideation domains. For future work, we plan to collaborate with more researchers and to conduct a
+
+long-term study of at least one week to enhance the generalizability of PerspectEvolver.
+
+Second, using an LLM as a judge to evaluate submitted hypotheses may introduce bias. Even though the judge’s
+
+ratings agreed with expert ratings (Krippendorff’s 𝛼 = 0.75), that agreement might not guarantee the ratings reflect what
+
+researchers in the field consider promising. Future work should complement automated evaluation with larger-scale
+
+expert assessment.
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+Conclusion
+
+Multi-agent systems for ideation have focused on assigning diverse perspectives to agents, yet have largely left how a
+
+researcher’s perspectives evolve through deliberation to the user. We presented PerspectEvolver, an interactive MAS
+
+that supports the sensemaking required to configure and evolve a perspective ensemble: each perspective is built from
+
+a cluster of literature and represented as six inspectable elements, deliberation runs in topic threads that condense into
+
+a statement of what settled and what remains open, and that statement revises the hypothesis and the perspectives
+
+while what no thread settled opens the round that follows. In a within-subjects study with 10 science and engineering
+
+researchers, PerspectEvolver produced greater improvements in hypothesis novelty and was rated higher in usability and
+
+support for divergent and convergent thinking, while participants reported lower cognitive load. Advancing utterances
+
+also accounted for a larger share of the session under PerspectEvolver, suggesting that effort otherwise spent recovering
+
+and organizing what a discussion had produced was available instead for moving the inquiry forward. We hope this
+
+work encourages the design of multi-agent systems in which perspectives evolve explicitly as deliberation unfolds.
+
+Manuscript submitted to ACM
+
+Anon.
+
+References
+[1] Huda Suleiman Al Qunayeer. 2020. Supporting postgraduates in research proposals through peer feedback in a Malaysian university. Journal of
+Further and Higher Education 44, 7 (2020), 956–970.
+[2] Gregory Boldt. 2019. Artistic creativity beyond divergent thinking: Analysing sequences in creative subprocesses. Thinking Skills and Creativity 34
+(2019), 100606.
+[3] Gregory T Boldt and James C Kaufman. 2025. Creative subprocess frequencies and their relation to personal characteristics and product creativity:
+Insights from a drawing task think aloud study. The Journal of Creative Behavior 59, 1 (2025), e629.
+[4] John Brooke. 1996. Sus: a “quick and dirty’usability. Usability evaluation in industry 189, 3 (1996), 189–194.
+[5] Chaomei Chen. 2007. Holistic sense-making: conflicting opinions, creative ideas, and collective intelligence. Library Hi Tech 25, 3 (2007), 311–327.
+[6] Xiaojiao Chen, Jiahuan Zhou, Yunfeng Shu, Ruihan Wang, and Qinghua Liu. 2026. Critiquecrew: Orchestrating multi-perspective conversational
+design critique. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems. 1–20.
+[7] Chun-Wei Chiang, Zhuoran Lu, Zhuoyan Li, and Ming Yin. 2024. Enhancing ai-assisted group decision making through llm-powered devil’s
+advocate. In Proceedings of the 29th International Conference on Intelligent User Interfaces. 103–119.
+[8] Victoria Clarke, Virginia Braun, and Nikki Hayfield. 2015. Thematic analysis. Qualitative Psychology: A Practical Guide to Research Methods (2015),
+222–248.
+[9] Nelson Cowan. 2001. The magical number 4 in short-term memory: a reconsideration of mental storage capacity. Behavioral & Brain Sciences 24, 1
+(2001), 87.
+[10] Kevin Dunbar. 1993. Concept discovery in a scientific domain. Cognitive science 17, 3 (1993), 397–434.
+[11] Robert M Entman et al. 1993. Framing: Towards clarification of a fractured paradigm. McQuail’s reader in mass communication theory 390 (1993),
+397.
+[12] Alireza Ghafarollahi and Markus J. Buehler. 2025. Hypothesis Generation for Materials Discovery and Design Using Goal-Driven and ConstraintGuided LLM Agents. arXiv preprint arXiv:2501.13299 (2025).
+[13] Neel Guha, Daniel E Ho, Julian Nyarko, and Christopher Ré. 2022. Legalbench: Prototyping a collaborative benchmark for legal reasoning. arXiv
+preprint arXiv:2209.06120 (2022).
+[14] Sandra G Hart and Lowell E Staveland. 1988. Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In
+Advances in psychology. Vol. 52. Elsevier, 139–183.
+[15] James Hollan, Edwin Hutchins, and David Kirsh. 2000. Distributed cognition: toward a new foundation for human-computer interaction research.
+ACM Transactions on Computer-Human Interaction (TOCHI) 7, 2 (2000), 174–196.
+[16] Lu Hong and Scott E Page. 2004. Groups of diverse problem solvers can outperform groups of high-ability problem solvers. Proceedings of the
+National Academy of Sciences 101, 46 (2004), 16385–16389.
+[17] Tom Hope, Doug Downey, Daniel S Weld, Oren Etzioni, and Eric Horvitz. 2023. A computational inflection for scientific discovery. Commun. ACM
+66, 8 (2023), 62–73.
+[18] Eric Horvitz. 1999. Principles of mixed-initiative user interfaces. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems.
+Association for Computing Machinery, New York, NY, USA, 159–166.
+[19] Edwin Hutchins. 1995. Cognition in the Wild. Vol. 262082314. MIT press Cambridge, MA.
+[20] Youngseung Jeon, Christopher Hwang, Ziwen Li, Taylor Le Lievre, Jesus J Campagna, Cohn Whitaker, Varghese John, Eunice Jun, and Xiang Anthony
+Chen. 2025. Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification. arXiv preprint arXiv:2512.11105
+(2025).
+[21] Yujing Ke, Kevin George, Kathan Pandya, David Blumenthal, Maximilian Sprang, Gerrit Großmann, Sebastian Vollmer, and David Antony Selby. 2025.
+BioDisco: Multi-agent hypothesis generation with dual-mode evidence, iterative feedback and temporal evaluation. arXiv preprint arXiv:2508.01285
+(2025).
+[22] Omar Khattab, Arnav Singhvi, Paridhi Maheshwari, Zhiyuan Zhang, Keshav Santhanam, Sri Vardhamanan, Saiful Haq, Ashutosh Sharma, Thomas T
+Joshi, Hanna Moazam, Heather Miller, Matei Zaharia, and Christopher Potts. 2024. DSPy: Compiling Declarative Language Model Calls into
+Self-Improving Pipelines. In The Twelfth International Conference on Learning Representations.
+[23] Rodney Kinney, Chloe Anastasiades, Russell Authur, Iz Beltagy, Jonathan Bragg, Alexandra Buraczynski, Isabel Cachola, Stefan Candra, Yoganand
+Chandrasekhar, Arman Cohan, et al. 2023. The Semantic Scholar Open Data Platform. arXiv preprint arXiv:2301.10140 (2023).
+[24] David Klahr and Kevin Dunbar. 1988. Dual space search during scientific reasoning. Cognitive science 12, 1 (1988), 1–48.
+[25] Gary Klein, Jennifer K Phillips, Erica L Rall, and Deborah A Peluso. 2007. A data–frame theory of sensemaking. In Expertise out of context. Psychology
+Press, 118–160.
+[26] Soohwan Lee, Seoyeong Hwang, Dajung Kim, and Kyungho Lee. 2025. Conversational agents as catalysts for critical thinking: Challenging social
+influence in group decision-making. In Proceedings of the Extended Abstracts of the CHI Conference on Human Factors in Computing Systems. 1–12.
+[27] SooHwan Lee, Mingyu Kim, Seoyeong Hwang, Dajung Kim, and Kyungho Lee. 2025. Amplifying minority voices: AI-mediated devil’s advocate
+system for inclusive group decision-making. In Companion Proceedings of the 30th International Conference on Intelligent User Interfaces. 17–21.
+[28] Lu Li, Savindu Herath, and Cyrille Grumbach. 2026. Hack-Agents: A Multi-Agent System for Innovation-Proof of Concept and Implications for
+AI-Augmented Hackathons. In Proceedings of the Extended Abstracts of the 2026 CHI Conference on Human Factors in Computing Systems. 1–6.
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+[29] Yiren Liu, Viraj Nischal Shah, Sangho Suh, Pao Siangliulue, Tal August, and Yun Huang. 2026. Perspectra: Choosing Your Experts Enhances Critical
+Thinking in Multi-Agent Research Ideation. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems. 1–27.
+[30] Yiren Liu, Pranav Sharma, Mehul Oswal, Haijun Xia, and Yun Huang. 2025. Personaflow: Designing llm-simulated expert perspectives for enhanced
+research ideation. In Proceedings of the 2025 ACM Designing Interactive Systems Conference. 506–534.
+[31] Yuxi Ma, Yongqian Peng, Fengyuan Yang, Siyu Zha, Chi Zhang, Zixia Jia, Zilong Zheng, and Yixin Zhu. 2026. Narrativeloom: Enhancing creative
+storytelling through multi-persona collaborative improvisation. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems.
+1–19.
+[32] Leland McInnes, John Healy, and Steve Astels. 2017. hdbscan: Hierarchical density based clustering. Journal of Open Source Software 2, 11 (2017),
+205.
+[33] Leland McInnes, John Healy, and James Melville. 2018. UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction. arXiv
+preprint arXiv:1802.03426 (2018).
+[34] Sarnoff Mednick. 1962. The associative basis of the creative process. Psychological review 69, 3 (1962), 220.
+[35] Barbara Mirel and Carsten Görg. 2014. Scientists’ sense making when hypothesizing about disease mechanisms from expression data and their
+needs for visualization support. BMC bioinformatics 15, 1 (2014), 117.
+[36] Phong H Nguyen, Kai Xu, Ashley Wheat, BL William Wong, Simon Attfield, and Bob Fields. 2015. Sensepath: Understanding the sensemaking
+process through analytic provenance. IEEE transactions on visualization and computer graphics 22, 1 (2015), 41–50.
+[37] Takeshi Okada and Herbert A Simon. 1997. Collaborative discovery in a scientific domain. Cognitive science 21, 2 (1997), 109–146.
+[38] Saumya Pareek, Jarod Govers, Naja Kathrine Kollerup, Emily Wong, Eduardo Velloso, and Jorge Goncalves. 2026. Sensemaking in Multi-Agent LLM
+Interfaces: How Users Interpret Transparency and Trustworthiness Cues. In Proceedings of the 2026 CHI Conference on Human Factors in Computing
+Systems. 1–20.
+[39] Karl Popper. 2005. The logic of scientific discovery. Routledge.
+[40] Kexin Quan, Dina Albassam, Mengke Wu, Zijian Ding, and Jessie Chin. 2026. Towards AI as Colleagues: Multi-Agent System Improves Structured
+Ideation Processes. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems. 1–26.
+[41] Murad Abdu Saeed, Arif Ahmed Mohammed H. Al-Ahdal, and Huda Suleiman Al Qunayeer. 2021. Integrating research proposal writing into a
+postgraduate research method course: what does it tell us? International Journal of Research & Method in Education 44, 3 (2021), 303–318.
+[42] Keith Sawyer. 2013. Zig zag: The surprising path to greater creativity. John Wiley & Sons.
+[43] Jutta Schickore. 2014. Scientific discovery. (2014).
+[44] Christian D Schunn and David Klahr. 1995. A 4-space model of scientific discovery. In Proceedings of the 17th annual conference of the cognitive
+science society. Psychology Press Hove, 106–111.
+[45] Chenglei Si, Diyi Yang, and Tatsunori Hashimoto. 2024. Can LLMs Generate Novel Research Ideas? A Large-Scale Human Study with 100+ NLP
+Researchers. arXiv preprint arXiv:2409.04109 (2024).
+[46] Amanpreet Singh, Mike D’Arcy, Arman Cohan, Doug Downey, and Sergey Feldman. 2023. SciRepEval: A Multi-Format Benchmark for Scientific
+Document Representations. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing. Association for Computational
+Linguistics, Singapore, 5548–5566.
+[47] Frank Wilcoxon. 1945. Individual comparisons by ranking methods. Biometrics bulletin 1, 6 (1945), 80–83.
+[48] Kai Xu, Simon Attfield, TJ Jankun-Kelly, Ashley Wheat, Phong H Nguyen, and Nallini Selvaraj. 2015. Analytic provenance for sensemaking: A
+research agenda. IEEE computer graphics and applications 35, 3 (2015), 56–64.
+[49] Zonglin Yang, Wanhao Liu, Ben Gao, Tong Xie, Yuqiang Li, Wanli Ouyang, Soujanya Poria, Erik Cambria, and Dongzhan Zhou. 2025. Moose-chem:
+Large language models for rediscovering unseen chemistry scientific hypotheses. In International Conference on Learning Representations, Vol. 2025.
+33251–33277.
+[50] Harry Yizhou Tian, Hasan Amin, and Ming Yin. 2026. Understanding the effects of AI-assisted critical thinking on human-AI decision making. In
+Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems. 1–30.
+
+Manuscript submitted to ACM
+
+Anon.
+
+(b) Perspective configuration with papers
+
+(a) Input
+
+(c) Group-chat based deliberation with multi-agent
+
+Fig. 9. Baseline interface used in the user study. (a) Input. Participants begin from a research problem and a four-part initial hypothesis.
+(b) Perspective configuration with papers. Participants configure paper-grounded Perspectives by selecting retrieved papers and editing
+each Perspective’s job and description before adding it to the panel. (c) Group-chat based deliberation with multi-agent. Participants
+deliberate across three suggested topics with support for direct messages, configurable agent turns, adding or removing Perspectives,
+and constructing additional Perspectives during the discussion. Discussion summaries can be transferred into the four Notepad
+sections, whose versions are maintained independently.
+
+A
+A.1
+
+Appendix
+Codebook Development
+
+To code participants’ prompts, we drew on two studies of creative subprocesses:
+• Boldt [2] (8): generation, selection, evaluation, exploration, synthesis, goal refinement, comparison to other
+creative works, application of domain-specific knowledge
+• Boldt and Kaufman [3] (8): generation, elaboration, association, selection, evaluation, anchoring, metacogni-
+
+tion, filler
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+• Union (13): generation, selection, evaluation, exploration, synthesis, goal refinement, comparison, domain
+
+knowledge, elaboration, association, anchoring, metacognition, filler14
+
+We adapted the code definitions to prompts written to an AI system during scientific hypothesis generation.
+
+A.2
+
+Interview Questions
+
+• Can you walk me through your overall experience developing your hypothesis in each session?
+
+• How did you find the process of building perspectives and bringing them in and out of the discussion?
+
+• Did you notice the perspectives changing over the session? If so, what did you make of that?
+
+• Were there points where the session changed direction? What happened around those?
+
+• What helped, and what got in the way, as you developed your research idea?
+
+A.3
+
+Five dimensions for evaluating hypotheses
+
+We evaluated the quality of submitted hypotheses on the five dimensions with the LLM judge (GPT-5.6 Luna) below,
+• Novelty: the degree to which the hypothesis is not already entailed by prior work Si et al. [45].
+• Plausibility: whether the hypothesis is consistent with established scientific principles and theories [12].
+
+• Significance: the potential importance of the hypothesis if validated Yang et al. [49].
+
+• Testability: whether the hypothesis can be practically tested with available techniques, equipment, and re-
+
+sources [12].
+• Evidence Support: the extent to which the hypothesis is grounded in, or verifiable against, existing evidence Ke
+et al. [21].
+
+A.4
+
+Technical Details of PerspectEvolver
+
+PerspectEvolver comprises Perspective Agents, the Deliberation Space, and the Deliberation Protocol.
+
+A.4.1 Perspective Agents. A Perspective Agent is a research collaborator defined by persistent Perspective state and
+
+shared generation modules.
+
+• Role. Develops ideas, addresses research questions, and distinguishes evidence from interpretation.
+
+• Perspective. A scientific focus, Framing, Position, and PerspectiveFragments for Scope, Explanation, Approach,
+
+and Significance.
+
+• Knowledge. Source-linked papers, passages, and Literature Evidence.
+
+• Working Context. The current Perspective, Investigation Brief, thread context, and researcher request.
+
+• Interaction History. Prior Contributions, retrieved evidence, syntheses, and revisions.
+
+• Interaction Protocol. Rules for participation and response within the Perspective Ensemble.
+
+• Model and Tools. Language-model, retrieval, and reranking components.
+Implementation. Agents share DSPy modules and load the latest Perspective before each action. openai/gpt-5.6-luna
+performs search planning, evidence extraction, Perspective naming, proposal generation, deliberation, direct replies,
+
+evidence requests, annotations, and local rewriting. openai/gpt-5.6-terra performs Perspective synthesis, Working
+
+Synthesis, Reflection, document revision, and follow-up generation.
+
+14 The last two codes from Boldt [2] are shortened here and in the remainder of the paper.
+
+Manuscript submitted to ACM
+
+Anon.
+
+Table 4. Post-session items rated for both conditions on a 7-point Likert scale: three NASA-TLX demand items, ten System Usability
+Scale items, and three items on divergent and convergent support.
+
+Baseline
+
+PerspectEvolver
+
+Item
+
+𝑀
+
+𝑆𝐷
+
+𝑀
+
+𝑆𝐷
+
+𝑝
+
+NASA-TLX
+How mentally demanding was the task? (R)
+How hard did you have to work to accomplish your level of performance? (R)
+How insecure, discouraged, irritated, stressed, and annoyed were you? (R)
+
+5.70
+4.30
+4.10
+
+0.67
+1.70
+1.52
+
+3.60
+2.00
+2.90
+
+1.71
+0.94
+1.45
+
+.004∗∗
+.008∗∗
+.109
+
+System Usability Scale
+I think that I would like to use this system frequently
+I found the system unnecessarily complex (R)
+I thought the system was easy to use
+I think that I would need the support of a technical person to be able to use this system (R)
+I found the various functions in this system were well integrated
+I thought there was too much inconsistency in this system (R)
+I would imagine that most people would learn to use this system very quickly
+I found the system very cumbersome to use (R)
+I felt very confident using the system
+I needed to learn a lot of things before I could get going with this system (R)
+
+3.40
+3.80
+4.20
+3.90
+3.60
+2.80
+4.70
+4.30
+3.40
+4.20
+
+1.78
+1.75
+1.87
+1.52
+1.35
+1.23
+1.25
+1.89
+1.90
+1.62
+
+6.00
+3.30
+6.20
+3.80
+6.10
+1.90
+5.90
+1.80
+5.80
+2.60
+
+0.67
+1.95
+0.63
+2.10
+0.57
+1.20
+0.99
+1.03
+0.79
+1.71
+
+.008∗∗
+.547
+.008∗∗
+.945
+.004∗∗
+.109
+.055
+.008∗∗
+.016∗
+.055
+
+2.60
+
+0.97
+
+6.20
+
+0.63
+
+.002∗∗
+
+2.70
+
+0.95
+
+5.80
+
+0.79
+
+.004∗∗
+
+2.70
+
+1.25
+
+5.70
+
+0.82
+
+.002∗∗
+
+Divergent / convergent support
+To what extent does this system extend the boundary of hypothesis generation
+by facilitating the exploration of multiple perspectives?
+To what extent does this system help narrow toward a promising direction by
+assisting in evaluating perspectives?
+To what extent does this system support iterative cycles of exploring a range of
+candidate hypotheses and narrowing to the promising ones?
+
+Discovery and Formation. Semantic Scholar snippet search retrieves papers from Investigation Brief queries [23].
+
+Normalized SPECTER2 embeddings [46] are reduced with UMAP [33] and clustered with HDBSCAN [32], with
+
+a separate two-dimensional UMAP projection for the Literature Map. Representative papers are reranked with
+
+voyageai/rerank-2.5. Evidence extraction retains only Literature Evidence whose supporting quotation occurs
+
+verbatim in its mapped source passage. Perspective synthesis generates Framing, Position, and Perspective Frag-
+
+ments, and validation requires every nonempty field to reference valid Literature Evidence. Before deliberation,
+
+voyageai/rerank-2.5-lite reranks Literature Evidence from the Perspective and discussion for the current thread
+
+and researcher request.
+
+A.4.2
+
+Deliberation Space.
+
+• Investigation. The research problem, literature corpus, Investigation Brief, selected Perspectives, and research
+artifacts.
+• Perspective Ensemble. The researcher-selected Perspective Agents available to the Investigation.
+• Deliberative Thread. A persistent discussion with its research question, Perspectives, Contributions, evidence
+requests, synthesis history, and origin references.
+
+Implementation. The Deliberation coordinator stores discussion state by thread while Perspective state persists across
+
+threads. Thread references preserve branches from Proposals and prior discussions, while Contribution targets preserve
+
+Manuscript submitted to ACM
+
+PerspectEvolver: Evolving Perspectives through Multi-Agent Deliberation for Research Ideation
+
+replies. Researcher actions resume checkpointed LangGraph workflows, and follow-up questions create threads linked
+
+to their originating discussion and Working Synthesis.
+
+A.4.3 Deliberation Protocol. The Deliberation Protocol governs turns, response targets, evidence requests, and
+synthesis.
+
+• DeliberationPolicy. Speaker and target selection and stopping conditions.
+
+• DiscussionRound. A researcher-requested sequence of agent turns.
+
+• TurnAction. One action with its Perspective, target, instruction, and optional MoveType.
+
+• Contribution. An authored response with scientific statements, target, type, quotation, and evidence references.
+
+• EvidenceRequest. An unresolved empirical question and literature query.
+
+Implementation. Discussion rounds select speakers and targets until the requested turns complete or the exchange stops.
+
+An EvidenceRequest searches Perspective literature, the investigation corpus, and external literature when configured,
+
+then extracts source-linked Literature Evidence. A WorkingSynthesis uses Contributions, cited Literature Evidence,
+
+and evidence-request outcomes. The system extracts provenance-linked DiscussionInputs that distinguish empirical
+
+findings from scientific considerations. Reflection compares these inputs with each Perspective and returns no_change,
+
+update_position, or update_framing_and_position; proposed changes retain their motivating inputs and previous
+
+content. Investigation Brief revisions and follow-up questions are generated separately from the Working Synthesis,
+
+with LangGraph pausing for researcher review before document changes are applied.
+
+Manuscript submitted to ACM

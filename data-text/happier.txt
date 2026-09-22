@@ -1,0 +1,2497 @@
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug
+Target Identification
+
+ANONYMOUS AUTHOR(S)
+
+Three criteria (C1-C3)
+for Target ID
+
+P86
+P4
+
+MAPT
+(Initial protein related to AZ)
+
+P23
+
+P1 P22
+
+P85
+
+P11
+
+P24
+P15
+
+P20
+
+P3
+
+P14
+
+P91
+
+P93
+
+P31
+
+Docking potential (C3)
+
+O
+Docking
+potential
+
+N
+
+Roscovitine
+
+P4
+P27
+
+High
+
+Middle
+
+Low
+
+P9
+
+P11
+
+P14
+
+P15
+
+P86
+
+P11
+
+P24
+
+…
+
+P9
+
+MAPT
+
+P20
+
+P3
+
+P42
+P93
+
+Convergent
+thinking:
+to verify
+PPIs across
+all criteria
+(C1-C3)
+
+P9
+
+P23
+
+P85
+
+MAPT
+
+P11
+
+P24
+P31
+
+P1 P22
+
+P91
+
+P95
+
+P14
+
+…
+
+No
+
+Pn
+
+P9
+P85
+
+P15
+
+P20
+P91
+
+P3
+
+P42
+P93
+
+Hypothesis generation
+with HAPPIER
+P27
+P27
+
+P1 P22
+
+…
+
+Yes
+
+P3
+
+Pn
+
+P95
+
+P23
+
+…
+
+P4
+P27
+
+Therapeutic
+impact
+
+P2
+
+P3
+
+…
+
+P86
+P11
+
+P2
+
+…
+
+“Phosphorylates
+MAPT”
+
+P1
+
+…
+
+Therapeutic impact (C2)
+
+P1
+
+P42
+
+C3
+
+C2
+
+…
+
+P31
+
+P9
+
+Hypothesis
+generation
+
+Tools for each criterion
+
+C1
+
+P9
+
+MAPT
+
+P27
+
+Low
+
+High
+
+P11
+
+P95
+
+…
+
+Interaction
+potential
+
+Previous works: fragmented support for each criterion
+Hypothesis
+space
+
+Physical & functional
+interaction (C1)
+
+Divergent thinking: to explore new PPIs on sub-graphs
+
+…
+
+…
+
+P31
+Output through iterative
+cycles of divergent and
+convergent thinking
+
+P5
+
+P3
+
+MAPT
+
+P1
+
+Bookmarked PPI
+
+Fig. 1. HAPPIER helps medical chemists efficiently generate hypotheses with integrated multi-criteria support in identifying drug
+targets (proteins) to satisfy all criteria (C1-C3). Beyond prior systems that offer fragmented support for each criterion, HAPPIER
+allows medicinal chemists to simultaneously explore and verify hundreds of hypothesis candidates across all criteria on the integrated
+graph-based visualization. This facilitates iterative cycles of divergent and convergent thinking, which are essential for hypothesis
+generation.
+
+While drug discovery is vital for human health, the process remains inefficient. Medicinal chemists must navigate a vast protein space
+
+to identify target proteins that meet three criteria: physical and functional interactions, therapeutic impact, and docking potential.
+
+Prior approaches have provided fragmented support for each criterion, limiting the generation of promising hypotheses for wet-lab
+
+experiments. We present HAPPIER, an AI-powered tool that supports hypothesis generation with integrated multi-criteria support
+for target identification. HAPPIER enables medicinal chemists to 1) efficiently explore and verify proteins in a single integrated
+
+graph component showing multi-criteria satisfaction and 2) validate AI suggestions with domain knowledge. These capabilities
+
+facilitate iterative cycles of divergent and convergent thinking, essential for hypothesis generation. We evaluated HAPPIER with ten
+
+medicinal chemists, finding that it increased the number of high-confidence hypotheses and support for the iterative cycle, and further
+
+demonstrated the relationship between engaging in such cycles and confidence in outputs.
+
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not
+made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components
+of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on
+servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+© 2025 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+Manuscript submitted to ACM
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+ACM Reference Format:
+
+Anonymous Author(s). 2025. Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification. In .
+
+ACM, New York, NY, USA, 27 pages. https://doi.org/XXXXXXX.XXXXXXX
+
+INTRODUCTION
+
+Drug discovery is one of the most important domains to improve human health, addressing diseases that threaten
+
+human life. For example, Zidovudine (AZT), the first antiretroviral drug for HIV/AIDS, marked a turning point in the
+
+fight against the global epidemic and laid the foundation for saving lives [6]. However, the discovery of a new drug
+
+involves multiple phases of screening, synthesizing, and testing, a process that can span over 14 years and cost over $1
+
+billion [21, 58].
+
+One of the key early steps in this time- and cost-intensive process is identifying target proteins for drugs to bind
+
+to, a process called target identification (Target ID). Target ID is the process of finding a target protein with which a
+
+drug can be docked. When a drug binds to a target protein (TP), TP affects an initial protein (IP) that is therapeutically
+
+related to a specific disease, thereby treating the disease (Please see definitions of terminologies in §2.1). Medicinal
+
+chemists must generate a list of target proteins (hypotheses)—within the vast protein target space—estimated to range
+
+from 20,000 [1] to several hundred thousand [50]—for wet-lab validation that meet three key criteria: C1) physical and
+
+functional interactions with the IP, C2) therapeutic impact on the IP, and C3) docking potential with a reference drug.
+
+Medicinal chemists must be highly selective in generating hypotheses about a target protein, because wet-lab validation
+
+is expensive (around $1400 per protein 1 ) As a result, hypothesis generation across such a vast protein space makes
+
+Target ID time-consuming and costly, hindering progress in human health.
+
+To expedite hypothesis generation in drug discovery, scientific discovery support tools have been proposed to
+validate each individual criterion in Target ID (Table 2 in the appendix), e.g., STRING for C1, Google Scholar for C2, and
+
+SwissTarget Prediction for C3. While these tools each support an individual criterion during Target ID, currently no
+
+single tool integrates all three criteria in one cohesive platform. This fragmented support prevents medicinal chemists
+
+from engaging in the cycles of divergent and convergent thinking essential for hypothesis generation [30, 45, 46]:
+
+divergent thinking involves broadly exploring ideas to expand the hypothesis space beyond existing knowledge;
+
+convergent thinking narrows this space by evaluating candidates against multiple criteria; and iterative cycles of
+
+divergence and convergence progressively expand and refine the space to identify a few reliable candidate hypotheses.
+
+Such a gap of effective tool support for Target ID presents a unique opportunity for HCI where a design centered on
+domain experts can potentially lead to an integrated interface that enables medicinal chemists to efficiently generate
+
+hypotheses across multiple scientific criteria. This, in turn, can result in accelerating scientific discovery in drugs and
+
+offering design principles for AI-powered tools in other health domains such as bioinformatics [27, 32], clinical decision
+
+support [13, 56], and public health [25, 39].
+
+To understand Target ID, we conducted a formative study with five medicinal chemists and identified three major
+
+challenges in the Target ID workflow: the complexity of exploring large protein-protein interactions (PPIs) graphs
+
+when hundreds of PPIs are presented at once, which hinders exploring new potential candidates (divergent thinking),
+
+the inefficiency of evaluating these criteria using their existing tools, which prevents narrowing down candidates
+(convergent thinking), and the absence of an integrated tool that enables the exploration and verification of promising
+hypotheses (iterative cycles of divergent and convergent thinking).
+
+1 Due to anonymity concerns, the reference cannot be disclosed at this stage.
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+To tackle the challenges in the Target ID workflow, we present HAPPIER (Human-AI Protein-Protein Interaction
+
+discovERy), an AI-powered interface for efficient hypothesis generation in Target ID. HAPPIER enables medicinal
+
+chemists to seamlessly both explore (i.e., divergent thinking) and verify (i.e., convergent thinking) proteins across all
+
+three criteria (C1–C3) through an integrated graph-based visualization (Figure 1). We build a unified interface that
+
+facilitates the iterative cycle of divergent and convergent thinking in Target ID by integrating AI models into medicinal
+
+chemists’ workflows. Furthermore, we investigate the impact of engaging experts in an iterative cycle of divergent and
+
+convergent thinking on their perceived confidence for hypothesis outputs to understand how HAPPIER facilitates this
+process. Specifically, we investigate these two research questions (RQs):
+
+• RQ1: How can we design and develop an AI-powered integrated interface that supports medicinal chemists in the
+
+hypothesis generation process for the Target ID task?
+
+• RQ2: Does expert engagement in both divergent and convergent thinking significantly affect their perceived
+
+confidence in hypothesis output?
+
+To evaluate HAPPIER, we conducted a user study with ten medicinal chemists. For RQ1, our findings showed
+
+significant differences in PPI outputs (i.e., the number of submitted outputs and the level of perceived confidence) and
+
+support the iterative cycles of divergent and convergent thinking between the experimental (HAPPIER) and control
+(existing interfaces) groups (𝑝 < .05). For RQ2, we identified the divergent and convergent thinking processes that
+
+occurred in HAPPIER during the task based on Linkography [19], which is a method that analyzes connections between
+
+ideas and enables the observation of divergent and convergent thinking. We categorized participants’ final submitted
+
+outputs into three groups: 1) Both-DC: a protein-protein interaction was visited in both divergent and convergent
+
+processes, 2) Either-DC: in either one of the two processes, and 3) Neither-DC: in neither of them. Our findings show
+significant differences in perceived relevance and confidence for submitted outputs between three groups. Both-DC
+
+showed a higher confidence level in the submitted PPIs than both Either-DC (𝑝 < .001) and Neither-DC groups (𝑝 < .001).
+
+This finding demonstrates how HAPPIER fosters iterative engagement in divergent and convergent thinking processes,
+
+which in turn may lead to the generation of high-confidence hypotheses.
+
+This research’s contributions include
+
+• a tool contribution of an integrated system, HAPPIER, which integrates AI to provide tool support for medicinal
+
+chemists’ workflows and enhances their ability to generate hypotheses in Target ID;
+
+• experimental evidence that shows how engaging in divergent and convergent thinking facilitates high-confidence
+
+hypothesis generation; and
+
+• a discussion of design implications for integrating AI and HCI for scientific discovery beyond drug discovery
+
+across health domains.
+
+USAGE SCENARIO
+
+Below, we walk through how a scientist, Jo, uses HAPPIER in her research on drugs for Alzheimer’s disease. This usage
+scenario is motivated by a real-world use case from our collaborators. To start, we first provide explanations of key
+terminology used in the scenario.
+
+2.1
+
+Background & Definitions of Key Terminology
+
+Target ID. The goal of Target ID is to find target protein (TP) that can bind with the ligands they have. When a drug
+
+binds to a target protein (TP), it interacts with an initial protein (IP) associated with the disease, thereby producing the
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+desired therapeutic effect and treating the disease. The reason for not selecting IP as TP and instead finding another
+
+protein is that inhibition or promotion through PPIs from another protein to IP allows for more precise control of
+
+regulation compared to direct targeting of the initial protein [16, 22]. Hypothesis Generation. In the process, the type
+
+of candidate hypothesis is protein–protein interactions (PPIs) linking the initial protein (IP) to a potential target protein
+
+(TP). Medicinal chemists generate multiple promising candidates for wet-lab validation. Since wet-lab validation is
+
+expensive ($1,400 per protein), it is crucial to generate hypothesis candidates that have a high likelihood of success.
+
+Key Terminology. Five terminologies are essential to Target ID: an initial protein (IP), a target protein (TP), and
+three criteria (C1-C3) in Target ID (Table 1).
+
+Table 1. Key Terminology for Target Identification (Target ID).
+
+Terminology
+
+Description
+
+Initial protein (IP)
+
+The protein that therapeutically affects the disease. For example, MAPT is a crucial
+protein in Alzheimer’s disease treatment as its abnormal hyperphosphorylation disrupts
+the stability of neuron structures and leads to the buildup of tangled proteins in brain
+cells [52].
+
+Target protein (TP)
+
+The protein that is considered a promising candidate for therapeutic intervention on a
+disease and should satisfy the three criteria (C1–C3) below.
+
+C1 – Physical and func- TP should have physical and functional interactions with IP, meaning that a biological
+tional interactions
+action occurs, such as binding, which directly influences the function or state of the
+IP [51]. For example, BRSK1 interacts with MAPT both through direct binding and by
+influencing its biological function.
+C2 – Therapeutic im- Modulation of TP by a drug (ligand) should be involved in either activating or inhibiting
+pact
+a therapeutic effect related to the disease associated with IP. For example, the phosphorylation of MAPT is a major contributing factor to Alzheimer’s disease [52]. Inhibiting
+the phosphorylation of MAPT can serve as a potential therapeutic intervention. BRSK1
+induces phosphorylation of MAPT; therefore, inhibiting BRSK1 may prevent MAPT
+hyperphosphorylation.
+C3 – Docking potential
+
+TP should have a high docking potential with the reference ligand. For example,
+BRSK1 has high docking potential with Roscovitine, one of the representative drugs for
+Alzheimer’s disease. Therefore, inhibiting BRSK1 through docking with Roscovitine
+may reduce the hyperphosphorylation of MAPT.
+
+2.2
+
+A Walkthrough of Interacting with HAPPIER
+
+Jo, a drug discovery researcher, is identifying target proteins (TP) related to MAPT, a key initial protein (IP) involved
+
+in Alzheimer’s disease. Because wet-lab experiments are expensive, Jo should generate novel hypotheses with a high
+
+likelihood of success that satisfy the three criteria for wet-lab validation. Here, the type of candidate hypothesis is
+
+protein–protein interactions (PPIs) linking the initial protein (IP, e.g., MAPT) to a potential target protein (TP, e.g.,
+
+other proteins).
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+a
+
+b
+
+Three inputs for HAPPIER
+
+C1
+
+Initial protein (IP)
+(PDB le)
+
+MAPT.pdb
+
+APBB3
+DCTN APBB1
+
+Therapeutic impact
+(Text)
+Ligand (SDF le)
+
+To phosphorylate CDK1
+MAPT
+
+CDK2
+
+Roscovitine.sdf
+
+C2
+
+PPP2R1A
+SRSF6
+
+MAPT
+RAB7A
+CDK5
+
+RAB1B
+
+ABL1
+TNC
+
+MAPT
+
+MAPT
+
+APP
+
+PKMYT1
+
+ABI2
+
+TUBB8B
+
+TUBA8
+
+BRSK2
+
+SGIP1
+BIN1
+
+APH1A
+TUBB2A
+
+BRSK1
+
+Subgraph-1
+
+Subgraph-2
+
+C2-Therapeutic impact
+C1
+
+C3
+
+PPP2R1B
+
+CEP162
+CEP170
+
+Interaction
+potential
+
+c
+
+C1-Physical and
+functional interaction
+
+C2
+
+C3
+
+Papers and Explanation
+PPI: BRSK1 > MAPT
+
+PPP2R1B
+PPP2R1A
+
+AI Explanation:
+SIRPA
+
+BRSK1 phosphorylates
+MARK by regulating
+microtubule dynamics..
+Reference papers:
+
+MAPT
+PKMYT1
+
+APP
+BRSK1 APH1A
+
+BRSK2
+
+Subgraph-3
+
+High
+
+TUBB8B
+TUBA8
+
+SRSF6
+
+Subgraph-2
+Therapeutic
+impact
+
+Low
+
+c
+
+No
+
+Yes
+
+d
+
+e Bookmarking PPIs across criteria
+
+C3-Docking potential
+C1
+
+C2
+
+C3
+
+C1
+
+C2
+
+f
+
+Building their own PPI graph
+
+C3
+
+PPI-Bookmark Mode
+
+Multiple predictions of
+3D docking simulation
+
+BRSK1 & Roscovitine
+
+PPP2R1B
+PPP2R1A
+SRSF6
+
+MAPT
+
+PKMYT1
+
+Docking
+potential
+
+PPP2R1B
+PPP2R1A
+SRSF6
+
+APP
+
+fi
+
+TUBB8B
+TUBA8
+
+MAPT
+PKMYT1
+
+3D docking simulation
+
+APP
+BRSK1 APH1A
+
+BRSK2
+
+Subgraph-2
+
+PPI: BRSK1 > MAPT
+
+AI Explanation:
+BRSK1 phosphorylates
+MARK by regulating…
+
+BRSK1 APH1A
+BRSK2
+
+TUBB8B
+
+TUBA8
+
+Subgraph-2
+High
+
+Middle
+
+Low
+
+PPP2R1B
+TUBB8B
+PPP2R1A
+TUBA8
+SRSF6
+MAPT
+PKMYT1
+APP
+BRSK1
+
+PPP2R1A
+
+…
+
+BRSK2 APH1A
+
+10 PPI subgraphs
+with hundreds of
+PPIs
+
+CDK2
+
+APBB1
+
+TUBA8
+MAPT
+
+BRSK1
+
+TNC
+
+A PPI graph with 6
+bookmarked PPIs
+
+fi
+
+Fig. 2. Usage scenario of HAPPIER to support scientific discovery in Target ID. Users input an initial protein, a therapeutic impact,
+and a ligand (a). They then verify protein-protein interactions (PPIs) on graphs across all three criteria (C1, C2, and C3) through AI
+models (b-d). Users bookmarked PPIs that are likely to satisfy all criteria (e). Users generate their own PPI graph by repeating the
+previous steps (f).
+
+To begin, Jo opens HAPPIER and inputs three types of information related to the three criteria (Figure 2-a): (1) the
+initial protein, using a PDB file of MAPT2 ; (2) the therapeutic impact, specified as “to phosphorylate MAPT”; and (3)
+the initial ligand, using an SDF file of Roscovitine3 .
+
+First, she considers physical and functional interactions (Figure 2-b). She sees a subgraph centered on MAPT and
+
+then explores ten subgraphs By moving the slider for C1 at the top, she quickly observes that edge thickness reflects
+
+the interaction potential between two proteins (PPI), which is calculated based on how many related works support
+
+the PPI. The order of subgraphs is determined by this interaction potential. Jo intuitively explores the full spectrum of
+
+interactions, from well-studied to less-characterized but potentially significant PPIs.
+
+Second, Jo looks into the therapeutic impact by activating the therapeutic impact search (Figrue 2-c) by moving
+the slider for C2 at the top. She easily identifies PPIs related to ’phosphorylation of MAPT’ on the graphs, which are
+
+highlighted in red. Since AI generates these results, she wants to validate them. She clicks on one of the PPIs, MAPT
+
+→ BRSK1, to review the AI-generated explanation and supporting references. After verifying that the explanation is
+
+consistent with the cited papers, which state that BRSK1 phosphorylates MAPT by regulating microtubule dynamics,
+
+she gains confidence in the AI’s output.
+
+Third, Jo explores the docking potential of proteins in graphs by moving the slider for C3 at the top (Figure 2-d).
+
+Purple nodes indicate proteins with a high binding affinity for the ligand, determined by a spatial-based docking
+
+2 https://www.rcsb.org/structure/8P34
+
+3 https://www.selleckchem.com/products/Roscovitine.html
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+simulation AI model. Jo confirms that BRSK1 also demonstrates strong docking potential with the Roscovitine she input.
+
+Jo recognizes that the PPI has potential because the multiple docking simulation results of the protein consistently
+
+show similar poses across all appropriate binding sites.
+
+Satisfied with the evidence across all three criteria—physical/functional interaction, therapeutic impact, and docking
+
+potential—Jo bookmarks the PPI BRSK1 > MAPT as a strong candidate (hypothesis) for further investigation (Figure 2-e).
+
+Jo also explores other promising PPIs suggested by the system, validating them through the same multi-step process.
+
+Finally, Jo builds a personalized PPI graph centered around MAPT and her bookmarked PPIs, allowing her to visualize
+and consolidate the multiple hypotheses she has generated from hundreds of PPI candidates (Figure 2-f).
+
+RELATED WORK
+
+Our work, as a hypothesis generation supporting tool for Target ID that facilitates both divergent and convergent
+
+thinking, builds on three major lines of previous research: (1) divergent and convergent thinking in hypothesis generation,
+
+(2) hypothesis generation supporting tools in HCI, and (3) tools and AI for Target ID.
+
+3.1
+
+Divergent & Convergent Thinking in Hypothesis Generation
+
+Hypothesis generation involves the process of uncovering new knowledge through systematic observation for con-
+
+ducting an experiment [45]. Klahr and Dunbar [30] proposed the dual-space model of scientific discovery in which
+
+scientific activity occurs in two spaces: 1) a hypothesis space: hypotheses about causal relations are drawn in the
+
+current representation, and 2) an experiment space: researchers validate a hypothesis within a given problem definition.
+
+Schunn and Klahr [46] expand the two-space model to a four-space model by subdividing the hypothesis space into
+
+representation and hypothesis spaces, and the experimental space into paradigm and experiment spaces. The core ob-
+
+jective in these models is to expand the hypothesis space with high confidence before transitioning into the experiment
+
+space [30, 45, 46]. This suggests that generating as many plausible hypotheses as possible increases the probabilistic
+chance of making novel scientific discoveries.
+
+To formulate high-confidence hypotheses, cognitive psychology research suggests that effective hypothesis generation
+
+involves several steps, each of which can require significant mental effort [30, 45, 46]. First, divergent thinking involves
+
+broadly exploring ideas to expand the hypothesis space beyond existing knowledge. Schunn and Klahr [46] mentioned
+
+that conducting an exhaustive search of available datasets is beneficial for extracting insightful features by thoroughly
+
+exploring scientific facts. Second, convergent thinking narrows down this space by evaluating candidates against
+
+multiple criteria. Dunbar [11] mentioned that efficient focus on specific types or characteristics of data through
+verification can be an essential step in scientific discovery. Third, hypothesis generation involves iterative cycles
+
+of divergence and convergence, progressively refining and filtering the expanded space to identify a few reliable
+
+candidate hypotheses. Supporting all divergent thinking, convergent thinking, and their iterative cycle facilitates the
+
+generation of hypotheses with a high level of confidence [30, 38, 45, 46]. Sawyer [44] emphasizes the importance of
+
+engaging in both processes of divergent and convergent thinking, postulating that the development of a creative idea is
+
+not a linear process through either convergent or divergent thinking; rather, it follows a non-linear process in which
+
+the two modes switch repeatedly.
+
+In this view, ideal supporting hypothesis generation means enabling iterative cycles in which multiple hypothesis
+candidates are continuously explored and validated against domain-specific criteria, rather than offering fragmented
+
+assistance. Therefore, facilitating the iterative cycles of divergent and convergent thinking is key in designing tools for
+
+hypothesis generation.
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+3.2
+
+Hypothesis Generation Support Tools in HCI
+
+Human-computer interaction (HCI) has developed tools for hypothesis generation, even though no studies directly
+
+support Target ID. To facilitate hypothesis generation, research focuses on supporting: 1) data retrieval for divergent
+
+thinking and 2) dataset analysis for convergent thinking.
+
+In the case of data retrieval, previous work has introduced AI-based interfaces designed to support data review by
+helping users retrieve papers and datasets efficiently, which allows them to explore their hypothesis space efficiently.
+
+They recommended papers by analyzing the researchers’ data, including the papers and comments collected during
+
+their research, to support the discovery of information that had not been previously considered. Portenoy et al. [42]
+
+suggested Bridger, which is an AI-based interface to provide a faceted representation of authors with information
+
+gleaned from their papers and inferred author personas. PaperWeaver [31] is an enhanced paper alert system that
+
+provides contextual summaries of recommended papers based on user-collected papers using large language models
+
+(LLMs). DiscipLink [60] is an interactive system that uses LLMs to support interdisciplinary information-seeking by
+
+generating exploratory questions tailored to researchers’ interests and facilitating paper retrieval and synthesis. Kang
+
+et al. [26] introduced ComLittee, a literature discovery system that supports author-centric exploration where users can
+capture and utilize users’ evolving knowledge of authors.
+
+In the case of data analysis, previous work has introduced AI-based interfaces designed to help researchers explore
+
+and analyze experimental datasets, which enables them to narrow down their hypothesis space efficiently. They
+
+recommended papers by analyzing the researchers’ data, including the papers and comments collected during their
+
+research, to support the discovery of information that had not been previously considered. These studies enable users
+
+to have intuitive and interactive access to complex scientific domain knowledge, ultimately helping refine their ideas
+
+through scientific validation. FathomGPT [29] is an AI-based interface that enables researchers to explore and analyze
+
+ocean science datasets where they search for images, taxonomy, and habitats of ocean species via large language models.
+
+MedChemLens [47] extracts molecular features from chemical literature and clinical trials, organizes them by drug
+
+structure, and visualizes key experimental factors interactively.
+
+However, prior work primarily supports either divergent or convergent thinking in hypothesis generation, which is
+a fragmented support for hypothesis generation. We believe tackling the challenge of hypothesis generation presents a
+
+unique opportunity for HCI because it requires an integrated interface that enables medicinal chemists to generate
+
+hypotheses across multiple scientific criteria efficiently, accelerating scientific discovery in drug discovery and offering
+
+design principles for AI-powered tools in other health domains such as bioinformatics [27, 32], clinical decision
+
+support [13, 56], and public health [25, 39]. To this end, we present HAPPIER, an AI-powered tool to support hypothesis
+
+generation designed to facilitate an iterative cycle of divergent and convergent thinking to help medicinal chemists in
+
+Target ID.
+
+3.3
+
+AI technologies and Platforms for Target ID
+
+In the drug development field, there are existing web-based tools for the three criteria (C1-C3) for Target ID that
+
+scientists have used (Table 2 in the appendix). These interfaces have separately supported these three criteria for target
+
+ID. For example, for C1, STRING [53] provides researchers with PPIs, which include physical contact between proteins
+
+through experimental results. For C2, Google Scholar is a widely used academic search engine that provides access to
+
+literature, including journal articles, theses, conference papers, books, and patents. It enables researchers to search by
+
+protein and desired therapeutic impact For C3, SwissTarget Prediction [18] suggests lists of proteins based on molecular
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+fingerprints of the initial proteins. This tool identifies proteins whose docking ligands are structurally similar to a given
+
+ligand.
+
+Meanwhile, there is existing AI support for Target ID. For example, Nvidia BioNeMo [36] is an AI platform for
+
+drug discovery that simplifies and accelerates the building and training of models using your own data and scaling
+
+the deployment of models for drug discovery applications by providing multiple AI models, such as AlphaFold [24],
+
+DiffDock [9], MegaMolBART [23], and so on. Schrödinger’s Maestro [34] employs machine learning to predict how a
+
+molecule will fold, the resultant 3D shape, and how it might interact with other molecules. However, these existing
+
+tools and models often lack comprehensive integration that would allow seamless exploration and validation of PPIs
+
+with all three criteria within a single interface, which is the main design consideration as we developed HAPPIER.
+
+FORMATIVE STUDY
+
+We interviewed five professional medicinal chemists to understand the existing process in Target ID, challenges, and
+
+possible solutions for these difficulties. Based on these insights, we derived design goals for HAPPIER.
+
+4.1
+
+Approach
+
+Over a two-month period (February–April 2024), we met with five medicinal chemists from four institutions, twice each
+
+(ten meetings in total), to understand the Target ID process. Table 3 in the appendix shows demographic information
+
+of the participants. Their work experience ranges from 7 to 18 years (mean=11.4, SD=4.3). Each interview took
+
+approximately 60-90 minutes. Three authors attended all the meetings, and each took notes on the interviews. In
+
+the first interview, we asked about (1) medicinal chemists’ current workflows and criteria for Target ID and (2) the
+
+barriers and challenges that impede scientific discovery. In the second interview, we asked about (3) potential solutions
+
+and coping strategies to address these challenges. After completing the interviews, we applied thematic analysis and
+
+iterative open coding [8] to analyze the interview transcripts. Three authors coded and analyzed the transcripts for
+
+emerging themes, and the findings were discussed among the co-authors iteratively until consensus was reached.
+
+4.2
+
+Findings
+
+Below, we summarize the Target ID process and criteria, current challenges, and possible solutions that emerged from
+
+the interviews.
+
+4.2.1 Target ID process and criteria. Our findings identified the Target ID process of searching for possible proteinprotein interactions (PPIs) consisting of a target protein and an initial protein. Medicinal chemists identify PPI candidates
+
+by first retrieving proteins that directly interact with the initial protein (C1: physical and functional interactions via
+
+STRING), then narrowing candidates based on therapeutic relevance (C2: filtering for disease-linked proteins) and
+
+docking potential (C3: assessing ligand–protein binding feasibility).
+
+Medicinal chemists identify PPI candidates based on three criteria (C1, C2, and C3). They extend the scope of PPIs
+
+with C1 while constraining the scope using C2 and C3. First, to identify physical and functional interactions (C1),
+
+scientists retrieve a PPI graph consisting of hundreds of proteins based on the initial protein on STRING. STRING
+
+ranks PPIs by their combined score, which indicates the likelihood of PPIs existing. Rather than focusing solely on high
+
+scores, researchers aim to explore a wide range of underexplored PPIs. At this stage, they typically examine at least 200
+
+proteins to maximize the chance of identifying a promising target. Second, to look for possible therapeutic impacts (C2),
+
+medicinal chemists investigate the therapeutic impacts of proteins on the graph through Google search. For example,
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+MAPT is linked to Alzheimer’s due to its excessive phosphorylation. Scientists filter the graph to keep only proteins
+
+that phosphorylate MAPT. Third, to check the docking potential (C3), scientists identify the docking potential of
+
+proteins with their ligands by entering their ligand into a web-based interface, such as SwissTargetPrediction 4 . The tool
+
+recommends proteins whose ligands have similar structures to the ligand, providing a similarity score. Consequently,
+
+they use C2 and C3 to narrow down the list of PPIs on the graph (C1). Researchers then compile and summarize their
+
+findings manually using MS Office5 . Medicinal chemists mentioned that this process typically takes about a month to
+
+generate a final shortlist of 5 to 20 PPIs from hundreds of initial candidates for wet-lab validation.
+
+4.2.2 Challenges and possible solutions. We also identified three challenges, as well as possible solutions to address
+
+these challenges. First, for physical and functional interactions (C1), medicinal chemists face challenges due to the
+
+complexities in exploring novel PPIs that are less studied. The existing interface first presents well-studied PPIs with
+
+high combined scores, while less-studied proteins with medium or low scores are shown later in an accumulated manner.
+
+Medicinal chemists should explore dozens to hundreds of less-studied proteins in a single screen simultaneously,
+
+hindering the exploration of new proteins. As a possible solution, they suggested creating multiple subgraphs centered
+
+on an initial protein, each ideally containing 50 to 60 proteins, so that they can focus on a manageable set of candidates
+while still preserving diversity and the chance of discovering underexplored PPIs.
+
+Second, medicinal chemists face difficulties due to the repetitive process of therapeutic impact search (C2) and docking
+
+simulation (C3) across multiple proteins. They should validate a large number of proteins on the graph from STRING
+
+one by one. They individually search for proteins on Google with their desired therapeutic impact, while simultaneously
+
+checking docking potential between proteins and a reference ligand one by one in SwissTargetPrediction. This time-
+
+consuming process prevents medicinal chemists from identifying the most promising targets. As a possible solution,
+
+medicinal chemists sought to investigate the therapeutic impact and perform docking simulations on multiple protein
+
+candidates simultaneously. Additionally, they highlighted the potential of AI to support this process and emphasized
+
+the necessity of domain knowledge to justify AI suggestions, such as related papers for therapeutic impact search
+
+(C2) and multiple docking cases for docking simulation (C3). They noted that AI’s performance could be considered
+
+adequate when multiple docking cases are positioned in locations deemed appropriate.
+
+Lastly, medicinal chemists struggle due to the absence of integrated tools where they can explore and verify PPI
+candidates across all criteria (C1-3). Manually organizing the PPIs validated through multiple interfaces for the three
+
+criteria in MS Word and Excel is time-consuming, tedious, and prone to errors. This limitation prevents them from
+
+having a sufficient number of PPIs included, which leads to medicinal chemists struggling to refine their ideas through
+
+iterative cycles of exploring and verifying PPIs. As a possible solution, medicinal chemists strongly desired an integrated
+
+interface to organize PPIs with all criteria satisfaction in a single view.
+In summary, medicinal chemists highlighted three key challenges that hinder scientific discovery: the difficulty of
+
+exploring less-studied PPIs (C1), the inefficiency of repetitive therapeutic impact searches and docking simulations
+
+(C2–C3), and the absence of an integrated interface to organize and compare results across all criteria (C1-3). To
+
+address these challenges, they envisioned an integrated tool that (1) supports subgraph-level exploration, (2) enables
+
+simultaneous therapeutic impact search and docking simulation across multiple proteins, and (3) provides a unified
+
+platform to show multi-criteria satisfaction of PPI candidates.
+
+4 http://www.swisstargetprediction.ch/
+
+5 https://www.microsoft.com/en-us/microsoft-365/microsoft-office
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+4.3
+
+Anon.
+
+System Design Goals
+
+Based on the findings, we established three key design goals for an AI-powered interface to support Target ID.
+
+• Goal 1 - Divergent thinking: to provide multiple subgraphs, i.e., different versions of physical and functional
+
+interaction graphs based on interaction likelihood to balance manageability and diversity. This expands the
+
+scope of potential PPI candidates efficiently.
+
+• Goal 2 - Convergent thinking: to provide AI suggestions for therapeutic impact-based search and docking
+
+simulations with multiple PPI inputs, while simultaneously offering supporting information to verify these
+
+suggestions. This ultimately narrows the scope.
+
+• Goal 3 - Iterative cycles of divergent and convergent thinking: to enable exploration and verification of
+
+PPIs that satisfy multiple criteria within a single integrated view. This promotes iterative refinement of the
+
+scope by expanding and narrowing it.
+
+5 HAPPIER
+Building on design goals, we propose HAPPIER, an AI-powered tool that enables medicinal chemists to efficiently
+explore and verify hundreds of PPIs across all criteria (C1-C3) on integrated graph visualization. HAPPIER provides
+
+two main panels: 1) PPI-Graph Panel: enables users to efficiently explore and verify proteins in a single integrated
+
+graph component showing multi-criteria satisfaction; and 2) Detail Panel: allows users to validate AI suggestions with
+
+supporting information related to domain knowledge.
+
+5.1
+
+PPI-Graph Panel
+
+PPI-Graph Panel offers an integrated search across the three criteria within a single graph-based component (Figure 3-a).
+
+With PPI-Graph Panel, users can 1) explore multiple subgraphs of hundreds of PPIs centered on their input protein
+
+without complexity from navigating a large-scale PPI graph, and 2) efficiently identify candidate PPIs that satisfy all
+
+criteria within the integrated graph without cognitive load from switching multiple interfaces. After exploring and
+
+validating PPIs, users can bookmark potential PPIs for later review. We employed AI models for therapeutic impact (C2)
+
+and docking potential (C3) (Please see the details of the models in §5.1.1).
+
+The use of PPI-Graph Panel follows the steps outlined below:
+• Step 1: Users explore the first sub-graph centered on the initial protein that users input (Figure 3-a1).
+• Step 2: Users select and switch between multiple subgraph views through the Sub-graph slider (Figure 3-a2).
+• Step 3: Users apply criteria within the graph (Figure 3-a3). Users can not only apply all three criteria simultaneously but also selectively focus on a specific criterion of interest.
+• Step 4: Users explore PPIs on the graph with the legend (Figure 3-a4), where functional and physical interactions
+(C1) are encoded through edge thickness, therapeutic impact (C2) is visualized by edge color, and docking
+potential (C3) is visualized by node color. You can check the details of the legend in §A.1 in the appendix.
+Through these steps, we expect that users will have opportunities to iteratively expand and refine the scope of
+potential PPI candidates efficiently.
+5.1.1 AI models for PPI-Graph Panel. PPI-Graph Panel allows users to search for a therapeutic impact for C2 and
+
+docking simulation for C3 with AI models. For the therapeutic impact search, we employed a knowledge-graph-based
+
+Retrieval-Augmented Generation (RAG) framework [15]. The framework receives as input an initial protein (e.g.,
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+(a) PPI-Graph Panel
+
+a1
+
+a5
+
+a2
+
+a3
+
+a4
+
+(a) PPI-Graph Panel
+
+(b) Detail Panel
+b3
+
+b1
+
+b2
+
+Fig. 3. Overview of HAPPIER. (a) PPI-Graph Panel enables users to explore and validate PPIs across three criteria: C1) interaction
+potential, C2) therapeutic impact, and C3) docking potential. (b) Detail Panel provides supporting information to enable users to
+justify AI suggestions, including references and 3D docking simulations.
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+Fig. 4. PPI-Bookmark mode enables users to build a personalized PPI graph that consists of bookmarked PPIs. This allows users to
+filter bookmarked PPIs by subgraph using the checkboxes on the right.
+
+MAPT) and a desired therapeutic impact (e.g., to phosphorylate MAPT). It first extracts proteins connected to the initial
+
+protein and related information, such as protein description, papers, and interaction potential, from the database of
+
+STRING [54]. This framework constructs subgraphs ranked by their potential for interaction. These subgraphs are then
+
+decomposed into multiple paths, for which the framework generates explanations of therapeutic relevance with the
+
+retrieved information, corresponding protein descriptions, and papers. Finally, each pathway (PPI) is assigned a score
+
+ranging from 0 to 100, where higher scores indicate greater therapeutic potential.
+
+For the docking simulation, we applied DiffDock [9], which is a state-of-the-art AI model specifically designed for
+
+predicting the binding modes of ligands to protein targets. This model enables scientists to simulate where a ligand
+
+docks with a protein (docking site) and how the ligand docks with a protein (docking pose), which is the most important
+
+information when researchers understand the potential efficacy of a drug candidate docking with a protein. We applied
+
+the NVIDIA BioNeMo API [36] that predicts binding affinity (−15–0), where higher scores indicate greater docking
+potential.
+
+5.2
+
+Detail Panel
+
+Detail Panel enables users to justify AI suggestions with two types of domain knowledge information: (1) papers
+corresponding to AI-generated explanations and (2) multiple docking predictions from docking models.
+The use of Detail Panel follows the steps outlined below:
+• Step 1: Detail Panel opens when users click a specific PPI on the graph.
+• Step 2: Users check the explanations for the therapeutic impact recommendation for the PPI and papers to
+enable users to validate AI with domain knowledge (Figure 3-b1).
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+• Step 3: Users check the 3D docking simulation between the ligand reference that users input and the protein in
+
+the PPI. This enabled users to verify docking AI by checking for consistent binding of ligands near the protein
+
+folding site (Figure 3-b2).
+
+• Step 4: Users bookmark the PPI if all supporting information makes sense by using a bookmark toggle (Figure 3-
+
+b3). This allows users to save selected PPIs directly into the PPI-bookmark (Figure 4).
+
+Through these steps, we expect users to have opportunities to justify AI suggestions, facilitating the efficient
+
+refinement of the scope of potential PPI candidates.
+
+PPI-Bookmark. PPI-Bookmark enables users to store and compare selected PPIs that they bookmarked in Detail
+
+5.2.1
+
+Panel with information related to the three criteria (Figure 4). The Bookmark Mode button (Figure 3-a5) enables users
+
+to view their own personalized PPIs consisting of bookmarked PPIs. If users click particular PPIs, HAPPIER allows them
+
+to open Detail Panel. PPI-Bookmark allows users to filter bookmarked PPIs by subgraph when users need to focus on
+
+specific PPIs. Through this process, users can finalize their curated PPIs.
+
+USER STUDY
+
+Our experiment had two research purposes. The first purpose was to validate whether HAPPIER supports divergent and
+
+convergent thinking in Target ID and achieves better results in hypothesis generation compared to existing alternative
+
+approaches (RQ1). The second purpose was to examine whether engaging in divergent and convergent thinking in
+
+HAPPIER leads to an increase in the perceived confidence in the output PPIs (RQ2). We conducted a between-subjects
+
+study in which participants were assigned to either the experimental or control group for a designed Target ID task.
+
+6.1
+
+Participants
+
+We recruited ten professional medicinal chemists who have experience participating in AD-related projects and are
+currently working across ten different drug discovery research labs. These participants were newly recruited for the
+
+HAPPIER evaluation, distinct from the formative study. Table 4 in the appendix shows the participants’ demographic
+
+information. Their career experience ranged from 4 to 23 years (mean=11.50, SD=7.06). To recruit participants from
+
+more diverse research institutes, we recruited people through online advertisements and snowball sampling. Our study
+was approved by the Institutional Review Board (IRB), and the consent of the participants was sought before the study.
+
+Each participant received a $100 gift certificate. When reporting interview quotes, we use 𝑃𝑝𝑋 to denote participant
+
+number X in this pilot study
+
+6.2
+
+Procedure
+
+We employed a between-subjects design. The experimental group was asked to use HAPPIER, while the control group,
+
+based on insights from the formative study, was instructed to use three existing interfaces: STRING for C1, Google
+
+Search for C2, and SwissTargetPrediction for C3. Participants were asked to conduct a 30-minute task: to identify
+
+PPI candidates (hypothesis) suitable for wet-lab validation while satisfying three criteria, given the input information
+
+(initial protein: MAPT, therapeutic impact: to phosphorylate MAPT, and ligand: Roscovitine6 ). This task serves as a
+
+representative Alzheimer’s disease (AD) use case, as MAPT and Roscovitine are widely studied in the AD context. The
+
+professionals who participated in the formative study confirmed the appropriateness of this task design.
+
+The study session proceeded as follows:
+6 https://bit.ly/3yXYyZJ
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Control
+
+Score
+
+**
+
+Control
+
+*
+
+6.0
+5.2
+
+4.84
+
+3.4
+
+3.2
+
+3.0
+
+*
+
+9.4
+
+HAPPIER
+
+**
+
+6.0
+
+HAPPIER
+
+*
+
+Anon.
+
+2.57
+
+2.0
+
+Q1
+
+Q2
+
+# of submitted PPIs
+
+Q3
+
+(a) Divergent and convergent thinking support
+
+Confidence score
+
+(b) PPI outputs
+
+Fig. 5. (a) The bar graph shows that the divergent and convergent thinking support was significantly higher in HAPPIER than in the
+control group. (b) The bar graph shows that the PPI outputs were significantly higher in the HAPPIER than in the control group
+(∗ 𝑝 < 0.05, ∗∗ 𝑝 < 0.01).
+
+• Step 1: The participants provided demographic (age, institute, year of experience).
+
+• Step 2: The participants were asked to complete the task in 30 minutes. Participants in the experimental group
+
+conducted a 10-minute practice session after watching the instruction video on how to use HAPPIER
+
+• Step 3: After the task, they were asked to answer the survey questions.
+
+• Step 4: The participants were asked to be interviewed by the researchers about the degree of scientific discovery
+
+support offered by HAPPIER and its practical use.
+
+The study took place remotely using Zoom. Participants were asked to share their screen during the timed tasks
+
+and think-aloud, where participants were asked to verbally express their thoughts, decision-making processes, and
+
+difficulties while interacting with HAPPIER. This approach allowed us to observe participants’ cognitive processes and
+
+problem-solving strategies.
+
+6.3
+
+Measurements
+
+The survey questions were divided into two themes aligned with the purposes of this user study: 1) supporting divergent
+and convergent thinking and 2) achieving better PPI results than existing approaches.
+
+The first set of questions focused on support for divergent and convergent thinking. Participants in the experimental
+
+group evaluate HAPPIER, while those in the control group assess their overall experience with the three interfaces.
+
+Users rated each task on the survey on a 7-point Likert scale (1 is “Not at all” and 7 is “Very much”). The questions are
+
+as follows.
+• Q1: To what extent does this interface extend the boundary of understanding PPIs by facilitating the exploration
+of multiple PPIs? (divergent thinking)
+• Q2: To what extent does this interface constrain the boundary of understanding PPIs by assisting in evaluating
+PPIs? (convergent thinking)
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+• Q3: To what extent does this interface effectively support iterative cycles of exploration and verification of PPIs
+
+across the three criteria? (iterative cycles of divergent and convergent thinking)
+
+The second set of questions evaluates the number and level of confidence in the PPIs that users submitted as the final
+
+output. Since the ultimate goal of HAPPIER is to help scientists create a list of PPI candidates for wet-lab experiments,
+
+both the number and confidence of PPIs are crucial for the next steps 7 . Participants were asked to evaluate the
+
+confidence level of each submitted PPI on a 7-point Likert scale (1 = “Not at all,” 7 = “Very much”).
+
+RESULTS
+
+During the user study, we collected questionnaire responses from surveys, transcriptions from interviews, and 57 PPIs
+
+(experimental: 47; control: 10) submitted as final outputs. For RQ1 (§7.1), we employed a Wilcoxon rank-sum test [57] to
+
+assess group differences in survey responses between experimental and control participants. For RQ2 (§7.2), we used a
+
+linear mixed effects model (LMER) [4] to examine differences in perceived confidence levels across three PPI categories
+
+based on their engagement in divergent and convergent thinking: (1) Both-DC (visited in both), (2) Either-DC (in one),
+
+and (3) Neither-DC (in neither). When reporting interview quotes, we use 𝑃𝑢𝑋 to denote participant number X in the
+
+user study.
+
+7.1
+
+Results for RQ1: Divergent–Convergent Thinking and PPI Outputs
+
+7.1.1 Iterative Cycles of Divergent and Convergent Thinking. The three design goals of HAPPIER are to support 1)
+
+divergent thinking, 2) convergent thinking, and 3) iterative cycles of both divergent and convergent thinking. The results
+
+of the first set of questions indicate that the three design goals in HAPPIER are generally well supported. Figure 5-(a)
+
+shows that the scores of the experimental group (Q1: M=6.0, SD=0.71; Q2: M=5.2, SD=0.45; Q3: M=6.0, SD=0.71) are
+
+significantly higher than those of the control group (Q1: M=3.0, SD=1.87; Q2: M=3.2, SD=1.30; Q3: M=3.4, SD=1.52)
+
+across all three measures: Q1 (𝑈 = 24.5, 𝑝 = 0.014), Q2 (𝑈 = 25.0, 𝑝 = 0.009), and Q3 (𝑈 = 24.5, 𝑝 = 0.014). These
+
+results mean HAPPIER can support iterative cycles of divergent and convergent thinking in Target ID, highlighting the
+
+importance of integrating all criteria in a single tool in supporting the cycles.
+7.1.2 PPI outputs. HAPPIER enabled scientists to generate more PPI outputs while maintaining their confidence level.
+
+Figure 5-(b) shows significant differences between the experimental and control groups. The number of submitted PPIs
+
+was higher in the experimental group (M=9.4, SD=3.51) than in the control group (M=2.0, SD=0.71) (𝑈 = 25.0, 𝑝 = 0.009).
+
+The confidence level was also higher in the experimental group (M=4.62, SD=0.56) than in the control group (M=2.57,
+
+SD=1.51) (𝑈 = 24.0, 𝑝 = 0.021). Participants generated a larger number of higher-confidence hypotheses compared to
+
+the baseline, indicating that HAPPIER enhances the potential for generating more hypothesis candidates with strong
+
+confidence.
+
+7.2
+
+Results for RQ2: Engagement in Divergent–Convergent Thinking and Confidence
+
+To determine whether engaging in the iterative cycle of divergent and convergent thinking leads to an increase in the
+
+perceived confidence in the output PPIs (RQ2), the submitted PPIs were categorized into three groups according to their
+
+association with iterative cycles, and we analyzed the relevance and confidence level within each group. There are
+
+three steps: First, we identified divergent and convergent thinking processes while using HAPPIER using linkography
+
+7 Validating PPIs through wet-lab experiments is often infeasible because the process is highly resource-intensive—each protein costs approximately
+
+$1,400—and time-consuming, typically requiring several weeks to months to complete.
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Step.1 Design moves (re ned transcript)
+
+Step.2 Linkography (divergent and convergent thinking)
+
+In subgraph 1 I noticed CDK5 as an initial target but I did not immediately
+recognize it was CDK5.
+When I looked at the structure for CDK5 I saw what seemed like a oating ligand
+making the docking look unclear.
+I considered subgraph 1 to have high con dence for potential interactions with
+MAPT tau.
+Phosphorylation evidence for MAPT is very important for therapeutic relevance in
+my view.
+I saw MAPRE1 as a mid level candidate with a globular shape but not much solid
+phosphorylation data.
+
+…
+
+Anon.
+
+Older references need veri cation with newer studies especially for ABL1
+DYRK2 and GSK3B
+
+I also want to see clear reasons why proteins like DCTN1 TCP1 or CCT4 are
+considered therapeutically irrelevant such as lacking phosphorylation
+
+Step.3 PPIs categorization
+
+Design moves of divergent thinking
+
+Step.4 Final labeling
+Design moves of convergent thinking
+
+I think the docking potential suggests CDK5 and others
+might have small molecule binding pockets.
+
+I also suspect GSK3B phosphorylates tau but the tool
+labels it differently
+
+I wanted more clarity about how MARK2 might
+in uence tau phosphorylation in the graph.
+
+If DYRK2 really phosphorylates tau and has a docking
+pocket I think it has strong therapeutic potential
+
+Over in subgraph 4 I found MARK3 again with
+different phosphorylation paths.
+
+I had already bookmarked MARK3 at a high priority for
+its links to tau phosphorylation
+
+DCTN1 had high docking scores but no evidence of tau
+phosphorylation so it seemed less relevant therapeutically.
+
+MARK2 still seemed like an intermediate node and I did
+not see clear direct phosphorylation data
+
+I revisited CDK5 and DYRK2 references and felt more
+convinced that it phosphorylates tau
+
+MARK4 stood out for directly phosphorylating tau.
+
+fl
+
+fi
+
+fi
+fi
+
+Submitted PPIs
+MAPT->CDK5
+
+Group
+Both-DC
+
+MAPT->MARK3
+
+Both-DC
+
+MAPT->MARK4
+
+Either-DC
+
+MAPT->DYRK2
+
+Either-DC
+
+MAPT->GSK3B
+
+Either-DC
+
+MAPT->TTBK1
+
+Neither-DC
+
+MAPT->BRSK1
+
+Neither-DC
+
+fl
+
+Fig. 6. Process of categorizing the submitted PPIs. Step-1: generating design moves (DMs) by refining transcript in user studies;
+Step-2: making a linkography with the DMs to identify the DMs of Divergent (orange) and Convergent (purple) thinking; Step-3:
+identifying PPIs in the DMs of divergent and convergent thinking; Step-4: labeling the submitted PPIs into three groups: (1) Both-DC:
+present in both divergent (D) and convergent (C) thinking, (2) Either-DC: present in either one but not both, and (3) Neither-DC:
+present in neither. We considered PPIs that appeared in the DMs but were not among the submitted PPIs (e.g., MARK2 and DCTN1)
+as those that experts had filtered out through a process of divergent and convergent thinking.
+
+(§7.2.1), which is a method that analyzes connections between ideas and enables the observation of divergent and
+convergent thinking. Second, we categorized three groups based on their presence in divergent and convergent thinking:
+
+(1) Both-DC: present in both divergent (D) and convergent (C) thinking, (2) Either-DC: present in either one but not
+
+both, and (3) Neither-DC: present in neither (§7.2.1). Third, we examined the statistical significance of relevance and
+
+confidence scores across the three groups (§7.2.2). Overall, we found that Both-DC yielded significantly higher relevance
+
+scores than Neither-DC, and higher confidence scores than Either-DC and Neither-DC.
+7.2.1 Identifying PPIs visited during divergent and convergent thinking phases. As a first step, we identified divergent and
+
+convergent thinking in HAPPIER, using fuzzy linkography [49], which is an AI framework to construct a linkography [19]
+
+automatically. There are four steps (Figure 6: 1) generating design moves (DMs), 2) making a linkography, 3) categorizing
+
+PPIs, and 4) final labeling.
+
+We generated design moves in chronological order, typically at the sentence level (Figure 6-Step.1). Following previous
+
+work [19, 49], we used the participants’ transcripts, which were recorded while using HAPPIER. We created a final
+
+transcript by comparing two outputs of two audio transcription tools, Zoom 8 and Otter.ai 9 . During this process, we
+
+8 https://www.zoom.com/
+
+9 https://get.otter.ai
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Both-DC
+
+**
+
+5.00
+
+Neither-DC
+
+6.88 *** ***
+
+Either-DC
+
+4.06
+
+fi
+
+Con dence score
+
+Fig. 7. The bar plot showing the significant differences in confidence score among three groups: (1) Both-DC: present in both divergent
+(D) and convergent (C) thinking, (2) Either-DC: present in either one but not both, and (3) Neither-DC: present in neither (∗∗ 𝑝 < 0.01,
+∗∗∗ 𝑝 < 0.001).
+
+selectively included only the content related to the design progress [19]. A total of 218 design moves were generated by
+
+five participants (mean: 43.6, SD: 4.4).
+
+To make a linkography, we used fuzzy linkography, establishing a link automatically(Figure 6-Step.2). In the system,
+links are generated when the cosine similarity — a continuous value between 0 and 1 — exceeds a predefined threshold
+
+(hyperparameter). Our threshold was 0.75, following the default of fuzzy linkography, which proved its promising
+
+performance in tasks [49]. Fuzzy linkography identifies DMs by analyzing the top-k frequent links: divergent thinking
+
+was defined as the top-k most frequent forward links that connect a move to later moves it influences, while convergent
+
+thinking was defined as the top-k most frequent backward links that connect a move to earlier moves from which it
+
+draws influence. For k, we used approximately 10% of the total design moves [19]. If the total number of moves is 52,
+
+then k is set to 5 by rounding. Figure 8 in the appendix shows five linkography diagrams of five participants (𝑃𝑢1 -𝑃𝑢5 ).
+
+Through these steps, we identified the DMs of divergent (D) and convergent (C) thinking.
+
+We categorized all PPIs into three groups (e.g., Both-DC, Either-DC, and Neither-DC) based on their presence in
+
+divergent (D) and convergent (C) thinking (Figure 6-Step.3). Five participants submitted a total of 47 PPIs (mean = 9.4,
+
+SD = 2.3). We finally labeled 47 submitted PPIs into three groups: 9 in the Both-DC, 10 in the Either-DC group, and 28
+
+in the Neither-DC (Figure 6-Step.4).
+
+7.2.2
+
+Confidence score. Given the repeated measures design and the need to account for participant-level variability,
+
+we employed a linear mixed effects model (LMER) [5] to determine the statistical significance of the confidence score
+
+between the three groups (e.g., Both-DC, Either-DC, Neither-DC). The dataset included participant identifiers (e.g.,
+
+𝑃𝑢1 -𝑃𝑢10 ), submitted PPIs (e.g., CDK5–MAPT, MARK2–MAPT), group labels (e.g., Both-DC, Either-DC, Neither-DC), and
+
+the corresponding confidence score for each PPI.
+
+We set the confidence score as the dependent variable, respectively. The group (Both-DC, Either-DC, Neither-DC)
+
+and the participants were included as a fixed effect and a random intercept, respectively.Figure 7 indicates confidence
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+in the submitted PPIs was significantly higher for PPIs associated with both convergent and divergent thinking. The
+
+Both-DC group showed significantly higher confidence scores than the Either-DC group (𝛽 = −1.886, 𝑝 < .001) and
+
+the Neither-DC group (𝛽 = −2.829, 𝑝 < .001). The minimal variance of the random effect for participant (𝜎 2 = 0.008)
+
+suggests that individual differences had little impact. A post-hoc Tukey HSD test confirmed that all pairwise comparisons
+
+were statistically significant: Both-DC vs. Either-DC (𝑝 < .001), Both-DC vs. Neither-DC (𝑝 < .001), and Either-DC vs.
+
+Neither-DC (𝑝 = .0116). These results suggest that engaging experts in both divergent and convergent thinking can
+
+significantly enhance the perceived confidence in PPIs (RQ2), highlighting the importance of engaging in both divergent
+and convergent thinking in supporting hypothesis generation.
+
+7.3
+
+Interview Findings
+
+During the interview, the participants explained in detail how HAPPIER supports divergent and convergent thinking in
+
+Target ID. After completing the interviews, we applied thematic analysis and iterative open coding [8] to analyze the
+
+interview transcripts.
+
+7.3.1 Integration of Criteria Supports Divergent–Convergent Thinking (RQ1). All participants commented that HAPPIER
+provided sufficient support in promoting iterative cycles of divergent and convergent thinking in Target ID. They could
+
+efficiently explore and validate PPIs across three criteria on a graph-based component, which leads to the iterative
+
+process of divergent and convergent thinking. In particular, HAPPIER enabled them to uncover previously inaccessible
+
+PPIs in subgraphs and strategically narrow down their shortlist of candidates by integrating therapeutic impact search
+
+and simultaneous docking simulations within the subgraph. For example, “I didn’t find the TUBB in STRING, but it
+
+appeared in Interaction graph. I could quickly validate TUBB with Impact search and Docking simulation, and I chose
+
+it” (𝑃𝑢2 ). “I usually spend a lot of time on Google for understanding a protein. General understanding of multiple proteins
+
+at once has been incredibly helpful” (𝑃𝑢3 ). “Docking multiple proteins on a graph simultaneously is extremely efficient.
+
+When using SwissTargetPrediction, I should validate PPIs one by one” (𝑃𝑢1 ). These accounts highlight the importance
+
+of integrating multiple criteria in supporting the cycles of divergent and convergent thinking, which is essential in
+
+supporting hypothesis generation.
+
+7.3.2 Iterative Cycles Drive Better Outputs (RQ2). All participants mentioned that the iterative cycles of divergent and
+
+convergent thinking in HAPPIER help increase confidence level for their PPI outputs. They were able to make more
+
+scientifically grounded judgments from their initial intuition. Although they initially felt confident about a particular
+
+PPI, comparing it with other PPIs that have either better or worse conditions led them to adjust their initial intuition.
+
+This process also helped increase their confidence in the final outcome. For example, “At first, I could tell that CDK5 met
+
+all three criteria. And the more I compared it with other proteins, the more it became clear that CDK5 was the strongest
+
+candidate. I think that’s probably why I said I was most confident about CDK5” (𝑃𝑢4 ). “I initially thought MARK4 looked
+
+really promising. But after seeing other PPIs with much stronger properties, I started to feel a bit less confident about MARK4”
+
+(𝑃𝑢5 ). These accounts demonstrate the positive relationship between engaging in the iterative cycles of divergent and
+
+convergent thinking and perceived confidence in hypothesis output, accounting for the underlying mechanism of
+
+HAPPIER.
+7.3.3 Intuitive Design of HAPPIER: from Overview to Details. Participants said that using HAPPIER felt highly intuitive
+
+and easy to use. They mentioned that HAPPIER first allowed them to get an overview of the PPIs based on whether each
+
+satisfied the three key criteria, and then, when more detailed inspection was needed, they could access information
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+for each PPI—such as explanation information with relevant papers and multiple docking simulation results. Given
+
+the complexity of the heterogeneous data types linked to the three criteria, participants noted that the absence of a
+
+user-friendly design could have easily resulted in cognitive overload. For example, “If all that information had come up
+
+at once, I think it would’ve been really hard to use. But the system made it easy by giving me a big-picture view first, and
+
+then letting me check the details only when I needed to” (𝑃𝑢4 ). “When I normally do target identification, I sometimes have
+
+to open dozens of windows to verify the three criteria. It often gets overwhelming trying to process all that information. In
+
+contrast, HAPPIER makes it really easy to get an overview and intuitively verify relevant information. I think it would be
+
+incredibly helpful in the real world” (𝑃𝑢3 ). These accounts suggest that the intuitive design of HAPPIER, which provides
+
+an overview before details, helps users generate hypotheses efficiently while mitigating excessive cognitive load from
+
+exposure to heterogeneous data.
+
+7.3.4 Challenges: Necessity for Domain Knowledge–Centered Interaction. Participants expressed a need for more
+substantial support in two areas: (1) traceability for AI output: identifying which parts of the paper were relevant to the
+
+AI-generated suggestions, and (2) Human-in-the-loop input: viewing a more robust version of the system that allows
+
+them to incorporate their knowledge or upload custom data. For the traceability, participants wished to go beyond just
+
+seeing related papers—they wanted to know exactly which parts supported the AI-generated outputs. For example, “If I
+
+could see exactly which part of a paper was related to the AI suggestion, I think I could verify things much more efficiently.
+
+It takes a lot of time to read through the entire paper” (𝑃𝑢5 ). For the human-in-the-loop input, participants wished to
+
+upload their data and knowledge to have a better version of the system. “As far as I know, the APP protein is known to be
+
+strongly related to the phosphorylation of MAPT. But the AI suggestion didn’t really emphasize that connection. I feel like if
+
+I could update the system with my own papers and knowledge, it could generate much stronger results” (𝑃𝑢1 ). Together,
+
+these underscore the importance of supporting domain knowledge–centered interaction in both input and output in
+
+human-AI collaboration for hypothesis generation.
+
+DISCUSSION
+
+We summarize the findings of the study and discuss their implications, and then we discuss the present work’s limitations
+
+and our plans for future research.
+
+8.1
+
+Lessons Learned for Future AI-powered Hypothesis Generation Supporting Tools Design
+
+8.1.1 Supporting Iterative cycles of Divergent and Convergent thinking for Hypothesis Generation. In this research, we
+identified the importance of supporting iterative cycles of divergent and convergent thinking in facilitating hypothesis
+
+generation in drug discovery. Exploring PPIs across multiple subgraphs enables users to expand the hypothesis space by
+
+moving from well-studied to less-studied but potentially novel PPIs, while verifying PPIs with AI models for therapeutic
+
+impact and docking simulations allows them to narrow the space by validating hundreds of candidates simultaneously.
+
+By integrating three criteria for Target ID into a single graph, HAPPIER streamlines iterative cycles of exploring and
+verifying hypotheses, allowing users to adjust standards for generating reasonable hypotheses.
+
+This approach may have the potential to be applied in designing AI-powered tools for other health domains, such
+
+as bioinformatics, clinical decision support, and public health, which require hypothesis generation with multiple
+
+criteria. HAPPIER can be applied to other domains by following the three steps. First, future work needs to consider the
+
+interactive medium to expand the hypothesis scope (e.g., from a larger graph to multiple subgraphs). Second, within
+
+this medium, AI models should help users efficiently validate hypotheses (e.g., therapeutic impact search and docking
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+simulation) across criteria with supporting information (e.g., reference and multiple docking simulations). Third, within
+
+this medium, future work should enable them to explore and verify hypotheses iteratively (e.g., showing multi-criteria
+
+satisfaction).
+
+8.1.2 Roles of Engaging in Iterative Cycles. Our study demonstrates the relationship between engaging in divergent
+
+and convergent thinking and scientists’ perceived confidence in the output. Previous research suggests that confidence
+
+in new ideas increases through cycles of divergent and convergent thinking, as divergence reassures individuals that
+
+possibilities have been broadly explored, while convergence justifies that selected ideas are evidence-based [10, 14].
+
+These insights illustrate the hypothesis generation process supported by our integrated interface, which enables
+
+medicinal chemists to iteratively explore and refine hypotheses across multiple criteria, resulting in a larger number of
+
+hypotheses generated with higher confidence.
+
+Furthermore, making it transparent how each output was cognitively engaged—in Both, Either, or Neither of the
+
+divergent and/or convergent processes may help users recognize missed opportunities, validate their reasoning, and
+
+consider alternative research paths. For example, at the end of a session, AI can provide an overview of the scientific
+
+discoveries with indicators of divergent and convergent thinking engagement. With this information, researchers
+
+can revisit outcomes they consider plausible but remain uncertain about, enabling more confident verification and
+
+refinement in hypothesis generation. Furthermore, AI could proactively recommend detailed information on outputs in
+
+the Either and Neither groups that require further exploration. This enables promoting mutual understanding between
+
+humans and AI beyond one-way support, aligning more closely with the essence of human-AI collaboration [17] in
+
+other health domains. For instance, in public health [25, 39], when medical researchers first formulate hypotheses,
+
+such as whether certain lifestyle factors (e.g., diet, exercise) reduce specific diseases, a future AI-powered system can
+
+proactively suggest revisiting hypotheses that show potential but lack sufficient engagement in the iterative cycles
+
+based on their engagement data.
+
+8.1.3 Rich Information vs. Information Overload. Our finding highlights that HAPPIER enables users to explore and
+
+verify complex heterogeneous data intuitively and efficiently. In the context of drug discovery, providing a greater
+
+diversity and quantity of information can enhance the potential for novel hypothesis generation, but it may also increase
+
+the risk of information overload [61]. When users are presented with excessive heterogeneous information at the
+
+same time, they can become overwhelmed, resulting in increased cognitive load [20]. This implies that exploring and
+
+verifying hypotheses across heterogeneous data within a single platform is vital for hypothesis generation, but also
+
+raises the risk of cognitive overload.
+
+HAPPIER was designed to help users grasp an overview of the PPI candidates first, and then explore details on
+
+demand, enabling users to explore and verify complex, heterogeneous data seamlessly. Previous works’ findings align
+
+with this point. Shneiderman proposed the Visual Information Seeking Mantra [48], which advocates for presenting
+
+users with a high-level overview first, followed by zooming and filtering, and finally providing details on demand. This
+
+approach enables users to efficiently explore, analyze, and interpret complex datasets without being overwhelmed.
+
+Similarly, Nielsen introduced Progressive Disclosure, a technique that initially presents only essential information and
+
+gradually reveals more details as needed, allowing users to absorb information in manageable steps [35]. Our study
+
+emphasizes the utility of heterogeneous data for hypothesis generation, while also addressing the potential risk of
+
+information overload and proposing possible solutions for future work.
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+8.1.4 Domain Knowledge-based Interaction for Human-AI Collaboration. Our findings demonstrate the importance of
+
+supporting domain knowledge–based interaction for human–AI collaboration. On the output side, participants sought
+
+to ensure that AI-generated results were consistent with domain knowledge. For instance, in the therapeutic impact
+
+search (C2), they justify the AI’s explanations by examining which sections of the related papers were considered.
+
+On the input side, participants wanted to reflect their professional knowledge into the system to deliver their idea
+
+on AI. For example, they expressed a desire to incorporate their own expertise or upload custom data, noting that
+
+such human-in-the-loop input could correct gaps in AI reasoning. Previous works’ findings align with this point. Xie
+
+et al [59] proposed CheXplanin, a system that enables physicians to understand AI-enabled chest X-ray analysis by
+
+interaction based on domain knowledge. Cai et al. [7] highlighted that providing experts with opportunities to refine AI
+
+predictions—such as emphasizing critical parts of the model’s output based on their own criteria—can influence trust in
+
+decision-making. In this way, supporting domain knowledge–grounded interaction represents a key design implication
+for future research on generating promising hypotheses.
+
+8.2
+
+Limitations and Future Work
+
+First, evaluating the quality of PPI output from HAPPIER based on the number and confidence of submitted PPIs is
+
+not entirely sufficient. The only way to fully assess the quality of HAPPIER’s output is through scientific validation of
+
+the predicted PPIs via wet-lab experiments. However, due to the high cost—approximately $1,400 per protein—there
+
+are practical limitations to performing such experiments. In future work, we aim to acquire experimentally validated
+
+datasets to serve as ground truth and quantitatively evaluate target proteins identified via HAPPIER.
+
+Second, the time of the user study (30 minutes) and the number of participants might limit the generalizability of our
+
+findings. Participants discovered multiple PPIs with high confidence within the limited time. However, since identifying
+
+PPI candidates in Target ID is a task that takes at least a month, caution is required when interpreting the results. In
+
+addition, although a total of 15 participants were involved throughout the three studies, the sample may not fully
+
+represent the drug discovery domain. We believe broadening collaboration with more drug discovery labs could be the
+
+solution. In future research, we aim to enhance the practical applicability of HAPPIER through a user study that spans
+
+at least a week with more professionals to enhance the generalizability of our findings.
+
+CONCLUSION
+
+Our study proposed a new methodology to support hypothesis generation in Target ID for human health. Through
+
+integrating all criteria for Target ID into a single platform, HAPPIER supports iterative cycles of divergent and convergent
+
+thinking in hypothesis generation. Both the quantitative and qualitative results of our user studies confirmed that
+
+HAPPIER can facilitate the iterative cycles of divergent and convergent thinking and enables generating more high-
+
+confidence hypotheses; further, there is a positive relationship between engaging in such cycles and confidence in
+
+hypothesis output. Our findings suggest design implications for AI-powered tools in scientific discovery, particularly
+
+in promoting proactive hypothesis generation grounded in engagement in iterative cycles and in contextualizing
+human–AI interaction through domain-specific knowledge.
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+REFERENCES
+
+[1] Joshua N Adkins, Susan M Varnum, Kenneth J Auberry, Ronald J Moore, Nicolas H Angell, Richard D Smith, David L Springer, and Joel G Pounds.
+2002. Toward a human blood serum proteome: analysis by multidimensional separation coupled with mass spectrometry. Molecular & Cellular
+Proteomics 1, 12 (2002), 947–955.
+[2] Domenico Alberga, Daniela Trisciuzzi, Michele Montaruli, Francesco Leonetti, Giuseppe Felice Mangiatordi, and Orazio Nicolotti. 2018. A new
+approach for drug target and bioactivity prediction: the multifingerprint similarity search algorithm (MuSSeL). Journal of chemical information and
+modeling 59, 1 (2018), 586–596.
+[3] Mahendra Awale and Jean-Louis Reymond. 2017. The polypharmacology browser: a web-based multi-fingerprint target prediction tool using
+ChEMBL bioactivity data. Journal of cheminformatics 9 (2017), 1–10.
+[4] Douglas Bates, Martin Mächler, Ben Bolker, and Steve Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software
+67, 1 (2015), 1–48. https://doi.org/10.18637/jss.v067.i01
+[5] Douglas Bates, Martin Mächler, Ben Bolker, and Steve Walker. 2015. Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software
+67, 1 (2015), 1–48. https://doi.org/10.18637/jss.v067.i01
+[6] Samuel Broder. 2010. The development of antiretroviral therapy and its impact on the HIV-1/AIDS pandemic. Antiviral research 85, 1 (2010), 1–18.
+[7] Carrie J Cai, Emily Reif, Narayan Hegde, Jason Hipp, Been Kim, Daniel Smilkov, Martin Wattenberg, Fernanda Viegas, Greg S Corrado, Martin C
+Stumpe, et al. 2019. Human-centered tools for coping with imperfect algorithms during medical decision-making. In Proceedings of the 2019 chi
+conference on human factors in computing systems. 1–14.
+[8] Victoria Clarke, Virginia Braun, and Nikki Hayfield. 2015. Thematic analysis. Qualitative Psychology: A Practical Guide to Research Methods (2015),
+222–248.
+[9] Gabriele Corso, Hannes Stärk, Bowen Jing, Regina Barzilay, and Tommi Jaakkola. 2022. Diffdock: Diffusion steps, twists, and turns for molecular
+docking. arXiv preprint arXiv:2210.01776 (2022).
+[10] Arthur Cropley. 2006. In praise of convergent thinking. Creativity research journal 18, 3 (2006), 391–404.
+[11] Kevin Dunbar. 1993. Concept discovery in a scientific domain. Cognitive science 17, 3 (1993), 397–434.
+[12] Mathias Dunkel, Stefan Günther, Jessica Ahmed, Burghardt Wittig, and Robert Preissner. 2008. SuperPred: drug classification and target prediction.
+Nucleic acids research 36, suppl_2 (2008), W55–W59.
+[13] Malek Elhaddad and Sara Hamam. 2024. AI-driven clinical decision support systems: an ongoing pursuit of potential. Cureus 16, 4 (2024).
+[14] Ronald A Finke, Thomas B Ward, and Steven M Smith. 1996. Creative cognition: Theory, research, and applications. MIT press.
+[15] Anonymized for review. [n. d.]. Due to anonymity concerns, the reference cannot be disclosed at this stage. ([n. d.]).
+[16] David C Fry. 2015. Targeting protein-protein interactions for drug discovery. Protein-Protein Interactions: Methods and Applications (2015), 93–106.
+[17] Andreas Fügener, Jörn Grahl, Alok Gupta, and Wolfgang Ketter. 2022. Cognitive challenges in human–artificial intelligence collaboration:
+Investigating the path toward productive delegation. Information Systems Research 33, 2 (2022), 678–696.
+[18] David Gfeller, Aurélien Grosdidier, Matthias Wirth, Antoine Daina, Olivier Michielin, and Vincent Zoete. 2014. SwissTargetPrediction: a web server
+for target prediction of bioactive small molecules. Nucleic acids research 42, W1 (2014), W32–W38.
+[19] Gabriela Goldschmidt. 2014. Linkography: unfolding the design process. Mit Press.
+[20] Simon Harper, Eleni Michailidou, and Robert Stevens. 2009. Toward a definition of visual complexity as an implicit measure of cognitive load. ACM
+Transactions on Applied Perception (TAP) 6, 2 (2009), 1–18.
+[21] Izumi V Hinkson, Benjamin Madej, and Eric A Stahlberg. 2020. Accelerating therapeutics for opportunities in medicine: a paradigm shift in drug
+discovery. Frontiers in pharmacology 11 (2020), 770.
+[22] Caitriona Holohan, Sandra Van Schaeybroeck, Daniel B Longley, and Patrick G Johnston. 2013. Cancer drug resistance: an evolving paradigm.
+Nature Reviews Cancer 13, 10 (2013), 714–726.
+[23] Ross Irwin, Spyridon Dimitriadis, Jiazhen He, and Esben Jannik Bjerrum. 2022. Chemformer: a pre-trained transformer for computational chemistry.
+Machine Learning: Science and Technology 3, 1 (2022), 015022.
+[24] John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf Ronneberger, Kathryn Tunyasuvunakool, Russ Bates, Augustin
+Žídek, Anna Potapenko, et al. 2021. Highly accurate protein structure prediction with AlphaFold. nature 596, 7873 (2021), 583–589.
+[25] David Jungwirth and Daniela Haluza. 2023. Artificial intelligence and public health: an exploratory study. International Journal of Environmental
+Research and Public Health 20, 5 (2023), 4541.
+[26] Hyeonsu B Kang, Nouran Soliman, Matt Latzke, Joseph Chee Chang, and Jonathan Bragg. 2023. ComLittee: Literature Discovery with Personal
+Elected Author Committees. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems. 1–20.
+[27] Md Rezaul Karim, Tanhim Islam, Md Shajalal, Oya Beyan, Christoph Lange, Michael Cochez, Dietrich Rebholz-Schuhmann, and Stefan Decker. 2023.
+Explainable AI for bioinformatics: methods, tools and applications. Briefings in bioinformatics 24, 5 (2023), bbad236.
+[28] Michael J Keiser, Vincent Setola, John J Irwin, Christian Laggner, Atheir I Abbas, Sandra J Hufeisen, Niels H Jensen, Michael B Kuijer, Roberto C
+Matos, Thuy B Tran, et al. 2009. Predicting new molecular targets for known drugs. Nature 462, 7270 (2009), 175–181.
+[29] Nabin Khanal, Chun Meng Yu, Jui-Cheng Chiu, Anav Chaudhary, Ziyue Zhang, Kakani Katija, and Angus G Forbes. 2024. FathomGPT: A natural
+language interface for interactively exploring ocean science data. In Proceedings of the 37th Annual ACM Symposium on User Interface Software and
+Technology. 1–15.
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+[30] David Klahr and Kevin Dunbar. 1988. Dual space search during scientific reasoning. Cognitive science 12, 1 (1988), 1–48.
+[31] Yoonjoo Lee, Hyeonsu B Kang, Matt Latzke, Juho Kim, Jonathan Bragg, Joseph Chee Chang, and Pao Siangliulue. 2024. PaperWeaver: Enriching
+Topical Paper Alerts by Contextualizing Recommended Papers with User-collected Papers. In Proceedings of the CHI Conference on Human Factors in
+Computing Systems. 1–19.
+[32] Anqi Lin, Junpu Ye, Chang Qi, Lingxuan Zhu, Weiming Mou, Wenyi Gan, Dongqiang Zeng, Bufu Tang, Mingjia Xiao, Guangdi Chu, et al. 2025.
+Bridging artificial intelligence and biological sciences: a comprehensive review of large language models in bioinformatics. Briefings in Bioinformatics
+26, 4 (2025), bbaf357.
+[33] Xueping Liu, Ingo Vogt, Tanzeem Haque, and Mónica Campillos. 2013. HitPick: a web server for hit identification and target prediction of chemical
+screenings. Bioinformatics 29, 15 (2013), 1910–1912.
+[34] Maestro. 2025. Schrödinger. https://newsite.schrodinger.com/platform/products/maestro/. Accessed: 2024-07-31.
+[35] Jakob Nielsen. 2006. Progressive disclosure. Nielsen Norman Group 1 (2006).
+[36] Nvida. 2025. BioNemo. https://www.nvidia.com/en-us/clara/bionemo/. Accessed: 2024-07-31.
+[37] David Ochoa, Andrew Hercules, Miguel Carmona, Daniel Suveges, Asier Gonzalez-Uriarte, Cinzia Malangone, Alfredo Miranda, Luca Fumis, Denise
+Carvalho-Silva, Michaela Spitzer, et al. 2021. Open Targets Platform: supporting systematic drug–target identification and prioritisation. Nucleic
+acids research 49, D1 (2021), D1302–D1310.
+[38] Takeshi Okada and Herbert A Simon. 1997. Collaborative discovery in a scientific domain. Cognitive science 21, 2 (1997), 109–146.
+[39] David B Olawade, Ojima J Wada, Aanuoluwapo Clement David-Olawade, Edward Kunonga, Olawale Abaire, and Jonathan Ling. 2023. Using
+artificial intelligence to improve public health: a narrative review. Frontiers in Public Health 11 (2023), 1196397.
+[40] Antonio Peón, Hongjian Li, Ghita Ghislat, Kwong-Sak Leung, Man-Hon Wong, Gang Lu, and Pedro J Ballester. 2019. MolTarPred: a web tool for
+comprehensive target prediction with reliability estimation. Chemical biology & drug design 94, 1 (2019), 1390–1401.
+[41] Janet Piñero, Juan Manuel Ramírez-Anguita, Josep Saüch-Pitarch, Francesco Ronzano, Emilio Centeno, Ferran Sanz, and Laura I Furlong. 2020. The
+DisGeNET knowledge platform for disease genomics: 2019 update. Nucleic acids research 48, D1 (2020), D845–D855.
+[42] Jason Portenoy, Marissa Radensky, Jevin D West, Eric Horvitz, Daniel S Weld, and Tom Hope. 2022. Bursting scientific filter bubbles: Boosting
+innovation via novel author discovery. In Proceedings of the 2022 CHI Conference on Human Factors in Computing Systems. 1–13.
+[43] Andrew D Rouillard, Gregory W Gundersen, Nicolas F Fernandez, Zichen Wang, Caroline D Monteiro, Michael G McDermott, and Avi Ma’ayan.
+2016. The harmonizome: a collection of processed datasets gathered to serve and mine knowledge about genes and proteins. Database 2016 (2016),
+baw100.
+[44] Keith Sawyer. 2013. Zig zag: The surprising path to greater creativity. John Wiley & Sons.
+[45] Jutta Schickore. 2014. Scientific discovery. (2014).
+[46] Christian D Schunn and David Klahr. 1995. A 4-space model of scientific discovery. In Proceedings of the 17th annual conference of the cognitive
+science society. Psychology Press Hove, 106–111.
+[47] Chuhan Shi, Fei Nie, Yicheng Hu, Yige Xu, Lei Chen, Xiaojuan Ma, and Qiong Luo. 2022. MedChemLens: An interactive visual tool to support
+direction selection in interdisciplinary experimental research of medicinal chemistry. IEEE Transactions on Visualization and Computer Graphics 29,
+1 (2022), 63–73.
+[48] Ben Shneiderman. 2003. The eyes have it: A task by data type taxonomy for information visualizations. In The craft of information visualization.
+Elsevier, 364–371.
+[49] Amy Smith, Barrett R Anderson, Jasmine Tan Otto, Isaac Karth, Yuqian Sun, John Joon Young Chung, Melissa Roemmele, and Max Kreminski. 2025.
+Fuzzy Linkography: Automatic Graphical Summarization of Creative Activity Traces. arXiv preprint arXiv:2502.04599 (2025).
+[50] Lloyd M Smith and Neil L Kelleher. 2013. Proteoform: a single term describing protein complexity. Nature methods 10, 3 (2013), 186–187.
+[51] Ulrich Stelzl, Uwe Worm, Maciej Lalowski, Christian Haenig, Felix H Brembeck, Heike Goehler, Martin Stroedicke, Martina Zenkner, Anke
+Schoenherr, Susanne Koeppen, et al. 2005. A human protein-protein interaction network: a resource for annotating the proteome. Cell 122, 6 (2005),
+957–968.
+[52] Kevin H Strang, Todd E Golde, and Benoit I Giasson. 2019. MAPT mutations, tauopathy, and mechanisms of neurodegeneration. Laboratory
+investigation 99, 7 (2019), 912–928.
+[53] Damian Szklarczyk, Annika L Gable, Katerina C Nastou, David Lyon, Rebecca Kirsch, Sampo Pyysalo, Nadezhda T Doncheva, Marc Legeay, Tao
+Fang, Peer Bork, et al. 2021. The STRING database in 2021: customizable protein–protein networks, and functional characterization of user-uploaded
+gene/measurement sets. Nucleic acids research 49, D1 (2021), D605–D612.
+[54] Damian Szklarczyk, Rebecca Kirsch, Mikaela Koutrouli, Katerina Nastou, Farrokh Mehryary, Radja Hachilif, Annika L Gable, Tao Fang, Nadezhda T
+Doncheva, Sampo Pyysalo, et al. 2023. The STRING database in 2023: protein–protein association networks and functional enrichment analyses for
+any sequenced genome of interest. Nucleic acids research 51, D1 (2023), D638–D646.
+[55] Lirong Wang, Chao Ma, Peter Wipf, Haibin Liu, Weiwei Su, and Xiang-Qun Xie. 2013. TargetHunter: an in silico target identification tool for
+predicting therapeutic potential of small organic molecules based on chemogenomic database. The AAPS journal 15 (2013), 395–406.
+[56] Saul J Weiner, Alan Schwartz, Frances Weaver, William Galanter, Sarah Olender, Karl Kochendorfer, Amy Binns-Calvey, Ravisha Saini, Sana Iqbal,
+Monique Diaz, et al. 2022. Effect of electronic health record clinical decision support on contextualization of care: a randomized clinical trial. JAMA
+Network Open 5, 10 (2022), e2238231–e2238231.
+[57] Frank Wilcoxon. 1945. Individual comparisons by ranking methods. Biometrics Bulletin 1, 6 (1945), 80–83. https://doi.org/10.2307/3001968
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Anon.
+
+[58] Olivier J Wouters, Martin McKee, and Jeroen Luyten. 2020. Estimated research and development investment needed to bring a new medicine to
+market, 2009-2018. Jama 323, 9 (2020), 844–853.
+[59] Yao Xie, Melody Chen, David Kao, Ge Gao, and Xiang’Anthony’ Chen. 2020. CheXplain: enabling physicians to explore and understand data-driven,
+AI-enabled medical imaging analysis. In Proceedings of the 2020 CHI Conference on Human Factors in Computing Systems. 1–13.
+[60] Chengbo Zheng, Yuanhao Zhang, Zeyu Huang, Chuhan Shi, Minrui Xu, and Xiaojuan Ma. 2024. DiscipLink: Unfolding Interdisciplinary Information
+Seeking Process via Human-AI Co-Exploration. In Proceedings of the 37th Annual ACM Symposium on User Interface Software and Technology. 1–20.
+[61] Richard Zuech, Taghi M Khoshgoftaar, and Randall Wald. 2015. Intrusion detection and big heterogeneous data: a survey. Journal of Big Data 2, 1
+(2015), 3.
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+A
+
+APPENDIX
+
+Table 2. Web-based interface for target prediction (through interviews with four drug discovery professionals). These interfaces have
+only partially supported three criteria: C1) physical and functional interactions, C2) therapeutic impact, and C3) docking potential.
+
+Name
+
+Description
+
+Criteria
+
+Ref.
+
+The STRING dataset is a comprehensive resource that integrates
+experimental data, text mining, and computational predictions
+to provide high-confidence protein-protein interaction networks
+
+C1
+
+[53]
+
+Open Targets Plat- The Open Targets Platform is an information-rich resource that
+form
+offers evidence on the connections between known drug targets
+and diseases, facilitating the discovery and ranking of drug targets.
+
+C1
+
+[37]
+
+Google Scholar
+
+Google Scholar is an academic search engine that helps researchers find articles, including those on the therapeutic impact
+of proteins.
+
+C2
+
+[37]
+
+DisGenNET
+
+DisGeNET offers data on genes and genetic variants linked to
+human diseases.
+
+C2
+
+[41]
+
+Harmonizome
+
+Harmonizome is a collection of comprehensive and processed
+knowledge gathered from over 70 major online resources on
+genes and proteins.
+
+C3
+
+[43]
+
+TargetHunter
+
+TargetHunter uses the TAMOSIC algorithm to efficiently predict
+the biological targets of compounds in question.
+
+C3
+
+[55]
+
+Similarity Ensem- SEA ranks target proteins by calculating a similarity score based
+ble Approach (SEA) on the chemical similarity of 65,000 ligands, which are grouped
+according to human protein targets.
+
+C3
+
+[28]
+
+SwissTarget Predic- SwissTarget Prediction uses a similarity search to predict potention
+tial drug targets for queried molecules, and the updated version
+includes 376,342 experimentally active compounds and 3,068
+macromolecular targets.
+
+C3
+
+[18]
+
+SuperPred
+
+SuperPred employs a linear regression model trained with ECFP4
+fingerprints to predict the target proteins of compounds.
+
+C3
+
+[12]
+
+Polypharmacology
+browser
+
+The Polypharmacology Browser utilizes ten different fingerprints, molecular shapes, and substructure data to predict the
+most likely drug targets for a given small molecule.
+
+C3
+
+[3]
+
+HitPick
+
+HitPick predicts potential drug targets for hit compounds using
+the B-score method, a one-nearest-neighbor similarity search,
+and a modified naïve Bayesian model.
+
+C3
+
+[33]
+
+MolTarPred
+
+MolTarPred generates a list of potential drug targets and compounds that may have similar properties.
+
+C3
+
+[40]
+
+MuSSeL
+
+MuSSeL employs a multi-fingerprint similarity search algorithm
+to predict the potential drug targets of small molecules.
+
+C3
+
+[2]
+
+STRING
+
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+A.1
+
+Anon.
+
+Legend for HAPPIER
+
+In both the PPI-graph mode and the PPI-Bookmark mode, the legend is provided for these graph modes. This provides
+
+the 3 different legends labeled with meanings for line thickness, line color, and node color. The three legends are referred
+
+to as the Interaction Potential, the Therapeutic Impact, and the Docking Potential, respectively.
+
+The Interaction Potential shows the possibility of the two proteins interacting with each other and is represented
+by a thickness of the edges, with the thickest being the highest potential and the thinnest being the lowest potential.
+
+These potentials are based on the combined score from STRING. The combined score is a combination of the physical
+
+attributes of the proteins and the interaction between the two proteins. This combined score outputs in the range of 0
+
+to 1000. The thickness of the lines is based on each third of the combined score outputs. The 0 to 333 uses the thinnest
+
+line, a value of 333 to 666 uses the medium-thickness line, and a value of 667 to 1000 uses the thickest line.
+
+The Therapeutic Impact shows the possibility that the PPI pathway has a therapeutic impact and is represented
+
+by the color of the edges, with red being high potential and gray being low potential. Line coloring is based on the
+
+pathway score provided by the RAG framework in . The edge color is active if the pathway score is above 0.
+
+The Docking Potential shows the potential of the ligand to dock onto the selected protein and is represented by
+
+the color of the node, with purple being the high potential, orange being the moderate potential, and pink being the
+
+low potential. These potentials are based on binding affinity (-150̃) given from the Diffdock model [9] from NVIDIA
+
+BioNeMo API [36]. Purple is used for any node with a value above -0.5, orange is used for any node with a value
+
+between -0.5 and -2, and pink is used for any value below -2.
+
+Table 3. Participant demographic information by group in the formative study
+
+ID
+
+Age
+
+Gender
+
+Profession
+
+Domain
+
+Work experience
+
+𝑃 𝑓1
+𝑃 𝑓2
+𝑃 𝑓3
+𝑃 𝑓4
+𝑃 𝑓5
+
+26∼35
+26∼35
+36∼45
+36∼45
+26∼35
+
+Male
+Male
+Female
+Male
+Male
+
+Ph.D Candidate
+Ph.D Candidate
+Postdoctoral Researcher
+Senior Researcher
+Senior Researcher
+
+Target ID
+Target ID
+Target ID
+Target ID
+Target ID
+
+7 years
+8 years
+9 years
+18 years
+15 years
+
+Table 4. Participant demographic information by group in the main user study. Ligand ID means ligand identification, where
+researchers identify ligands that bind to a target protein.
+
+Group
+
+ID
+
+Age
+
+Gender
+
+Profession
+
+Domain
+
+Work experience
+
+Experimental
+
+𝑃𝑢1
+𝑃𝑢2
+𝑃𝑢3
+𝑃𝑢4
+𝑃𝑢5
+
+36–45
+36–45
+26–35
+26–35
+36–45
+
+Male
+Male
+Male
+Female
+Male
+
+Senior Researcher
+Senior Researcher
+Ph.D candidate
+Ph.D candidate
+Senior Researcher
+
+Target ID
+Target and Ligand ID
+Target and Ligand ID
+Target and Ligand ID
+Target ID
+
+23 years
+18 years
+4 years
+4 years
+14 years
+
+Control
+
+𝑃𝑢6
+𝑃𝑢7
+𝑃𝑢8
+𝑃𝑢9
+𝑃𝑢10
+
+26–35
+26–35
+36–45
+36–45
+26–35
+
+Male
+Male
+Female
+Female
+Male
+
+Ph.D candidate
+Ph.D candidate
+Senior Researcher
+Postdoctoral Researcher
+Senior Researcher
+
+Target and Ligand ID
+Target and Ligand ID
+Target and Ligand ID
+Target and Ligand ID
+Target ID
+
+5 years
+4 years
+18 years
+10 years
+15 years
+
+Supporting Medicinal Chemists in Iterative Hypothesis Generation for Drug Target Identification
+Conference acronym ’XX, June 03–05, 2025, Woodstock, NY
+
+Pu1
+
+Pu2
+
+Pu3
+
+Pu4
+
+Pu5
+
+Fig. 8. Linkography diagrams of five participants of the experimental group (𝑃𝑢1 -𝑃𝑢5 ). Red nodes represent design moves, and the
+indices above them indicate their chronological order. Orange-colored indices and edges represent divergent thinking, while purplecolored indices and edges represent convergent thinking. Links are established based on semantic or functional relevance, with edge
+color intensity indicating the degree of similarity—the darker the edge, the higher the similarity between connected moves.
