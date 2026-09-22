@@ -1,4 +1,115 @@
-# Augmenting GenUI with Design Patterns
+# A pattern language to abstract the design of interactive systems
+
+## back-log
+<!-- what we will work on some time in the future -->
+- We should develop a agentic framework for extractively defining such language given a set of papers
+- Add division of labor to workflow
+
+## next-up
+<!-- what we should work on next time -->
+- self-finetune CP rendering: for a CP, extract corresponding screen from the example papers -> compare the current rendering with the real examples to evaluate how the former can abstractly represent the latter -> identify areas for improvement and repeat
+- continue to review mvp
+- add some other groups' papers (e.g., AI2's)
+
+## 9/22/2026
+```
+- [fyi] we are pivoting this project into "A pattern language to abstract the design of interactive systems', which goes beyond the scope of individual UI screens
+- [x] review the papers in data/; those are our starter exemplar systems as a small training set to develop our pattern language
+- [x] review the summary of "Borchers — A pattern approach to interaction design" and translate the paper into specific ideas we can adopt in developing our pattern language, e.g., the hierarchical nature of patterns and the list of key attributes based on an example in architecture
+
+```
+
+### Review Exemplar Systems in `data/`
+
+**Approach.** Read all four papers end to end up to References; appendices and figures not read. Full review: `pattern-language/refs/exemplar-systems-review.md`.
+
+**What the set is.** HALO, HAPPIER, PerspectEvolver, and THESEUS are human–AI tools for scientific hypothesis work. They cover adjacent stages of one pipeline: ideate → generate → validate. All four follow the same paper template: formative study → 3 challenges → 3 design goals → 3 components → study against a baseline with the same model.
+
+**Candidate patterns (17, three levels).**
+- *System*: Theory-Staged Workflow, Diverge–Converge Loop, Unresolved Seeds Next Round, Phase-Dependent Initiative.
+- *Workspace*: Externalized Evolving State, Cluster the Generated Space, All Criteria One View, Overview then Detail, Structured Unit of Viewpoint.
+- *Component*: Rationale Attached at the Link, Propose Then Commit, Before/After Revision Card, Scoped AI Action, Live Consequence Preview, Personal Shortlist, Confidence Cue, Mark-the-Moment.
+
+**Key observations.** The formative "challenges" in each paper are ready-made problem statements (forces) for patterns. Each baseline keeps the same AI model and removes the structure, which amounts to a pattern ablation at system scale. The load-bearing ideas (persistent state, AI-proposes / human-commits, scoped AI action) are about state and authority over time. A screen-level spec can't express them.
+
+**Caveats.** All four are from one domain and may come from one lab, so some patterns may just be genre conventions. The studies are small (N = 10–16). No study tests a single pattern on its own.
+
+### Borchers → Ideas to Adopt
+
+**Approach.** Worked from the summary in `literature/`, not the paper. The summary doesn't cover Borchers's formal pattern definition. Full note: `pattern-language/refs/borchers-translation.md`.
+
+**Adopt.**
+1. *Hierarchy*: typed `context` (up) and `references` (down) links. Three levels: system → workspace → component; screen patterns sit at the bottom.
+<xac: how about "workflow-subtask-components": workflow is the sequence of subtasks a user performs using the system to achieve the high-level task; a subtask (e.g., filter generated ideas) is supported by a collection of UI components>
+  - Adopted. The MVP uses workflow → subtask → component (see "Pattern Language MVP" below).
+2. *Attributes*: Borchers's core is name, context, problem, solution, examples, diagram, and references. v5 lacked **forces**, **diagram**, **ranking**, and up/down links. <xac: v5 is obsolete artifact from the previous focus; ignore it>
+  - Done. The MVP uses its own Markdown template; the v5 comparison is removed from the Borchers note.
+3. *Forces* written as "X, but Y" are the core of each pattern. They also give an LLM something better to match on than `use_when` features.
+<xac: does force means why choosing this pattern but not other patterns? or what this pattern is good vs. bad for? perhaps need a better descriptive name for this>
+  - Neither. Forces are the competing demands that make the problem hard, which the solution must balance (e.g. speed of AI edits vs. user control). "Why this pattern" is *Context*; "good vs. bad for" would be *consequences*. Renamed to **Tradeoff**, written "X vs. Y" (your call).
+4. *Ranking* from evidence: `**` needs ≥3 exemplars plus a study that tests the pattern on its own; `*` needs ≥2 exemplars. Every candidate is `*` at most today.
+5. *Name as shared vocabulary* (verbal recoding). Tag each pattern by domain: interaction, AI/system behavior, or domain workflow.
+
+<xac: today's goal is to develop a minimal viable version of the pattern language to abstract the four system papers. stay focused. don't overreach or worry about things beyond today's scope>
+  - Understood. Dropped ranking, domain tags, other-domain exemplars, and LLM matching from today's scope; the MVP is below.
+
+**Decision (see `.agent/decisions.md`).** Generation is archived: v5, the reflection, and the delivery-tracker experiment moved to `archive/genui/`.
+
+### Pattern Language MVP
+
+**Approach.** Abstracted the four systems on workflow → subtask → component. Each pattern uses the template Name · Level · Context · Problem · Tradeoff · Solution · Examples · References. Solution is written as instructions for turning the pattern into a concrete design. Single-system patterns are kept and marked. Full language: `pattern-language/pattern-language-mvp.md`.
+
+**Result (revised twice after your comments in the MVP file).**
+- *3 workflows*:
+  - **WF-A Guided Candidate Search** (HALO, HAPPIER): narrow a *population* of alternatives. A1 Set Targets → A2 Populate → A3 Group by Criteria Profile → A4 Screen Against All Criteria → [A5 Distill & Recombine, HALO only] → A6 Keep & Restart.
+  - **WF-B Multi-Viewpoint Refinement** (PerspectEvolver): S1 Frame the Root → B1 Construct Contrasting Viewpoints → B2 Confront on One Question → B3 Consolidate the Exchange → S2 Revise Under Review → S3 Open Follow-ups.
+  - **WF-C Decompose and Verify** (THESEUS): S1 → C1 Decompose into Checkable Parts → C2 Gather Evidence per Part → C3 Interpret Evidence Against the Part → S2 → S3.
+- Level-of-abstraction rule added: a pattern's name, problem and solution use no term from one exemplar or its domain; that vocabulary lives in Examples. WF-B and WF-C were rewritten to meet it.
+- The language is AI-neutral: patterns say "the system", so they hold whether the content comes from a model, a solver, or a person. AI appears only in Examples.
+- Each subtask's Solution is a numbered sequence of steps naming the components (CP-n) the user works with, so it can be built from rather than read.
+- Component solutions carry an abstract spec: a component tree with data bindings and events, in the maui pattern mini-language (`~/dev/maui/.agent/compilation-rules.md` §2), which compiles to A2UI. Three written (CP-1, CP-6, CP-11) in `pattern-language/refs/component-specs.md`, linked from a Spec column. The earlier styleless-HTML sketches are deleted. Writing them exposed two gaps in CP-11's prose: batch apply, and a stale proposal.
+- All pattern text follows ASD-STE100 Simplified Technical English, document mode, per https://github.com/AminBlg/SimpleEnglish: 20-word instructions, condition before command, active voice, no should/would/may/might, one word per meaning, fact not importance. Two deviations are stated in the file.
+- The style now covers the active docs of the repository: README, passport, decisions, and the three drafts. Three groups keep their text, by your call: `literature/`, journal entries before 9/22, and paper prose.
+
+### Test Render of CP-1 Through A2UI
+
+**Approach.** Compiled the CP-1 spec with the maui implementation, `lib/agent/pattern-compiler.ts`, and rendered it with `components/a2ui-renderer.tsx`. A scratch script ran in `~/dev/maui` and was deleted; maui is unchanged. No API key was needed, so none was copied. Result recorded in `pattern-language/refs/component-specs.md`.
+
+**Findings.**
+- The spec compiled without a change. The repeat expanded to `criterion-0` and `criterion-1`, `@./name` and `@./value` resolved per item, `?setup` and `?running` produced separate surfaces, and each button carried its event.
+- The `running` surface rendered completely.
+- The `setup` surface reported `Unsupported component: TextField` three times. The catalog holds Card, Column, Row, Text, LineChart, NumberField, and Button. It has no text input, and the maui pattern library records the same gap.
+- **Correction after your comment.** A component spec is independent of any renderer; A2UI is for visualization only. So the missing text input is a limit of that renderer, not a constraint on CP-1. CP-1 keeps its text input. `needs:` now lists element kinds in design terms, not catalog component names.
+- WF-B and WF-C share three subtasks (S1, S2, S3) and nine components; the earlier pairing of them into one "Evolving Working Artifact" workflow didn't hold.
+- Each workflow's Solution leads with a mermaid flowchart (branches and loops), then one line per subtask.
+- *16 components*, 10 used by more than one workflow (e.g. Attached Evidence, Proposal Set, Provenance Link).
+- Tradeoff is deferred, alongside diagram, picture and ranking.
+
+**Open.**
+- HALO vs. HAPPIER may be *optimization* vs. *screening* variants of WF-A; the difference is A5 Distill & Recombine.
+- "Bring Input to a Part" covers AI deliberation (PerspectEvolver) and real data (THESEUS); it may split into two subtasks.
+
+### Component Previews
+
+**Approach.** `tools/render_specs.py` reads `pattern-language/refs/component-specs.md` and writes one plain HTML page per component into `pattern-language/renders/`. It maps each element to a plain HTML tag, and draws an unmapped element as a dashed box, so a spec always draws and no renderer constrains a pattern. Run: `python3 tools/render_specs.py`.
+
+**What a preview shows.** Purpose and context at the top. One framed screen per state, in the order a user meets them, with the trigger on the arrow between them. Bound data reads as what it means, never as a path: an input gets a placeholder, an output reads as alt text. Transitions that do not join neighbors are listed under the strip.
+
+**Three spec fields were added to make this possible.** `purpose` and `context`; `describes`, one phrase per bound path; `transitions`, `{from, to, when}`. Note for YAML: a bare `on:` key parses as boolean true, so the key is `when`.
+
+**Open.**
+- A repeat draws two identical rows, because one description serves every item. Sample data per spec would fix it, and it is not in the MVP.
+- 13 of the 16 components have no spec yet.
+
+### Wrap-up
+
+**Where things stand.** The MVP language, the three component specs, their previews, and the preview tool are in `pattern-language/` and `tools/`. Reorganized today into `pattern-language/{pattern-language-mvp.md, refs/, renders/}`; the screen-era drafts and the GenUI work are in `archive/`.
+
+**Open.**
+- `data/` (46 MB of PDFs) and `resources/` (109 MB, and it holds its own `.git`) are left uncommitted. Both need a decision: commit, ignore, or make `resources/mobile-ui-taxonomy` a submodule.
+- The three `literature/` notes, the journal entries before 9/22, and paper prose keep their old style, by your call.
+
+**Next.** See `next-up` at the top of this file.
 
 ## 7/8/2026
 
