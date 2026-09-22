@@ -106,7 +106,8 @@
 **Where things stand.** The MVP language, the three component specs, their previews, and the preview tool are in `pattern-language/` and `tools/`. Reorganized today into `pattern-language/{pattern-language-mvp.md, refs/, renders/}`; the screen-era drafts and the GenUI work are in `archive/`.
 
 **Open.**
-- `data/` (46 MB of PDFs) and `resources/` (109 MB, and it holds its own `.git`) are left uncommitted. Both need a decision: commit, ignore, or make `resources/mobile-ui-taxonomy` a submodule.
+- `data/` is in `.gitignore`: 46 MB of PDFs, and they are anonymous submissions. The papers stay local. `resources/` (the mobile UI taxonomy, 109 MB with its own `.git`) was deleted. The 6/24 entry still refers to it.
+- The plain-text extractions of the four papers are not in the repository. They were written to a session scratchpad and are lost when it clears. To keep them, extract them again into a tracked directory.
 - The three `literature/` notes, the journal entries before 9/22, and paper prose keep their old style, by your call.
 
 **Next.** See `next-up` at the top of this file.
