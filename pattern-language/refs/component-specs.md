@@ -1,5 +1,8 @@
 # Component specs (MVP)
 
+> 9/29: an eigen-UI card in `pattern-language/cards/` replaces the YAML spec of a component. CP-6
+> has a card; its YAML spec below is kept as a record only. CP-1 and CP-11 have no card yet.
+
 Abstract representation of a component pattern, for `pattern-language-mvp.md`. A spec states the
 element tree, the data it binds, its variations, and the events it emits. It states no style.
 

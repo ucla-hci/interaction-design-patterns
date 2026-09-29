@@ -1,0 +1,121 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>CP-4 · Persistent Structure Map</title>
+<link rel="stylesheet" href="card.css">
+<main class="card">
+  <header>
+    <p class="kicker"><a href="index.html">Cards</a> · component · CP-4</p>
+    <h1>Persistent Structure Map</h1>
+  </header>
+
+  <section class="front">
+    <h2>Eigen-UI</h2>
+<svg viewBox="0 0 940 560" role="img" aria-label="Wireframe of a persistent structure map">
+  <!-- canvas -->
+  <rect x="10" y="10" width="920" height="540" class="all" />
+  <text x="22" y="30" class="lab">canvas: the working state; it persists across the session (4 of 4)</text>
+
+  <!-- map controls -->
+  <rect x="22" y="44" width="150" height="30" class="some" />
+  <text x="32" y="64">−   +   fit   filter ▾</text>
+  <text x="180" y="64" class="lab">map controls (3 of 4)</text>
+
+  <!-- legend -->
+  <rect x="740" y="44" width="176" height="76" class="some" />
+  <text x="752" y="64">legend</text>
+  <line x1="752" y1="82" x2="782" y2="82" stroke="#333" stroke-width="4" /><text x="790" y="86">criterion 1</text>
+  <line x1="752" y1="102" x2="782" y2="102" stroke="#999" stroke-width="2" /><text x="790" y="106">criterion 2</text>
+  <text x="740" y="136" class="lab">when marks encode criteria (1 of 4)</text>
+
+  <!-- root -->
+  <rect x="360" y="90" width="220" height="70" class="all" />
+  <text x="372" y="110">root</text>
+  <line x1="372" y1="128" x2="560" y2="128" class="line" />
+  <line x1="372" y1="144" x2="500" y2="144" class="line" />
+  <text x="590" y="110" class="lab">root node: the goal (3 of 4)</text>
+
+  <!-- edges root -> items -->
+  <path d="M470 160 C470 200, 150 200, 150 240" class="edge" />
+  <path d="M470 160 L470 240" class="edge" />
+  <path d="M470 160 C470 200, 790 200, 790 240" class="edge" />
+  <rect x="280" y="190" width="44" height="20" class="some" /><text x="288" y="204">74%</text>
+  <rect x="476" y="190" width="44" height="20" class="some" /><text x="484" y="204">87%</text>
+  <rect x="616" y="190" width="44" height="20" class="some" /><text x="624" y="204">68%</text>
+  <text x="616" y="182" class="lab">score on a link, CP-8 (2 of 4)</text>
+
+  <!-- items: node = card -->
+  <g>
+    <rect x="50" y="240" width="200" height="96" class="all" />
+    <text x="62" y="260">item</text>
+    <line x1="62" y1="280" x2="236" y2="280" class="line" />
+    <line x1="62" y1="296" x2="200" y2="296" class="line" />
+    <rect x="62" y="310" width="120" height="16" class="some" /><text x="68" y="322">status</text>
+  </g>
+  <g>
+    <rect x="370" y="240" width="200" height="96" class="sel" />
+    <text x="382" y="260">item · selected</text>
+    <line x1="382" y1="280" x2="556" y2="280" class="line" />
+    <line x1="382" y1="296" x2="520" y2="296" class="line" />
+    <rect x="382" y="310" width="120" height="16" class="some" /><text x="388" y="322">status</text>
+  </g>
+  <g>
+    <rect x="690" y="240" width="200" height="96" class="all" />
+    <text x="702" y="260">item</text>
+    <line x1="702" y1="280" x2="876" y2="280" class="line" />
+    <line x1="702" y1="296" x2="840" y2="296" class="line" />
+    <rect x="702" y="310" width="120" height="16" class="some" /><text x="708" y="322">status</text>
+  </g>
+  <text x="50" y="354" class="lab">node: a card with a label and a summary (4 of 4) · status line (3 of 4) · selected state (2 of 4) opens CP-6</text>
+
+  <!-- second node type -->
+  <path d="M470 336 L470 420" class="edge" />
+  <path d="M150 336 L150 420" class="edge" />
+  <rect x="50" y="420" width="200" height="70" class="some" />
+  <text x="62" y="440">second node type</text>
+  <line x1="62" y1="462" x2="220" y2="462" class="line" />
+  <rect x="370" y="420" width="200" height="70" class="some" />
+  <text x="382" y="440">second node type</text>
+  <line x1="382" y1="462" x2="540" y2="462" class="line" />
+  <text x="600" y="440" class="lab">a second kind of node, drawn apart</text>
+  <text x="600" y="456" class="lab">from the first (2 of 4)</text>
+
+  <text x="22" y="536" class="lab">shape: a tree grown from the root (3 of 4) · a network with no root (1 of 4)</text>
+</svg>
+    <p class="key"><span class="k all"></span> in every instance <span class="k some"></span> in some instances, with the count <span class="k sel"></span> selected</p>
+  </section>
+
+  <section class="fields">
+    <dl>
+      <dt>Level</dt><dd>component</dd>
+      <dt>Context</dt><dd>A2 Generate Candidates · A3 Group Candidates by Criteria · B1 Build Contrasting Viewpoints · C1 Split the Claim into Checkable Parts</dd>
+      <dt>Goal</dt><dd>The user sees how the items of the work relate, and where a new item belongs.</dd>
+      <dt>Failure</dt><dd>A linear transcript loses the structure of the work.</dd>
+      <dt>Solution</dt><dd><ol>
+      <li>Make a canvas the working state. Keep it for the whole session.</li>
+      <li>Draw each item as a card with a label and a summary. Add a status line when items change state.</li>
+      <li>Link each item to the item that it comes from. State what a node and a link mean.</li>
+      <li>Choose the shape: a tree from a root, or a network when items have no single origin.</li>
+      <li>When a link carries a score, show it on the link (CP-8). When marks encode criteria, show a legend.</li>
+      <li>When the user selects an item, mark it and open Detail on Demand (CP-6).</li>
+      </ol></dd>
+      <dt>States</dt><dd>One state. The map grows as items arrive.</dd>
+      <dt>References</dt><dd>CP-6 Detail on Demand (opens from a selected node) · CP-8 Confidence Cue (score on a link) · CP-14 Provenance Link (the link to the origin)</dd>
+    </dl>
+  </section>
+
+  <section class="examples">
+    <h2>Examples</h2>
+    <p class="note">The eigen-UI is distilled from these instances. Images show only where
+    <code>data/figures/cp/</code> exists on this machine (<code>tools/crop_cp.py</code>).</p>
+    <div class="crops">
+    <figure class="crop"><img src="../../data/figures/cp/CP-4/1-halo.png" alt="" onerror="this.remove()">
+      <figcaption><b>HALO Fig. 2, callout A</b>. trajectory map of candidate cards</figcaption></figure>
+    <figure class="crop"><img src="../../data/figures/cp/CP-4/2-happier.png" alt="" onerror="this.remove()">
+      <figcaption><b>HAPPIER Fig. 3, callout a1</b>. network; edge colour and width encode criteria</figcaption></figure>
+    <figure class="crop"><img src="../../data/figures/cp/CP-4/3-perspectevolver.png" alt="" onerror="this.remove()">
+      <figcaption><b>PerspectEvolver Fig. 4, right</b>. canvas: the question and its threads</figcaption></figure>
+    <figure class="crop"><img src="../../data/figures/cp/CP-4/4-theseus.png" alt="" onerror="this.remove()">
+      <figcaption><b>THESEUS Fig. 2, callouts A, B, D, E</b>. tree of claims and procedures, with a score per link</figcaption></figure>
+    </div>
+  </section>
+</main>
