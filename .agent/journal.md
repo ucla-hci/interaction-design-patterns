@@ -8,6 +8,7 @@
 ## next-up
 <!-- what we should work on next time -->
 - [x] self-finetune CP rendering: for a CP, extract corresponding screen from the example papers -> compare the current rendering with the real examples to evaluate how the former can abstractly represent the latter -> identify areas for improvement and repeat
+- [urgent] Review the subtask renames and the card format.
 - create a website to access the patterns
 - continue to review mvp--create a more structured list of reviewable samples
 - add some other groups' papers (e.g., AI2's)
