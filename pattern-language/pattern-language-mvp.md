@@ -19,8 +19,12 @@ Three levels, linked by Borchers's context (up) and references (down):
   sequence of steps in which the user works with components.
 - **Component**: a UI element or interaction that supports a subtask.
 
-Every pattern lists its instances. A pattern that appears in one system only is kept and marked
-**(1 system)**. The four papers do not have to share every level.
+Every pattern lists its instances. The four papers do not have to share every level.
+
+**Two systems or more.** The MVP shows a subtask or a component only when it applies to two or
+more systems. A single-system pattern is in [single-system-patterns.md](single-system-patterns.md)
+until a new system shows it. A workflow can rest on one system, for now. Component counts include
+the moved subtasks.
 
 **Level of abstraction.** The name, problem, and solution of a pattern use no term that belongs
 to one exemplar system or its domain. Domain terms appear in Examples only. Test: put a system
@@ -38,12 +42,26 @@ document-mode form of https://github.com/AminBlg/SimpleEnglish:
 - Use active voice and simple tenses.
 - Use *can*, *will*, and *must*. Do not use *should*, *would*, *may*, or *might*.
 - Use one word for one meaning in the whole document. The fixed terms are: system, user, item,
-  candidate, criterion, group, part, viewpoint, evidence, outcome, record, show, open, select,
-  keep, accept, reject, propose, link.
+  candidate, criterion, group, part, viewpoint, evidence, outcome, record, claim, show, open,
+  select, keep, accept, reject, propose, link.
 - State the fact, not its importance.
 - Two deviations, both deliberate. Field labels (**Problem:**, **Solution:**) stay bold, because
   they are the schema of a pattern and not decoration. A component name keeps its CP number in a
   step, so that a reader can follow the reference.
+
+**Component rules** (9/29). Apply them in this order when a component is added or checked:
+
+1. *Reuse.* A component serves two or more subtasks. Count the uses from the subtask Solution
+   steps, not by hand.
+2. *Extend.* When a component serves one subtask, look at the Examples of the other subtasks.
+   When an exemplar shows the same UI there, add the step to that subtask.
+3. *Merge.* When the component is a narrower case of another component, merge it. State the
+   narrower case as a variation of the other component.
+4. *Demote.* When neither applies, remove the component. The step states the action and says
+   "(no component)". The UI stays open.
+5. *Promote.* When a "(no component)" need occurs in two or more subtasks, make it a component.
+
+A retired ID is not used again.
 
 IDs: workflows `WF-A/B/C` · subtasks `A1…`, `B1…`, `C1…`, shared ones `S1…` · components `CP-1…`.
 
@@ -54,10 +72,21 @@ IDs: workflows `WF-A/B/C` · subtasks `A1…`, `B1…`, `C1…`, shared ones `S1
 | **Name** | A short noun phrase. It is the shared vocabulary item |
 | **Level** | workflow, subtask, or component |
 | **Context** | The parent patterns that this pattern helps to implement |
-| **Problem** | What the user does, and what fails without the pattern |
-| **Solution** | How to build the pattern into a design, in terms that hold in any domain. Workflow: a diagram of the subtasks, then one line per subtask. Subtask: the steps in which the user works with named components. Component: what to build, plus a spec (see Components) |
+| **Problem** | Two labelled parts. *Goal:* what the user sets out to achieve. *Failure:* what goes wrong without the pattern |
+| **Solution** | How to build the pattern into a design, in terms that hold in any domain. It uses the patterns of the next level down as building blocks. Workflow: a diagram of the subtasks, then one line per subtask. Subtask: steps that each start with the component used, "CP-n Name: action". A step that fits no component says "(no component)". Component: an eigen-UI card (see Components) |
 | **Examples** | How each exemplar system instantiates the pattern, with its § section |
 | **References** | The child patterns that implement this pattern |
+
+<!-- <xac: for solution: each level's solution should use patterns in the next lower level as building blocks: workflow already does this well; subtasks need to tie closer to components; components have no lower-level patterns to use and is largely based on the eigen-UI, which is fine>
+  - Adopted. Every subtask step now starts with its component. Four steps fit no component, and
+    say "(no component)": a viewpoint with fixed fields (B1), a record of a discussion (B3), an
+    editable procedure (C2), and a verdict (C3). Later, 9/29: a component must serve two or more
+    subtasks. The fixed fields occur in B1 and C1, so they are now CP-17 Typed Item. The other
+    three occur once, and stay as steps with no component. -->
+
+**A component serves two or more subtasks.** When a need occurs in one subtask only, the step
+states the action and says "(no component)". The step leaves the UI open. Three needs are like
+this: a record of a discussion (B3), an editable procedure (C2), and a verdict (C3).
 
 <!-- <xac: need a better language to define this. here solution should describe how to implement this pattern into specific designs in a general tone>
   - Redefined as above. Every Solution below is rewritten as instructions, with the design
@@ -94,41 +123,41 @@ the shared part as three shared subtasks: S1, S2, and S3.
 
 ### WF-A · Guided Candidate Search
 - **Context:** — (top level)
-- **Problem:** An expert must find candidates that satisfy several criteria. The space is too
-  large to search by hand. Each criterion lives in a separate tool, and the expert checks
-  candidates one at a time.
+- **Problem:**
+  - *Goal:* The user finds candidates that satisfy several criteria at once.
+  - *Failure:* The space is too large to search by hand. Each criterion is in a separate tool,
+    and the user checks candidates one at a time.
 - **Solution:** Support this sequence of subtasks:
 
 ```mermaid
 flowchart LR
-  A1["A1 Set Targets"] --> A2["A2 Populate Candidates"]
-  A2 --> A3["A3 Group by Criteria Profile"]
-  A3 <--> A4["A4 Screen Against All Criteria"]
-  A4 <--> A5["A5 Distill & Recombine (optional)"]
-  A4 --> A6["A6 Keep & Restart"]
+  A1["A1 State the Start and the Criteria"] --> A2["A2 Generate Candidates"]
+  A2 --> A3["A3 Group Candidates by Criteria"]
+  A3 <--> A4["A4 Check Candidates Against Every Criterion"]
+  A4 <--> A5["A5 Combine Partial Candidates (optional) · moved"]:::moved
+  A4 --> A6["A6 Keep Candidates and Start the Next Round"]
   A5 --> A6
   A6 -- "kept candidate starts next batch" --> A2
+  classDef moved stroke-dasharray:5 4,color:#777
 ```
 
-  1. A1 Set Targets. The user states the starting point and the criteria.
-  2. A2 Populate Candidates. The system generates a batch of candidates from the targets.
-  3. A3 Group by Criteria Profile. The system groups candidates by their scores on the criteria.
-  4. A4 Screen Against All Criteria. The user checks groups and candidates against every
-     criterion.
-  5. A5 Distill and Recombine. Optional. The user combines partial successes into new
-     candidates. Include this subtask when the domain lets candidates combine.
-  6. A6 Keep and Restart. The user keeps survivors. A kept candidate starts the next round.
+  1. A1 State the Start and the Criteria. The user gives the starting point and each criterion.
+  2. A2 Generate Candidates. The system returns a batch of candidates from the criteria.
+  3. A3 Group Candidates by Criteria. The system groups candidates by their scores.
+  4. A4 Check Candidates Against Every Criterion. The user checks groups and candidates.
+  5. A5 Combine Partial Candidates. Optional. Include it when the domain lets candidates combine.
+  6. A6 Keep Candidates and Start the Next Round. A kept candidate starts the next round.
 
 - **Examples:**
 
   | Subtask | HALO | HAPPIER |
   |---|---|---|
-  | A1 Set Targets | initial molecule and 4 target properties | initial protein, therapeutic impact, ligand |
-  | A2 Populate Candidates | generative model, dozens of molecules (§4.1) | interaction graph, 10 subgraphs (§5.1) |
-  | A3 Group by Criteria Profile | clusters by improved and worsened properties (§4.1) | subgraphs ranked by interaction potential (§5.1) |
-  | A4 Screen Against All Criteria | cluster overview and candidates table with deltas (§4.2) | criteria sliders and detail panel (§5.1–5.2) |
-  | A5 Distill and Recombine | intra-cluster and inter-cluster strategies, then the editor (§4.2–4.3) | skipped |
-  | A6 Keep and Restart | save, new tree node, next generation (§4.3) | bookmark, personal PPI graph (§5.2.1) |
+  | A1 State the Start and the Criteria | initial molecule and 4 target properties | initial protein, therapeutic impact, ligand |
+  | A2 Generate Candidates | generative model, dozens of molecules (§4.1) | interaction graph, 10 subgraphs (§5.1) |
+  | A3 Group Candidates by Criteria | clusters by improved and worsened properties (§4.1) | subgraphs ranked by interaction potential (§5.1) |
+  | A4 Check Candidates Against Every Criterion | cluster overview and candidates table with deltas (§4.2) | criteria sliders and detail panel (§5.1–5.2) |
+  | A5 Combine Partial Candidates | intra-cluster and inter-cluster strategies, then the editor (§4.2–4.3) | skipped |
+  | A6 Keep Candidates and Start the Next Round | save, new tree node, next generation (§4.3) | bookmark, personal PPI graph (§5.2.1) |
 
 - **References:** A1–A6.
 <!-- <xac: ideally, if two system shares the same workflow, they can both be abstracted as a single "A->B->C->D-> ...">
@@ -137,32 +166,35 @@ flowchart LR
 
 ### WF-B · Multi-Viewpoint Refinement
 - **Context:** — (top level)
-- **Problem:** A user develops a position through one framing. People who hold other framings
-  are hard to reach. Generated viewpoints read alike and cite nothing.
+- **Problem:**
+  - *Goal:* The user develops a claim, and tests it against viewpoints that differ from the
+    user's own.
+  - *Failure:* People who hold other viewpoints are hard to reach. Generated viewpoints read
+    alike and cite nothing.
 - **Solution:** Support this sequence of subtasks:
 
 ```mermaid
 flowchart LR
-  S1["S1 Frame the Root"] --> B1["B1 Construct Contrasting Viewpoints"]
-  B1 --> B2["B2 Confront on One Question"]
-  B2 <--> B3["B3 Consolidate the Exchange"]
-  B3 --> S2["S2 Revise Under Review"]
-  S2 --> S3["S3 Open Follow-ups"]
+  S1["S1 State the Claim"] --> B1["B1 Build Contrasting Viewpoints · moved"]:::moved
+  B1 --> B2["B2 Discuss One Question Across Viewpoints · moved"]:::moved
+  B2 <--> B3["B3 Summarize the Discussion · moved"]:::moved
+  B3 --> S2["S2 Accept or Reject Proposed Revisions"]
+  S2 --> S3["S3 Propose Next Steps from Open Items"]
   S3 -- "next question" --> B2
   S3 -- "viewpoint no longer fits" --> B1
-  S2 -- "revision reaches the framing" --> S1
+  S2 -- "revision changes the claim" --> S1
+  classDef moved stroke-dasharray:5 4,color:#777
 ```
 
-  1. S1 Frame the Root. The user states the position and its basis.
-  2. B1 Construct Contrasting Viewpoints. The system builds distinct viewpoints from source
-     material. The user keeps a working set.
-  3. B2 Confront on One Question. The viewpoints answer one question. Each contribution names
-     its viewpoint.
-  4. B3 Consolidate the Exchange. The system records what holds, what conflicts, and what stays
+  1. S1 State the Claim. The user states the claim and its basis.
+  2. B1 Build Contrasting Viewpoints. The system builds viewpoints from source material. The
+     user keeps a working set.
+  3. B2 Discuss One Question Across Viewpoints. Each contribution names its viewpoint.
+  4. B3 Summarize the Discussion. The system records what holds, what conflicts, and what stays
      open.
-  5. S2 Revise Under Review. That record becomes proposed revisions to the viewpoints and the
-     root.
-  6. S3 Open Follow-ups. Each unresolved item becomes a proposed next question.
+  5. S2 Accept or Reject Proposed Revisions. The record becomes proposed revisions to the
+     viewpoints and the claim.
+  6. S3 Propose Next Steps from Open Items. Each open item becomes a proposed next question.
 
 - **Examples:** PerspectEvolver. Investigation Brief (§4.1.1). Literature regions, then
   Perspective Cards with six fields; the user selects 2 or 3 (§4.1.2–4.1.3). Deliberative
@@ -172,31 +204,35 @@ flowchart LR
 
 ### WF-C · Decompose and Verify
 - **Context:** — (top level)
-- **Problem:** One check does not settle a claim. Evidence arrives one piece at a time. In
-  linear notes the user loses which check bears on which part, and why the check ran.
+- **Problem:**
+  - *Goal:* The user checks a claim with evidence that arrives one piece at a time.
+  - *Failure:* One check does not settle the claim. In linear notes the user loses which check
+    applies to which part, and why the check ran.
 - **Solution:** Support this sequence of subtasks:
 
 ```mermaid
 flowchart LR
-  S1["S1 Frame the Root"] --> C1["C1 Decompose into Checkable Parts"]
-  C1 --> C2["C2 Gather Evidence per Part"]
-  C2 --> C3["C3 Interpret Evidence Against the Part"]
-  C3 --> S2["S2 Revise Under Review"]
-  S2 --> S3["S3 Open Follow-ups"]
+  S1["S1 State the Claim"] --> C1["C1 Split the Claim into Checkable Parts · moved"]:::moved
+  C1 --> C2["C2 Collect Evidence for Each Part · moved"]:::moved
+  C2 --> C3["C3 Judge Each Part Against Its Evidence · moved"]:::moved
+  C3 --> S2["S2 Accept or Reject Proposed Revisions"]
+  S2 --> S3["S3 Propose Next Steps from Open Items"]
   S3 -- "more evidence" --> C2
   S3 -- "replacement part" --> C1
   C1 -- "decompose a part further" --> C1
+  classDef moved stroke-dasharray:5 4,color:#777
 ```
 
-  1. S1 Frame the Root. The user states the claim to check.
-  2. C1 Decompose into Checkable Parts. The system proposes parts with rationale. The user edits
-     the structure.
-  3. C2 Gather Evidence per Part. Each part gets a procedure. The user edits it, runs it, and
-     reports outcomes.
-  4. C3 Interpret Evidence Against the Part. The system reports what the outcome does to that
+  1. S1 State the Claim. The user states the claim to check.
+  2. C1 Split the Claim into Checkable Parts. The system proposes parts with rationale. The user
+     edits the structure.
+  3. C2 Collect Evidence for Each Part. The user edits a procedure per part, runs it, and reports
+     outcomes.
+  4. C3 Judge Each Part Against Its Evidence. The system reports what the outcome does to that
      part.
-  5. S2 Revise Under Review. That reading becomes proposed changes to the structure.
-  6. S3 Open Follow-ups. An unresolved part becomes another check or a replacement part.
+  5. S2 Accept or Reject Proposed Revisions. The judgement becomes proposed changes to the parts.
+  6. S3 Propose Next Steps from Open Items. An open part becomes another check or a replacement
+     part.
 
 - **Examples:** THESEUS. Main hypothesis and decomposition depth (§4.1). Sub-hypothesis graph
   with rationale and edge confidence (§4.1). Experiment families, editable protocols, CSV result
@@ -222,16 +258,23 @@ flowchart LR
 
 ## Shared subtasks (WF-B and WF-C)
 
-### S1 · Frame the Root
+### S1 · State the Claim
+<!-- <xac: not a big fan of this type of metaphorical language. a subtask's name needs to be precise about what a specific action (which can generalize across tools) takes place>
+  - Adopted for all 15 subtasks: a verb and its object, no metaphor. IDs are unchanged. The
+    rename table is in the journal, 9/29. Workflow names are unchanged. -->
+
 - **Context:** WF-B, WF-C
-- **Problem:** The user holds the position or the claim in mind. Later work drifts. No
-  contribution can be checked against the intent of the user.
+- **Problem:**
+  - *Goal:* The user states the claim that the later work serves.
+  - *Failure:* The claim stays in the mind of the user. Later work drifts, and no contribution
+    can be checked against the claim.
 - **Solution:**
-  1. Show an Inquiry Frame (CP-1). Give it one field per aspect of the root.
-  2. The user fills the fields. The system can draft a field. The user edits the draft.
-  3. Keep the frame visible. Every later subtask reads it as context.
-  4. When later work implies a change to the root, show a Reviewable Revision (CP-11).
-  5. The frame changes when the user accepts the revision, and at no other time.
+  1. CP-1 Inquiry Frame: show one field per aspect of the claim.
+  2. CP-1 Inquiry Frame: the user fills the fields. The system can draft a field, and the user
+     edits the draft.
+  3. CP-1 Inquiry Frame: keep the frame visible. Every later subtask reads it.
+  4. CP-11 Reviewable Revision: when later work implies a change to the claim, show the change.
+  5. CP-11 Reviewable Revision: the frame changes when the user accepts, and at no other time.
 - **Examples:** PerspectEvolver Investigation Brief: problem, framing, previous work,
   methodology, and expected results. It stays editable, and revisions arrive through
   Accept/Edit/Reject (§4.1.1, §4.3.2). THESEUS main hypothesis and decomposition depth (§4.1).
@@ -245,248 +288,163 @@ flowchart LR
   - Adopted. Every subtask Solution below is now numbered steps, each naming the components
     (CP-n) the user works with. -->
 
-### S2 · Revise Under Review
+### S2 · Accept or Reject Proposed Revisions
 - **Context:** WF-B, WF-C
-- **Problem:** When the system edits the work directly, the user loses control and cannot see
-  the change. When the system drafts nothing, the user gains little.
+- **Problem:**
+  - *Goal:* The user takes changes from the system and keeps control of the work.
+  - *Failure:* When the system edits the work directly, the user cannot see the change. When the
+    system drafts nothing, the user gains little.
+<!-- <xac: rather than a free-form prose, we need a pre-defined structure for specifying the problem. problem is defined as "What the user does, and what fails without the pattern"---does that mean the two attributes are goal (what to achieve) and failure (what fails)>
+  - Yes. Problem now has two labelled parts, *Goal* and *Failure*, in every workflow, subtask,
+    and component. See Template. -->
+
 <!-- <xac: language like this seems too casual, mystic, and imprecise. check this and see if we can adopt its style: https://github.com/AminBlg/SimpleEnglish>
   - Adopted, document mode, for all pattern text: 20-word instructions, condition before
     command, active voice, no should/would/may/might, one word per meaning, fact not importance.
     The rules and the two deviations are under "Writing style". -->
 - **Solution:**
-  1. Take what the previous subtask established. Draft the revisions it implies. Apply nothing.
-  2. When one change is implied, show a Reviewable Revision (CP-11): before, after, and the
-     reason.
-  3. When several directions are open, show a Proposal Set (CP-10). Label each option and give
-     its rationale.
-  4. The user accepts, edits, or rejects each item. Only this action changes the state.
-  5. Keep the replaced content. Link it to its successor with a Provenance Link (CP-14).
-  6. When the item changed after the system drafted the revision, reject the draft.
+  1. CP-11 Reviewable Revision: when the previous subtask implies one change, draft it. Show
+     before, after, and the reason. Apply nothing.
+  2. CP-10 Proposal Set: when several directions are open, show each option with a label and its
+     rationale.
+  3. CP-11 Reviewable Revision: the user accepts, edits, or rejects each change. Only this action
+     changes the work.
+  4. CP-14 Provenance Link: keep the replaced content, and link it to its successor.
+  5. CP-11 Reviewable Revision: when the item changed after the draft, reject the draft.
 - **Examples:** PerspectEvolver revision cards and brief Accept/Edit/Reject. Participants
   accepted 70% as drafted, edited 28%, and rejected 2% (§4.3.1–4.3.2). THESEUS adopts one
   candidate of three. It rejects a pending draft when the graph changed under it (§4.3–4.4).
 - **References:** CP-10 Proposal Set, CP-11 Reviewable Revision, CP-14 Provenance Link.
 
-### S3 · Open Follow-ups
+### S3 · Propose Next Steps from Open Items
 - **Context:** WF-B, WF-C
-- **Problem:** A round ends with a disagreement or an inconclusive outcome. The user stops, or
-  the item is lost.
+- **Problem:**
+  - *Goal:* The user continues from what a round left open.
+  - *Failure:* A round ends with a disagreement or an inconclusive outcome. The user stops, or
+    the open item is lost.
 - **Solution:**
-  1. Collect the items that the round left unresolved.
-  2. Show each item as a Suggested Next Step (CP-13). Leave the items unopened.
-  3. Give each item a Provenance Link (CP-14) to the item that raised it.
-  4. When the user opens one item, re-enter the workflow at the subtask that item needs.
+  1. CP-10 Proposal Set: collect the items that the round left open. Show each item as an
+     option, unopened.
+  2. CP-14 Provenance Link: link each item to the item that raised it.
+  3. CP-10 Proposal Set: when the user opens one item, go to the subtask that the item needs.
 - **Examples:** PerspectEvolver builds Suggested Threads from open questions, and shows them as
   prospective canvas branches (§4.3.3). THESEUS offers three candidates each for "replace
   hypothesis" and "further experiment" (§4.3).
-- **References:** CP-13 Suggested Next Steps, CP-14 Provenance Link.
+- **References:** CP-10 Proposal Set, CP-14 Provenance Link.
 
 ---
 
 ## Subtasks — WF-A · Guided Candidate Search
 
-### A1 · Set Targets
+### A1 · State the Start and the Criteria
 - **Context:** WF-A
-- **Problem:** Generation and screening need the criteria. The criteria live in the notes of the
-  expert, or in separate tools.
+- **Problem:**
+  - *Goal:* The user gives the starting point and the criteria that later subtasks use.
+  - *Failure:* The criteria are in the notes of the user, or in separate tools. Generation and
+    checks cannot read them.
 - **Solution:**
-  1. Show an Inquiry Frame (CP-1): the starting point, and one field per criterion.
-  2. Use the format of the domain for each field.
-  3. The user fills each field. Flag a field that a later subtask requires.
-  4. Keep the targets visible. A2, A3, and A4 read them.
+  1. CP-1 Inquiry Frame: show a field for the starting point, and one field per criterion.
+  2. CP-1 Inquiry Frame: use the format of the domain for each field.
+  3. CP-1 Inquiry Frame: the user fills each field. Flag a field that a later subtask requires.
+  4. CP-1 Inquiry Frame: keep the fields visible. A2, A3, and A4 read them.
 - **Examples:** HALO: initial molecule and four target properties. HAPPIER: initial protein,
   therapeutic impact, and ligand, one input per criterion (§5.1).
 - **References:** CP-1 Inquiry Frame.
 
-### A2 · Populate Candidates
+### A2 · Generate Candidates
 - **Context:** WF-A
-- **Problem:** Manual search stays near familiar options, and it is slow.
+- **Problem:**
+  - *Goal:* The user gets many candidates for the current criteria.
+  - *Failure:* Manual search stays near familiar options, and it is slow.
 - **Solution:**
-  1. The user requests candidates from the current targets.
-  2. The system returns a Candidate Batch (CP-2), not one answer.
-  3. Size the batch so that the groups in A3 stay legible.
-  4. Put each candidate on the Persistent Structure Map (CP-4) with a Provenance Link (CP-14).
-  5. The user edits the targets and requests another batch.
+  1. CP-1 Inquiry Frame: the user requests candidates from the current criteria.
+  2. (no component): return a batch, not one answer. Size it so that the groups in A3 stay
+     legible.
+  3. CP-4 Persistent Structure Map: put each candidate on the map.
+  4. CP-14 Provenance Link: link each candidate to the request that produced it.
+  5. CP-1 Inquiry Frame: the user edits the criteria and requests another batch.
 - **Examples:** HALO generates dozens of molecules and puts them on the trajectory map (§4.1).
   HAPPIER splits the interaction graph into 10 subgraphs of 50 to 60 proteins (§5.1).
-- **References:** CP-2 Candidate Batch, CP-4 Persistent Structure Map, CP-14 Provenance Link.
+- **References:** CP-1 Inquiry Frame, CP-4 Persistent Structure Map, CP-14 Provenance Link.
 
-### A3 · Group by Criteria Profile
+### A3 · Group Candidates by Criteria
 - **Context:** WF-A
-- **Problem:** A flat list of hundreds of candidates hides which candidates behave alike.
+- **Problem:**
+  - *Goal:* The user sees which candidates behave alike.
+  - *Failure:* A flat list of hundreds of candidates hides which candidates behave alike.
 - **Solution:**
-  1. Choose a grouping signature from the criteria, not from the generation order.
-  2. Form Candidate Groups (CP-3). Label each group and summarize it.
-  3. Show the groups on the Persistent Structure Map (CP-4).
-  4. The user opens one group to list its candidates.
+  1. CP-3 Candidate Groups: choose a grouping signature from the criteria, not from the
+     generation order.
+  2. CP-3 Candidate Groups: form the groups. Label each group and summarize it.
+  3. CP-5 Multi-Criteria Encoding: mark each group by its result on each criterion.
+  4. CP-4 Persistent Structure Map: show the groups on the map.
+  5. CP-6 Detail on Demand: when the user selects a group, list its candidates.
 - **Examples:** HALO clusters candidates by improved and worsened properties, in green and red
   (§4.1). HAPPIER ranks subgraphs by interaction potential, and a slider switches between them
   (§5.1).
-- **References:** CP-3 Candidate Groups, CP-4 Persistent Structure Map.
+- **References:** CP-3 Candidate Groups, CP-4 Persistent Structure Map, CP-5 Multi-Criteria
+  Encoding, CP-6 Detail on Demand.
 
-### A4 · Screen Against All Criteria
+### A4 · Check Candidates Against Every Criterion
 - **Context:** WF-A
-- **Problem:** The user checks each candidate against each criterion in a separate tool. A
-  generated score can be wrong.
+- **Problem:**
+  - *Goal:* The user finds the candidates that satisfy every criterion.
+  - *Failure:* The user checks each criterion in a separate tool. A generated score can be
+    wrong, and the user cannot tell.
 - **Solution:**
-  1. Show every criterion on one view with Multi-Criteria Encoding (CP-5).
-  2. Give each criterion one visual channel and one toggle.
-  3. Show the score of each candidate in place. When the system generated the score, add a
-     Confidence Cue (CP-8).
-  4. When the user selects a candidate, open Detail on Demand (CP-6) with its Attached Evidence
-     (CP-7).
-  5. The user rejects candidates, then returns to A3 for the next group.
+  1. CP-5 Multi-Criteria Encoding: show every criterion on one view. Give each criterion one
+     visual channel and one toggle.
+  2. CP-8 Confidence Cue: when the system generated a score, show the cue beside it.
+  3. CP-6 Detail on Demand: when the user selects a candidate, open its detail.
+  4. CP-7 Attached Evidence: show the evidence for each score in that detail.
+  5. CP-5 Multi-Criteria Encoding: the user rejects candidates, then returns to A3 for the next
+     group.
 - **Examples:** HALO shows property deltas and a sortable candidates table (§4.2). HAPPIER shows
   criteria sliders, edge and node encoding, and a detail panel with papers and docking poses
   (§5.1–5.2).
 - **References:** CP-5 Multi-Criteria Encoding, CP-6 Detail on Demand, CP-7 Attached Evidence,
   CP-8 Confidence Cue.
 
-### A5 · Distill and Recombine **(1 system)**
-- **Context:** WF-A
-- **Problem:** Each group passes some criteria and fails others. The expert must find the cause,
-  and must combine partial successes.
-- **Solution:**
-  1. For each group, report what its candidates share, and what corrects the failed criteria.
-  2. Show these as a Proposal Set (CP-10), within one group and across groups.
-  3. When the user applies an option, edit the candidate and run Live Consequence Preview
-     (CP-15).
-  4. Show the gain and the loss on every criterion after each edit.
-  5. When the user has a direction, reduce the number of open options.
-  6. On save, create a candidate with a Provenance Link (CP-14) to its source.
-- **Examples:** HALO MolStrategy gives strategies within a cluster. MolSynthesis gives strategies
-  across clusters. Property scores update live, and a save adds a node with an edit edge
-  (§4.2–4.3). Participants called the late-session strategy list too long (§5.2.3).
-- **References:** CP-10 Proposal Set, CP-14 Provenance Link, CP-15 Live Consequence Preview.
+> A5 Combine Partial Candidates applies to one system. It is in
+> [single-system-patterns.md](single-system-patterns.md#a5--combine-partial-candidates-1-system).
 
-### A6 · Keep and Restart
+### A6 · Keep Candidates and Start the Next Round
 - **Context:** WF-A
-- **Problem:** Kept candidates spread across views. The next round starts from nothing.
+- **Problem:**
+  - *Goal:* The user keeps the best candidates, and starts the next round from them.
+  - *Failure:* Kept candidates spread across views. The next round starts from nothing.
 - **Solution:**
-  1. Give every candidate a keep action that adds it to a Shortlist (CP-12).
-  2. Show the shortlist as its own view. It is the deliverable.
-  3. The user filters the shortlist by group.
-  4. Keep the Provenance Link (CP-14) on each kept candidate.
-  5. The user sends a kept candidate to A2 as the next starting point.
+  1. CP-12 Shortlist: give every candidate a keep action. Show the shortlist as its own view. It
+     is the deliverable.
+  2. CP-12 Shortlist: the user filters the shortlist by group.
+  3. CP-14 Provenance Link: keep the link on each kept candidate.
+  4. CP-1 Inquiry Frame: the user sends a kept candidate to A2 as the next starting point.
 - **Examples:** HAPPIER bookmarks build a personal PPI graph, filterable by subgraph (§5.2.1).
   HALO saves a candidate as a node on the trajectory tree. That node starts the next generation
   (§4.3).
-- **References:** CP-12 Shortlist, CP-14 Provenance Link.
+- **References:** CP-1 Inquiry Frame, CP-12 Shortlist, CP-14 Provenance Link.
 
 ---
 
-## Subtasks — WF-B · Multi-Viewpoint Refinement
+## Subtasks — WF-B and WF-C
 
-### B1 · Construct Contrasting Viewpoints
-- **Context:** WF-B
-- **Problem:** A viewpoint requested in one sentence reads like every other viewpoint. The user
-  cannot tell what each viewpoint contributes.
-- **Solution:**
-  1. Retrieve source material for the root. Form Candidate Groups (CP-3) from it.
-  2. Build one viewpoint per group. Give every viewpoint the same fields.
-  3. Attach evidence to each field with Attached Evidence (CP-7). Link the evidence to its
-     source passage.
-  4. The user compares viewpoints field by field, then keeps a working set (Shortlist, CP-12).
-  5. Show the working set on the Persistent Structure Map (CP-4).
-- **Examples:** PerspectEvolver maps about 1,370 retrieved papers into regions. It builds one
-  Perspective Card per region, with six fields. The user selects 2 or 3 (§4.1.2–4.1.3).
-- **References:** CP-3 Candidate Groups, CP-4 Persistent Structure Map, CP-7 Attached Evidence,
-  CP-12 Shortlist.
-
-### B2 · Confront on One Question
-- **Context:** WF-B
-- **Problem:** In one long conversation the viewpoints blur. The user cannot tell which
-  viewpoint produced a conclusion.
-- **Solution:**
-  1. The user opens a Scoped Conversation (CP-9) for one question, and names the participants.
-  2. Attribute each contribution to its viewpoint, and to the contribution it answers.
-  3. Attach evidence to each empirical claim (CP-7).
-  4. The user addresses one participant, adds a participant, challenges a passage, or requests
-     more turns.
-  5. Keep one exchange per question.
-- **Examples:** PerspectEvolver Deliberative Threads: attribution per contribution, @-mention,
-  Quote response, Challenge, Expand, and 1 to 6 turns per request (§4.2.2).
-- **References:** CP-7 Attached Evidence, CP-9 Scoped Conversation.
-
-### B3 · Consolidate the Exchange
-- **Context:** WF-B
-- **Problem:** A finished exchange is long. The user must read it again to find what it settled.
-- **Solution:**
-  1. The user requests a record of the exchange.
-  2. Record three things: what holds, what conflicts, and what stays open.
-  3. Link each entry to its contributions and evidence. The user opens them with Detail on
-     Demand (CP-6).
-  4. Keep a conflict as a conflict. S3 uses it.
-  5. The user continues the exchange and requests another record. Keep both records.
-- **Examples:** PerspectEvolver Working Synthesis records the hypothesis, insights, agreements,
-  disagreements, and open questions, with literature links. The user can synthesize the thread
-  again (§4.2.3).
-- **References:** CP-6 Detail on Demand, CP-7 Attached Evidence.
-
----
-
-## Subtasks — WF-C · Decompose and Verify
-
-### C1 · Decompose into Checkable Parts
-- **Context:** WF-C
-- **Problem:** The user cannot check a broad claim in one step. A flat list of parts hides which
-  part a check bears on.
-- **Solution:**
-  1. Propose a hierarchy of parts from the root. Make each part a checkable statement.
-  2. Give each part typed fields: what varies, what is measured, and what is assumed.
-  3. Put the hierarchy on the Persistent Structure Map (CP-4). State what a node and an edge
-     mean.
-  4. Attach the rationale and the sources to each parent-child link (CP-7). Add a Confidence Cue
-     (CP-8).
-  5. When the user selects a part, open Detail on Demand (CP-6) and a Scoped Conversation
-     (CP-9).
-  6. The user edits parts, adds parts, and requests a further decomposition of one part.
-- **Examples:** THESEUS builds a sub-hypothesis graph with typed fields, a decomposition
-  rationale with literature, and a confidence score per edge. It decomposes an approved leaf
-  further on request (§4.1).
-- **References:** CP-4 Persistent Structure Map, CP-6 Detail on Demand, CP-7 Attached Evidence,
-  CP-8 Confidence Cue, CP-9 Scoped Conversation.
-
-### C2 · Gather Evidence per Part
-- **Context:** WF-C
-- **Problem:** A drafted procedure does not match the setting of the user. A free-text outcome
-  loses the conditions that produced it.
-- **Solution:**
-  1. Attach a procedure to each part that it checks.
-  2. State in advance which outcome supports the part, which weakens it, and which leaves it
-     open.
-  3. Keep every field of the procedure editable, before the user runs it and after.
-  4. Support variants of one procedure for different settings.
-  5. When more than one procedure fits, show a Proposal Set (CP-10).
-  6. The user reports outcomes with Structured Result Entry (CP-16). Check that the report
-     covers every part.
-  7. Attach the outcome to one procedure. A variant does not inherit it.
-- **Examples:** THESEUS creates experiment families with variants, editable step-by-step
-  protocols, and expected patterns. It verifies the CSV upload against the experiment package
-  (§4.2).
-- **References:** CP-10 Proposal Set, CP-16 Structured Result Entry.
-
-### C3 · Interpret Evidence Against the Part
-- **Context:** WF-C
-- **Problem:** A weak or negative outcome does not state what it means for the claim. A global
-  reinterpretation disturbs the parts that the outcome did not touch.
-- **Solution:**
-  1. Interpret the outcome against the part that its procedure checked.
-  2. Report one verdict: supported, not supported, or unresolved.
-  3. Keep the reasoning beside the verdict (CP-7). Add a Confidence Cue (CP-8).
-  4. The user opens Detail on Demand (CP-6), reads the reasoning, and contests the verdict.
-  5. Change nothing else here. S2 applies the consequences.
-- **Examples:** THESEUS runs three reviewers, for evidence, validity, and scope. Their votes
-  produce one approved or not-approved label with a rationale, for that experiment and
-  hypothesis pair (§4.3).
-- **References:** CP-6 Detail on Demand, CP-7 Attached Evidence, CP-8 Confidence Cue.
+B1–B3 and C1–C3 apply to one system each. They are in
+[single-system-patterns.md](single-system-patterns.md). WF-B and WF-C use them, and the diagrams
+above mark them "moved".
 
 ---
 
 ## Components
 
-**Used by more than one workflow:** CP-1, CP-3, CP-4, CP-6, CP-7, CP-8, CP-9, CP-10, CP-12,
-CP-14.
+**Used by more than one workflow:** CP-1, CP-3, CP-4, CP-6, CP-7, CP-8, CP-9, CP-10, CP-11, CP-12, CP-14, CP-17.
+
+**Retired, 9/29:** CP-2 Candidate Batch, CP-15 Live Consequence Preview, and CP-16 Structured
+Result Entry served one subtask each. They are now steps with no component. CP-13 Suggested Next
+Steps is merged into CP-10 Proposal Set. A retired ID is not used again.
+
+**Card** (9/29): at the component level the spec is an eigen-UI card, one HTML page per component
+in `cards/`. It shows what the exemplar instances share, and the fields of the template. CP-4 and
+CP-6 have cards. The other components keep the earlier YAML spec until they have a card.
 
 **Spec** links an abstract representation of the component: an element tree with data bindings,
 variations, and events. A spec states what the design needs, and it states no style. It is
@@ -501,33 +459,37 @@ nothing. Specs are in `refs/component-specs.md`.
     Two gains over the HTML: a spec names its variations (`states:`) and its events, so the
     variations a component must support are stated, not implied. Tell me to do the other 13. -->
 
-| ID | Name | Context | Problem | Solution | Spec | Examples |
-|---|---|---|---|---|---|---|
-| CP-1 | **Inquiry Frame** | A1, S1 | The goal and the criteria stay in the mind of the user | Give the goal and each criterion a typed field. Keep the fields visible. Later subtasks read them and propose edits to them | [spec](refs/component-specs.md#cp-1--inquiry-frame) | HAPPIER 3 inputs; HALO targets; PerspectEvolver brief; THESEUS root node |
-| CP-2 | **Candidate Batch** | A2 | One answer anchors the thinking of the user | Return N candidates per request. Size N so that the groups stay legible | — | HALO generator; HAPPIER subgraphs |
-| CP-3 | **Candidate Groups** | A3, B1 | Too many items to read one by one | Choose a signature from the criteria or the sources. Group by it. Label and summarize each group | — | HALO clusters; HAPPIER subgraphs; PerspectEvolver literature regions |
-| CP-4 | **Persistent Structure Map** | A2, A3, B1, C1 | A linear transcript loses the structure of the work | Make a tree, graph, or canvas the working state. Put new items in it. State what a node and an edge mean | — | HALO trajectory map; HAPPIER graph; PerspectEvolver canvas; THESEUS graph |
-| CP-5 | **Multi-Criteria Encoding** | A4 | The user checks each criterion in a separate tool | Give each criterion one visual channel on one view, and one toggle | — | HAPPIER edge width, edge color, node color; HALO green and red per property |
-| CP-6 | **Detail on Demand** | A4, B3, C1, C3 | All the evidence at once overloads the user | Show a summary in place. On selection, open the full evidence in a panel | [spec](refs/component-specs.md#cp-6--detail-on-demand) | HAPPIER detail panel; THESEUS evidence panel; HALO cluster tabs |
-| CP-7 | **Attached Evidence** | A4, B1, B2, B3, C1, C3 | An explanation apart from what it justifies is hard to find and to check | Store the rationale and the sources on the item or the link that they justify. Open them from there | — | THESEUS node and edge rationale; PerspectEvolver per-field evidence; HAPPIER papers per PPI; HALO cluster explanation |
-| CP-8 | **Confidence Cue** | A4, C1, C3 | The user cannot tell which claims to check | Show a score beside each generated claim or link. State what the score measures | — | THESEUS edge confidence; HAPPIER therapeutic score, binding affinity |
-| CP-9 | **Scoped Conversation** | B2, C1 | A conversation over the whole workspace changes items that the user keeps | Open the conversation from a selected item. Give it that item and its neighbors. Hold its edits as proposals | — | PerspectEvolver threads, select then Challenge or Expand; THESEUS node drawer |
-| CP-10 | **Proposal Set** | A5, C2, S2, S3 | One suggestion hides the alternatives | Show a few labelled options, each one with its rationale. The user applies one option | — | HALO strategy list; THESEUS 3 candidates; PerspectEvolver proposals |
-| CP-11 | **Reviewable Revision** | S1, S2 | The user cannot see what an edit changed | Show before and after per field, with the reason. Offer accept, edit, and reject | [spec](refs/component-specs.md#cp-11--reviewable-revision) | PerspectEvolver revision cards and brief diff; THESEUS pending drafts |
-| CP-12 | **Shortlist** | A6, B1 | Kept items spread across views | Give a keep action. It adds the item to a separate view. That view is the deliverable | — | HAPPIER bookmark graph; PerspectEvolver Keep/Skip |
-| CP-13 | **Suggested Next Steps** | S3 | The user stops after a round | Build next units from the unresolved items. Show them unopened | — | PerspectEvolver suggested threads; THESEUS follow-up directions |
-| CP-14 | **Provenance Link** | A2, A5, A6, S2, S3 | A new item loses its origin | Link each new or revised item to what produced it. Keep what it replaced | — | HALO edit edge; PerspectEvolver "why this changed"; THESEUS replaced hypothesis keeps prior experiments |
-| CP-15 | **Live Consequence Preview** (1 system) | A5 | The user cannot judge an edit without its effect | Recompute the criteria after each edit. Show the gain and the loss at once | — | HALO property deltas in the editor |
-| CP-16 | **Structured Result Entry** (1 system) | C2 | A free-text outcome loses conditions and replicates | Give a template tied to the procedure: conditions, replicates, notes. Check coverage on entry | — | THESEUS CSV per experiment |
+| ID | Name | Context | Goal | Failure | Solution | Spec | Examples |
+|---|---|---|---|---|---|---|---|
+| CP-1 | **Inquiry Frame** | A1, A2, A6, S1 | The user states the goal and the criteria once, for every later step | The goal and the criteria stay in the mind of the user | Give the goal and each criterion a typed field. Keep the fields visible. Later subtasks read them and propose edits to them | [spec](refs/component-specs.md#cp-1--inquiry-frame) | HAPPIER 3 inputs; HALO targets; PerspectEvolver brief; THESEUS root node |
+| CP-3 | **Candidate Groups** | A3, B1 | The user reads many items as a few groups | Too many items to read one by one | Choose a signature from the criteria or the sources. Group by it. Label and summarize each group | — | HALO clusters; HAPPIER subgraphs; PerspectEvolver literature regions |
+| CP-4 | **Persistent Structure Map** | A2, A3, B1, C1 | The user sees how the items of the work relate | A linear transcript loses the structure of the work | Make a tree, graph, or canvas the working state. Put new items in it. State what a node and an edge mean | [card](cards/cp-4.html) | HALO trajectory map; HAPPIER graph; PerspectEvolver canvas; THESEUS graph |
+| CP-5 | **Multi-Criteria Encoding** | A3, A4 | The user checks every criterion in one view | The user checks each criterion in a separate tool | Give each criterion one visual channel on one view, and one toggle | — | HAPPIER edge width, edge color, node color; HALO green and red per property, per cluster |
+| CP-6 | **Detail on Demand** | A3, A4, B3, C3 | The user examines one item without losing the others | All the evidence at once overloads the user | Show a summary in place. On selection, open the full evidence in a panel | [card](cards/cp-6.html) | HAPPIER detail panel; THESEUS evidence panel; HALO cluster tabs |
+| CP-7 | **Attached Evidence** | A4, B1, B2, B3, C1, C3 | The user checks an item against its reasons and sources | An explanation apart from what it justifies is hard to find and to check | Store the rationale and the sources on the item or the link that they justify. Open them from there | — | THESEUS node and edge rationale; PerspectEvolver per-field evidence; HAPPIER papers per PPI; HALO cluster explanation |
+| CP-8 | **Confidence Cue** | A4, C1, C3 | The user decides which generated claims to check first | The user cannot tell which claims to check | Show a score beside each generated claim or link. State what the score measures | — | THESEUS edge confidence; HAPPIER therapeutic score, binding affinity |
+| CP-9 | **Scoped Conversation** | B2, C1 | The user discusses one item and keeps the rest of the work stable | A conversation over the whole workspace changes items that the user keeps | Open the conversation from a selected item. Give it that item and its neighbors. Hold its edits as proposals | — | PerspectEvolver threads, select then Challenge or Expand; THESEUS node drawer |
+| CP-10 | **Proposal Set** | A5, C2, S2, S3 | The user chooses among alternatives | One suggestion hides the alternatives | Show a few labelled options, each one with its rationale. The user applies one option. When the options come from open items, show them unopened | — | HALO strategy list; THESEUS 3 candidates; PerspectEvolver proposals; PerspectEvolver suggested threads; THESEUS follow-up directions |
+| CP-11 | **Reviewable Revision** | S1, S2 | The user decides on each change before it applies | The user cannot see what an edit changed | Show before and after per field, with the reason. Offer accept, edit, and reject | [spec](refs/component-specs.md#cp-11--reviewable-revision) | PerspectEvolver revision cards and brief diff; THESEUS pending drafts |
+| CP-12 | **Shortlist** | A6, B1 | The user collects the items to keep in one place | Kept items spread across views | Give a keep action. It adds the item to a separate view. That view is the deliverable | — | HAPPIER bookmark graph; PerspectEvolver Keep/Skip |
+| CP-14 | **Provenance Link** | A2, A5, A6, S2, S3 | The user traces each item to what produced it | A new item loses its origin | Link each new or revised item to what produced it. Keep what it replaced | — | HALO edit edge; PerspectEvolver "why this changed"; THESEUS replaced hypothesis keeps prior experiments |
+| CP-17 | **Typed Item** | B1, C1 | The user compares items field by field | Items in free text differ in form, and the user cannot compare them | Give every item of one kind the same fields, in the same order. Show empty fields as empty | — | PerspectEvolver Perspective Card, six fields; THESEUS sub-hypothesis, typed fields |
+
+A Context can name a subtask in [single-system-patterns.md](single-system-patterns.md): A5, B1–B3, or
+C1–C3. CP-9 Scoped Conversation and CP-17 Typed Item are used only there. Each one applies to
+two systems, so it stays here.
 
 ## Check: does the language abstract all four systems?
 
 | System | Workflow | Subtasks | Components |
 |---|---|---|---|
-| HALO | WF-A | A1–A6 | CP-1–CP-8, CP-10, CP-14, CP-15 |
-| HAPPIER | WF-A | A1–A4, A6 (no A5) | CP-1–CP-8, CP-12, CP-14 |
-| PerspectEvolver | WF-B | S1, B1–B3, S2, S3 | CP-1, CP-3, CP-4, CP-6, CP-7, CP-9–CP-14 |
-| THESEUS | WF-C | S1, C1–C3, S2, S3 | CP-1, CP-4, CP-6–CP-11, CP-13, CP-14, CP-16 |
+| HALO | WF-A | A1–A6 | CP-1, CP-3, CP-4, CP-5, CP-6, CP-7, CP-8, CP-10, CP-12, CP-14 |
+| HAPPIER | WF-A | A1–A4, A6 (no A5) | CP-1, CP-3, CP-4, CP-5, CP-6, CP-7, CP-8, CP-12, CP-14 |
+| PerspectEvolver | WF-B | S1, B1–B3, S2, S3 | CP-1, CP-3, CP-4, CP-6, CP-7, CP-9, CP-10, CP-11, CP-12, CP-14, CP-17 |
+| THESEUS | WF-C | S1, C1–C3, S2, S3 | CP-1, CP-4, CP-6, CP-7, CP-8, CP-9, CP-10, CP-11, CP-14, CP-17 |
+
+The Components column is computed from the subtask Solutions. It lists every component of the
+subtasks that the system performs. A system can lack one of them in its paper.
 
 **Open for your judgment.**
 - HALO and HAPPIER differ at A5. The two can be an optimization variant and a screening variant
