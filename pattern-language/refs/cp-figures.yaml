@@ -1,0 +1,60 @@
+# Where each component pattern (CP) appears in the figures of the exemplar papers.
+#
+# figure: an id in data/figures/index.yaml (made by tools/extract_figures.py).
+# box: [x0, y0, x1, y1], each a fraction of the figure width or height, so the box holds at any
+#   resolution. The figures stay local in data/. This file holds no content of a paper.
+# callout: the label of the region in the figure, when the paper gives one.
+# state: the CP state that the crop shows, when the spec names states.
+# Crop the instances: python3 tools/crop_cp.py
+#
+# Pilot, 9/29: CP-4 and CP-6. Instances follow the Examples column of pattern-language-mvp.md.
+
+CP-4:
+  name: Persistent Structure Map
+  instances:
+    - paper: halo
+      figure: halo/fig-2
+      callout: A
+      box: [0.29, 0.06, 0.96, 0.50]
+      shows: trajectory map; the cluster table (B) lies over its upper right
+    - paper: happier
+      figure: happier/fig-3
+      callout: a1
+      box: [0.33, 0.04, 0.79, 0.42]
+      shows: interaction graph of one subgraph
+    - paper: perspectevolver
+      figure: perspectevolver/fig-4
+      box: [0.47, 0.01, 0.99, 0.99]
+      shows: canvas with the research question and its threads
+    - paper: theseus
+      figure: theseus/fig-2
+      callout: A, B, D, E
+      box: [0.00, 0.02, 0.79, 0.98]
+      shows: hypothesis graph with experiment families and edge confidence
+
+CP-6:
+  name: Detail on Demand
+  instances:
+    - paper: halo
+      figure: halo/fig-2
+      callout: C
+      box: [0.01, 0.06, 0.30, 0.49]
+      state: open
+      shows: cluster panel beside the map, strategies tab
+    - paper: halo
+      figure: halo/fig-10
+      box: [0.09, 0.02, 0.95, 0.96]
+      state: open
+      shows: the same panel, overview and candidates tabs
+    - paper: happier
+      figure: happier/fig-3
+      callout: b
+      box: [0.03, 0.49, 0.97, 0.97]
+      state: open
+      shows: selected path in the graph, detail panel beside it
+    - paper: theseus
+      figure: theseus/fig-2
+      callout: B, C
+      box: [0.51, 0.03, 0.99, 0.96]
+      state: open
+      shows: selected sub-hypothesis, and its rationale and evidence panel
