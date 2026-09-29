@@ -7,9 +7,106 @@
 
 ## next-up
 <!-- what we should work on next time -->
-- self-finetune CP rendering: for a CP, extract corresponding screen from the example papers -> compare the current rendering with the real examples to evaluate how the former can abstractly represent the latter -> identify areas for improvement and repeat
-- continue to review mvp
+- [x] self-finetune CP rendering: for a CP, extract corresponding screen from the example papers -> compare the current rendering with the real examples to evaluate how the former can abstractly represent the latter -> identify areas for improvement and repeat
+- create a website to access the patterns
+- continue to review mvp--create a more structured list of reviewable samples
 - add some other groups' papers (e.g., AI2's)
+
+## 9/29/2026
+- [x] not very happy about the CP rendering. think about and assess the feasibility of this approach: for each CP, extract and collect targeted screenshots from example papers as references, then distill a prototypical representation ("eigen-UI") that can represent the CP grounded in those examples
+  - [x] follow-up: i like the rendering and feel CP spec should be primarily centered on eigen-UIs, i.e., each CP is a like a baseball card that contains the eigen-UI that brief descriptions of the usual attributes consistent with other levels of patterns
+- [x] address my comments in pattern-language-mvp.md
+- [x] For subtasks that only apply to one system, we want to buffer/hide them for now. They might be idiosyncratic and lack generalizability, or they might turn out to be a real pattern when new systems are added to consideration. But for now, we only want to show subtasks patterns that apply to more than one system.
+  - [x] follow-up: the same generalizability rule goes for CP
+- [x] move non-generalizable subtasks and component patterns out of the mvp .md to a separate doc
+
+### Eigen-UI Feasibility
+
+**Approach.** Read the system pages of two PDFs: HALO pp. 5–9 and THESEUS pp. 6–12. HAPPIER and PerspectEvolver are not examined. Full assessment: `pattern-language/refs/eigen-ui-feasibility.md`.
+
+**Findings.**
+- Feasible, with limits. The figures are annotated screenshots with lettered callouts, and the text cites each callout. A CP instance can be found from its § number.
+- A callout is a feature, not a CP. One crop often holds two or three CPs. Small CPs (CP-8, CP-14) are details inside other crops.
+- Each CP has 1 to 4 instances. An average is not possible. The eigen-UI is a manual abstraction that cites its crops.
+- The four systems share one genre and one visual style. An eigen-UI must drop that style.
+- Crops stay in `data/` (anonymous submissions). The eigen-UI can be committed.
+
+**Decisions settled (see `.agent/decisions.md`).** The figures are a dataset: pages to images, crop the figures, index them, and locate each CP. An eigen-UI is a greyscale wireframe. The spec wins over an eigen-UI; differences are recorded. Pilot: CP-4 and CP-6.
+
+### Eigen-UI Pilot: CP-4 and CP-6
+
+**Approach.** `tools/extract_figures.py` renders the 121 pages and crops the 35 figures from their captions (400 dpi, index in `data/figures/index.yaml`). `pattern-language/refs/cp-figures.yaml` gives the box of each CP instance. `tools/crop_cp.py` crops them. Wireframes and findings: `pattern-language/eigen-ui/`.
+
+**Findings.**
+- All 35 captions produce a crop. Every crop was checked by eye on a contact sheet. Small text is legible at 400 dpi.
+- CP-4 (no spec): a node is a card with a label and a summary (4 of 4). Other features: a status line, a score on a link, a second node type, map controls. 3 of 4 are trees from a root; HAPPIER is a network.
+- CP-6 differs from its spec at five points. The largest: the selected item is marked in the overview (2 of 3), and the overview is a map, not rows (2 of 3). Also: evidence that is not a source, sections that collapse, a keep toggle.
+
+**Open.**
+- The five CP-6 differences wait for your review. The spec is unchanged.
+- The counts come from one reader and one or two figures per system.
+
+### Eigen-UI Cards (follow-up)
+
+**Decisions settled (see `.agent/decisions.md`).** At the component level the spec is an eigen-UI card, one HTML page per CP. It replaces the YAML spec, and the earlier line "the spec wins over an eigen-UI". A card holds the eigen-UI and short template fields: Level, Context, Problem, Solution, States, References. For a component, References lists the CPs it contains. Crops show when they exist locally. First cards: CP-4 and CP-6.
+
+**Approach.** `pattern-language/cards/`: `cp-4.html`, `cp-6.html`, `index.html` (all 16 CPs, 2 with cards), and `card.css`, one stylesheet for every card. The drawings moved from `eigen-ui/` into the cards. The MVP CP table links the two cards. `refs/component-specs.md` notes that a card replaces the YAML.
+
+**Findings.**
+- The five CP-6 differences from the pilot are now in the card's Solution, so they need no separate review.
+- Both cards render at desktop width and in a 400 px frame. The crops load from `data/figures/cp/`.
+
+**Open.**
+- Review the card format. The other 14 CPs wait for it: about 30 minutes each, to locate the instances, draw them, and write the fields.
+- CP-1 and CP-11 have a YAML spec and a render but no card. `tools/render_specs.py` still draws them.
+
+### Address Comments in `pattern-language-mvp.md`
+
+**Approach.** Three open comments: Solution, subtask names, Problem. Each one is answered in place, inside the comment block.
+
+**Decisions settled (see `.agent/decisions.md`).**
+- *Problem* has two labelled parts: **Goal** and **Failure**. Applied to 3 workflows, 15 subtasks, the 16-row CP table, and both cards.
+- *Solution*: each subtask step starts with its component, "CP-n Name: action".
+- *Names*: a verb and its object, no metaphor. IDs stay. Renamed: A1 State the Start and the Criteria · A2 Generate Candidates · A3 Group Candidates by Criteria · A4 Check Candidates Against Every Criterion · A5 Combine Partial Candidates · A6 Keep Candidates and Start the Next Round · S1 State the Claim · S2 Accept or Reject Proposed Revisions · S3 Propose Next Steps from Open Items · B1 Build Contrasting Viewpoints · B2 Discuss One Question Across Viewpoints · B3 Summarize the Discussion · C1 Split the Claim into Checkable Parts · C2 Collect Evidence for Each Part · C3 Judge Each Part Against Its Evidence.
+
+**Findings.**
+- Four subtask steps fit no component. They are marked "(no component)": a viewpoint with fixed fields (B1), a record of a discussion (B3), an editable procedure (C2), and a verdict (C3). Each one is a candidate component.
+- The CP table's Context column is now computed from the subtask steps. CP-1 gains A2 and A6. CP-6 gains A3. CP-10 loses S3, because S3's Solution never used it.
+- "Root" is replaced by "claim", which is now a fixed term. Workflow names are unchanged.
+
+**Components (settled after the gaps).** A component must serve two or more subtasks. Five rules follow, in order: reuse, extend, merge, demote, promote. They are in the MVP under Structure.
+- The fixed fields of B1 and C1 became CP-17 Typed Item. The needs of B3, C2, and C3 stay as steps with no component.
+- CP-5 extends to A3. CP-13 merges into CP-10 as a variation. CP-2, CP-15, and CP-16 become steps. Their IDs are retired.
+- Result: 13 active components, none used by one subtask only. The per-system Components column is now computed from the subtasks.
+
+**Open.**
+- 11 of the 13 active components still have no card.
+
+### Move Single-System Patterns Out of the MVP
+
+**Decisions settled (see `.agent/decisions.md`).** The MVP shows a subtask or a component only when it applies to two or more systems. A workflow can rest on one system, for now. Component counts include the moved subtasks.
+
+**Approach.** Seven subtasks moved, text unchanged, to `pattern-language/single-system-patterns.md`: A5 (HALO), B1–B3 (PerspectEvolver), and C1–C3 (THESEUS). The MVP keeps WF-A, WF-B, WF-C, S1–S3, A1–A4, and A6. The three diagrams show the moved subtasks as dashed boxes marked "moved". The rule is stated under Structure.
+
+**Findings.**
+- No component moved. All 13 active components apply to two or more systems. CP-15 and CP-16 were single-system, and they were already retired.
+- CP-9 Scoped Conversation and CP-17 Typed Item are used only by moved subtasks. They stay, because each one applies to two systems. A note under the CP table says so.
+- The three diagrams render in mermaid 11, checked in headless Chrome.
+
+**Open.**
+- WF-B and WF-C now show three MVP subtasks each (S1–S3). Their middle steps are all in the separate doc.
+
+### Wrap-up
+
+**Where things stand.** The figure dataset (`tools/extract_figures.py`, `tools/crop_cp.py`, `refs/cp-figures.yaml`) and the card format (`pattern-language/cards/`) are in place. The MVP uses Goal/Failure, CP-led steps, the new subtask names, the component rules, and the 2-system display rule. Crops and page images stay local in `data/`.
+
+**Open.**
+- 11 of the 13 active components have no card. Only CP-4 and CP-6 have instances in `refs/cp-figures.yaml`.
+- The per-system Components column is computed from the subtasks, so it can credit a system with a component its paper does not show.
+- `renders/detail-on-demand.html` still draws the old CP-6 YAML spec.
+- `next-up`: "continue to review mvp" and "add some other groups' papers" are not started.
+
+**Next.** After the author reviews the renames and the card format: locate the instances of the next component in `refs/cp-figures.yaml`, run `tools/crop_cp.py`, and draw its card from the sheet. Start with the 4-system components, CP-1 and CP-7.
 
 ## 9/22/2026
 ```
