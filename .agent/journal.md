@@ -171,11 +171,13 @@
 
 **Open.**
 - Nothing is deployed. Vercel needs the repo pushed and imported with Root Directory left blank; `vercel.json` at the root sets the build.
+  - Done, later on 10/6: deployed on Vercel. The first build failed at `cd website` because the project's Root Directory was set; clearing it fixed the build. Keep Root Directory blank.
 - 11 of 13 components have no eigen-UI and no crops.
 - Taxonomy questions 2 and 3 (merge FR-1 into FR-2? where the roles table goes) are open.
 - The glossary draft, the Situation lines, and the card format wait for the author's read.
 
 **Next.** Push, then import the repo in Vercel. Then draw eigen-UIs for the 11 components, starting with C-1 and C-7 (4 systems each).
+- Later on 10/6, the author deferred the eigen-UIs until more papers are added (see decisions). The next step is to add papers with `/add-paper`.
 
 
 ## 9/29/2026

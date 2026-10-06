@@ -75,3 +75,4 @@
 - 10/6/2026 — The site home is the catalog, with tabs for the three levels. One font throughout.
 - 10/6/2026 — No "Up" control on the site; the path breadcrumb does the job. Workflow examples are a table of the subtask narratives, one system at a time. The About page takes the Overview of the MVP doc (HTML comments left out) and the attribute definitions.
 - 10/6/2026 — A component card's Examples show crops when they exist, and no text list. A component without crops keeps its text list until crops are added.
+- 10/6/2026 — Deferred: eigen-UIs for the 11 components without one wait until more papers are added. Today each has 2 to 4 systems, but only C-4 and C-6 have located figure instances; more papers give more instances to draw from.
