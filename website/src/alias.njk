@@ -1,0 +1,14 @@
+---
+pagination:
+  data: library.aliases
+  size: 1
+  alias: a
+permalink: "/p/{{ a.from }}/"
+eleventyExcludeFromCollections: true
+---
+<!doctype html>
+<meta charset="utf-8">
+<title>{{ a.from }} → {{ a.to }}</title>
+<meta http-equiv="refresh" content="0; url=/p/{{ a.to }}/">
+<link rel="canonical" href="/p/{{ a.to }}/">
+<p>{{ a.from }} is an old ID. It is now <a href="/p/{{ a.to }}/">{{ a.to }}</a>.</p>

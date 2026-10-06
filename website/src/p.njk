@@ -1,0 +1,110 @@
+---
+layout: base.njk
+pagination:
+  data: library.live
+  size: 1
+  alias: r
+permalink: "/p/{{ r.id }}/"
+eleventyComputed:
+  title: "{{ r.id }} {{ r.name }}"
+---
+{% from "macros.njk" import thumb, plink, role, attr, chain %}
+<nav class="trail" id="trail" aria-label="Path"><a href="/">Home</a> <span>›</span> <span>{{ r.id }}</span></nav>
+
+<article class="card level-{{ r.level }}" data-id="{{ r.id }}">
+  <header class="panel head">
+    <p class="kicker">{{ r.level }}{% if r.status == "single-system" %} · <span class="badge">1 system</span>{% endif %}</p>
+    <h1><span class="hid">{{ r.id }}</span> {{ r.name }}</h1>
+    {% if r.role %}<p class="roles">{{ role(library, r.roleCode) }}{% if r.role_also %} <span class="also">also {{ r.role_also }}</span>{% endif %}</p>{% endif %}
+    <dl class="lead">
+      {{ attr(library, "Context") }}
+      <dd>{% if r.context.length %}{% for c in r.context %}{{ plink(library, c) }}{% if not loop.last %} · {% endif %}{% endfor %}{% else %}— top level{% endif %}</dd>
+      {{ attr(library, "Situation") }}<dd class="situation">{{ r.situationHtml | safe }}</dd>
+      {{ attr(library, "Problem") }}<dd class="problem">{{ r.problemHtml | safe }}</dd>
+    </dl>
+  </header>
+
+  <section class="panel">
+    <h2><span class="attr term" tabindex="0" data-def="{{ library.attrByName.Solution.holds }}">Solution</span></h2>
+    {% if r.level == "workflow" %}
+      <div class="wfd">{{ r.diagram | safe }}</div>
+      <details class="fallback"><summary>Subtasks as text</summary><ol>{% for l in r.listHtml %}<li>{{ l | safe }}</li>{% endfor %}</ol></details>
+    {% elif r.level == "subtask" %}
+      <ol class="strip">
+      {% for s in r.steps %}
+        <li class="step">
+          <span class="step-n">{{ loop.index }}</span>
+          {% if s.component %}
+          <a class="step-c" data-pid="{{ s.component }}" href="/p/{{ s.component }}/">{{ thumb(library, s.component) }}<span class="step-label"><span class="pidn">{{ s.component }}</span> {{ s.label }}</span></a>
+          {% else %}
+          <span class="step-c none">{{ thumb(library, null) }}<span class="step-label">no component</span></span>
+          {% endif %}
+          <p class="who u"><b>User</b> {{ s.userHtml | safe }}</p>
+          <p class="who s"><b>System</b> {{ s.systemHtml | safe }}</p>
+        </li>
+      {% endfor %}
+      </ol>
+    {% else %}
+      {% if r.svg %}
+      <figure class="eigen">{{ r.svg | safe }}
+        <figcaption class="key"><span class="k all"></span> in every instance <span class="k some"></span> in some instances <span class="k sel"></span> selected</figcaption></figure>
+      {% else %}
+      <p class="note">No eigen-UI yet.</p>
+      {% endif %}
+      <div class="soltext">{{ r.solutionHtml | safe }}</div>
+      {% if r.statesHtml %}<h3>States</h3>{{ r.statesHtml | safe }}{% endif %}
+    {% endif %}
+  </section>
+
+  {% if r.level == "subtask" %}
+  <section class="panel where" aria-label="Where this subtask sits">
+    <h2>In the workflow</h2>
+    {% for w in library.workflows %}{% if r.context.includes(w.id) %}
+      <div class="where-wf" data-wf="{{ w.id }}"><a class="pid" data-pid="{{ w.id }}" href="/p/{{ w.id }}/">{{ w.id }}</a> {{ chain(library, w, r.id) }}</div>
+    {% endif %}{% endfor %}
+  </section>
+  {% elif r.level == "component" and r.usedInSteps.length %}
+  <section class="panel where" aria-label="Where this component is used">
+    <h2>Used in steps</h2>
+    <ul class="uses">{% for u in r.usedInSteps %}<li>{{ plink(library, u.id) }} <span class="muted">step {{ u.step }}</span></li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if r.level == "workflow" %}
+  <details class="panel more"><summary>Examples</summary>
+    <label class="sys-pick">System
+      <select data-system-select>{% for t in r.exampleTables %}<option value="{{ t.system }}">{{ t.system }}</option>{% endfor %}</select>
+    </label>
+    {% for t in r.exampleTables %}
+    <table class="ex-table" data-system="{{ t.system }}">
+      <caption>{{ t.system }}</caption>
+      <thead><tr><th scope="col">Subtask</th><th scope="col">How {{ t.system }} does it</th></tr></thead>
+      <tbody>{% for row in t.rows %}
+        <tr><th scope="row">{{ plink(library, row.id) }}</th><td>{% if row.html %}{{ row.html | safe }}{% else %}<span class="muted">Not in this system.</span>{% endif %}</td></tr>
+      {% endfor %}</tbody>
+    </table>
+    {% endfor %}
+  </details>
+  {% else %}
+  <details class="panel more"{% if r.figures %} open{% endif %}><summary>Examples</summary>
+    {% if r.figures %}
+    <div class="crops">{% for f in r.figures %}
+      <figure class="crop"><a href="{{ f.src }}"><img src="{{ f.src }}" alt="{{ f.where }}: {{ f.what }}" loading="lazy"></a>
+        <figcaption><b>{{ f.where }}</b> {{ f.what }}</figcaption></figure>{% endfor %}
+    </div>
+    {% endif %}
+    {% if not r.figures %}{{ r.examplesHtml | safe }}{% endif %}
+  </details>
+  {% endif %}
+  {% if r.references.length %}
+  <details class="panel more"><summary>References</summary>
+    <ul>{% for x in r.references %}<li>{{ plink(library, x) }}</li>{% endfor %}</ul>
+  </details>
+  {% endif %}
+  {% if r.workflows.length %}
+  <details class="panel more"><summary>Used in</summary>
+    <ul>{% for x in r.context %}<li>{{ plink(library, x) }}</li>{% endfor %}</ul>
+    {% if r.level == "component" %}<p class="muted">Workflows: {% for w in r.workflows %}{{ plink(library, w, false) }}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+  </details>
+  {% endif %}
+</article>

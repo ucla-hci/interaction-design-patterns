@@ -1,0 +1,18 @@
+---
+layout: base.njk
+pagination:
+  data: library.retired
+  size: 1
+  alias: r
+permalink: "/p/{{ r.id }}/"
+eleventyComputed:
+  title: "{{ r.id }} {{ r.name }} (retired)"
+---
+{% from "macros.njk" import plink %}
+<article class="card">
+  <header class="panel head">
+    <p class="kicker">{{ r.level }} · <span class="badge">retired {{ r.retired }}</span></p>
+    <h1><span class="hid">{{ r.id }}</span> <s>{{ r.name }}</s></h1>
+    <p>{{ r.note }}{% if r.successor %} See {{ plink(library, r.successor) }}.{% endif %}</p>
+  </header>
+</article>

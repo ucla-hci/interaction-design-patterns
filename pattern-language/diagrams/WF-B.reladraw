@@ -1,0 +1,27 @@
+// WF-B Multi-Viewpoint Refinement. Layout only: the graph is the mermaid block in patterns/WF-B.md.
+// Top row: the claim, the viewpoints, the discussion, its record. Bottom row: decide, then continue.
+diagram  theme: light  background: #ffffff
+default edge  line: (path: curved)  text: (size: large)
+default node  text: (size: large)
+style FR  border: #2f64a3  fill: #eef3fa
+style EX  border: #2b7d50  fill: #edf6f0
+style EV  border: #b03f2e  fill: #faefed
+style SY  border: #6a4b9c  fill: #f3f0f8
+style CM  border: #17767a  fill: #ebf5f5
+style CN  border: #8c4476  fill: #f7eef4
+
+node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-B"
+node EX2 "EX-2 / Build Contrasting / Viewpoints"  right of FR2  style: EX  url: "/p/EX-2/?via=WF-B"
+node EV2 "EV-2 / Discuss One Question / Across Viewpoints"  right of EX2  style: EV  url: "/p/EV-2/?via=WF-B"
+node SY2 "SY-2 / Summarize the / Discussion"  right of EV2  style: SY  url: "/p/SY-2/?via=WF-B"
+node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below SY2  style: CM  url: "/p/CM-2/?via=WF-B"
+node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX2  level with CM2  style: CN  url: "/p/CN-1/?via=WF-B"
+
+edge FR2 -> EX2
+edge EX2 -> EV2
+edge EV2 <-> SY2
+edge SY2 -> CM2
+edge CM2 -> CN1
+edge CN1 -> EV2 "next question"
+edge CN1 -> EX2 "viewpoint no / longer fits"
+edge CM2 -> FR2 "revision changes the claim"  from: bottom  to: bottom

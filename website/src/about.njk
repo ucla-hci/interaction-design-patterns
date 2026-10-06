@@ -1,0 +1,23 @@
+---
+layout: base.njk
+pagination:
+  data: library.meta
+  size: 1
+  alias: m
+permalink: "/about/{{ m.slug }}/"
+eleventyComputed:
+  title: "{{ m.title }}"
+---
+{% from "macros.njk" import role %}
+<nav class="tabs" aria-label="About">{% for t in library.meta %}<a href="/about/{{ t.slug }}/"{% if t.slug == m.slug %} aria-current="page"{% endif %}>{{ t.title }}</a>{% endfor %}</nav>
+<article class="panel prose">
+  <h1>{{ m.title }}</h1>
+  {% if m.html %}{{ m.html | safe }}{% endif %}
+  {% if m.attributes %}<h2>Attributes of a pattern</h2>
+    <p>Every pattern has the same attributes, in this order.</p>
+    <dl class="defs">{% for a in m.attributes %}<dt>{{ a.name }}</dt><dd>{{ a.holdsHtml | safe }}</dd>{% endfor %}</dl>{% endif %}
+  {% if m.roles %}<p>A subtask ID starts with its role code. The roles follow the loop that all workflows share.</p>
+    <dl class="defs">{% for ro in m.roles %}<dt>{{ role(library, ro.code) }}</dt><dd>{{ ro.does }}.</dd>{% endfor %}</dl>{% endif %}
+  {% if m.glossary %}{% for g in m.glossary %}{% if loop.first or g.group != loop.previtem.group %}<h2>{{ g.group }}</h2>{% endif %}
+    <dl class="defs"><dt id="{{ g.term | slugify }}">{{ g.term }}</dt><dd>{{ g.meaning }}</dd></dl>{% endfor %}{% endif %}
+</article>

@@ -1,0 +1,9 @@
+---
+pagination:
+  data: library.live
+  size: 1
+  alias: r
+permalink: "/p/{{ r.id }}.json"
+eleventyExcludeFromCollections: true
+---
+{{ r.json | safe }}

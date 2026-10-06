@@ -1,0 +1,50 @@
+---
+layout: base.njk
+title: Catalog
+---
+{% from "macros.njk" import thumb, chain %}
+<p class="intro">Patterns abstracted from interactive systems, at three levels: a <b>workflow</b> is a
+sequence of <b>subtasks</b>, and a subtask uses <b>components</b>.</p>
+
+<div class="tabs-bar" role="tablist" aria-label="Pattern level">
+  <a role="tab" href="#workflows" data-tab="workflows" aria-selected="true">Workflows <span class="n">{{ library.workflows.length }}</span></a>
+  <a role="tab" href="#subtasks" data-tab="subtasks" aria-selected="false">Subtasks <span class="n">{{ library.subtasks.length }}</span></a>
+  <a role="tab" href="#components" data-tab="components" aria-selected="false">Components <span class="n">{{ library.components.length }}</span></a>
+</div>
+
+<section id="workflows" class="tabpanel" role="tabpanel">
+  {% for w in library.workflows %}
+  <article class="panel wf">
+    <h2><a class="pid" data-pid="{{ w.id }}" href="/p/{{ w.id }}/"><span class="pidn">{{ w.id }}</span> {{ w.name }}</a></h2>
+    <p class="situation">{{ w.situation }}</p>
+    <div class="wfd">{{ w.diagram | safe }}</div>
+  </article>
+  {% endfor %}
+</section>
+
+<section id="subtasks" class="tabpanel" role="tabpanel">
+  <div class="filters" role="group" aria-label="Filter subtasks by role">
+    <button type="button" class="chip on" data-role="">All roles</button>
+    {% for ro in library.roles %}<button type="button" class="chip role-{{ ro.code }}" data-role="{{ ro.code }}">{{ ro.code }} · {{ ro.name }}</button>{% endfor %}
+  </div>
+  <div class="grid">
+  {% for s in library.subtasks %}
+  <a class="mini sub" data-pid="{{ s.id }}" data-role="{{ s.roleCode }}" href="/p/{{ s.id }}/">
+    <span class="mini-id role-tag role-{{ s.roleCode }}">{{ s.id }}</span> <span class="mini-name">{{ s.name }}</span>
+    {% if s.status == "single-system" %}<span class="badge">1 system</span>{% endif %}
+    <span class="tiles" aria-hidden="true">{% for st in s.steps %}{{ thumb(library, st.component, "xs") }}{% if not loop.last %}<i class="tile-arrow">→</i>{% endif %}{% endfor %}</span>
+  </a>
+  {% endfor %}
+  </div>
+</section>
+
+<section id="components" class="tabpanel" role="tabpanel">
+  <div class="grid">
+  {% for c in library.components %}
+  <a class="mini comp" data-pid="{{ c.id }}" href="/p/{{ c.id }}/">
+    {{ thumb(library, c.id, "s") }}
+    <span><span class="mini-id">{{ c.id }}</span> <span class="mini-name">{{ c.name }}</span></span>
+  </a>
+  {% endfor %}
+  </div>
+</section>

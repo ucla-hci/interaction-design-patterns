@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }} · Interaction Pattern Library</title>
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="/">Interaction Pattern Library</a>
+  <nav><a href="/about/patterns/">About</a></nav>
+</header>
+<main>
+{{ content | safe }}
+</main>
+<div id="preview" class="preview" role="tooltip" hidden></div>
+<script type="application/json" id="pattern-index">{{ library.previewJson | safe }}</script>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

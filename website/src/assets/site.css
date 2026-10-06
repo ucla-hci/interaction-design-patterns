@@ -1,0 +1,205 @@
+/* Interaction Pattern Library. Greyscale ground, one hue per subtask role.
+   The eigen-UI classes (.all .some .sel .line .edge) match pattern-language/cards/card.css. */
+:root {
+  color-scheme: light;
+  --ink: #1d1d1d; --muted: #666; --line: #dcdcd8; --paper: #fff; --ground: #f4f4f1;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: var(--sans); /* one font throughout */
+  --FR: #2f64a3; --EX: #2b7d50; --OR: #8a6a12; --EV: #b03f2e; --SY: #6a4b9c; --CM: #17767a; --CN: #8c4476;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 15px/1.55 var(--sans); }
+a { color: inherit; }
+main { max-width: 1040px; margin: 0 auto; padding: 20px 16px 72px; }
+h1 { font-size: 24px; line-height: 1.25; margin: 0; }
+h2 { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 12px; }
+h3 { font-size: 14px; margin: 18px 0 6px; }
+kbd { font: 11px var(--mono); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; background: var(--ground); }
+.muted, .note { color: var(--muted); }
+
+header.site { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  max-width: 1040px; margin: 0 auto; padding: 14px 16px 0; }
+.brand { font-weight: 600; text-decoration: none; }
+header.site nav a { margin-left: 14px; color: var(--muted); }
+
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.card { display: grid; gap: 14px; }
+.card > * { min-width: 0; } /* lets the step row scroll inside its panel */
+.intro { margin: 6px 0 14px; max-width: 70ch; color: var(--muted); }
+.wf { margin-bottom: 14px; }
+.wf h2 { font: 600 16px var(--sans); text-transform: none; letter-spacing: 0; color: var(--ink); margin-bottom: 4px; }
+.situation { color: var(--muted); margin: 0 0 8px; }
+.wfd { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 8px; overflow-x: auto; }
+.wfd svg { display: block; width: 100%; height: auto; min-width: 560px; }
+.wfd svg text { font-family: var(--sans); }
+.wfd svg text:first-of-type { font-weight: 600; }
+.wfd a:hover path, .wfd a:focus path { stroke-width: 2.5; }
+details.fallback { margin-top: 8px; font-size: 13px; color: var(--muted); }
+
+/* Path. */
+.trail { font-size: 13px; color: var(--muted); margin: 4px 0 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.trail a { color: var(--ink); }
+.preview[hidden] { display: none; }
+
+/* Card head. */
+.kicker { font: 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 4px; }
+.hid { font-family: var(--mono); font-weight: 500; color: var(--muted); }
+.roles { margin: 8px 0 0; }
+.also { font-size: 12px; color: var(--muted); margin-left: 6px; }
+.badge { white-space: nowrap; font: 11px var(--mono); border: 1px dashed #999; border-radius: 4px; padding: 0 5px; color: var(--muted); text-transform: none; letter-spacing: 0; }
+dl.lead { display: grid; grid-template-columns: 96px 1fr; gap: 8px 16px; margin: 16px 0 0; }
+dl.lead dt { padding-top: 2px; }
+dl.lead dd { margin: 0; }
+dd.situation, dd.problem { font-size: 16px; color: var(--ink); }
+.attr { font: 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* Role chips. */
+.role, .chip, .role-tag { display: inline-block; border-radius: 999px; border: 1.5px solid currentColor; padding: 1px 9px; font: 600 12px var(--mono); text-decoration: none; }
+.role-FR { color: var(--FR); } .role-EX { color: var(--EX); } .role-OR { color: var(--OR); } .role-EV { color: var(--EV); }
+.role-SY { color: var(--SY); } .role-CM { color: var(--CM); } .role-CN { color: var(--CN); }
+.chip.here { background: currentColor; }
+.chip.here { color: var(--paper) !important; }
+.chip.here.role-FR { background: var(--FR); border-color: var(--FR); } .chip.here.role-EX { background: var(--EX); border-color: var(--EX); }
+.chip.here.role-OR { background: var(--OR); border-color: var(--OR); } .chip.here.role-EV { background: var(--EV); border-color: var(--EV); }
+.chip.here.role-SY { background: var(--SY); border-color: var(--SY); } .chip.here.role-CM { background: var(--CM); border-color: var(--CM); }
+.chip.here.role-CN { background: var(--CN); border-color: var(--CN); }
+
+/* Definitions on demand: hover or focus a term. */
+.term { position: relative; cursor: help; text-decoration: underline dotted 1px; text-underline-offset: 3px; }
+.term:hover::after, .term:focus::after {
+  content: attr(data-def); position: absolute; z-index: 6; left: 0; top: calc(100% + 6px); width: min(320px, 80vw);
+  background: var(--ink); color: #fff; font: 13px/1.45 var(--sans); text-transform: none; letter-spacing: 0; font-weight: 400;
+  padding: 8px 10px; border-radius: 8px; white-space: normal; }
+.term:focus { outline: 2px solid var(--FR); outline-offset: 2px; }
+
+/* Subtask steps: a strip of component pictures. */
+/* A row of steps joined by arrows: the order is the reading order. */
+.strip { list-style: none; margin: 0; padding: 0 0 6px; display: flex; gap: 28px; overflow-x: auto; }
+.step { flex: 0 0 230px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; position: relative; background: #fcfcfb; }
+.step + .step::before { content: "→"; position: absolute; left: -22px; top: 50px; font-size: 18px; color: #999; }
+.step-n { position: absolute; top: 8px; left: 10px; font: 600 12px var(--mono); color: var(--muted); }
+.step-c { display: block; text-decoration: none; margin: 18px 0 8px; }
+.step-label { display: block; font-size: 13px; font-weight: 600; margin-top: 6px; }
+.step-c.none .step-label { font-weight: 400; color: var(--muted); font-style: italic; }
+.who { margin: 6px 0 0; font-size: 13.5px; }
+.who b { font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+.who.u b { color: var(--FR); } .who.s b { color: var(--muted); }
+
+/* Component pictures. */
+.thumb { display: block; border: 1px solid var(--line); border-radius: 6px; background: #fafafa; overflow: hidden; }
+.thumb svg { display: block; width: 100%; height: 100%; }
+.thumb svg text { display: none; }
+.thumb-m { height: 110px; } .thumb-s { width: 92px; height: 58px; flex: none; } .thumb-xs { width: 30px; height: 20px; display: inline-block; vertical-align: middle; }
+.thumb-empty { display: grid; place-items: center; background: repeating-linear-gradient(45deg, #f6f6f4, #f6f6f4 6px, #efefec 6px, #efefec 12px); }
+.thumb-empty.thumb-xs .thumb-id { display: none; }
+.thumb-id { font: 600 12px var(--mono); color: var(--muted); }
+
+/* Eigen-UI drawing (from the cards). */
+figure.eigen { margin: 0 0 14px; }
+figure.eigen svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #fafafa; }
+.eigen svg text, .thumb svg text { font: 12px var(--sans); fill: #333; }
+svg .lab { font-size: 11px; fill: #777; font-style: italic; }
+svg .id { font: 11px var(--mono); fill: #555; }
+.all { fill: #fff; stroke: #333; stroke-width: 1.5; }
+.some { fill: #fff; stroke: #888; stroke-width: 1.2; stroke-dasharray: 5 4; }
+.line { stroke: #bbb; stroke-width: 6; stroke-linecap: round; }
+.edge { stroke: #555; stroke-width: 1.5; fill: none; }
+.sel { fill: #fff; stroke: #000; stroke-width: 3.5; }
+.key { font-size: 12px; color: var(--muted); margin-top: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.key .k { display: inline-block; width: 22px; height: 12px; border: 1.5px solid #333; }
+.key .k.some { border: 1.2px dashed #888; } .key .k.sel { border: 3px solid #000; }
+.soltext ol { padding-left: 20px; margin: 0; }
+
+/* Where am I. */
+.chain { list-style: none; display: inline-flex; flex-wrap: wrap; gap: 4px 2px; margin: 0; padding: 0; vertical-align: middle; }
+.chain li + li::before { content: "→"; color: #aaa; margin: 0 3px; }
+.where-wf { margin: 4px 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.uses { margin: 0; padding-left: 18px; }
+
+/* Collapsed sections. */
+details.more > summary { cursor: pointer; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+details.more[open] > summary { margin-bottom: 10px; }
+details.more ul { padding-left: 18px; }
+
+/* Links to patterns, and previews. */
+a.pid { text-decoration-color: #bbb; text-underline-offset: 3px; }
+.pname { color: var(--ink); }
+.preview { position: absolute; z-index: 10; background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; box-shadow: 0 8px 28px rgba(0,0,0,.12); font-size: 13px; }
+.preview p { margin: 0 0 6px; } .preview p:last-child { margin: 0; }
+.pv-k { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; } .pv-n { font-weight: 600; font-size: 14px; }
+.preview b { font: 600 10.5px var(--mono); text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+
+/* Catalog. */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 16px; }
+.filters .chip { background: var(--paper); cursor: pointer; }
+.filters .chip.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.columns { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 16px; align-items: start; }
+.mini { display: block; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  margin-bottom: 8px; text-decoration: none; }
+.mini:hover, .mini:focus { border-color: #999; }
+.mini-id { font: 600 12px var(--mono); }
+.mini-id:not(.role-tag) { color: var(--muted); }
+.mini-name { font-weight: 500; }
+.dots, .tiles { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 8px; }
+.dots i { font: normal 600 10px var(--mono); border: 1.5px solid currentColor; border-radius: 999px; padding: 0 5px; }
+.mini.comp { display: flex; gap: 10px; align-items: center; }
+.mini[hidden] { display: none; }
+
+/* About. */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 12px; font-size: 14px; }
+.tabs a[aria-current] { font-weight: 600; text-decoration: none; }
+.prose { max-width: 820px; }
+dl.defs { display: grid; grid-template-columns: 150px 1fr; gap: 10px 18px; margin: 8px 0; }
+dl.defs dt { font-weight: 600; } dl.defs dd { margin: 0; }
+.prose h2 { margin-top: 22px; }
+
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--FR); outline-offset: 2px; }
+
+@media (max-width: 760px) {
+  .columns { grid-template-columns: 1fr; }
+  dl.lead, dl.defs { grid-template-columns: 1fr; gap: 2px; }
+  dl.lead dd, dl.defs dd { margin-bottom: 10px; }
+  .panel { padding: 14px; }
+}
+.thumb-m.thumb-empty { height: 56px; }
+
+/* Breadcrumb with names. */
+.trail a, .trail span[aria-current] { max-width: 34ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pidn { color: var(--muted); } /* a pattern ID beside its name */
+
+/* Catalog tabs. */
+.tabs-bar { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.tabs-bar a { padding: 8px 14px; text-decoration: none; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs-bar a[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.tabs-bar .n { font-size: 12px; color: var(--muted); font-weight: 400; }
+.tabpanel[hidden] { display: none; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; }
+.tile-arrow { font-style: normal; font-size: 11px; color: #aaa; align-self: center; }
+.tiles { align-items: center; }
+
+/* Crops of the instances, under Examples. */
+.crops { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.crop { margin: 0; }
+.crop img { display: block; width: 100%; height: 170px; object-fit: contain; object-position: top left; background: #fafafa; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 6px; }
+.crop figcaption { font-size: 12.5px; color: var(--muted); }
+.crop figcaption b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 760px) {
+  .strip { flex-direction: column; gap: 26px; overflow: visible; }
+  .step { flex: none; }
+  .step + .step::before { content: "↓"; left: 50%; top: -24px; }
+  .trail a, .trail span[aria-current] { max-width: 22ch; }
+}
+
+/* Workflow examples: one system at a time. */
+.sys-pick { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.sys-pick select { font: inherit; color: var(--ink); padding: 3px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.ex-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ex-table[hidden] { display: none; }
+.ex-table caption { text-align: left; font-weight: 600; margin-bottom: 6px; }
+.ex-table th, .ex-table td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.ex-table thead th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 500; }
+.ex-table tbody th { width: 30%; font-weight: 400; }
+@media (max-width: 760px) { .ex-table tbody th { width: 38%; } }
+.where-wf[hidden] { display: none; }

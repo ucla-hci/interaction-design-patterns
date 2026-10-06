@@ -1,0 +1,33 @@
+{# A component picture: its eigen-UI, or a placeholder tile with its name. #}
+{% macro thumb(lib, id, size="m") %}
+{%- set c = lib.recs[id] -%}
+<span class="thumb thumb-{{ size }}{% if not (c and c.svg) %} thumb-empty{% endif %}" aria-hidden="true">
+  {%- if c and c.svg %}{{ c.svg | safe }}{% else %}<span class="thumb-id">{{ id or "—" }}</span>{% endif -%}
+</span>
+{% endmacro %}
+
+{# A link to a pattern. data-pid drives the preview and the path parameter. #}
+{% macro plink(lib, id, label=true) %}
+{%- set r = lib.recs[id] -%}
+<a class="pid" data-pid="{{ id }}" href="/p/{{ id }}/">{% if label and r %}<span class="pidn">{{ id }}</span> <span class="pname">{{ r.name }}</span>{% else %}{{ id }}{% endif %}</a>
+{%- endmacro %}
+
+{% macro role(lib, code) %}
+{%- set ro = lib.roleByCode[code] -%}
+<span class="role role-{{ code }} term" tabindex="0" data-def="{{ ro.name }}: {{ ro.does }}.">{{ code }} · {{ ro.name }}</span>
+{%- endmacro %}
+
+{# An attribute label with its definition on demand. #}
+{% macro attr(lib, name) %}
+{%- set a = lib.attrByName[name] -%}
+<dt><span class="attr term" tabindex="0" data-def="{{ a.holds if a else '' }}">{{ name }}</span></dt>
+{%- endmacro %}
+
+{# A workflow as a chain of role chips; the current subtask is marked. #}
+{% macro chain(lib, wf, current="") %}
+<ol class="chain" aria-label="{{ wf.id }} {{ wf.name }}">
+  {%- for n in wf.nodes %}{% set s = lib.recs[n] %}
+  <li><a class="chip role-{{ n | truncate(2, true, '') }}{% if n == current %} here{% endif %}" data-pid="{{ n }}" href="/p/{{ n }}/?via={{ wf.id }}"{% if n == current %} aria-current="page"{% endif %}>{{ n }}</a></li>
+  {%- endfor %}
+</ol>
+{% endmacro %}

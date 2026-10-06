@@ -1,0 +1,26 @@
+// WF-C Decompose and Verify. Layout only: the graph is the mermaid block in patterns/WF-C.md.
+// Top row: the claim, its parts, the evidence, the judgement. Bottom row: decide, then continue.
+diagram  theme: light  background: #ffffff
+default edge  line: (path: curved)  text: (size: large)
+default node  text: (size: large)
+style FR  border: #2f64a3  fill: #eef3fa
+style EX  border: #2b7d50  fill: #edf6f0
+style EV  border: #b03f2e  fill: #faefed
+style CM  border: #17767a  fill: #ebf5f5
+style CN  border: #8c4476  fill: #f7eef4
+
+node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-C"
+node EX3 "EX-3 / Split the Claim into / Checkable Parts"  right of FR2  style: EX  url: "/p/EX-3/?via=WF-C"
+node EV3 "EV-3 / Collect Evidence / for Each Part"  right of EX3  style: EV  url: "/p/EV-3/?via=WF-C"
+node EV4 "EV-4 / Judge Each Part / Against Its Evidence"  right of EV3  style: EV  url: "/p/EV-4/?via=WF-C"
+node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below EV4  style: CM  url: "/p/CM-2/?via=WF-C"
+node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX3  level with CM2  style: CN  url: "/p/CN-1/?via=WF-C"
+
+edge FR2 -> EX3
+edge EX3 -> EV3
+edge EV3 -> EV4
+edge EV4 -> CM2
+edge CM2 -> CN1
+edge CN1 -> EV3 "more evidence"
+edge CN1 -> EX3 "replacement part"
+edge EX3 -> EX3 "decompose a / part further"  from: top  to: top

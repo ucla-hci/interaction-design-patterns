@@ -1,0 +1,26 @@
+// WF-A Guided Candidate Search. Layout only: the graph is the mermaid block in patterns/WF-A.md.
+// Two rows: the search goes right along the top, the check and the keep come back below.
+diagram  theme: light  background: #ffffff
+default edge  line: (path: curved)  text: (size: large)
+default node  text: (size: large)
+style FR  border: #2f64a3  fill: #eef3fa
+style EX  border: #2b7d50  fill: #edf6f0
+style OR  border: #8a6a12  fill: #f8f3e6
+style EV  border: #b03f2e  fill: #faefed
+style SY  border: #6a4b9c  fill: #f3f0f8
+style CM  border: #17767a  fill: #ebf5f5
+
+node FR1 "FR-1 / State the Start / and the Criteria"  style: FR  url: "/p/FR-1/?via=WF-A"
+node EX1 "EX-1 / Generate Candidates"  right of FR1  style: EX  url: "/p/EX-1/?via=WF-A"
+node OR1 "OR-1 / Group Candidates / by Criteria"  right of EX1  style: OR  url: "/p/OR-1/?via=WF-A"
+node EV1 "EV-1 / Check Candidates Against / Every Criterion"  below OR1  style: EV  url: "/p/EV-1/?via=WF-A"
+node CM1 "CM-1 / Keep Candidates and / Start the Next Round"  below EX1  level with EV1  style: CM  url: "/p/CM-1/?via=WF-A"
+node SY1 "SY-1 / Combine Partial Candidates / (optional)"  right of EV1  style: SY  url: "/p/SY-1/?via=WF-A"
+
+edge FR1 -> EX1
+edge EX1 -> OR1
+edge OR1 <-> EV1
+edge EV1 <-> SY1
+edge EV1 -> CM1
+edge SY1 -> CM1  from: bottom  to: bottom
+edge CM1 -> EX1 "kept candidate / starts next batch"  from: left  to: left
