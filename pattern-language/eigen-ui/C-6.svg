@@ -1,15 +1,3 @@
-<!doctype html>
-<meta charset="utf-8">
-<title>C-6 · Detail on Demand</title>
-<link rel="stylesheet" href="card.css">
-<main class="card">
-  <header>
-    <p class="kicker"><a href="index.html">Cards</a> · component · C-6</p>
-    <h1>Detail on Demand</h1>
-  </header>
-
-  <section class="front">
-    <h2>Eigen-UI</h2>
 <svg viewBox="0 0 940 560" role="img" aria-label="Wireframe of an overview with a detail panel open beside it">
   <!-- overview -->
   <rect x="10" y="10" width="520" height="540" class="all" />
@@ -65,42 +53,3 @@
   <rect x="557" y="520" width="150" height="24" class="some" /><text x="567" y="536" class="id">#act</text><text x="600" y="536">action</text>
   <text x="716" y="536" class="lab">an action on the item (1 of 3)</text>
 </svg>
-    <p class="key"><span class="k all"></span> in every instance <span class="k some"></span> in some instances, with the count <span class="k sel"></span> selected</p>
-  </section>
-
-  <section class="fields">
-    <dl>
-      <dt>Level</dt><dd>component</dd>
-      <dt>Context</dt><dd>OR-1 Group Candidates by Criteria · EV-1 Check Candidates Against Every Criterion · SY-2 Summarize the Discussion · EV-4 Judge Each Part Against Its Evidence</dd>
-      <dt>Situation</dt><dd>The user needs the full evidence of one item, and the overview of the others.</dd>
-      <dt>Problem</dt><dd>All the evidence at once overloads the user, and evidence apart from its item is hard to check.</dd>
-      <dt>Solution</dt><dd><ol>
-      <li>Show a summary of every item in an overview: a map (C-4) or a list.</li>
-      <li>When the user selects an item, mark it in the overview. Open a panel beside the overview.</li>
-      <li>Keep the overview visible while the panel is open.</li>
-      <li>In the panel, give the item label, then why the item holds, in prose.</li>
-      <li>Put the evidence in sections that collapse: sources that open, and tables or visualizations.</li>
-      <li>When the claim was generated, add a Confidence Cue (C-8).</li>
-      <li>Put a keep control in the panel header when the workflow keeps items (C-12).</li>
-      </ol></dd>
-      <dt>States</dt><dd>closed: the overview only → open (drawn): after the user selects an item. Close or select another item to leave it.</dd>
-      <dt>References</dt><dd>C-4 Persistent Structure Map (the overview) · C-7 Attached Evidence (the sections) · C-8 Confidence Cue · C-12 Shortlist (the keep control)</dd>
-    </dl>
-  </section>
-
-  <section class="examples">
-    <h2>Examples</h2>
-    <p class="note">The eigen-UI is distilled from these instances. Images show only where
-    <code>data/figures/cp/</code> exists on this machine (<code>tools/crop_cp.py</code>).</p>
-    <div class="crops">
-    <figure class="crop"><img src="../../data/figures/cp/CP-6/1-halo.png" alt="" onerror="this.remove()">
-      <figcaption><b>HALO Fig. 2, callout C</b>. cluster panel over the map, strategies tab</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-6/2-halo.png" alt="" onerror="this.remove()">
-      <figcaption><b>HALO Fig. 10</b>. the same panel: overview and candidates tabs</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-6/3-happier.png" alt="" onerror="this.remove()">
-      <figcaption><b>HAPPIER Fig. 3, callout b</b>. selected path marked in the graph; panel beside it</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-6/4-theseus.png" alt="" onerror="this.remove()">
-      <figcaption><b>THESEUS Fig. 2, callouts B, C</b>. selected claim marked; rationale and sources panel</figcaption></figure>
-    </div>
-  </section>
-</main>

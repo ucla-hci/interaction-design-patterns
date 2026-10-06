@@ -1,15 +1,3 @@
-<!doctype html>
-<meta charset="utf-8">
-<title>C-4 · Persistent Structure Map</title>
-<link rel="stylesheet" href="card.css">
-<main class="card">
-  <header>
-    <p class="kicker"><a href="index.html">Cards</a> · component · C-4</p>
-    <h1>Persistent Structure Map</h1>
-  </header>
-
-  <section class="front">
-    <h2>Eigen-UI</h2>
 <svg viewBox="0 0 940 560" role="img" aria-label="Wireframe of a persistent structure map">
   <!-- canvas -->
   <rect x="10" y="10" width="920" height="540" class="all" />
@@ -81,41 +69,3 @@
 
   <text x="22" y="536" class="lab">shape: a tree grown from the root (3 of 4) · a network with no root (1 of 4)</text>
 </svg>
-    <p class="key"><span class="k all"></span> in every instance <span class="k some"></span> in some instances, with the count <span class="k sel"></span> selected</p>
-  </section>
-
-  <section class="fields">
-    <dl>
-      <dt>Level</dt><dd>component</dd>
-      <dt>Context</dt><dd>EX-1 Generate Candidates · OR-1 Group Candidates by Criteria · EX-2 Build Contrasting Viewpoints · EX-3 Split the Claim into Checkable Parts</dd>
-      <dt>Situation</dt><dd>The items of the work relate to each other, and new items keep arriving.</dd>
-      <dt>Problem</dt><dd>The user loses how the items of the work relate.</dd>
-      <dt>Solution</dt><dd><ol>
-      <li>Make a canvas the working state. Keep it for the whole session.</li>
-      <li>Draw each item as a card with a label and a summary. Add a status line when items change state.</li>
-      <li>Link each item to the item that it comes from. State what a node and a link mean.</li>
-      <li>Choose the shape: a tree from a root, or a network when items have no single origin.</li>
-      <li>When a link carries a score, show it on the link (C-8). When marks encode criteria, show a legend.</li>
-      <li>When the user selects an item, mark it and open Detail on Demand (C-6).</li>
-      </ol></dd>
-      <dt>States</dt><dd>One state. The map grows as items arrive.</dd>
-      <dt>References</dt><dd>C-6 Detail on Demand (opens from a selected node) · C-8 Confidence Cue (score on a link) · C-14 Provenance Link (the link to the origin)</dd>
-    </dl>
-  </section>
-
-  <section class="examples">
-    <h2>Examples</h2>
-    <p class="note">The eigen-UI is distilled from these instances. Images show only where
-    <code>data/figures/cp/</code> exists on this machine (<code>tools/crop_cp.py</code>).</p>
-    <div class="crops">
-    <figure class="crop"><img src="../../data/figures/cp/CP-4/1-halo.png" alt="" onerror="this.remove()">
-      <figcaption><b>HALO Fig. 2, callout A</b>. trajectory map of candidate cards</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-4/2-happier.png" alt="" onerror="this.remove()">
-      <figcaption><b>HAPPIER Fig. 3, callout a1</b>. network; edge colour and width encode criteria</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-4/3-perspectevolver.png" alt="" onerror="this.remove()">
-      <figcaption><b>PerspectEvolver Fig. 4, right</b>. canvas: the question and its threads</figcaption></figure>
-    <figure class="crop"><img src="../../data/figures/cp/CP-4/4-theseus.png" alt="" onerror="this.remove()">
-      <figcaption><b>THESEUS Fig. 2, callouts A, B, D, E</b>. tree of claims and procedures, with a score per link</figcaption></figure>
-    </div>
-  </section>
-</main>

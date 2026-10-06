@@ -1,7 +1,7 @@
 # Component specs (MVP)
 
-> 9/29: an eigen-UI card in `pattern-language/cards/` replaces the YAML spec of a component. CP-6
-> has a card; its YAML spec below is kept as a record only. CP-1 and CP-11 have no card yet.
+> 9/29: an eigen-UI card in `pattern-language/cards/` replaces the YAML spec of a component. C-6
+> has a card; its YAML spec below is kept as a record only. C-1 and C-11 have no card yet.
 
 Abstract representation of a component pattern, for `pattern-language-mvp.md`. A spec states the
 element tree, the data it binds, its variations, and the events it emits. It states no style.
@@ -20,13 +20,13 @@ requires.
 Paths and labels are domain-neutral. A designer replaces the paths, not the structure.
 
 **`states:` are moments, not alternatives.** A component draws differently at different points
-of the work, and each name is one of those moments. A user passes through them. CP-1 has
+of the work, and each name is one of those moments. A user passes through them. C-1 has
 `setup` before the work starts and `running` beside the work. They are not two candidate designs
 for a reader to choose between. Two candidate designs are two patterns.
 
 ## Visualization check, 9/22
 
-CP-1 was compiled and drawn with the maui implementation, to see the spec as a UI:
+C-1 was compiled and drawn with the maui implementation, to see the spec as a UI:
 `lib/agent/pattern-compiler.ts` and `components/a2ui-renderer.tsx`. No API key was needed, so
 none was copied. The scratch script ran in `~/dev/maui` and was deleted. `npx tsx` installed
 `tsx@4.23.15` on first run.
@@ -40,12 +40,12 @@ Results:
   Edit button.
 - The `setup` variation drew three notices: `Unsupported component: TextField`. That renderer
   draws Card, Column, Row, Text, LineChart, NumberField, and Button. It has no text input.
-- CP-1 keeps its text input. The design needs one. A renderer that lacks it draws less of the
+- C-1 keeps its text input. The design needs one. A renderer that lacks it draws less of the
   spec, and the spec does not change.
 
 ---
 
-## CP-1 · Inquiry Frame
+## C-1 · Inquiry Frame
 
 ```yaml
 - id: inquiry-frame
@@ -83,7 +83,7 @@ Results:
           Text #startval: "starting point: {@/root/start}"
           *@/root/criteria Text #crit: "{@./name}: {@./value}"
           Button #edit: "Edit" -> event edit_frame
-        ?running Card #proposal:            # a CP-11 revision arrives here
+        ?running Card #proposal:            # a C-11 revision arrives here
           Column:
             Text #field: "{@/root/proposal/field}"
             Text #before: "before: {@/root/proposal/before}"
@@ -109,7 +109,7 @@ subtree is the point where S1 step 4 refuses a silent rewrite.
 
 ---
 
-## CP-6 · Detail on Demand
+## C-6 · Detail on Demand
 
 ```yaml
 - id: detail-on-demand
@@ -142,7 +142,7 @@ subtree is the point where S1 step 4 refuses a silent rewrite.
         Column:
           Text #title: "{@/detail/label}"
           Text #claim: "{@/detail/claim}"
-          Text #confidence: "confidence: {@/detail/confidence}"   # CP-8
+          Text #confidence: "confidence: {@/detail/confidence}"   # C-8
           *@/detail/evidence Row #source:
             Text #srclabel: "{@./label}"
             Button #opensrc: "open source" -> event open_source
@@ -157,11 +157,11 @@ subtree is the point where S1 step 4 refuses a silent rewrite.
 ```
 
 Notes. The overview stays in the tree when the detail opens, so the user keeps the context.
-Evidence repeats from the item's own list, which is CP-7.
+Evidence repeats from the item's own list, which is C-7.
 
 ---
 
-## CP-11 · Reviewable Revision
+## C-11 · Reviewable Revision
 
 ```yaml
 - id: reviewable-revision
@@ -228,4 +228,4 @@ Evidence repeats from the item's own list, which is CP-7.
 
 Notes. Decisions are per revision, and one control applies them together. The `stale` state is
 S2 step 6: THESEUS rejects a pending draft when the graph changed under it. The history column
-holds what a revision replaced, which is CP-14.
+holds what a revision replaced, which is C-14.
