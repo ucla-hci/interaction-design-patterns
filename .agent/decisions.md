@@ -26,6 +26,17 @@
 - 9/29/2026 — A workflow does not have to apply to two or more systems, for now. WF-B and WF-C stay in the MVP; their diagrams mark the subtasks that moved.
 - 9/29/2026 — Component counts (subtasks and systems) include the moved subtasks. Moving a pattern out changes what the MVP shows, not whether the pattern exists.
 - 9/29/2026 — A subtask name states a precise action that holds across tools: a verb and its object, with no metaphor. IDs stay. The 15 subtasks are renamed (journal, 9/29).
+- 10/6/2026 — Tentative: subtasks are sorted by their role in the loop: Frame, Expand, Organize, Evaluate, Synthesize, Commit, Continue. Generality (MVP or single-system) is the second axis. The roles can change when more papers are added. No subtask is removed. See `pattern-language/refs/subtask-taxonomy-brainstorm.md`.
+- 10/6/2026 — A subtask ID is a role code and a number: FR, EX, OR, EV, SY, CM, CN, then the order of first use (WF-A, WF-B, WF-C). A subtask in two roles takes its main role: EX-3 (was C1) is Expand, CM-1 (was A6) is Commit. This replaces "IDs stay" (9/29). When a role changes, the ID changes. The was→now list is in the brainstorm doc. A retired ID is not used again.
+- 10/6/2026 — Workflow diagrams show single-system subtasks like every other subtask: no dashed style, no "moved" label. This replaces "their diagrams mark the subtasks that moved" (9/29). The subtask sections stay in `single-system-patterns.md`.
+- 10/6/2026 — A subtask has a **Role** field, first after the name. A subtask in two roles notes the second one: "Expand (also Organize)".
+- 10/6/2026 — Components are `C-n`, not `CP-n`. The number stays. Crop folders (`data/figures/cp/CP-n/`), `refs/cp-figures.yaml`, `tools/crop_cp.py`, and the card file names keep "cp". Journal entries before 10/6 keep `CP-n`.
+- 10/6/2026 — Each subtask step names its component, then two labelled parts: *User:* what the user does, *System:* what the system shows or does. "—" marks a side that does nothing.
+- 10/6/2026 — Examples: one narrative per exemplar system that has the pattern. It names the tool and tells, in 3 to 5 sentences with § numbers, how a user performs the pattern. Facts come from `data-text/`, not from memory.
+- 10/6/2026 — Terms with one meaning in the whole library are defined in `pattern-language/glossary.md` (draft).
+- 10/6/2026 — **Context** has two parts: *Parents* (the parent patterns) and *Situation* (one sentence: what the user is trying to do at this point of the parent; for a workflow, the high-level task). The old Goal moves here. This follows Borchers: context states when and where a pattern is used.
+- 10/6/2026 — **Problem** is one statement: what goes wrong for the user without this pattern. It states a consequence that the user meets, and does not name the solution or its absence. It replaces Goal + Failure (9/29). Forces stay deferred. See `pattern-language/refs/problem-field-memo.md`.
+- 10/6/2026 — The Template is renamed **Pattern Attributes**. Situation is its own attribute, after Context, and Context holds the parent patterns only. Role is defined in the table. Situation and Problem are one sentence each. This refines the Context entry above.
 - 9/22/2026 — A workflow Solution is a sequence of subtasks. Each item is one subtask. Systems that share a workflow are abstracted as one chain.
 - 9/22/2026 — A workflow can branch and loop. Each workflow Solution starts with a mermaid flowchart.
 - 9/22/2026 — A subtask Solution is a sequence of steps. In each step the user works with named components.
@@ -49,3 +60,18 @@
 - 9/22/2026 — All text in this repository follows ASD-STE100 Simplified Technical English, document mode: https://github.com/AminBlg/SimpleEnglish. Rules: 20 words maximum per instruction, 25 per description; condition before command; active voice; *can*, *will*, and *must* only; one word for one meaning; the fact, not its importance.
 - 9/22/2026 — Two deviations: field labels stay bold, and a step keeps the CP number of a component.
 - 9/22/2026 — Three groups keep their current text: the notes in `literature/`, journal entries before 9/22, and the paper prose in `research-paper/`. Paper prose follows the conventions of the venue, not STE.
+
+## Website
+- 10/6/2026 — The pattern library gets a website: a wiki-like reference of cards at all three levels. Spec: `website/SPEC.md`. Spec first; no build until the author approves the spec.
+- 10/6/2026 — The site is public, with full content. The author accepts the risk to the anonymity of the exemplar papers.
+- 10/6/2026 — Source: one file per pattern, `pattern-language/patterns/<ID>.md`, with front matter. The split comes before the build.
+- 10/6/2026 — Hosting: Vercel, built from the GitHub repository on each push to `main`. The build tool is Eleventy (spec D3).
+- 10/6/2026 — Two design principles for the site: start scarce (version 1 shows the least that does the job), and visual over text. Version 1 drops search, all filters but role, and the level rail.
+- 10/6/2026 — The spec is approved. A new paper enters through `/add-paper` (`.claude/commands/add-paper.md`): ingest, analyze, propose, apply, rebuild, pull request. Each change to the language goes to the author before it applies. The author merges.
+- 10/6/2026 — The patterns are split: one file per pattern in `pattern-language/patterns/` (35 files: 31 live, 4 retired). `pattern-language-mvp.md` keeps the meta sections and an index; `single-system-patterns.md` is an index. Eigen-UI drawings are `pattern-language/eigen-ui/C-<n>.svg`.
+- 10/6/2026 — `vercel.json` sits at the repository root (the build reads `pattern-language/`). The build runs the §11 checks; a failure stops the deploy.
+- 10/6/2026 — Reverses 9/29 ("The crops stay out of git") and spec §8: the crops of component instances ship. They are in `pattern-language/figures/C-<n>/`, tracked, and the site shows them under Examples. Other files in `data/` stay out of git.
+- 10/6/2026 — Workflow diagrams on the site are drawn with reladraw from `pattern-language/diagrams/<ID>.reladraw` (a hand-placed 2D layout). The mermaid block in the pattern file stays the graph; the site check compares the node sets.
+- 10/6/2026 — The site home is the catalog, with tabs for the three levels. One font throughout.
+- 10/6/2026 — No "Up" control on the site; the path breadcrumb does the job. Workflow examples are a table of the subtask narratives, one system at a time. The About page takes the Overview of the MVP doc (HTML comments left out) and the attribute definitions.
+- 10/6/2026 — A component card's Examples show crops when they exist, and no text list. A component without crops keeps its text list until crops are added.

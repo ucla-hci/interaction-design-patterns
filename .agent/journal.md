@@ -7,11 +7,176 @@
 
 ## next-up
 <!-- what we should work on next time -->
-- [x] self-finetune CP rendering: for a CP, extract corresponding screen from the example papers -> compare the current rendering with the real examples to evaluate how the former can abstractly represent the latter -> identify areas for improvement and repeat
-- [urgent] Review the subtask renames and the card format.
 - create a website to access the patterns
 - continue to review mvp--create a more structured list of reviewable samples
 - add some other groups' papers (e.g., AI2's)
+- wf-a/b/c is not scalable once there are more than 26 workflow patterns
+
+## 10/6/2026
+- [x] more issues with the website
+  - use faded font color for the pattern ID next to the pattern name
+  - on component card's examples, a list of examples as text is not necessary
+- [x] more issues with the website
+  - increase font size in workflow flowcharts
+  - "Steps, in order." is not necessary
+  - when hovering the steps under solution in subtask, allow for scrolling to go horizontally
+  - "↑ Up u" seems unnecessary
+  - use a tabular view for examples in workflow; allow a designer to choose a different system via a drop down to see a diff example. show one system as example at a time
+  - the about page should also contain definitions of the pattern's attributes
+  - remove the following from the about page: "Every pattern lists its instances. The four papers do not have to share every level. Two systems or more. The MVP shows a subtask or a component only when it applies to two or more systems. A single-system pattern is in single-system-patterns.md until a new system shows it. A workflow can rest on one system, for now. Component counts include the moved subtasks."
+  - see the updated overview section of the mvp doc to update the about page's part on defining patterns across three levels
+- [x] issues with the website:
+  - use the same font throughout
+  - consider using /beautiful-mermaid or other libraries to improve the visual quality of workflow flowchart---the problem with mermaid is that it either goes horizontally or vertically, making the entire chart thin and difficult to view
+  - - we can add more descriptive text than "Home › WF-A › EX-1"---the width afford some additional info
+  - we can include the cropped figures as examples for component patterns
+  - for solution in subtask, need to indicate that its constituents are steps (sequential relationship)
+  - catalog should separate worflows/subtasks/components into three tabs and the default view can be catalog
+  - the header Interaction Pattern Library is redundant because the top menu bar also has Interaction Pattern Library
+- [x] update the mvp doc to only include the latest version of subtasks
+- [xac] Review the subtask renames and the card format.
+
+### Latest Version of Subtasks in the MVP
+
+**Approach.** Two readings, and the author chose both: (a) remove the revision history; (b) remove the single-system subtasks. (a) is done in `pattern-language/pattern-language-mvp.md`: 14 resolved `<xac:>` threads removed, with their replies. One thread with no reply stays (Components, the wireframe request). No old subtask names remain in the doc.
+
+**Decisions settled.** (b) is not done. No subtask is removed. The author asked for a taxonomy of the subtasks, to discuss. Draft: `pattern-language/refs/subtask-taxonomy-brainstorm.md`. Main axis: role in the loop (Frame, Expand, Organize, Evaluate, Synthesize, Commit, Continue). Second axis: generality.
+
+**Open.**
+- The taxonomy waits for discussion. The draft shows that A1 and S1 do the same job, and that A6 does two jobs.
+- Prose with dates (Component rules, Retired, Card) is still in the doc. It is current text, not a comment thread.
+
+### Subtask IDs by Role
+
+**Decisions settled.** Option 1 of the taxonomy, tentatively. IDs: role code and number (Scheme 1). EX-3 (was C1) takes Expand, and CM-1 (was A6) takes Commit.
+
+**Approach.** Replaced all 15 IDs in `pattern-language-mvp.md`, `single-system-patterns.md`, `cards/cp-4.html`, and `cards/cp-6.html`. 0 old IDs remain in those four files. The MVP has a new "Subtask roles" key under Structure. Mermaid node IDs drop the hyphen (`FR1`); labels keep it (`FR-1`).
+
+**Open.**
+- Not updated, because they are already stale: `refs/component-specs.md` and `renders/*.html` use the names from before 9/29. `refs/exemplar-systems-review.md` uses a different, older ID set.
+- Brainstorm questions 2 and 3 are still open: act on the overlaps (FR-1 and FR-2 do the same job), and where the roles table goes.
+- Follow-up, done: the workflow diagrams no longer mark single-system subtasks (dashed style and "moved" label removed). Logged in decisions.
+
+### Feedback on FR-2, applied to every subtask
+
+**Decisions settled (see `.agent/decisions.md`).** The author asked for changes that generalize. Role is the first field of a subtask. Components are `C-n`. Steps have *User:* and *System:* parts. Examples are one narrative per system.
+
+**Approach.** Template updated in `pattern-language-mvp.md`. All 15 subtasks rewritten in the MVP and `single-system-patterns.md`: 15 Role fields; 64 steps, each with a User line and a System line. Every narrative comes from the system sections of the papers in `data-text/`. `CP-n` → `C-n` in the MVP, the single-system doc, the cards, `refs/component-specs.md`, and the brainstorm doc. New: `pattern-language/glossary.md` (draft, 32 terms), `pattern-language/refs/problem-field-memo.md`.
+
+**Findings.**
+- Borchers defines the problem statement as a summary of the competing forces (local notes). Our Goal + Failure is not that. The memo gives three options. The Problem fields are unchanged.
+- Corrections from the papers. PerspectEvolver revision rates are in §6.2.2, not §4.3. "1,370 papers" is a study mean (the walkthrough shows 674). The SY-2 record holds findings, limitations, disagreements, and open questions. THESEUS edge confidence is in the §4 intro. HAPPIER's "50 to 60 proteins" is a formative-study goal, so it is dropped.
+- HALO has no form for the criteria. The study task set the four properties (§5.1.1). FR-1 marks the HALO instance as weak.
+
+**Open.**
+- Decide the Problem field (memo, Options 1–3). Decided, see the next section.
+- Review the glossary. Its terms come from the Writing-style list, and from the subtask text.
+- Some Solution steps have no source in the papers: SY-2 step 4 ("keeps both records"), EX-2 step 5 (the working set on the map). They were there before 10/6.
+
+### Problem Field
+
+**Decisions settled.** The author asked whether Goal alone is enough. Reply in `refs/problem-field-memo.md`: Goal restates the name in about 8 of 15 subtasks. Failure is the reason for the Solution steps. The author's proposal, adopted: the goal moves into Context as *Situation*, and Problem is one standalone failure, "what goes wrong without this pattern".
+
+**Approach.** Template updated. Rewritten: 3 workflows, 15 subtasks, 13 component rows, and the CP-4 and CP-6 cards. 0 Goal or Failure labels remain in pattern text. Six failures named a design or the solution, and are rewritten: OR-1, EX-2, EV-2, EX-3, EV-3, EV-4. In the component table: C-4, C-10, C-17.
+
+**Open.**
+- The Situation sentences are new text from one writer. They need the author's read.
+- Follow-up, done: "Template" renamed "Pattern Attributes". Role and Situation have their own rows. Situation is a separate attribute in all 18 patterns. 18 of 18 Problems and 18 of 18 Situations are one sentence; the 13 component Problems already were.
+
+### Website Spec
+
+**Approach.** Spec from the "website" notes in `.agent/scratch-pad.md`: `website/SPEC.md`. It covers the users and tasks, the content model, the pages, the card, navigation, meta on demand, constraints, and acceptance criteria. Nothing is built.
+
+**Decisions settled (see `.agent/decisions.md`).** Public, full content. One file per pattern. Host on Vercel from GitHub, built with Eleventy.
+
+**Findings.** The pattern links form a graph, not a tree: FR-2 has 2 parents, C-7 has 6. So the breadcrumb follows the path that the designer took, and the URL holds it (spec §6).
+
+**Open.**
+- The split into one file per pattern is a separate task, before the build.
+
+### Website Principles and the Add-Paper Routine
+
+**Decisions settled.** The author approved the spec, and added two principles: start scarce, and visual over text. The spec now has §1a. Version 1 has no search, one filter (role), no level rail, and collapsed Examples, References, and Used in. Subtask steps show as a strip of component pictures.
+
+**Approach.** New command `.claude/commands/add-paper.md`, in six phases: ingest, analyze (a match table against every pattern, with § numbers), propose (the language rules in order, then one approval gate), apply (with count checks), website (build, spec §11 checks, a pull request with a Vercel preview), record.
+
+**Open.**
+- 2 of 13 components have an eigen-UI. "Visual over text" needs the other 11.
+- `/add-paper` Phases 4–5 assume the per-pattern files and the site. They work after the split and the build.
+
+### Split and Website Version 1
+
+**Approach.** Split the patterns into `pattern-language/patterns/<ID>.md`: 3 workflows, 15 subtasks, 13 components, 4 retired. The two eigen-UIs moved to `pattern-language/eigen-ui/C-4.svg` and `C-6.svg`. The MVP doc and the single-system doc are now indexes. Built the site in `website/` with Eleventy 3: home (three workflow diagrams), catalog (role filter), 31 cards, 4 retired pages, 32 alias redirects, 4 about pages, one JSON record per pattern. Navigation: path breadcrumb from `?via=`, Up (key `u`), the parent workflow chain, link previews, definitions on hover. `vercel.json` at the repository root.
+
+**Findings.**
+- `npm run check`: 31/31 cards, 894 internal links with 0 broken, 32/32 aliases, 18/18 diagram nodes linked, 0 labels without a definition, 0 references to `data/`.
+- Checked by screenshot: home, catalog, FR-2, C-6, WF-C, and FR-2 and C-6 at 375 px. The DOM after the script shows the path trail and the `via` links.
+- Fixed during the build: glossary marks broke the HTML; two diagrams on one page shared node IDs; the Up menu showed when hidden.
+- The C-6 card and the table had different Problems. The split uses the card's version.
+
+**Open.**
+- Not tested in a browser by hand: link previews on hover, the Up menu with two parents, the role filter, the `u` key.
+- 11 of 13 components show a placeholder tile, not an eigen-UI.
+- The workflow Examples are still the old form (a table, or one paragraph), not narratives.
+- `pattern-language/cards/` is now redundant with the site. It is not deleted.
+- Vercel: connect the GitHub repository to a Vercel project (needs the author's account).
+
+### Website Issues (7)
+
+**Decisions settled (see `.agent/decisions.md`).** The crops ship, in git (reverses 9/29). The workflow diagrams use reladraw. The home is the catalog.
+
+**Approach.** All 7 items:
+1. One font: the monospace face is gone, in the SVGs too.
+2. Workflow diagrams: `pattern-language/diagrams/WF-*.reladraw`, two rows each, drawn at build. beautiful-mermaid was not used: it styles a diagram, and Mermaid's layout stays one direction.
+3. Breadcrumb: ID and name for each step of the path.
+4. Crops: 8 images in `pattern-language/figures/C-4/` and `C-6/` (4.6 MB). They show first under Examples on the C-4 and C-6 cards.
+5. Steps: a row joined by arrows, "Steps, in order"; a column with ↓ on a phone. The catalog tiles have arrows too.
+6. Catalog: the home page, with three tabs (Workflows default). `/catalog/` redirects.
+7. The repeated title is gone.
+
+**Findings.** `npm run check`: 6 of 6 pass, 844 links with 0 broken, 18 diagram nodes with 0 unmatched. Screenshots: home, the Subtasks tab, EX-1, C-4 with crops, phone width.
+
+**Open.**
+- The diagrams need a horizontal scroll on a phone (minimum width 560 px).
+- The reladraw layouts are drawn by hand. A new workflow needs a new layout file; `/add-paper` says so (Phase 4, step 3a).
+
+### More Website Issues (8)
+
+**Approach.** All 8 items:
+1. Diagram text: `size: large` in the layouts, normal gaps, and a CSS rule for the eigen-UIs no longer overrides it. Text on screen: about 14–16 px, was about 10 px.
+2. "Steps, in order." removed.
+3. Over the row of steps, the mouse wheel scrolls sideways until the row ends.
+4. "Up" removed (button and key). The breadcrumb remains.
+5. Workflow examples: a table, a row per subtask, the subtask's narrative for one system; a dropdown picks the system. Built from the subtask files, so the workflow's own Examples text is not shown.
+6. About: "What a pattern is" holds the attribute definitions; the separate tab is gone.
+7–8. About takes the Overview of the MVP doc (heading renamed from Structure); HTML comments are left out, so the "Two systems or more" text no longer shows.
+
+**Findings.** `npm run check`: 6 of 6 pass. Screenshots: home, WF-A with its examples table, About. The DOM shows one table per system with the second hidden.
+
+**Open.**
+- Not tested in a browser by hand: the wheel scroll on the step row.
+- Done after the author's answer: the old Examples text of `WF-A.md`, `WF-B.md`, `WF-C.md` is deleted (it is in git history). Each now says the table is built from the subtask Examples.
+
+### Website Issues, Third Round (2)
+
+**Approach.**
+1. A pattern ID beside its name is in the muted color: links, breadcrumb, step labels, workflow headings (class `.pidn`). The subtask chips in the catalog keep their role color.
+2. Component Examples: a component with crops shows the crops only (C-4, C-6). The 11 without crops keep their text list, since it is all they have. Confirmed by the author: text stays until crops exist.
+
+**Findings.** `npm run check`: 6 of 6 pass. Also fixed: with a workflow on the path, "In the workflow" showed every parent workflow; a CSS rule overrode `hidden`. Now it shows the one on the path.
+
+### Wrap-up
+
+**Where things stand.** The language is now one file per pattern (`pattern-language/patterns/`), with role-based subtask IDs, `C-n` components, and the attributes Role / Context / Situation / Problem (one sentence each). Version 1 of the website is built (`website/`, Eleventy, reladraw diagrams) and passes `npm run check` 6 of 6. `/add-paper` is the routine for new papers. Entries before September moved to `archive/journal-2026-06-to-07.md` (obsolete focus). Committed, not pushed.
+
+**Open.**
+- Nothing is deployed. Vercel needs the repo pushed and imported with Root Directory left blank; `vercel.json` at the root sets the build.
+- 11 of 13 components have no eigen-UI and no crops.
+- Taxonomy questions 2 and 3 (merge FR-1 into FR-2? where the roles table goes) are open.
+- The glossary draft, the Situation lines, and the card format wait for the author's read.
+
+**Next.** Push, then import the repo in Vercel. Then draw eigen-UIs for the 11 components, starting with C-1 and C-7 (4 systems each).
+
 
 ## 9/29/2026
 - [x] not very happy about the CP rendering. think about and assess the feasibility of this approach: for each CP, extract and collect targeted screenshots from example papers as references, then distill a prototypical representation ("eigen-UI") that can represent the CP grounded in those examples
@@ -209,286 +374,3 @@
 - The three `literature/` notes, the journal entries before 9/22, and paper prose keep their old style, by your call.
 
 **Next.** See `next-up` at the top of this file.
-
-## 7/13/2026
-<!-- AGENT: for each task, once you start working on it, create and update a subsubsection (### task: xxx) below -->
-```
-- [x] cf. the thoughts below and conduct a lit search (including recent arxiv papers or online technical reports) to help us ground our reflection
-- [x] perhaps there should be some studies that measure the difference in terms of task performance: users prefer a GenUI version of LM response but what for? to make it easier to read? easier to apply for downstream tasks? first, critically think about this push-back; then, if needed, do some lit search on how to measure task performance gain of GenUI
-- [x] so we can first survey papers to summarize a taxonomy of LLM downstream tasks (or subtasks that serve as building blocks of various other domain-specific tasks), then measure performance across different response format (e.g., text-only vs. with GenUI)
-- [x] building on C1-4 and P1-2: if we are to use them for the study of LM response presentation format (text-only vs. with GenUI), does it make sense to have stand-alone subtasks, or should we come up with more compositional higher-level tasks (which collectively will cover all six although each might consists of just a subset)?
-- [x] your reasoning here on questioning the fundamental benefits/value of GenUI is too intertwined with and biased by the PatternGUI project. write a hand-off doc and i will start a new project
-```
-
-### task: hand-off doc — GenUI-value question spun off as standalone project
-
-**Deliverable:** `handoff-genui-value/` at repo root — a portable bundle: `README.md` (the hand-off doc, founding document for the new repo) + `literature/` with the 18 relevant paper notes and both synthesis reports (20 files). Copy the directory wholesale to start the new project. Original draft also at `.agent/drafts/handoff-genui-value-project.md`; feedback saved to persistent memory.
-
-**Core of the doc is a bias audit (§2) — five specific contaminations in today's reasoning, each with a correction:**
-1. *Directional reading of the collapse finding*: I read "59.5% of episodes end at the answer" as "format is the whole game"; the equally valid reading is **episodes collapse because text was sufficient** (collapse was flat across task types — if format hunger were real, harder tasks should collapse less). Reframed as ambiguous; the new study can discriminate the readings.
-2. *"Act is categorical" used the wrong baseline*: buttons are impossible in markdown, but the real alternative is **the conversation itself** — typing "reschedule it" is as easy as clicking. Chat is interactive. This dissolves the one "needs no measurement" claim; a fourth condition (text + conversational follow-up) becomes the study's most important addition — it tests whether interactivity must be *spatial* or whether *conversational* suffices.
-3. *Monitor elevated because the flagship has monitor patterns*: neutrally, its ecological share is unknown and it presumes persistent-artifact products that barely exist; demoted to one forward-looking cell among equals.
-4. *Scenario selection was convenience-driven* (delivery tracker reuses PatternGenUI artifacts): new project draws scenario domains from measured usage shares (Chatterji: practical guidance 28.8%, info seeking 24.4%, writing 23.3% — none dashboard-shaped).
-5. *Predictions framed as "where GenUI should win"*: replaced with symmetric pre-registered hypotheses including null and anti-GenUI (fragmented layouts hurt comprehension/retention; latency+error costs wipe out per-task gains).
-
-**What survives de-biasing:** the C1–C4/P1–P2 taxonomy (with monitor as dimension), the measurement toolkit, and the layered scenario+probe design — including the format × atomicity argument, which is load-bearing independent of patterns. Headline analysis for the new project: the **preference–performance dissociation** (collect preference *after* performance; if halo confirmed, that alone is a field-level finding).
-
-**Boundary set (§5):** projects share taxonomy and instruments but not predictions or artifacts. If the new project finds null/negative format effects outside narrow task types, that *bounds* PatternGenUI's claims (patterns matter exactly where UI helps) — but that reading must be earned by data.
-
-### task: study design — atomic subtasks vs. compositional tasks
-
-**Full write-up:** `.agent/drafts/study-design-1-task-structure.md`
-
-**Recommendation: compositional scenarios as carrier, atomic probes as instrument** — the layered design InfoVis converged on after its own version of this fight (North's benchmark-task vs. insight evaluation → LITE hybrid).
-
-**The decisive argument (format × atomicity confound):** in real use the LLM generates the response *before* knowing which operation the user will perform — the artifact must serve a distribution of subtasks, which is what layout topology is *for*. Under atomic per-probe generation, the text condition can always be a perfectly targeted one-sentence answer and all formats converge: text is unbeatable by construction. Under one shared multi-purpose artifact probed multiple times, the formats genuinely diverge. Composites aren't just more realistic — they're the only structure under which the manipulation exists. Secondary arguments: transitions carry effect (Pirolli & Card chaining + interactive state persistence), and the monitor dimension can't be operationalized atomically at all.
-
-**But pure composites lose attribution** (reproduces the field's aggregate-preference problem one level down), so: scripted probe chains inside each scenario, individually timed/scored, fixed order across formats; every cell covered by ≥2 scenarios to de-confound cell from scenario content.
-
-**Coverage design (4 scenarios):** S1 delivery tracker (`monitor`: C1, C3, P1, monitor — artifacts already exist) · S2 choose among options (`compare`: C1, C3, C4, P2) · S3 learn a topic (`detail`: C2, C4, P2 — the honest test where GenUI may lose) · S4 plan & execute (`transact`: C1, C2, P1, monitor). All cells ≥2. One artifact per scenario per format, independent LLM calls, frozen across participants.
-
-**Fit with the pattern argument:** the scenario unit IS the screen-intent unit — an intent is a subtask bundle (`monitor/grouped-items` ≈ {C1, C3, P1} repeated). The three-arm pattern ablation drops into the same scenario+probe machinery with format held at GenUI, and yields a sharp falsifiable prediction: the wrong-pattern arm should *selectively* degrade C3 + monitor probes while leaving C1 intact — a probe-level deficit, much stronger than "raters liked it less." Longer-term: patterns could declare their own probe profiles (`expects` + intent → self-describing evaluation targets).
-
-**Risks handled:** probe order effects (fixed order, position as covariate), scripted-probe blindness (free-use + think-aloud window at end of one scenario, per the insight-method critique), content parity across formats (pilot-rate artifacts for same-facts before running).
-
-### task: survey — taxonomy of LLM downstream tasks
-
-**Approach.** Survey across five literatures (LLM usage logs, information seeking, sensemaking, cognitive/educational, InfoVis): 12 papers, 10 new note files. Synthesis: `literature/_approaches-llm-downstream-task-taxonomy.md`.
-
-**Key convergences found:**
-1. **Consume vs. produce is the universal first cut** — Brehmer & Munzner (InfoVis, 2013) and OpenAI's 1.1M-conversation study (Asking 49% / Doing 40%, Chatterji et al. NBER 2025) arrive at the same top split by unrelated methods; Bloom's taxonomy and the 41% "workbench layer" (Iannelli & Ai 2026) agree.
-2. **The consumption side decomposes consistently into ~4 operations** across Marchionini, Bloom, Amar & Stasko: locate, comprehend, compare/decide, synthesize.
-3. **Monitor appears in NO prior taxonomy** — it's a temporal property (repeated return to changing state), not an operation, and single-session study designs never see it.
-4. **The structural gap**: LLM-era taxonomies classify the *request*; classical taxonomies classify operations on a *given artifact*. Nobody has taxonomized what users do *with an LLM response* — even though Iannelli & Ai 2026 show the response terminates 59.5% of episodes and verification searches occur in ~1% (the response is the user's terminal interface).
-
-**Synthesized taxonomy v2** (revised from yesterday's six-purpose draft):
-- Consume: **C1 locate · C2 comprehend · C3 compare/decide · C4 synthesize** (new — investigate/sensemaking too well-attested to fold into comprehend)
-- Produce: **P1 act · P2 produce** (communicate dropped — literature locates it inside produce)
-- **Monitor reclassified from category to orthogonal temporal dimension** (any purpose repeated over changing state) — the honest reading of its absence from every taxonomy, and cleaner for us: `monitor/*` patterns serve *repeated* consumption, which is exactly where static prose fails.
-- Covariate dimensions: iteration structure (Tang & Yang 2022), delegation level (Anthropic Economic Index).
-- Each cell has validated probe types + metrics mapped (Amar & Stasko probes for C1/C3, Bloom item-writing for C2, chained probes per Pirolli & Card for C4).
-- Ecological weights from OpenAI: consumption ≈ 50%, production ≈ 35–40%; prioritize C1/C3/P1/monitor (where GenUI should win) and C2 (where it may lose — the honest test).
-
-**Best new ammunition for the premise:** Iannelli & Ai 2026 — for ~60% of episodes the LLM answer is where the task ends, median episodes touch zero onward sources, verification ≈ 1%. If the response is the terminal artifact, its format is the whole game.
-
-**Untried combinations (open space we can occupy):**
-1. Response-side task taxonomy induced from logs (run Amar & Stasko's derivation method on post-response behavior)
-2. Monitor as a measured condition — no format study has ever tested repeated-glance performance on LLM outputs
-3. The full format × purpose interaction matrix is empty — even a partial fill would be the first "when does GenUI help" evidence
-
-**New notes:** Chatterji (NBER, A), Anthropic Economic Index (C), Bodonhelyi (B), Marchionini (B), Tang & Yang (B), Athukorala (B), Iannelli & Ai (B), Pirolli & Card (B), Anderson & Krathwohl/Bloom (B), Amar & Stasko (A), Brehmer & Munzner (A).
-
-### task: critical reflection — preference vs. task performance
-
-**Full write-up:** `.agent/drafts/reflection-2-genui-task-performance.md`
-
-**Critical analysis (part 1).** Decomposed "prefer, but for what?" into six downstream purposes of an LLM response: comprehend / locate / compare-decide / act / monitor / communicate. UI's benefit is task-contingent: marginal-to-negative for pure comprehension (classic InfoVis: graphs 13.5% *less* accurate than text), strong for locate and monitor, *categorical* for act (forms/buttons are impossible in markdown). Preference studies average over all six, which is why they show big aggregate effects with no mechanism.
-
-Four confounds inflate the preference numbers: (1) aesthetics–usability halo (documented dissociations where aesthetics raise perceived usability while lowering actual performance); (2) raters were spectators, not users — no task was performed with the rated artifacts; (3) baseline strawman — the fair comparison is *well-formatted markdown* vs. GenUI, isolating interactivity+layout, and no study does it; (4) preference heterogeneity — Luera et al. 2025 (~1000 respondents): tables 41.7% > charts 36.3% > text 22%, flipping by role/age/expertise; consistent with Peng's κ = 0.25.
-
-Steelman: preference drives adoption; InfoVis shows format effects on speed/accuracy are real and measurable, just unmeasured in GenUI; the act category needs no measurement debate. Verdict: the premise isn't dead, it's **underspecified**.
-
-**Measurement methodology (part 2).** The toolkit exists in InfoVis + risk communication: accuracy + response time per task type (text/table/graph studies), immediate quiz + 6-week recall (fact-boxes RCT), speed/accuracy decomposition for interactivity (mixed results — static sometimes faster with more errors), Amar & Stasko's 10 low-level tasks + Brehmer & Munzner typology as validated task batteries. Proposed design: 3 formats (plain text / rich markdown / GenUI) × 5 purpose-matched task instruments, metrics = accuracy, time-to-fact, decision quality, completion rate, glance accuracy, TLX, delayed recall.
-
-**Key strategic insight: the pattern intent taxonomy IS a task taxonomy.** Each pattern declares what the screen is for (`monitor` → glance accuracy, `search` → time-to-target, `detail` → comprehension, `transact` → completion rate) — so patterned GenUI arrives with its own measurement instrument, while unpatterned GenUI forces the vague preference measures the field is stuck with. Implication for the planned three-arm ablation: use **intent-matched task performance** as the primary metric — the wrong-pattern arm (condition C) should measurably *hurt* glance accuracy, not just be dispreferred. This is a methodological step past both anchor papers and a second framing of the contribution: patterns make GenUI evaluation tractable, not just generation better.
-
-### task: lit search — does GenUI really matter?
-
-**Approach.** Survey search: 8 papers found and read (6 new note files written), synthesis at `literature/_synthesis-genui-vs-text-evidence.md`. Existing "Generative Interfaces" note updated with richer evaluation details.
-
-**What the literature says:**
-
-*The "GenUI > text" premise is empirically supported — but only at the preference level, not at task-performance level.*
-
-Two substantial preference studies establish the claim:
-- **Leviathan et al. (Google, 2026, arxiv 2604.09577)**: 5-condition pairwise study across 192 prompts. GenUI preferred over plain text 97%; over markdown 82.8–90.5%. Matches expert human websites ~50% of the time. No task-completion data. Capability is emergent — only top-tier models (Gemini 3, 2.5 Pro) achieve near-zero errors; smaller models fail at 29–60%.
-- **"Generative Interfaces for Language Models" (ACL Findings 2026, already in library)**: 84% win rate vs. ConvUI, with 76 real users using their own queries. Moderate κ = 0.525.
-
-*The "task performance" gap:* No paper compares GenUI vs. text on task completion rate, accuracy, or time-on-task. The one study that comes close (GenerativeGUI, CHI EA 2025) shows a tradeoff — GenUI reduces mental demand and task time, but the clarifying-question step that enables it increases them.
-
-*OpenUI/A2UI specifically:*
-- OpenUI (openui.com) is a practitioner standard with no peer-reviewed evaluation study.
-- A2UI (Macaron, Kong et al. 2026): evaluated on A2UI-Bench (LLM-judge + visual quality), no user study, no text comparison. Score: 75.6.
-
-*A complication:* Peng et al. (2026) find inter-designer agreement on GenUI quality is only κ = 0.25 — suggesting that "good GenUI" is highly subjective. This casts some doubt on preference studies: users may be rating novelty/aesthetics rather than utility.
-
-**Strategic implications for PatternGenUI:**
-
-1. **Don't re-establish "GenUI > text"** — two large studies already do this. Cite Leviathan 2026 and Generative Interfaces 2026 as the empirical anchor for the premise.
-
-2. **Sharpen the claim one level down**: the literature gap is not "does GenUI help?" (answered: yes, at preference level) but "does patterned GenUI help more than unpatterned GenUI?" and "does pattern use give designers meaningful control?" — both completely unaddressed.
-
-3. **κ = 0.25 as secondary motivation**: if designer agreement on GenUI quality is very low, patterns could be the anchoring mechanism that reduces disagreement by grounding generation in shared design knowledge. This is a potential secondary contribution.
-
-4. **Acknowledge the preference/performance gap**: a one-sentence acknowledgment in the paper that "the mechanism underlying the preference advantage is not yet understood" is appropriate, citing the CHI 2026 workshop.
-
-**New note files written:**
-- `Leviathan — Generative UI LLMs Effective Generators ...`
-- `Kong — Macaron-A2UI Generative UI Personal Agents ...`
-- `Chen — GenUI Study UX Practitioners DIS ...`
-- `Cifliku — Hidden Technical Debt GenUI CHI Workshop ...`
-- `Park — Bridging Gulfs UI Generation Semantic Guidance ...`
-- `Peng — Efficient Personalization Generative UI ...`
-
-### thoughts: does it really matter
-- the high-level motivation of this project is that LLM need to generate UI as a better way of presenting their findings and design patterns allows them to generate better UIs
-- but what if this assumption is flawed? what if the improvements of UI-response is only marginal compared to text-only LLM response? or what if existing pretrained models can already generate pretty good UI and the benefits of having patterns is only marginal?
-- there are existing solutions for enhancing LLM's GenUI abilities, e.g., OpenUI and A2UI, but has there been any studies to justify their benefits (not marginal)?
-
-## 7/8/2026
-
-```
-- [x] try to use the patterns to gen ui code
-    - the design prompt: a user has deliveries from multiple sources and carriers, e.g., Amazon, eBay, UPS, USPS, FedEx, etc. and want to have a centralized place to see the statuses of these deliveries.
-    generate two designs:
-    - first, generate a ui screen based on this prompt alone
-    - second, adopt the chase design pattern and use it to instantiate a ui screen
-- [] experimental plan to compare ui quality w/ vs. w/o patterns
-- [] write a simple web page that displays pairs of generated ui screens side by side
-```
-
-### HAND-OFF (end of 7/8 session)
-
-**Where things stand.** First generation experiment done (3 conditions: baseline / Chase pattern / DoorDash pattern, all in `experiments/2026-07-08-delivery-tracker/`, screens open in a browser), reflection written, and the spec rewritten as **v5** — a substantial revision, formalized but **not yet user-reviewed and not yet validated by use**.
-
-**For your review: `.agent/drafts/pattern-spec-language-v5.md`.** The load-bearing decisions to accept/reject, roughly in order of consequence:
-1. **`expects` + bind→render pipeline** — every pattern declares the data shape it renders; generation emits a ~10-line binding artifact the designer reviews before code. This is the biggest conceptual change and the concrete form of the designer-control claim. Is binding the right control point, or too heavyweight for the tool's flow?
-2. **`content_coverage: complete | curated_subset | ranked`** — hard retrieval filter; the one field that would have blocked the mismatched condition C. Is the 3-value enum right?
-3. **Category-level inherited constraints** (`categories/*.yaml`, one level) — governance question flagged in Open Questions: risks becoming a shadow pattern language.
-4. **Render policies for mock-ups** (your consideration, folded in as principle 4) — sample data must exercise the bound shape; interactions demonstrate-or-annotate; states become frames. Check the invariant: nothing in a *pattern* may assume mock-up output.
-5. **Design principles section** — trimmed to 4 v5-only commitments per your feedback; verify the altitude is now right.
-
-Supporting reads, in order: experiment `README.md` (10 min, incl. the worked binding rationale) → `pattern-spec-reflection-1-genui-experiment.md` (the "why" behind every v5 change) → the three HTML screens.
-
-**Unclaimed tasks (both shaped by today's findings):**
-- *Experimental plan*: condition C motivates a **three-arm design** — no-pattern / wrong-pattern / right-pattern — so pattern-presence and pattern-fit are measured separately. Also: hold style constant across arms (principle: patterns constrain topology, not style); candidate metric: regeneration variance. Validity note from today: conditions must be independent LLM calls, not one contaminated session.
-- *Side-by-side viewer page*: the three screens are ready content; consider designing it to also handle the multi-frame output (empty-state frames) from the v5 render policies — same viewer could serve both.
-
-**Suggested first move next session (after spec review):** validate v5 by re-running today's experiment through the actual two-stage pipeline (Stage 1 bind → review → Stage 2 render) instead of single-shot, and/or author one pattern natively in v5 — a `detail/*` screen would stress the multi-entity `expects` open question.
-
-### Patterns → GenUI Code (Delivery Tracker)
-
-**Approach.** Two self-contained HTML mobile screens for the delivery-tracking prompt: `experiments/2026-07-08-delivery-tracker/` — `baseline.html` (prompt only) vs. `pattern.html` (prompt + `monitor/grouped-items` conditioning block, per v4 format). Method + exact conditioning block in the experiment `README.md`.
-
-**Key deltas (baseline → pattern):**
-1. Flat chronological card list → source-grouped rows with per-group aggregates ("Amazon (3) · 2 arriving today")
-2. Header chips: `role: filter` (status tabs — the LLM default) → `role: action` (Add tracking, Scan inbox); status moved to inline `status_badge`s
-3. Density: ~5 tall cards/viewport → ~8 rows + 3 group aggregates — better fit for monitor intent
-4. Lone CTA → `bottom_nav` with active indicator (screen situated in an app)
-5. Pattern's typed `interactions` fully specify tap behavior; baseline leaves it undefined
-
-**Spec observations:**
-- The conditioning block format ported cleanly from `search/results` to `monitor/grouped-items` — first evidence the v4 block generalizes across categories.
-- Delivery tracking is a sixth domain row for the cross-product table (pattern = topology confirmed again).
-- Grouping-axis ambiguity: the pattern says "organized by category" but doesn't say which axis (source vs. carrier vs. arrival timeframe). Chose source; a `grouping_axis` hint in `content` may be worth adding.
-
-**Validity caveat.** Same agent generated both conditions in one session — baseline is plausibly contaminated by pattern knowledge. The real ablation (next task) needs independent LLM calls per condition, ideally multiple samples.
-
-**v5 addendum: mock-ups are the render target** (not necessarily production code). Folded in as principle 4 + "render policies" in the pipeline section: (1) sample data must exercise the bound shape — every enum value, optionals present/absent, truncation case; this is where mock-up quality is won, and a second independent justification for `expects`; (2) interactions demonstrate-or-annotate, never silently drop (cheap effects live, navigations as affordance + annotation); (3) non-default states become frames, not reachable states. Key invariant: mock-up-ness is a render-stage property — patterns must stay swappable to a production-code generator. New open questions: fidelity level (affects designer study), multi-frame output format.
-
-**Spec v5 formalized** → `.agent/drafts/pattern-spec-language-v5.md` (standalone; supersedes v4). Centerpiece: `expects` data-shape contract per pattern + a three-stage pipeline (retrieve → **bind** → render) where the bind stage emits a ~10-line designer-reviewable binding artifact — the concrete designer-control claim for PatternGenUI. Other fixes folded in: `content_coverage: complete|curated_subset|ranked` (hard retrieval filter), typed `use_when`/`not_when` + `alternative_id` (rejection-with-redirect), attribute types as slot preconditions (no emoji hero images — omit unmet optional slots), cardinality-derived empty state, one-level category constraint inheritance (`categories/monitor.yaml` + `_common.yaml`), `resolve: per_instance` interactions, `slots_source: app_context` on bottom_nav, style declared out of scope (principle 9). Full worked example: `monitor/grouped-items` in v5 + the delivery-tracker binding + two-stage conditioning blocks. Design principles not restated (established in 6/24 journal + v4, from the lit synthesis); v5 adds only 3 new principle-level commitments: pattern = renderer for a declared data shape · topology not style · authority ends at the screen.
-
-**Reflection, high-level.** Is a pattern enough to instantiate a screen? Yes for topology — generation never required a structural decision. But instantiation drew on four layers (topology · domain→slot binding · visual style · app context) and the pattern only carries the first. The real gap: no **data-model contract** — each pattern implicitly presumes a data shape ("items with one scalar primary value, in 2–6 groups"); v5 should make it explicit as an `expects` block, turning generation into bind (inspectable, designer-reviewable) → render. Most detailed issues below are symptoms of this one gap. Visual style is out of scope *by design* — must be stated, and the ablation must hold style constant. Proposed sufficiency metric: regeneration variance (load-bearing dimension varies → spec gap; cosmetic varies → designer freedom).
-
-**Reflection → spec issues.** Full analysis in `.agent/drafts/pattern-spec-reflection-1-genui-experiment.md`: 9 issues found generating (vs. describing) with v4, with proposed v5 changes. Top three: (1) `use_when`/`not_when` are opaque strings — fit was knowable but not computable; type them + add `alternative_id`; (2) add `content_coverage: complete | curated_subset | ranked` — the real machine-readable monitor/discover divide; (3) `item_group[]` never says which axis to group by — add a `grouping` block (also a designer-control point). Also: slot content preconditions (`hero_image: requires rich_media`), category-level inherited constraints (flat catalog can't protect intents), exemplar-contaminated fields (`empty_state: not applicable` was Chase-true but pattern-false), per-instance interaction resolution ("Archive delivered" chip is an effect, spec said navigate).
-
-**Condition C (added later same day): DoorDash pattern, intent-mismatched.** `pattern-doordash.html` applies `discover/curated-sections` to the same prompt. The topology transfers mechanically (every slot fills: status-filter tabs, curated sections like "Needs attention", media cards, persistent search footer) but fit is worse for the monitor task: horizontal card rows show ~1.5 items/section (can't answer "is everything on track?"), hero images waste area on low-media items, no `aggregate_value` slot, and section themes duplicate the filter-tab axis. **Key insight: pattern presence ≠ pattern fit — B and C are equally pattern-faithful but C loses to B, validating the retrieval step (`use_when`/`not_when`) and suggesting a wrong-pattern arm in the ablation.**
-
-
-
-## 6/24/2026
-```
-- [x] survey papers on design patterns similar to Borchers's and Folmer's
-- [x] grounded in the found literature, brainstorm a specification language to define UX/UI design pattern--using mobile app as a starting point, each pattern can focus on a mobile screen: start by selecting a specific example mobile screen and try to describe it using a pattern language.
-```
-
-### THOUGHTS
-- a pattern atomically specifies the design of a screen
-- a designer might try to generate all screens for an app at once; then it's the LLM's job to decide what patterns of screens to use
-- maybe: a pattern can contain knowledge about which other types of screens it can navigate to
-
-### Survey Papers on Design Patterns
-
-**Approach.** Two-pass search (dry-run → full). 14 papers across 7 approach types. 12 new note files written. Synthesis report: `literature/_approaches-design-pattern-catalogs.md`.
-
-**Approach taxonomy (7 types):**
-1. **Foundational pattern language** — Borchers 2000; van Welie 2003 — Alexander template imported to HCI; hierarchical structure
-2. **Practitioner catalog — general** — Tidwell 2005/2019; van Duyne 2002 — expert-curated, visual, not peer-reviewed
-3. **Practitioner catalog — mobile** — Neil 2014; Nilsson 2009 — mobile-specific, 90+ patterns (Neil), screen-level
-4. **Domain-specific catalog** — Landay & Borriello 2003; Chung 2004; Folmer 2015 — ubicomp, game/accessibility
-5. **Critical review / SLR** — Dearden & Finlay 2006; Punchoojit 2017; Seffah 2010 — maps field, identifies eval gap
-6. **Formal/computational representation** — Sinnig 2010 — XPLML schema, widget-level, no eval
-7. **Empirically-derived** — Nguyen 2018 — deep learning on RICO (72k screens), implicit patterns
-
-**Key findings for PatternGenUI:**
-- Every catalog is expert-curated except Nguyen (ML-induced). No one mines named patterns from data and makes them designer-facing.
-- Only one controlled evaluation study exists: Chung et al. (2004, DIS) — patterns help process (design space coverage) but not output quality. Never replicated.
-- Mobile is the most under-standardized domain: Neil (2014) is the closest anchor but a practitioner book, not peer-reviewed.
-- The untried combination PatternGenUI occupies: mobile-first + structured machine-readable spec + designer-facing retrieval + generation conditioning.
-- Sinnig (2010) XPLML is the closest formalization work — differentiate: screen-level (ours) vs. widget-level (XPLML); LLM-conditioned (ours) vs. template-matched (XPLML).
-
-**Anchor papers (must cite):** Borchers 2000 · Dearden & Finlay 2006 · Neil 2014 · Chung 2004 · Sinnig 2010 · Nguyen 2018 · Tidwell 2019
-
-### Pattern Specification Language
-
-**Approach.** Four drafts (v1→v4) driven by two application tests: DoorDash (discover) and Chase (monitor). Final spec: `.agent/drafts/pattern-spec-language-brainstorm-v4.md`.
-
-**Format.** YAML frontmatter (machine-readable, injected into LLM prompt) + Markdown body (designer-facing, shown in UI only). No custom tooling required.
-
-**Unit.** One screen per pattern, named by user intent. Category enum from mobile-ui-taxonomy: onboard · configure · browse · search · discover · detail · create · transact · monitor.
-
-**Six design principles codified:**
-1. Pattern = intent × layout topology — same pattern applies across product domains (Chase, Robinhood, Apple Health, Asana all instantiate `monitor/grouped-items`)
-2. `layout` uses domain-neutral component names; domain-specific terms belong in `content` + `examples`
-3. `[]` suffix marks repeating structural units (e.g., `item_group[]`, `result_card[]`)
-4. `use_when`/`not_when` = selection conditions (machine-readable); `rationale` = design reasoning (designer UI only) — distinct purposes
-5. `role: action | filter` required on header chip rows — semantically critical for LLM event handler generation
-6. `interactions` is a typed schema `{component, on, action: navigate|effect, target_label, target_id?, effect?}` — enables navigation graph queries
-
-**Open questions:** typed `target_id` references (needs catalog first); `role` required vs optional; variant storage (inline vs sibling files).
-
-**Application test files:** `.agent/drafts/pattern-spec-application-test.md` (DoorDash) · `.agent/drafts/pattern-spec-application-test-2-chase.md` (Chase)
-
-
-## 6/22/2026
-
-```
-[x] familiarize yourself with this project
-[x] verify the novelty of this project
-```
-
-### Familiarize Yourself With This Project
-
-**What it is.** "Augmenting GenUI with Design Patterns" proposes using interaction design patterns as a mid-generation conditioning layer to improve transparency and control in LM-based UI generation.
-
-**Core claim.** Empirical: patterns improve GenUI quality and controllability. The system artifact (PatternMCP + PatternGenUI front-end) is not yet built.
-
-**Positioning.** Complements two existing camps: (1) pre-generation intent conveyance and (2) post-generation slot-based iteration. This approach operates during generation.
-
-**Evaluation plan.** Ablative study (pattern vs. no-pattern, same LM) + designer study vs. a state-of-the-art tool.
-
-**Existing literature.** Covers interaction design pattern theory (Borchers 2000; Folmer 2015). The LM/GenUI side is not yet seeded — novelty verification is the next step.
-
-**Target venues.** CHI, UIST; NLP/AI venues (ACL, EMNLP, NeurIPS) also in scope.
-
-### Verify the Novelty of This Project
-
-**Verdict.** Partially addressed — the structured-intermediate mechanism for LLM UI controllability is well-established, but the specific combination (named design pattern library → retrieval → designer-visible conditioning) has not been done.
-
-**Nearest neighbors (the structured-IR cluster):**
-- **Lu et al. (2023) — UI Grammar** (ICML workshop): grammar encodes parent-child layout structure; no library, no retrieval, no named screen types. Grade: C.
-- **Cao et al. (CHI 2025) — Jelly**: uses "predefined UI patterns and rules" as composition constraints alongside a task-driven data model. Highest argument risk — must be explicitly differentiated in related work. Grade: A.
-- **Chen et al. (2025) — SpecifyUI**: SPEC as a visual-parameter IR extracted from UI screenshots; 16-designer user study sets the evaluation bar. Grade: B.
-- **Jiang et al. (IUI 2025) — Athena**: storyboard + data model + GUI skeletons for iterative app generation; developer-scaffold focus. Grade: B.
-- **Kolthoff et al. (ICSE 2025) — GUIDE**: two-stage decomposition + RAG over Material Design component library; components ≠ screen-level patterns. Grade: B.
-- **GameUIAgent (2026)**: Design Spec JSON + 3 game UI templates; domain-specific, no retrievable library. Grade: B.
-
-**Other relevant work:**
-- **Li et al. (TOCHI 2025) — PrototypeFlow**: strongest prior work in the pre+post camps; multi-method study; cite as the representative of the two intro camps. Grade: A.
-- **Deng et al. (ICSE 2025)**: LLMs fail to apply design patterns without external conditioning — motivates explicit pattern intermediates. Grade: B.
-
-**What's novel (unoccupied combination):** curated named pattern library + retrieval step + designer-facing inspection/edit before generation + ablative × designer evaluation vs. SOTA tool.
-
-**Key risk.** Jelly's "predefined UI patterns" wording at CHI 2025 is the sharpest argument risk. Differentiator: Jelly's patterns are hardcoded composition rules; PatternGenUI's are named interaction design patterns (Borchers/Alexander) retrieved per-prompt.
-
-**Files written.** 12 note files + `_synthesis-patterns-genui-novelty.md` in `literature/`.
