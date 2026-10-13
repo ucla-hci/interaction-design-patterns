@@ -1,0 +1,1 @@
+People who hold other viewpoints are hard to reach, and generated viewpoints read alike and cite nothing.

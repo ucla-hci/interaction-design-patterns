@@ -7,15 +7,95 @@
 
 ## next-up
 <!-- what we should work on next time -->
-- create a website to access the patterns
 - continue to review mvp--create a more structured list of reviewable samples
 - add some other groups' papers (e.g., AI2's)
 - wf-a/b/c is not scalable once there are more than 26 workflow patterns
+
+## 10/13/2026
+- [x] "After a discussion, the user needs to know what it settled and what stays open." How open is defined here seems wrong
+- [x] you didn't fix this: "Component: an individual or group UI element(s) that supports a subtask."
+- [x] "A workflow has none: "— (top level)" this is okay to show on the about page but doesn't need to appear on tooltips
+- [x] add a naming convention for the steps in a subtask: it should describes user's action
+- [x] below Solution on a subtask page, add a summary of the steps as a sequence of things users do
+- [x] tooltip-define "claim" like how I can hover and see what "viewpoints" mean
+- [x] if a subtask solution introduces new terms, e.g., SY-2 introduces "record", those new terms need to be defined
+- [x] horizontally scrolling the subtasks also causes the page to scroll
+- [x] EV-2 step 1 and 2 can be combined as they are both scoped conversation with one being a user only and the other system only. Similar steps can be merged as well.
+- [x] font sizes across WF charts are inconsistent 
+- [x] "an individual or group UI element(s) " → an individual or group of UI element(s) 
+- [x] wf-a flowchart font size is appropriate; the other workflows' are too large
+- [x] subtask needs to be more atomic (currently too many steps)
+- [x] when possible, each step in the subtask should contain both what user does and what the system responds (or vice versa)
+- [x] workflow chart visual: use less saturation on the color (color differentiation isn't important at the workflow level); de-empahsize the subtask tag (e.g., FR-2) which are now bolded and centered, too attention-grabbing
+- [x] needs to be more explicitly defined: when something should be labeled on the edge and what'd that label be in what format and carry what meaning
+
+### Workflow chart visual
+**Approach** Role colors in `pattern-language/diagrams/*.reladraw` cut to 35% saturation, with lighter borders. `website/src/_data/library.js` moves each node's subtask ID from the centered bold first line to the node's top-left corner as 12px gray mono text (`text.tag` in `site.css`).
+- Build: 18/18 diagram nodes carry the tag; `npm run check` passes all 6 checks. Checked by eye on a WF-B screenshot only.
+
+### Edge labels
+**Approach** The author's rule: no label on the main path (the order of the Solution lines) or on a two-way edge between neighbors. Every other edge (loop back, skip, fork branch) gets "condition → what is passed". Written into the Solution row of `pattern-language-mvp.md` and into `decisions.md`.
+- All 8 labeled edges were relabeled in the mermaid blocks and in the `.reladraw` layouts. The author approved the draft labels. One edge is new: WF-A EV-1 → CM-1 ("no candidates to combine → checked candidates").
+- The CN-1 → EV-2 and CN-1 → EV-3 edges now leave from CN-1's right side, so their labels no longer overlap the CN-1 → EX label. `npm run check` passes all 6 checks.
+
+**Open**
+- Three WF-C conditions are guesses, because the Solution text does not say when each path is taken: "part stays open", "part cannot hold", "part too broad to check".
+- Layout: the CN-1 → EV edge starts at the same point where the CM-2 → CN-1 arrow ends. In WF-C, the self-loop label sits on its small loop. The EV-1 → CM-1 label in WF-A widens the gap between EX-1 and OR-1.
+
+### Workflow chart font size
+**Approach** Each diagram was stretched to the full card width, so the narrower WF-B (1050 units) and WF-C (1085) came out about 40% larger than WF-A (1496). `website/src/_data/library.js` now gives every diagram one scale, `DIAGRAM_SCALE = 0.65` px per unit (WF-A's size at full card width), capped at the card width and centered. Also fixed: the diagram's `aria-label` printed a literal `${r.id} ${r.name}`.
+- Rendered widths: WF-A 972px, WF-B 683px, WF-C 705px. `npm run check` passes all 6 checks. Checked by eye on a WF-B screenshot.
+
+### Atomic subtasks and paired steps
+**Approach** The author's rule: a subtask has 3 steps or fewer. A subtask with more is split, or its steps merge. A step pairs a user action with the system response where it can, and "—" stays for a side that does nothing. Written into the Solution row of `pattern-language-mvp.md` and into `decisions.md`. The author then asked for EV-2 steps 1 and 2, and similar steps, to merge.
+- Applied to the 15 subtasks in `patterns/*.md` from `pattern-language/refs/subtask-steps-draft.md`: 64 steps became 36, all by merging, so no subtask is split. The 42 component–subtask pairs are unchanged (checked against HEAD), so the component counts are unchanged.
+- A step can now name several components. `library.js` parses them all, the step strip in `p.njk` shows each one, and the catalog tiles in `index.njk` show each one. `npm run check` passes all 6 checks.
+
+**Open**
+- A step with many components is a tall card: EX-3 step 1 has four.
+- EX-1 step 2 has one added phrase, "returns the next batch in the same way".
+- Optional splits that were not made: EX-3 and EV-3 (see the draft).
+
+### Font sizes across charts, and the Component definition
+- Font sizes: already fixed by "Workflow chart font size" above, in the local build. Screenshots of the home catalog and of WF-A, B and C show the same text size in every chart. The deployed site keeps the old scaling until `main` is pushed.
+- `pattern-language-mvp.md` line 16 now reads "an individual or group of UI element(s)". The About page shows it; `npm run check` passes all 6 checks.
+
+### Step strip scroll
+**Approach** The author's choice: the strip absorbs momentum. In `website/src/assets/site.js`, the strip keeps the wheel until the wheel events pause for 300 ms. Momentum that reaches the end of the strip stops there. A new gesture after the pause scrolls the page.
+- Test: wheel events sent to headless Chrome over its debugging protocol, at 800px wide on EX-3. Old script: one continuous stream moved the page from 416 to 845. New script: the page stays at 416 during the stream, and a fresh event after the pause scrolls it normally. A synthetic stream only; not yet tried on a real trackpad.
+- With 3 steps or fewer, a strip overflows only between the 760px breakpoint and about 850px wide. On a wider screen there is nothing to scroll.
+
+### Step names, step summary, and terms in steps
+**Approach** The author's choices: a step name is a verb and its object, with the user implied. When the user does nothing, the name states what the user gets. New terms are added to the glossary now, and the author reviews them after.
+- Names: all 36 steps in `patterns/*.md` now read "1. Name — C-n Component". Rule in the Solution row of `pattern-language-mvp.md`; the glossary "step" entry was updated to match.
+- Summary: a subtask page shows the step names in order under Solution ("User: Apply an option → Choose a direction → Save the candidate"). Each step card leads with its name.
+- Terms: hover definitions were in Situation and Problem only, so "claim" and "record" had none in the steps. `markTerms` now also runs on the User and System text. In steps it marks nouns only, because the Actions verbs caught other senses ("keeps a conflict as a conflict").
+- 14 terms added to `glossary.md` (Objects of the work): field, batch, signature, score, working set, participant, contribution, entry, procedure, variant, verdict, draft, option, direction. Written from how the steps use them. `npm run check` passes all 6 checks.
+
+**Open**
+- The author reviews the 36 step names and the 14 definitions. "direction" is the least certain: SY-1 and CM-2 use it but do not define it.
+- Shortlist, map, and conversation are not glossary terms. They name components, and the step card already links each component.
+
+### Tooltip fixes: "open" and the Context note
+- "stays open" got the definition of the action "open" (the system shows full content). Of the 5 action-verb tooltips in Situation and Problem, 3 were in the wrong sense (SY-2 and CN-1 "open", C-4 "keep arriving"). `markTerms` in `library.js` now marks glossary nouns only, everywhere. The 2 correct "keep" tooltips (C-12, C-9) are lost as well.
+- Attribute tooltips use a `tip` text without "A workflow has none: — (top level)". The About page keeps the full text. `npm run check` passes all 6 checks.
+- Component definition: the source and the build already had "group of UI element(s)". The dev server on port 8080 (`npm run serve`) also serves the fixed text, so the author most likely saw a page that was loaded before the fix or cached by the browser.
+
+**Open**
+- Author review: the 36 step names, and the 14 new glossary terms ("direction" is the least certain). The three WF-C edge conditions are guesses. EX-1 step 2 has one added phrase.
+- Diagram layout: in WF-B and WF-C, the CN-1 → EV edge starts where the CM-2 arrow ends. The WF-C self-loop label sits on its small loop. The new label in WF-A widens the gap between EX-1 and OR-1.
+- The step-strip momentum fix was tested with synthetic wheel events only, not on a real trackpad.
+- `.agent/writing-blacklist.md` holds the start of a list of banned prose; WF-B's Problem is its first example and is not yet rewritten.
+
+**Next**
+- Push `main` so that Vercel deploys today's changes; the live site is still on 10/6.
+- Rewrite the pattern prose against the writing blacklist, once the author has added more examples.
 
 ## 10/6/2026
 - [x] more issues with the website
   - use faded font color for the pattern ID next to the pattern name
   - on component card's examples, a list of examples as text is not necessary
+- [x] create a website to access the patterns
 - [x] more issues with the website
   - increase font size in workflow flowcharts
   - "Steps, in order." is not necessary
