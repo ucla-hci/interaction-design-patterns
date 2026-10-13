@@ -13,7 +13,7 @@ A pattern specifies a reusable design of an interactive system across three leve
 
 - **Workflow**: the sequence of subtasks a user performs with the system to achieve the high-level task.
 - **Subtask**: a meaningful chunk of interactions that advance a stage in a workflow.
-- **Component**: an individual or group UI element(s) that supports a subtask.
+- **Component**: an individual or group of UI element(s) that supports a subtask.
 
 <!-- Every pattern lists its instances. The four papers do not have to share every level.
 
@@ -87,7 +87,7 @@ A subtask in two roles takes its main role. The number gives the order of first 
 | **Context** | The parent patterns that this pattern helps to implement. A workflow has none: "— (top level)" |
 | **Situation** | One sentence: what the user is trying to do at this point of the parent pattern. For a workflow, the high-level task. It tells the designer when the pattern applies |
 | **Problem** | One sentence: what goes wrong for the user without this pattern. State a consequence that the user meets. Do not name the solution or its absence. Test: a reader who does not know the Solution understands it |
-| **Solution** | How to build the pattern into a design, in terms that hold in any domain. It uses the patterns of the next level down as building blocks. Workflow: a diagram of the subtasks, then one line per subtask. Subtask: numbered steps. Each step starts with the component used, "C-n Name", or "(no component)". Under it, *User:* what the user does, and *System:* what the system shows or does. Write "—" when one side does nothing in the step. Component: an eigen-UI card (see Components) |
+| **Solution** | How to build the pattern into a design, in terms that hold in any domain. It uses the patterns of the next level down as building blocks. Workflow: a diagram of the subtasks, then one line per subtask. The main path follows the order of the lines. An edge on the main path, or a two-way edge between neighbors, has no label. Every other edge (a loop back, a skip, or one branch of a fork) has a label: "condition → what is passed", for example "part too broad to check → sub-parts". The condition is the state that sends the user along the edge. Subtask: 3 numbered steps or fewer. A subtask that needs more is split into two or more subtasks, or its steps merge. Each step starts with a name that states what the user does, as a verb and its object ("Request candidates"). When the user does nothing in the step, the name states what the user gets ("Get grouped candidates"). Then, after " — ", the components used, "C-n Name", or "(no component)". On the site, the step names in order are the summary of the subtask. Under it, *User:* what the user does, and *System:* what the system shows or does. Where possible, a step pairs an action with its response: what the user does and what the system shows or does as a result, or the reverse. Write "—" when one side does nothing in the step. Component: an eigen-UI card (see Components) |
 | **Examples** | One narrative per exemplar system that has the pattern. Name the tool, then tell how a user performs the pattern in it, step by step, in 3 to 5 sentences, with § numbers. Domain terms are permitted here only |
 | **References** | The child patterns that implement this pattern |
 

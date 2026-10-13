@@ -12,7 +12,7 @@ this meaning. When a pattern needs a new term, add it here first.*
 | **subtask** | A pattern at the middle level: one step in a workflow. Its solution is a sequence of steps that use components |
 | **component** | A pattern at the bottom level: a UI element or an interaction that supports two or more subtasks |
 | **role** | The job that a subtask does in the loop: Frame, Expand, Organize, Evaluate, Synthesize, Commit, or Continue |
-| **step** | One numbered line of a subtask Solution. It names one component, what the user does, and what the system shows |
+| **step** | One numbered line of a subtask Solution. Its name states what the user does, as a verb and its object. It names the components that it uses, what the user does, and what the system shows |
 | **exemplar** | A published system from which the language is abstracted. The exemplars are in `data/` |
 | **round** | One pass through a workflow, from the frame to the decision on what to keep |
 
@@ -42,6 +42,20 @@ this meaning. When a pattern needs a new term, add it here first.*
 | **open item** | A question, a conflict, or an outcome that a round did not resolve |
 | **proposal** | A change or an option that the system shows and does not apply |
 | **link** | A stored relation between two items, or between an item and its origin |
+| **field** | One named slot of an item or of the frame. It holds one value |
+| **batch** | The set of candidates that the system returns for one request |
+| **signature** | The results of an item on all criteria, together. Items with the same signature form a group |
+| **score** | A value that the system gives to an item on one criterion, or to a link |
+| **working set** | The viewpoints that the user keeps for the discussion |
+| **participant** | A viewpoint that takes part in a conversation |
+| **contribution** | One turn of a participant in a conversation |
+| **entry** | One line of a record: a point that holds, a conflict, or a point that stays open |
+| **procedure** | The method that checks one part. It states in advance which outcome supports the part, weakens it, or leaves it open |
+| **variant** | A copy of a procedure, changed for a different setting. It does not inherit the outcomes of the procedure |
+| **verdict** | The judgement of a part against its outcome: supported, not supported, or open |
+| **draft** | Content that the system writes for the user to edit. It changes nothing until the user accepts it |
+| **option** | One of two or more proposals. The user selects one |
+| **direction** | A way in which the work can change next. Each option follows one direction, and choosing a direction closes the options that do not follow it |
 
 ## Actions
 
