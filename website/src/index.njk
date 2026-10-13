@@ -32,7 +32,7 @@ sequence of <b>subtasks</b>, and a subtask uses <b>components</b>.</p>
   <a class="mini sub" data-pid="{{ s.id }}" data-role="{{ s.roleCode }}" href="/p/{{ s.id }}/">
     <span class="mini-id role-tag role-{{ s.roleCode }}">{{ s.id }}</span> <span class="mini-name">{{ s.name }}</span>
     {% if s.status == "single-system" %}<span class="badge">1 system</span>{% endif %}
-    <span class="tiles" aria-hidden="true">{% for st in s.steps %}{{ thumb(library, st.component, "xs") }}{% if not loop.last %}<i class="tile-arrow">→</i>{% endif %}{% endfor %}</span>
+    <span class="tiles" aria-hidden="true">{% for st in s.steps %}{% for c in st.components %}{{ thumb(library, c.id, "xs") }}{% else %}{{ thumb(library, null, "xs") }}{% endfor %}{% if not loop.last %}<i class="tile-arrow">→</i>{% endif %}{% endfor %}</span>
   </a>
   {% endfor %}
   </div>

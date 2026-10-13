@@ -34,16 +34,21 @@
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") hidePreview(); });
 
   // Over a row of steps, the wheel scrolls the row sideways until it reaches an end.
-  document.querySelectorAll(".strip").forEach((row) =>
+  // The row keeps the wheel until the events pause for 300 ms, so momentum stops at the end
+  // and does not carry on into the page. A new gesture after the pause scrolls the page.
+  document.querySelectorAll(".strip").forEach((row) => {
+    let holdUntil = 0;
     row.addEventListener("wheel", (e) => {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || row.scrollWidth <= row.clientWidth) return;
+      const now = performance.now();
       const atStart = row.scrollLeft <= 0 && e.deltaY < 0;
       const atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 1 && e.deltaY > 0;
-      if (atStart || atEnd) return;
+      if ((atStart || atEnd) && now >= holdUntil) return;
+      holdUntil = now + 300;
       row.scrollLeft += e.deltaY;
       e.preventDefault();
-    }, { passive: false })
-  );
+    }, { passive: false });
+  });
 
   // Workflow examples: one system at a time. Without this script every table shows.
   document.querySelectorAll("[data-system-select]").forEach((sel) => {

@@ -47,18 +47,19 @@ function stripMd(s) {
   return s.replace(/\*\*|\*|`/g, "");
 }
 
-// Subtask steps: "1. C-n Name" or "1. (no component)", then *User:* and *System:* lines.
+// Subtask steps: "1. Step name — C-n Name, C-m Name" or "1. Step name — (no component)",
+// then *User:* and *System:* lines.
 function parseSteps(solution) {
   const steps = [];
   const blocks = solution.split(/^(?=\d+\. )/m).filter((b) => /^\d+\. /.test(b));
   for (const b of blocks) {
-    const head = b.match(/^\d+\. (.+)$/m)[1].trim();
+    const [name, head = ""] = b.match(/^\d+\. (.+)$/m)[1].trim().split(/\s+—\s+/);
     const user = (b.match(/\*User:\*([\s\S]*?)(?=^\s*- \*System:\*|$(?![\s\S]))/m) || [, ""])[1];
     const system = (b.match(/\*System:\*([\s\S]*)$/m) || [, ""])[1];
-    const comp = head.match(/^(C-\d+)\s+(.*)$/);
+    const components = [...head.matchAll(/(C-\d+)\s+([^,]+)/g)].map((m) => ({ id: m[1], label: m[2].trim() }));
     steps.push({
-      component: comp ? comp[1] : null,
-      label: comp ? comp[2] : head,
+      name,
+      components,
       user: user.replace(/\s+/g, " ").trim(),
       system: system.replace(/\s+/g, " ").trim(),
     });
@@ -134,7 +135,7 @@ for (const r of live) {
 for (const r of live) {
   if (r.level === "subtask")
     (r.steps || []).forEach((s, i) => {
-      if (s.component && recs[s.component]) recs[s.component].usedInSteps.push({ id: r.id, step: i + 1 });
+      for (const c of s.components) if (recs[c.id]) recs[c.id].usedInSteps.push({ id: r.id, step: i + 1 });
     });
 }
 for (const r of live) {
@@ -147,6 +148,7 @@ for (const r of live) {
   r.workflows = [...wf].sort();
 }
 
+const DIAGRAM_SCALE = 0.65; // px per diagram unit
 // Workflow diagrams: hand-placed layouts in pattern-language/diagrams/<ID>.reladraw, drawn to SVG.
 // The mermaid block in the pattern file stays the graph; the check compares the two node sets.
 for (const r of live.filter((r) => r.level === "workflow")) {
@@ -157,7 +159,13 @@ for (const r of live.filter((r) => r.level === "workflow")) {
     .replace(/ target="_blank" rel="noopener"/g, "")
     .replace(/<a href="\/p\/([^/]+)\/([^"]*)"/g, '<a href="/p/$1/$2" data-pid="$1"')
     .replace(/ font-family="[^"]*"/, "")
-    .replace(/<svg ([^>]*?)width="(\d+)" height="(\d+)"/, '<svg $1role="img" aria-label="${r.id} ${r.name}"')
+    // The subtask ID moves from the centered first line to the node's top-left corner.
+    .replace(
+      /(<path d="M([\d.]+) ([\d.]+) [^>]*>\s*<g [^>]*>\s*)<text x="[\d.]+" y="[\d.]+" fill="[^"]*" text-anchor="middle">([A-Z]{2}-\d+)<\/text>/g,
+      (_, head, x, y, id) => `${head}<text class="tag" x="${+x + 2}" y="${+y + 16}">${id}</text>`,
+    )
+    // One scale for every diagram (WF-A's at full card width), so the text is the same size in each.
+    .replace(/<svg ([^>]*?)width="(\d+)" height="(\d+)"/, (_, a, w) => `<svg ${a}role="img" aria-label="${r.id} ${r.name}" style="width:${Math.round(w * DIAGRAM_SCALE)}px"`)
     .trim();
   r.diagramNodes = [...r.diagram.matchAll(/data-pid="([^"]+)"/g)].map((m) => m[1]);
 }
@@ -172,7 +180,13 @@ const glossary = glossaryText
     const group = sec.split("\n")[0].trim();
     return table(sec).map(([term, meaning]) => ({ term: stripMd(term), meaning, group }));
   });
-const attributes = table(sectionOf(mvp, "Pattern Attributes")).map(([a, h]) => ({ name: stripMd(a), holds: stripMd(h), holdsHtml: md.renderInline(h) }));
+// The About page shows the whole definition; a tooltip leaves out the note on workflows.
+const attributes = table(sectionOf(mvp, "Pattern Attributes")).map(([a, h]) => ({
+  name: stripMd(a),
+  holds: stripMd(h),
+  tip: stripMd(h).replace(/\s*A workflow has none: "[^"]*"\.?/, ""),
+  holdsHtml: md.renderInline(h),
+}));
 // The roles table sits under a bold paragraph, not a heading.
 const rolesTable = mvp.match(/\*\*Subtask roles\*\*[\s\S]*?\n(\|[\s\S]*?)\n\n/);
 const roles = (rolesTable ? table(rolesTable[1]) : []).map(([code, name, does]) => ({
@@ -214,10 +228,12 @@ const termList = glossary
   .map((g) => g.term)
   .filter((t) => t.length > 3 && !["user", "system"].includes(t)) // in every sentence: marking them adds noise
   .sort((a, b) => b.length - a.length);
+// Nouns only: the verbs of the Actions group catch other senses ("stays open", "keeps a conflict").
+const actionTerms = new Set(glossary.filter((g) => g.group === "Actions").map((g) => g.term));
 function markTerms(text, seen) {
   let out = text;
   for (const t of termList) {
-    if (seen.has(t)) continue;
+    if (seen.has(t) || actionTerms.has(t)) continue;
     const re = new RegExp(`\\b(${t.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}s?)\\b`, "i");
     // Only the text between tags: a definition already inserted must not be marked again.
     const parts = out.split(/(<[^>]+>[^<]*<\/span>)/);
@@ -257,7 +273,7 @@ for (const r of live) {
   r.examplesHtml = render(r.sections.Examples);
   r.statesHtml = r.sections.States ? render(r.sections.States) : "";
   if (r.level === "component") r.solutionHtml = render(r.solutionList);
-  if (r.steps) for (const s of r.steps) { s.userHtml = renderInline(s.user); s.systemHtml = renderInline(s.system); }
+  if (r.steps) for (const s of r.steps) { s.userHtml = markTerms(renderInline(s.user), seen); s.systemHtml = markTerms(renderInline(s.system), seen); }
   if (r.list) r.listHtml = r.list.map((l) => renderInline(l));
   r.json = JSON.stringify(
     {

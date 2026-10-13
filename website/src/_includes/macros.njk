@@ -20,7 +20,7 @@
 {# An attribute label with its definition on demand. #}
 {% macro attr(lib, name) %}
 {%- set a = lib.attrByName[name] -%}
-<dt><span class="attr term" tabindex="0" data-def="{{ a.holds if a else '' }}">{{ name }}</span></dt>
+<dt><span class="attr term" tabindex="0" data-def="{{ a.tip if a else '' }}">{{ name }}</span></dt>
 {%- endmacro %}
 
 {# A workflow as a chain of role chips; the current subtask is marked. #}

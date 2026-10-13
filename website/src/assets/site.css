@@ -30,9 +30,9 @@ header.site nav a { margin-left: 14px; color: var(--muted); }
 .wf h2 { font: 600 16px var(--sans); text-transform: none; letter-spacing: 0; color: var(--ink); margin-bottom: 4px; }
 .situation { color: var(--muted); margin: 0 0 8px; }
 .wfd { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 8px; overflow-x: auto; }
-.wfd svg { display: block; width: 100%; height: auto; min-width: 560px; }
+.wfd svg { display: block; max-width: 100%; height: auto; min-width: 560px; margin: 0 auto; }
 .wfd svg text { font-family: var(--sans); }
-.wfd svg text:first-of-type { font-weight: 600; }
+.wfd svg text.tag { font: 12px var(--mono); fill: #9aa0a8; }
 .wfd a:hover path, .wfd a:focus path { stroke-width: 2.5; }
 details.fallback { margin-top: 8px; font-size: 13px; color: var(--muted); }
 
@@ -78,8 +78,13 @@ dd.situation, dd.problem { font-size: 16px; color: var(--ink); }
 .step { flex: 0 0 230px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; position: relative; background: #fcfcfb; }
 .step + .step::before { content: "→"; position: absolute; left: -22px; top: 50px; font-size: 18px; color: #999; }
 .step-n { position: absolute; top: 8px; left: 10px; font: 600 12px var(--mono); color: var(--muted); }
-.step-c { display: block; text-decoration: none; margin: 18px 0 8px; }
-.step-label { display: block; font-size: 13px; font-weight: 600; margin-top: 6px; }
+.step-name { display: block; margin: 0 0 8px 16px; font-weight: 600; font-size: 14px; }
+.step-c { display: block; text-decoration: none; margin: 0 0 8px; }
+.step-c + .step-c { margin-top: 0; }
+.step-label { display: block; font-size: 13px; margin-top: 6px; }
+.step-sum { margin: 0 0 12px; font-size: 14px; }
+.step-sum b { font: 600 11px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.step-sum .arrow { color: #999; }
 .step-c.none .step-label { font-weight: 400; color: var(--muted); font-style: italic; }
 .who { margin: 6px 0 0; font-size: 13.5px; }
 .who b { font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }

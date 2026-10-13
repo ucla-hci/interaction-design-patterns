@@ -25,20 +25,21 @@ eleventyComputed:
   </header>
 
   <section class="panel">
-    <h2><span class="attr term" tabindex="0" data-def="{{ library.attrByName.Solution.holds }}">Solution</span></h2>
+    <h2><span class="attr term" tabindex="0" data-def="{{ library.attrByName.Solution.tip }}">Solution</span></h2>
     {% if r.level == "workflow" %}
       <div class="wfd">{{ r.diagram | safe }}</div>
       <details class="fallback"><summary>Subtasks as text</summary><ol>{% for l in r.listHtml %}<li>{{ l | safe }}</li>{% endfor %}</ol></details>
     {% elif r.level == "subtask" %}
+      <p class="step-sum"><b>User</b> {% for s in r.steps %}{{ s.name }}{% if not loop.last %} <span class="arrow">→</span> {% endif %}{% endfor %}</p>
       <ol class="strip">
       {% for s in r.steps %}
         <li class="step">
-          <span class="step-n">{{ loop.index }}</span>
-          {% if s.component %}
-          <a class="step-c" data-pid="{{ s.component }}" href="/p/{{ s.component }}/">{{ thumb(library, s.component) }}<span class="step-label"><span class="pidn">{{ s.component }}</span> {{ s.label }}</span></a>
+          <span class="step-n">{{ loop.index }}</span><span class="step-name">{{ s.name }}</span>
+          {% for c in s.components %}
+          <a class="step-c" data-pid="{{ c.id }}" href="/p/{{ c.id }}/">{{ thumb(library, c.id) }}<span class="step-label"><span class="pidn">{{ c.id }}</span> {{ c.label }}</span></a>
           {% else %}
           <span class="step-c none">{{ thumb(library, null) }}<span class="step-label">no component</span></span>
-          {% endif %}
+          {% endfor %}
           <p class="who u"><b>User</b> {{ s.userHtml | safe }}</p>
           <p class="who s"><b>System</b> {{ s.systemHtml | safe }}</p>
         </li>
