@@ -14,15 +14,12 @@ aliases: ["S1"]
 
 ## Solution
 
-1. C-1 Inquiry Frame
-   - *User:* fills one field per aspect of the claim. Can request a draft of a field, and
-     edits the draft.
-   - *System:* shows the fields. Drafts a field on request.
-2. C-1 Inquiry Frame
-   - *User:* —
-   - *System:* keeps the frame visible in every later subtask. Gives the frame to each subtask
-     as input.
-3. C-11 Reviewable Revision
+1. State the claim — C-1 Inquiry Frame
+   - *User:* fills one field per aspect of the claim. Can request a draft of a field, and edits
+     the draft.
+   - *System:* shows the fields. Drafts a field on request. Keeps the frame visible in every
+     later subtask, and gives it to each subtask as input.
+2. Review changes to the claim — C-11 Reviewable Revision
    - *User:* accepts, edits, or rejects each change to the claim.
    - *System:* when later work implies a change to the claim, shows before, after, and the
      reason. Changes the frame only when the user accepts.

@@ -14,14 +14,11 @@ aliases: ["A1"]
 
 ## Solution
 
-1. C-1 Inquiry Frame
+1. Enter the start and criteria — C-1 Inquiry Frame
    - *User:* enters the starting point, and one value per criterion, each in the format of the
      domain.
-   - *System:* shows one field for the starting point and one per criterion. Flags a field
-     that a later subtask requires.
-2. C-1 Inquiry Frame
-   - *User:* —
-   - *System:* keeps the fields visible. EX-1, OR-1, and EV-1 read them.
+   - *System:* shows one field for the starting point and one per criterion. Flags a field that
+     a later subtask requires. Keeps the fields visible. EX-1, OR-1, and EV-1 read them.
 
 ## Examples
 

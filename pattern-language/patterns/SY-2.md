@@ -14,17 +14,14 @@ aliases: ["B3"]
 
 ## Solution
 
-1. (no component)
+1. Request a record — C-7 Attached Evidence
    - *User:* requests a record.
    - *System:* records what holds, what conflicts, and what stays open. Keeps a conflict as a
-     conflict.
-2. C-7 Attached Evidence
-   - *User:* —
-   - *System:* links each entry to its contributions and evidence.
-3. C-6 Detail on Demand
+     conflict. Links each entry to its contributions and evidence.
+2. Open an entry — C-6 Detail on Demand
    - *User:* selects an entry.
    - *System:* opens the contributions of the entry.
-4. (no component)
+3. Continue and record again — (no component)
    - *User:* continues the discussion, and requests another record.
    - *System:* keeps both records.
 

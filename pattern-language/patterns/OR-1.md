@@ -14,17 +14,12 @@ aliases: ["A3"]
 
 ## Solution
 
-1. C-3 Candidate Groups
+1. Get grouped candidates — C-3 Candidate Groups, C-5 Multi-Criteria Encoding, C-4 Persistent Structure Map
    - *User:* —
-   - *System:* groups the candidates by a signature from the criteria, not by generation
-     order. Labels and summarizes each group.
-2. C-5 Multi-Criteria Encoding
-   - *User:* —
-   - *System:* marks each group by its result on each criterion.
-3. C-4 Persistent Structure Map
-   - *User:* —
-   - *System:* shows the groups on the map.
-4. C-6 Detail on Demand
+   - *System:* groups the candidates by a signature from the criteria, not by generation order.
+     Labels and summarizes each group, marks it by its result on each criterion, and shows it
+     on the map.
+2. Open a group — C-6 Detail on Demand
    - *User:* selects a group.
    - *System:* lists the candidates of the group.
 

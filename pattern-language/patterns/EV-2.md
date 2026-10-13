@@ -14,17 +14,11 @@ aliases: ["B2"]
 
 ## Solution
 
-1. C-9 Scoped Conversation
+1. Open a conversation — C-9 Scoped Conversation, C-7 Attached Evidence
    - *User:* opens one conversation per question, and names the participants.
-   - *System:* —
-2. C-9 Scoped Conversation
-   - *User:* —
    - *System:* attributes each contribution to its viewpoint, and to the contribution it
-     answers.
-3. C-7 Attached Evidence
-   - *User:* —
-   - *System:* attaches evidence to each empirical claim.
-4. C-9 Scoped Conversation
+     answers. Attaches evidence to each empirical claim.
+2. Steer the conversation — C-9 Scoped Conversation
    - *User:* addresses one participant, adds a participant, challenges a passage, or requests
      more turns.
    - *System:* answers within the same conversation.

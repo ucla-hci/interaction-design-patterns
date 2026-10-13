@@ -14,22 +14,15 @@ aliases: ["C3"]
 
 ## Solution
 
-1. (no component)
+1. Get a verdict — C-7 Attached Evidence, C-8 Confidence Cue
    - *User:* —
    - *System:* judges the outcome against the part that its procedure checked. Reports one
-     verdict: supported, not supported, or open.
-2. C-7 Attached Evidence
-   - *User:* —
-   - *System:* keeps the reasoning beside the verdict.
-3. C-8 Confidence Cue
-   - *User:* —
-   - *System:* shows how far the verdict can be trusted.
-4. C-6 Detail on Demand
+     verdict: supported, not supported, or open. Keeps the reasoning beside the verdict, and
+     shows how far the verdict can be trusted. Changes nothing else. CM-2 applies the
+     consequences.
+2. Contest the verdict — C-6 Detail on Demand
    - *User:* opens the reasoning, and contests the verdict.
    - *System:* —
-5. (no component)
-   - *User:* —
-   - *System:* changes nothing else. CM-2 applies the consequences.
 
 ## Examples
 

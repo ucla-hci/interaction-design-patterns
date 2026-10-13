@@ -14,13 +14,11 @@ aliases: ["S3"]
 
 ## Solution
 
-1. C-10 Proposal Set
+1. See the open items — C-10 Proposal Set, C-14 Provenance Link
    - *User:* —
-   - *System:* collects the open items of the round. Shows each one as an option, unopened.
-2. C-14 Provenance Link
-   - *User:* —
-   - *System:* links each option to the item that raised it.
-3. C-10 Proposal Set
+   - *System:* collects the open items of the round. Shows each one as an option, unopened, and
+     links it to the item that raised it.
+2. Open an option — C-10 Proposal Set
    - *User:* opens one option, or leaves it for later.
    - *System:* when the user opens an option, starts the subtask that the option needs.
 

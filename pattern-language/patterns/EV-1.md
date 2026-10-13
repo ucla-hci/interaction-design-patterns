@@ -14,20 +14,14 @@ aliases: ["A4"]
 
 ## Solution
 
-1. C-5 Multi-Criteria Encoding
+1. Toggle criteria — C-5 Multi-Criteria Encoding, C-8 Confidence Cue
    - *User:* turns criteria on and off.
    - *System:* shows every criterion on one view. Gives each criterion one visual channel and
-     one toggle.
-2. C-8 Confidence Cue
-   - *User:* —
-   - *System:* when the system generated a score, shows the cue beside it.
-3. C-6 Detail on Demand
-   - *User:* selects a candidate.
-   - *System:* opens the detail of the candidate.
-4. C-7 Attached Evidence
-   - *User:* reads the evidence for each score.
-   - *System:* shows the evidence in the detail.
-5. C-5 Multi-Criteria Encoding
+     one toggle. When the system generated a score, shows the cue beside it.
+2. Inspect a candidate — C-6 Detail on Demand, C-7 Attached Evidence
+   - *User:* selects a candidate, and reads the evidence for each score.
+   - *System:* opens the detail of the candidate, with the evidence.
+3. Reject candidates — C-5 Multi-Criteria Encoding
    - *User:* rejects candidates, then goes back to OR-1 for the next group.
    - *System:* —
 

@@ -14,17 +14,15 @@ aliases: ["A5"]
 
 ## Solution
 
-1. C-10 Proposal Set
-   - *User:* —
-   - *System:* for each group, reports what its candidates share, and what corrects the failed
-     criteria. Shows options within one group and across groups.
-2. (no component)
+1. Apply an option — C-10 Proposal Set
    - *User:* applies an option.
-   - *System:* edits the candidate. Shows the gain and the loss on every criterion at once.
-3. C-10 Proposal Set
+   - *System:* for each group, reports what its candidates share, and what corrects the failed
+     criteria. Shows options within one group and across groups. When the user applies one,
+     edits the candidate, and shows the gain and the loss on every criterion at once.
+2. Choose a direction — C-10 Proposal Set
    - *User:* chooses a direction.
    - *System:* reduces the number of open options.
-4. C-14 Provenance Link
+3. Save the candidate — C-14 Provenance Link
    - *User:* saves the candidate.
    - *System:* creates a candidate linked to its source.
 

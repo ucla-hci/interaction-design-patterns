@@ -14,22 +14,18 @@ aliases: ["C2"]
 
 ## Solution
 
-1. (no component)
-   - *User:* —
-   - *System:* attaches a procedure to each part that it checks. States in advance which
-     outcome supports, weakens, or leaves the part open.
-2. (no component)
+1. Edit the procedure — (no component)
    - *User:* edits any field of the procedure, before and after a run.
-   - *System:* supports variants for different settings.
-3. C-10 Proposal Set
+   - *System:* attaches a procedure to each part that it checks. States in advance which
+     outcome supports, weakens, or leaves the part open. Supports variants for different
+     settings.
+2. Choose a procedure — C-10 Proposal Set
    - *User:* selects one procedure.
    - *System:* when more than one procedure fits, shows the options.
-4. (no component)
+3. Report outcomes — (no component)
    - *User:* reports outcomes in a template tied to the procedure.
-   - *System:* checks that the report covers every part.
-5. (no component)
-   - *User:* —
-   - *System:* attaches each outcome to one procedure. A variant does not inherit it.
+   - *System:* checks that the report covers every part. Attaches each outcome to one
+     procedure. A variant does not inherit it.
 
 ## Examples
 

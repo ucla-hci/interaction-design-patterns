@@ -14,22 +14,13 @@ aliases: ["A2"]
 
 ## Solution
 
-1. C-1 Inquiry Frame
+1. Request candidates — C-1 Inquiry Frame, C-4 Persistent Structure Map, C-14 Provenance Link
    - *User:* requests candidates from the current starting point and criteria.
-   - *System:* —
-2. (no component)
-   - *User:* —
    - *System:* returns a batch, not one answer. Sizes it so that the groups in OR-1 stay
-     legible.
-3. C-4 Persistent Structure Map
-   - *User:* —
-   - *System:* puts each candidate on the map.
-4. C-14 Provenance Link
-   - *User:* —
-   - *System:* links each candidate to the request that produced it.
-5. C-1 Inquiry Frame
+     legible. Puts each candidate on the map, and links it to the request that produced it.
+2. Refine and request again — C-1 Inquiry Frame
    - *User:* edits the criteria, and requests another batch.
-   - *System:* —
+   - *System:* returns the next batch in the same way.
 
 ## Examples
 
