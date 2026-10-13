@@ -22,9 +22,9 @@ EX2 --> EV2["EV-2 Discuss One Question Across Viewpoints"]
 EV2 <--> SY2["SY-2 Summarize the Discussion"]
 SY2 --> CM2["CM-2 Accept or Reject Proposed Revisions"]
 CM2 --> CN1["CN-1 Propose Next Steps from Open Items"]
-CN1 -- "next question" --> EV2
-CN1 -- "viewpoint no longer fits" --> EX2
-CM2 -- "revision changes the claim" --> FR2
+CN1 -- "item stays open → next question" --> EV2
+CN1 -- "viewpoint no longer fits → viewpoint to rebuild" --> EX2
+CM2 -- "revision changes the claim → revised claim" --> FR2
 ```
 
 1. FR-2 State the Claim. The user states the claim and its basis.

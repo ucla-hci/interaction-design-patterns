@@ -3,12 +3,12 @@
 diagram  theme: light  background: #ffffff
 default edge  line: (path: curved)  text: (size: large)
 default node  text: (size: large)
-style FR  border: #2f64a3  fill: #eef3fa
-style EX  border: #2b7d50  fill: #edf6f0
-style OR  border: #8a6a12  fill: #f8f3e6
-style EV  border: #b03f2e  fill: #faefed
-style SY  border: #6a4b9c  fill: #f3f0f8
-style CM  border: #17767a  fill: #ebf5f5
+style FR  border: #899aaf  fill: #f2f4f6
+style EX  border: #739b85  fill: #f0f3f1
+style OR  border: #a3915f  fill: #f2f0ec
+style EV  border: #b28f8a  fill: #f6f2f1
+style SY  border: #9b92aa  fill: #f4f3f5
+style CM  border: #5e9799  fill: #eef2f2
 
 node FR1 "FR-1 / State the Start / and the Criteria"  style: FR  url: "/p/FR-1/?via=WF-A"
 node EX1 "EX-1 / Generate Candidates"  right of FR1  style: EX  url: "/p/EX-1/?via=WF-A"
@@ -21,6 +21,6 @@ edge FR1 -> EX1
 edge EX1 -> OR1
 edge OR1 <-> EV1
 edge EV1 <-> SY1
-edge EV1 -> CM1
+edge EV1 -> CM1 "no candidates to combine / → checked candidates"
 edge SY1 -> CM1  from: bottom  to: bottom
-edge CM1 -> EX1 "kept candidate / starts next batch"  from: left  to: left
+edge CM1 -> EX1 "user wants another round / → kept candidates"  from: left  to: left

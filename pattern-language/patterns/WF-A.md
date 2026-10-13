@@ -21,9 +21,9 @@ FR1["FR-1 State the Start and the Criteria"] --> EX1["EX-1 Generate Candidates"]
 EX1 --> OR1["OR-1 Group Candidates by Criteria"]
 OR1 <--> EV1["EV-1 Check Candidates Against Every Criterion"]
 EV1 <--> SY1["SY-1 Combine Partial Candidates (optional)"]
-EV1 --> CM1["CM-1 Keep Candidates and Start the Next Round"]
+EV1 -- "no candidates to combine → checked candidates" --> CM1["CM-1 Keep Candidates and Start the Next Round"]
 SY1 --> CM1
-CM1 -- "kept candidate starts next batch" --> EX1
+CM1 -- "user wants another round → kept candidates" --> EX1
 ```
 
 1. FR-1 State the Start and the Criteria. The user gives the starting point and each criterion.

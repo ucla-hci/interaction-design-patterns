@@ -3,12 +3,12 @@
 diagram  theme: light  background: #ffffff
 default edge  line: (path: curved)  text: (size: large)
 default node  text: (size: large)
-style FR  border: #2f64a3  fill: #eef3fa
-style EX  border: #2b7d50  fill: #edf6f0
-style EV  border: #b03f2e  fill: #faefed
-style SY  border: #6a4b9c  fill: #f3f0f8
-style CM  border: #17767a  fill: #ebf5f5
-style CN  border: #8c4476  fill: #f7eef4
+style FR  border: #899aaf  fill: #f2f4f6
+style EX  border: #739b85  fill: #f0f3f1
+style EV  border: #b28f8a  fill: #f6f2f1
+style SY  border: #9b92aa  fill: #f4f3f5
+style CM  border: #5e9799  fill: #eef2f2
+style CN  border: #a78fa0  fill: #f4f1f3
 
 node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-B"
 node EX2 "EX-2 / Build Contrasting / Viewpoints"  right of FR2  style: EX  url: "/p/EX-2/?via=WF-B"
@@ -22,6 +22,6 @@ edge EX2 -> EV2
 edge EV2 <-> SY2
 edge SY2 -> CM2
 edge CM2 -> CN1
-edge CN1 -> EV2 "next question"
-edge CN1 -> EX2 "viewpoint no / longer fits"
-edge CM2 -> FR2 "revision changes the claim"  from: bottom  to: bottom
+edge CN1 -> EV2 "item stays open / → next question"  from: right  to: bottom
+edge CN1 -> EX2 "viewpoint no longer fits / → viewpoint to rebuild"
+edge CM2 -> FR2 "revision changes the claim / → revised claim"  from: bottom  to: bottom

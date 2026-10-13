@@ -22,9 +22,9 @@ EX3 --> EV3["EV-3 Collect Evidence for Each Part"]
 EV3 --> EV4["EV-4 Judge Each Part Against Its Evidence"]
 EV4 --> CM2["CM-2 Accept or Reject Proposed Revisions"]
 CM2 --> CN1["CN-1 Propose Next Steps from Open Items"]
-CN1 -- "more evidence" --> EV3
-CN1 -- "replacement part" --> EX3
-EX3 -- "decompose a part further" --> EX3
+CN1 -- "part stays open → another check" --> EV3
+CN1 -- "part cannot hold → replacement part" --> EX3
+EX3 -- "part too broad to check → sub-parts" --> EX3
 ```
 
 1. FR-2 State the Claim. The user states the claim to check.
