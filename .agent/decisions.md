@@ -45,6 +45,9 @@
 - 9/22/2026 — A component spec states `needs:`, the kinds of element the design requires, in design terms and not in the component names of a catalog.
 - 9/22/2026 — Borchers's "forces" field is named **Tradeoff**, and is written "X vs. Y".
 - 9/22/2026 — **Tradeoff** is deferred. It is not wanted on a first read of a pattern.
+- 10/15/2026 — A workflow ID is "WF-" and a number in the order of first use: WF-A, WF-B, WF-C become WF-1, WF-2, WF-3. Letters stop at 26 workflows. The old ID is kept in `aliases`, and the site redirects it. Journal entries, decisions, and `refs/` before 10/15 keep the letters.
+- 10/15/2026 — The User and System text of a step names each component of the step, as a markdown link to its ID: "[scoped conversation](C-9)". On the site, the step cards show no eigen-UI thumbnails, for now.
+- 10/15/2026 — A step card on the site lists no components under the step name. It shows each component inline, where the text names it: "scoped conversation [C-9]". The step heading in the source keeps "— C-n Name"; the catalog tiles and the counts read it.
 
 ## Grounding in the exemplar figures
 - 9/29/2026 — The figures of the exemplar papers are a dataset. The pipeline converts each PDF to page images, crops each figure, indexes the figures, and locates each CP instance in a figure.

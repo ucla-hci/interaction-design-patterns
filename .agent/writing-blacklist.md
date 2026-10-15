@@ -1,1 +1,2 @@
 People who hold other viewpoints are hard to reach, and generated viewpoints read alike and cite nothing.
+The viewpoints blur, and the user cannot tell which viewpoint produced a conclusion. <!-- the metaphorical use of "blur" is ambiguous, "viewpoint produced a conclusion" contains an awkward logic. -->

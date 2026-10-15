@@ -9,7 +9,54 @@
 <!-- what we should work on next time -->
 - continue to review mvp--create a more structured list of reviewable samples
 - add some other groups' papers (e.g., AI2's)
-- wf-a/b/c is not scalable once there are more than 26 workflow patterns
+
+## 10/15/2026
+- [x] when hovering over an inline citation of a component pattern, the popup tooltip can show a thumbnail preview
+- [x] instead of listing the components upfront, refer to them inline, e.g., user opens xxx [Cxx] ...
+- [x] for the steps in the Solution part of a subtask, try referring to the components when describing user input and system output. hide the previews for now as i don't feel they are useful.
+- [x] wf-a/b/c is not scalable once there are more than 26 workflow patterns
+- [x] definition of claim: shouldn't have "patches" saying special cases with wf-b or wf-c. just describe a general definition
+
+### Thumbnail in the component popup
+**Approach** The link popup shows the eigen-UI of a component above its name, Situation, and Problem. A component without an eigen-UI (11 of 13; only C-4 and C-6 have one) shows the popup as before, with no empty placeholder. This applies to every link to a component, not only the links in steps.
+- `library.js` adds `svg` to the preview index (about 8 KB per page); `site.js` puts it in the popup with the `.thumb` style; `site.css` adds `.pv-thumb`.
+- `npm run check` passes all 7 checks. Checked by eye: hover screenshots on EX-3 of C-4 (thumbnail shown) and C-9 (no thumbnail), in headless Chrome with a synthetic `mouseenter`.
+
+### Workflow IDs
+**Approach** The author chose numbers in the order of first use: WF-A → WF-1, WF-B → WF-2, WF-C → WF-3. This is the same form as the subtask and component IDs.
+- Renamed `patterns/WF-*.md` and `diagrams/WF-*.reladraw` with `git mv`. The IDs are replaced in the pattern files, the diagrams, `pattern-language-mvp.md`, `single-system-patterns.md`, `glossary.md`, `website/SPEC.md`, and `passport.md`. In `library.js`, `ID_RE` now matches `WF-\d+`.
+- Each workflow keeps its old ID in `aliases`, so `/p/WF-A/` redirects to `/p/WF-1/`. `npm run check` passes all 6 checks: 849 links, 0 broken; 35 aliases, 0 unresolved.
+- Not renamed: journal entries, earlier decisions, `refs/`, and `renders/`. They are records of their date.
+
+### Definition of claim
+- `glossary.md` now reads "A statement that the user wants to develop or to check". The sentence about WF-2 and WF-3 is removed. No other glossary entry names a pattern ID.
+
+### Components in step text
+**Approach** The author chose the component name, in lower case, as a link: "opens one [scoped conversation](C-9) per question". The author asked to apply the rewrites directly, without a draft first. "Previews" means the eigen-UI thumbnails on the step cards.
+- 33 of the 36 steps in `patterns/*.md` rewritten; the other 3 have no component. In every step, the text links each component in its heading, and no other component. Checked by script.
+- `library.js`: `stepInline` turns a `(C-n)` link into a pattern link with a hover preview. `markTerms` no longer marks a glossary term inside a link: 23 were nested, for example "link" in "provenance link". Tooltips on the pages: 104, from 116.
+- `p.njk`: the step cards have no thumbnails. The catalog tiles on the home page keep theirs.
+- Rule added to the Solution row of `pattern-language-mvp.md` and to `decisions.md`. `npm run check` passes all 6 checks: 899 links, 0 broken.
+
+**Open**
+- Some wording changed to fit a component in: "sorts it into candidate groups", "opens the detail of the group". The author reviews the diff.
+
+### Components inline, not listed
+**Approach** The step card no longer lists the components under the step name. The text shows each one where it is named, as one link: "scoped conversation [C-9]". This is a display change only: the step heading in `patterns/*.md` keeps "— C-n Name", because the catalog tiles, the component counts, and the checks read it.
+- `p.njk` drops the component list; `stepInline` in `library.js` adds the ID after the name; the unused `.step-c` and `.step-label` rules are removed from `site.css`.
+- `npm run check` passes all 6 checks. Links: 849, from 899 (the 50 listed links are gone; the 50 inline links stay). Checked by eye on an EX-3 screenshot.
+
+- The component IDs are in two places in the source: the step heading and the text. The author chose a check over one source: SPEC §11 criterion 8, check 8 in `scripts/check.mjs`. It passes on 36 steps, and fails with exit 1 on a planted mismatch (EV-3 step 2: -C-10 +C-12).
+
+**Open**
+- Author review: the wording of the 33 rewritten steps, and whether the popup thumbnail is useful at its size (the C-4 drawing is faint).
+- From 10/13, still open: the three WF-3 edge conditions are guesses; the diagram layout issues; the step-strip momentum fix is untested on a real trackpad.
+- `npm run serve` writes to `_site` as well. With the dev server running, run `npm run build` just before `npm run check`, or check 2 counts the wrong links.
+
+**Next**
+- Push `main` so that Vercel deploys 10/13 and 10/15. The live site still shows WF-A/B/C and the old step cards.
+- Rewrite the pattern prose against `writing-blacklist.md` (2 examples now) once the author adds more.
+
 
 ## 10/13/2026
 - [x] "After a discussion, the user needs to know what it settled and what stays open." How open is defined here seems wrong
