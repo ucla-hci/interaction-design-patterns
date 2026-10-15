@@ -59,7 +59,7 @@ document-mode form of https://github.com/AminBlg/SimpleEnglish:
 
 A retired ID is not used again.
 
-IDs: workflows `WF-A/B/C` · subtasks `FR-1…` by role (see Subtask roles) · components `C-1…`.
+IDs: workflows `WF-1…` by order of first use · subtasks `FR-1…` by role (see Subtask roles) · components `C-1…`.
 
 **Subtask roles** (10/6, tentative). A subtask ID states its role in the loop that all
 workflows share. The roles can change when more papers are added.
@@ -101,9 +101,9 @@ this: a record of a discussion (SY-2), an editable procedure (EV-3), and a verdi
 
 ## How the four systems divide
 
-Three workflow patterns. WF-B and WF-C share half of their subtasks. WF-A stands apart.
+Three workflow patterns. WF-2 and WF-3 share half of their subtasks. WF-1 stands apart.
 
-| | WF-A Guided Candidate Search | WF-B Multi-Viewpoint Refinement | WF-C Decompose and Verify |
+| | WF-1 Guided Candidate Search | WF-2 Multi-Viewpoint Refinement | WF-3 Decompose and Verify |
 |---|---|---|---|
 | Systems | HALO, HAPPIER | PerspectEvolver | THESEUS |
 | The user works on | a population of candidates | one position, against contrasting viewpoints | one claim, in checkable parts |
@@ -126,9 +126,9 @@ the body holds Solution and Examples. The files are the source of truth for the 
 
 | ID | Name | Level | Role | Status | Systems |
 |---|---|---|---|---|---|
-| [WF-A](patterns/WF-A.md) | Guided Candidate Search | workflow | — | active | HALO, HAPPIER |
-| [WF-B](patterns/WF-B.md) | Multi-Viewpoint Refinement | workflow | — | active | PerspectEvolver |
-| [WF-C](patterns/WF-C.md) | Decompose and Verify | workflow | — | active | THESEUS |
+| [WF-1](patterns/WF-1.md) | Guided Candidate Search | workflow | — | active | HALO, HAPPIER |
+| [WF-2](patterns/WF-2.md) | Multi-Viewpoint Refinement | workflow | — | active | PerspectEvolver |
+| [WF-3](patterns/WF-3.md) | Decompose and Verify | workflow | — | active | THESEUS |
 | [FR-1](patterns/FR-1.md) | State the Start and the Criteria | subtask | Frame | active | HALO, HAPPIER |
 | [FR-2](patterns/FR-2.md) | State the Claim | subtask | Frame | active | PerspectEvolver, THESEUS |
 | [EX-1](patterns/EX-1.md) | Generate Candidates | subtask | Expand | active | HALO, HAPPIER |
@@ -188,15 +188,15 @@ The component patterns are in `patterns/C-<n>.md`, listed under Patterns above.
 
 | System | Workflow | Subtasks | Components |
 |---|---|---|---|
-| HALO | WF-A | FR-1, EX-1, OR-1, EV-1, SY-1, CM-1 | C-1, C-3, C-4, C-5, C-6, C-7, C-8, C-10, C-12, C-14 |
-| HAPPIER | WF-A | FR-1, EX-1, OR-1, EV-1, CM-1 (no SY-1) | C-1, C-3, C-4, C-5, C-6, C-7, C-8, C-12, C-14 |
-| PerspectEvolver | WF-B | FR-2, EX-2, EV-2, SY-2, CM-2, CN-1 | C-1, C-3, C-4, C-6, C-7, C-9, C-10, C-11, C-12, C-14, C-17 |
-| THESEUS | WF-C | FR-2, EX-3, EV-3, EV-4, CM-2, CN-1 | C-1, C-4, C-6, C-7, C-8, C-9, C-10, C-11, C-14, C-17 |
+| HALO | WF-1 | FR-1, EX-1, OR-1, EV-1, SY-1, CM-1 | C-1, C-3, C-4, C-5, C-6, C-7, C-8, C-10, C-12, C-14 |
+| HAPPIER | WF-1 | FR-1, EX-1, OR-1, EV-1, CM-1 (no SY-1) | C-1, C-3, C-4, C-5, C-6, C-7, C-8, C-12, C-14 |
+| PerspectEvolver | WF-2 | FR-2, EX-2, EV-2, SY-2, CM-2, CN-1 | C-1, C-3, C-4, C-6, C-7, C-9, C-10, C-11, C-12, C-14, C-17 |
+| THESEUS | WF-3 | FR-2, EX-3, EV-3, EV-4, CM-2, CN-1 | C-1, C-4, C-6, C-7, C-8, C-9, C-10, C-11, C-14, C-17 |
 
 The Components column is computed from the subtask Solutions. It lists every component of the
 subtasks that the system performs. A system can lack one of them in its paper.
 
 **Open for your judgment.**
 - HALO and HAPPIER differ at SY-1. The two can be an optimization variant and a screening variant
-  of WF-A, and not one workflow.
-- WF-B and WF-C each rest on one system. A system outside `data/` must confirm them.
+  of WF-1, and not one workflow.
+- WF-2 and WF-3 each rest on one system. A system outside `data/` must confirm them.

@@ -4,7 +4,7 @@ name: "Accept or Reject Proposed Revisions"
 level: "subtask"
 role: "Commit"
 status: "active"
-context: ["WF-B", "WF-C"]
+context: ["WF-2", "WF-3"]
 situation: "The previous subtask implies changes to the work, and the user must decide which ones to take."
 problem: "The user either cannot see what the system changed in the work, or must make every change by hand."
 systems: ["PerspectEvolver", "THESEUS"]

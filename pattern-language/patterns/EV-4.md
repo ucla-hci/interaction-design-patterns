@@ -4,7 +4,7 @@ name: "Judge Each Part Against Its Evidence"
 level: "subtask"
 role: "Evaluate"
 status: "single-system"
-context: ["WF-C"]
+context: ["WF-3"]
 situation: "When an outcome arrives for a part, the user must learn what it means for that part."
 problem: "A weak or negative outcome does not state what it means, or which parts it touches."
 systems: ["THESEUS"]

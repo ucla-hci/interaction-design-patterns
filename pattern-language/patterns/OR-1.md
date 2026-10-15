@@ -4,7 +4,7 @@ name: "Group Candidates by Criteria"
 level: "subtask"
 role: "Organize"
 status: "active"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "The user has a large batch of candidates, and needs to see which ones behave alike."
 problem: "Among hundreds of candidates, the user cannot see which ones behave alike, and reads them one by one."
 systems: ["HALO", "HAPPIER"]

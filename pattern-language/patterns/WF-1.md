@@ -1,5 +1,5 @@
 ---
-id: "WF-A"
+id: "WF-1"
 name: "Guided Candidate Search"
 level: "workflow"
 status: "active"
@@ -8,7 +8,7 @@ situation: "The user must find candidates that satisfy several criteria at once.
 problem: "The space is too large to search by hand, and the user checks each criterion in a separate tool, one candidate at a time."
 systems: ["HALO", "HAPPIER"]
 references: ["FR-1", "EX-1", "OR-1", "EV-1", "SY-1", "CM-1"]
-aliases: []
+aliases: ["WF-A"]
 ---
 
 ## Solution

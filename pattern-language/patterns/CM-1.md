@@ -5,7 +5,7 @@ level: "subtask"
 role: "Commit"
 role_also: "Continue"
 status: "active"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "The user has the candidates that pass, and wants the next round to start from them."
 problem: "Kept candidates spread across views, and the next round starts from nothing."
 systems: ["HALO", "HAPPIER"]

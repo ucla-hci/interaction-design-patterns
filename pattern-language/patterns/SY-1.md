@@ -4,7 +4,7 @@ name: "Combine Partial Candidates"
 level: "subtask"
 role: "Synthesize"
 status: "single-system"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "Some groups pass only some criteria, and the user wants new candidates that combine their strengths."
 problem: "The user must find why each group fails, and must combine partial successes by hand."
 systems: ["HALO"]

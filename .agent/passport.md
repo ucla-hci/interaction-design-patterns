@@ -22,7 +22,7 @@ subtask, and component. The language is built from exemplar systems.
 - The language states each pattern in domain-neutral terms, and assumes no AI.
 - A component pattern carries a spec that compiles to A2UI.
 - Target venues: CHI and UIST.
-- Open: each of WF-B and WF-C rests on one system. A system outside `data/` must confirm them.
+- Open: each of WF-2 and WF-3 rests on one system. A system outside `data/` must confirm them.
 
 ## Superseded, from the earlier topic
 - The claim was empirical: patterns improve the quality and the controllability of generated UI.

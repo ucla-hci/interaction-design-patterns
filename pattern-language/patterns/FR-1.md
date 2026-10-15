@@ -4,7 +4,7 @@ name: "State the Start and the Criteria"
 level: "subtask"
 role: "Frame"
 status: "active"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "Before the search, the user has a starting point and the criteria that candidates must satisfy."
 problem: "The criteria stay in the notes of the user or in separate tools, where generation and checks cannot read them."
 systems: ["HALO", "HAPPIER"]

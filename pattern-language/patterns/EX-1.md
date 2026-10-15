@@ -4,7 +4,7 @@ name: "Generate Candidates"
 level: "subtask"
 role: "Expand"
 status: "active"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "The criteria are set, and the user needs many candidates for them."
 problem: "Manual search stays near familiar options, and it is slow."
 systems: ["HALO", "HAPPIER"]

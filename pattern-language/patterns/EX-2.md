@@ -4,7 +4,7 @@ name: "Build Contrasting Viewpoints"
 level: "subtask"
 role: "Expand"
 status: "single-system"
-context: ["WF-B"]
+context: ["WF-2"]
 situation: "With the claim stated, the user needs viewpoints that differ from the user's own, each with a stated basis."
 problem: "The viewpoints read alike, and the user cannot tell what each one contributes or what it rests on."
 systems: ["PerspectEvolver"]

@@ -4,7 +4,7 @@ name: "Check Candidates Against Every Criterion"
 level: "subtask"
 role: "Evaluate"
 status: "active"
-context: ["WF-A"]
+context: ["WF-1"]
 situation: "The user has groups of candidates, and must find the ones that pass every criterion."
 problem: "The user checks each criterion in a separate tool, and cannot tell when a generated score is wrong."
 systems: ["HALO", "HAPPIER"]

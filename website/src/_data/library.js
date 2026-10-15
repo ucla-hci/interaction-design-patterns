@@ -14,7 +14,7 @@ const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
 
 const ROLE_ORDER = ["FR", "EX", "OR", "EV", "SY", "CM", "CN"];
 const LEVEL_ORDER = { workflow: 0, subtask: 1, component: 2 };
-const ID_RE = /\b(WF-[A-Z]|[A-Z]{2}-\d+|C-\d+)\b/g;
+const ID_RE = /\b(WF-\d+|[A-Z]{2}-\d+|C-\d+)\b/g;
 
 function read(rel) {
   return fs.readFileSync(path.join(LANG, rel), "utf8");
@@ -164,7 +164,7 @@ for (const r of live.filter((r) => r.level === "workflow")) {
       /(<path d="M([\d.]+) ([\d.]+) [^>]*>\s*<g [^>]*>\s*)<text x="[\d.]+" y="[\d.]+" fill="[^"]*" text-anchor="middle">([A-Z]{2}-\d+)<\/text>/g,
       (_, head, x, y, id) => `${head}<text class="tag" x="${+x + 2}" y="${+y + 16}">${id}</text>`,
     )
-    // One scale for every diagram (WF-A's at full card width), so the text is the same size in each.
+    // One scale for every diagram (WF-1's at full card width), so the text is the same size in each.
     .replace(/<svg ([^>]*?)width="(\d+)" height="(\d+)"/, (_, a, w) => `<svg ${a}role="img" aria-label="${r.id} ${r.name}" style="width:${Math.round(w * DIAGRAM_SCALE)}px"`)
     .trim();
   r.diagramNodes = [...r.diagram.matchAll(/data-pid="([^"]+)"/g)].map((m) => m[1]);

@@ -1,5 +1,5 @@
 ---
-id: "WF-B"
+id: "WF-2"
 name: "Multi-Viewpoint Refinement"
 level: "workflow"
 status: "active"
@@ -8,7 +8,7 @@ situation: "The user develops a claim, and tests it against viewpoints that diff
 problem: "People who hold other viewpoints are hard to reach, and generated viewpoints read alike and cite nothing."
 systems: ["PerspectEvolver"]
 references: ["FR-2", "EX-2", "EV-2", "SY-2", "CM-2", "CN-1"]
-aliases: []
+aliases: ["WF-B"]
 ---
 
 ## Solution

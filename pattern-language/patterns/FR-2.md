@@ -4,7 +4,7 @@ name: "State the Claim"
 level: "subtask"
 role: "Frame"
 status: "active"
-context: ["WF-B", "WF-C"]
+context: ["WF-2", "WF-3"]
 situation: "At the start of a round, the user has a claim to develop or to check."
 problem: "The claim stays in the mind of the user, so later work drifts and cannot be checked against it."
 systems: ["PerspectEvolver", "THESEUS"]

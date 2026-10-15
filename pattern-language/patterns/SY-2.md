@@ -4,7 +4,7 @@ name: "Summarize the Discussion"
 level: "subtask"
 role: "Synthesize"
 status: "single-system"
-context: ["WF-B"]
+context: ["WF-2"]
 situation: "After a discussion, the user needs to know what it settled and what stays open."
 problem: "A finished discussion is long, and the user must read it again to find what it settled."
 systems: ["PerspectEvolver"]

@@ -1,4 +1,4 @@
-// WF-C Decompose and Verify. Layout only: the graph is the mermaid block in patterns/WF-C.md.
+// WF-3 Decompose and Verify. Layout only: the graph is the mermaid block in patterns/WF-3.md.
 // Top row: the claim, its parts, the evidence, the judgement. Bottom row: decide, then continue.
 diagram  theme: light  background: #ffffff
 default edge  line: (path: curved)  text: (size: large)
@@ -9,12 +9,12 @@ style EV  border: #b28f8a  fill: #f6f2f1
 style CM  border: #5e9799  fill: #eef2f2
 style CN  border: #a78fa0  fill: #f4f1f3
 
-node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-C"
-node EX3 "EX-3 / Split the Claim into / Checkable Parts"  right of FR2  style: EX  url: "/p/EX-3/?via=WF-C"
-node EV3 "EV-3 / Collect Evidence / for Each Part"  right of EX3  style: EV  url: "/p/EV-3/?via=WF-C"
-node EV4 "EV-4 / Judge Each Part / Against Its Evidence"  right of EV3  style: EV  url: "/p/EV-4/?via=WF-C"
-node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below EV4  style: CM  url: "/p/CM-2/?via=WF-C"
-node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX3  level with CM2  style: CN  url: "/p/CN-1/?via=WF-C"
+node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-3"
+node EX3 "EX-3 / Split the Claim into / Checkable Parts"  right of FR2  style: EX  url: "/p/EX-3/?via=WF-3"
+node EV3 "EV-3 / Collect Evidence / for Each Part"  right of EX3  style: EV  url: "/p/EV-3/?via=WF-3"
+node EV4 "EV-4 / Judge Each Part / Against Its Evidence"  right of EV3  style: EV  url: "/p/EV-4/?via=WF-3"
+node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below EV4  style: CM  url: "/p/CM-2/?via=WF-3"
+node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX3  level with CM2  style: CN  url: "/p/CN-1/?via=WF-3"
 
 edge FR2 -> EX3
 edge EX3 -> EV3

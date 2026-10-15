@@ -4,7 +4,7 @@ name: "Propose Next Steps from Open Items"
 level: "subtask"
 role: "Continue"
 status: "active"
-context: ["WF-B", "WF-C"]
+context: ["WF-2", "WF-3"]
 situation: "A round ends, and some items stay open."
 problem: "A round ends with a disagreement or an inconclusive outcome, and the user stops or loses the open item."
 systems: ["PerspectEvolver", "THESEUS"]

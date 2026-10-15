@@ -29,7 +29,7 @@ The user of the site is a **designer**. Four tasks:
 |---|---|---|
 | T1 Browse | "Which subtasks does the library have for evaluation?" | Catalog, role filter |
 | T2 Study | "How does FR-2 work, and where does it occur?" | Card |
-| T3 Follow a link in context | "WF-B uses EV-2. What is EV-2? What is C-9 in its step 1?" | Link on a card |
+| T3 Follow a link in context | "WF-2 uses EV-2. What is EV-2? What is C-9 in its step 1?" | Link on a card |
 | T4 Learn the format | "What does Situation mean? What is a claim?" | Meta pages, popovers |
 
 "Deploy" (the designer, or a language model, applies a pattern to a new design) is out of scope
@@ -41,7 +41,7 @@ The build reads the pattern files, and makes one record per pattern.
 
 | Entity | ID | Attributes (from "Pattern Attributes") | Links |
 |---|---|---|---|
-| Workflow | `WF-A`… | Name, Level, Context, Situation, Problem, Solution (diagram + list), Examples, References | children: subtasks |
+| Workflow | `WF-1`… | Name, Level, Context, Situation, Problem, Solution (diagram + list), Examples, References | children: subtasks |
 | Subtask | `FR-1`… | Name, Level, Role, Context, Situation, Problem, Solution (steps: component, User, System), Examples, References | parents: workflows; children: components |
 | Component | `C-1`… | Name, Level, Context, Situation, Problem, Solution, eigen-UI (when it has a card), Examples | parents: subtasks; contained components |
 
@@ -54,7 +54,7 @@ Other records:
 - **Meta pages**: Structure, Pattern Attributes, Subtask roles, Writing style, from
   `pattern-language-mvp.md`.
 
-**The links form a graph, not a tree.** FR-2 has two parents (WF-B, WF-C). C-7 has six parents.
+**The links form a graph, not a tree.** FR-2 has two parents (WF-2, WF-3). C-7 has six parents.
 Navigation (section 6) must handle more than one parent.
 
 ## 4. Pages
@@ -99,8 +99,8 @@ mechanisms (a fifth, a level rail, is left out under "start scarce": the breadcr
 diagram carry the same information):
 
 1. **Path breadcrumb.** It replaces an "Up" control (removed 10/6). The breadcrumb shows the path that the designer took, with ID and name, not a fixed
-   hierarchy, because a pattern can have more than one parent. Example: `WF-C › FR-2 › C-11`. The
-   URL holds the path (`/p/C-11?via=WF-C,FR-2`), so the back button, a shared link, and a reload
+   hierarchy, because a pattern can have more than one parent. Example: `WF-3 › FR-2 › C-11`. The
+   URL holds the path (`/p/C-11?via=WF-3,FR-2`), so the back button, a shared link, and a reload
    keep it.
 3. **Where am I.** On a subtask card, a small copy of the parent workflow diagram marks the
    current subtask. On a component card, a list shows the subtask steps that use the component.

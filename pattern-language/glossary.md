@@ -29,7 +29,7 @@ this meaning. When a pattern needs a new term, add it here first.*
 |---|---|
 | **work** | Everything the user builds in a workflow: the frame, the items, and their links |
 | **frame** | The statement of the goal and the criteria that every later subtask reads. The user owns it |
-| **claim** | A statement that the user wants to develop or to check. In WF-B and WF-C, the frame holds a claim |
+| **claim** | A statement that the user wants to develop or to check |
 | **criterion** | A condition that an item must satisfy. A criterion can be measured or judged |
 | **item** | Any unit of the work that the user can select: a candidate, a part, a viewpoint, a group, or a record |
 | **candidate** | An item that can satisfy the criteria. The user keeps it or rejects it |

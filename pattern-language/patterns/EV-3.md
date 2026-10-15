@@ -4,7 +4,7 @@ name: "Collect Evidence for Each Part"
 level: "subtask"
 role: "Evaluate"
 status: "single-system"
-context: ["WF-C"]
+context: ["WF-3"]
 situation: "With the claim split into parts, the user must collect an outcome for each part."
 problem: "The procedure does not fit the setting of the user, and the outcome loses the conditions that produced it."
 systems: ["THESEUS"]

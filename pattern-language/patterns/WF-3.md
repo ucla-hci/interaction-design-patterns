@@ -1,5 +1,5 @@
 ---
-id: "WF-C"
+id: "WF-3"
 name: "Decompose and Verify"
 level: "workflow"
 status: "active"
@@ -8,7 +8,7 @@ situation: "The user checks a claim with evidence that arrives one piece at a ti
 problem: "One check does not settle the claim, and the user loses which check applies to which part, and why it ran."
 systems: ["THESEUS"]
 references: ["FR-2", "EX-3", "EV-3", "EV-4", "CM-2", "CN-1"]
-aliases: []
+aliases: ["WF-C"]
 ---
 
 ## Solution

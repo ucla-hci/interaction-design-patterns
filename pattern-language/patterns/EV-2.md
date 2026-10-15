@@ -4,7 +4,7 @@ name: "Discuss One Question Across Viewpoints"
 level: "subtask"
 role: "Evaluate"
 status: "single-system"
-context: ["WF-B"]
+context: ["WF-2"]
 situation: "The user has a set of viewpoints, and one question to put to them."
 problem: "The viewpoints blur, and the user cannot tell which viewpoint produced a conclusion."
 systems: ["PerspectEvolver"]

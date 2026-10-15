@@ -5,7 +5,7 @@ level: "subtask"
 role: "Expand"
 role_also: "Organize"
 status: "single-system"
-context: ["WF-C"]
+context: ["WF-3"]
 situation: "The claim is stated, and it is too broad to check in one step."
 problem: "The user loses which part a check applies to, and why the check ran."
 systems: ["THESEUS"]

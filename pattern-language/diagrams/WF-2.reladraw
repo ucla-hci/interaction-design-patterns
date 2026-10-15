@@ -1,4 +1,4 @@
-// WF-B Multi-Viewpoint Refinement. Layout only: the graph is the mermaid block in patterns/WF-B.md.
+// WF-2 Multi-Viewpoint Refinement. Layout only: the graph is the mermaid block in patterns/WF-2.md.
 // Top row: the claim, the viewpoints, the discussion, its record. Bottom row: decide, then continue.
 diagram  theme: light  background: #ffffff
 default edge  line: (path: curved)  text: (size: large)
@@ -10,12 +10,12 @@ style SY  border: #9b92aa  fill: #f4f3f5
 style CM  border: #5e9799  fill: #eef2f2
 style CN  border: #a78fa0  fill: #f4f1f3
 
-node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-B"
-node EX2 "EX-2 / Build Contrasting / Viewpoints"  right of FR2  style: EX  url: "/p/EX-2/?via=WF-B"
-node EV2 "EV-2 / Discuss One Question / Across Viewpoints"  right of EX2  style: EV  url: "/p/EV-2/?via=WF-B"
-node SY2 "SY-2 / Summarize the / Discussion"  right of EV2  style: SY  url: "/p/SY-2/?via=WF-B"
-node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below SY2  style: CM  url: "/p/CM-2/?via=WF-B"
-node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX2  level with CM2  style: CN  url: "/p/CN-1/?via=WF-B"
+node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-2"
+node EX2 "EX-2 / Build Contrasting / Viewpoints"  right of FR2  style: EX  url: "/p/EX-2/?via=WF-2"
+node EV2 "EV-2 / Discuss One Question / Across Viewpoints"  right of EX2  style: EV  url: "/p/EV-2/?via=WF-2"
+node SY2 "SY-2 / Summarize the / Discussion"  right of EV2  style: SY  url: "/p/SY-2/?via=WF-2"
+node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below SY2  style: CM  url: "/p/CM-2/?via=WF-2"
+node CN1 "CN-1 / Propose Next Steps / from Open Items"  below EX2  level with CM2  style: CN  url: "/p/CN-1/?via=WF-2"
 
 edge FR2 -> EX2
 edge EX2 -> EV2

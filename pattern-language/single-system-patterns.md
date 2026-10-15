@@ -4,7 +4,7 @@ Patterns that apply to one exemplar system only. They can be idiosyncratic, or t
 patterns when a new system shows them. When a second system shows one, it moves back to
 [pattern-language-mvp.md](pattern-language-mvp.md). Moved 9/29. Format updated 10/6: Role field, User and System steps, and narrative Examples.
 
-Workflows: WF-A, WF-B, and WF-C are in the MVP. Components: none. Every active component applies
+Workflows: WF-1, WF-2, and WF-3 are in the MVP. Components: none. Every active component applies
 to two or more systems.
 
 ---

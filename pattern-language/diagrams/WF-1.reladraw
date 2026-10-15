@@ -1,4 +1,4 @@
-// WF-A Guided Candidate Search. Layout only: the graph is the mermaid block in patterns/WF-A.md.
+// WF-1 Guided Candidate Search. Layout only: the graph is the mermaid block in patterns/WF-1.md.
 // Two rows: the search goes right along the top, the check and the keep come back below.
 diagram  theme: light  background: #ffffff
 default edge  line: (path: curved)  text: (size: large)
@@ -10,12 +10,12 @@ style EV  border: #b28f8a  fill: #f6f2f1
 style SY  border: #9b92aa  fill: #f4f3f5
 style CM  border: #5e9799  fill: #eef2f2
 
-node FR1 "FR-1 / State the Start / and the Criteria"  style: FR  url: "/p/FR-1/?via=WF-A"
-node EX1 "EX-1 / Generate Candidates"  right of FR1  style: EX  url: "/p/EX-1/?via=WF-A"
-node OR1 "OR-1 / Group Candidates / by Criteria"  right of EX1  style: OR  url: "/p/OR-1/?via=WF-A"
-node EV1 "EV-1 / Check Candidates Against / Every Criterion"  below OR1  style: EV  url: "/p/EV-1/?via=WF-A"
-node CM1 "CM-1 / Keep Candidates and / Start the Next Round"  below EX1  level with EV1  style: CM  url: "/p/CM-1/?via=WF-A"
-node SY1 "SY-1 / Combine Partial Candidates / (optional)"  right of EV1  style: SY  url: "/p/SY-1/?via=WF-A"
+node FR1 "FR-1 / State the Start / and the Criteria"  style: FR  url: "/p/FR-1/?via=WF-1"
+node EX1 "EX-1 / Generate Candidates"  right of FR1  style: EX  url: "/p/EX-1/?via=WF-1"
+node OR1 "OR-1 / Group Candidates / by Criteria"  right of EX1  style: OR  url: "/p/OR-1/?via=WF-1"
+node EV1 "EV-1 / Check Candidates Against / Every Criterion"  below OR1  style: EV  url: "/p/EV-1/?via=WF-1"
+node CM1 "CM-1 / Keep Candidates and / Start the Next Round"  below EX1  level with EV1  style: CM  url: "/p/CM-1/?via=WF-1"
+node SY1 "SY-1 / Combine Partial Candidates / (optional)"  right of EV1  style: SY  url: "/p/SY-1/?via=WF-1"
 
 edge FR1 -> EX1
 edge EX1 -> OR1
