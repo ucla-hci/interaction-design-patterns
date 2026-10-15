@@ -77,5 +77,19 @@ const dataRefs = files.filter((f) => /\.(html|json|css|js)$/.test(f) && /["'(\/]
 check("6 no data/", dataRefs.length === 0, `${dataRefs.length} files refer to data/` + (dataRefs.length ? ": " + dataRefs.map(rel).join(" ") : ""));
 
 // 7 is a property of the build (no manual step); it is not checked here.
+// 8. A step's text links each component in its heading, and no other: "[scoped conversation](C-9)".
+const stepFail = [];
+let steps = 0;
+for (const r of library.live.filter((r) => r.steps)) {
+  r.steps.forEach((s, i) => {
+    steps++;
+    const head = new Set(s.components.map((c) => c.id));
+    const text = new Set([...`${s.user} ${s.system}`.matchAll(/\]\((C-\d+)\)/g)].map((m) => m[1]));
+    const diff = [...head].filter((id) => !text.has(id)).map((id) => `-${id}`).concat([...text].filter((id) => !head.has(id)).map((id) => `+${id}`));
+    if (diff.length) stepFail.push(`${r.id} step ${i + 1}: ${diff.join(" ")}`);
+  });
+}
+check("8 step components", stepFail.length === 0, `${steps} steps; ${stepFail.length} where the heading and the text name different components` + (stepFail.length ? "\n    " + stepFail.join("\n    ") : ""));
+
 for (const r of results) console.log(`${r.ok ? "PASS" : "FAIL"}  ${r.name}: ${r.detail}`);
 process.exit(results.every((r) => r.ok) ? 0 : 1);

@@ -153,6 +153,7 @@ Editing on the site, comments, user accounts, the MCP server, the experiments, g
 5. Every attribute label and every role code has a definition on demand.
 6. 0 output files refer to `data/`.
 7. A rebuild after an edit to a pattern file changes the site with no manual step.
+8. In every subtask step, the text links each component that the step heading names, and no other.
 
 ## 12. Hosting
 

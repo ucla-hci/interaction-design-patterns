@@ -20,7 +20,7 @@ aliases: ["C2"]
      outcome supports, weakens, or leaves the part open. Supports variants for different
      settings.
 2. Choose a procedure — C-10 Proposal Set
-   - *User:* selects one procedure.
+   - *User:* selects one procedure from the [proposal set](C-10).
    - *System:* when more than one procedure fits, shows the options.
 3. Report outcomes — (no component)
    - *User:* reports outcomes in a template tied to the procedure.

@@ -79,13 +79,9 @@ dd.situation, dd.problem { font-size: 16px; color: var(--ink); }
 .step + .step::before { content: "→"; position: absolute; left: -22px; top: 50px; font-size: 18px; color: #999; }
 .step-n { position: absolute; top: 8px; left: 10px; font: 600 12px var(--mono); color: var(--muted); }
 .step-name { display: block; margin: 0 0 8px 16px; font-weight: 600; font-size: 14px; }
-.step-c { display: block; text-decoration: none; margin: 0 0 8px; }
-.step-c + .step-c { margin-top: 0; }
-.step-label { display: block; font-size: 13px; margin-top: 6px; }
 .step-sum { margin: 0 0 12px; font-size: 14px; }
 .step-sum b { font: 600 11px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
 .step-sum .arrow { color: #999; }
-.step-c.none .step-label { font-weight: 400; color: var(--muted); font-style: italic; }
 .who { margin: 6px 0 0; font-size: 13.5px; }
 .who b { font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
 .who.u b { color: var(--FR); } .who.s b { color: var(--muted); }

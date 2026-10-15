@@ -15,10 +15,10 @@ aliases: ["A1"]
 ## Solution
 
 1. Enter the start and criteria — C-1 Inquiry Frame
-   - *User:* enters the starting point, and one value per criterion, each in the format of the
-     domain.
+   - *User:* enters the starting point in the [inquiry frame](C-1), and one value per criterion,
+     each in the format of the domain.
    - *System:* shows one field for the starting point and one per criterion. Flags a field that
-     a later subtask requires. Keeps the fields visible. EX-1, OR-1, and EV-1 read them.
+     a later subtask requires. Keeps the frame visible. EX-1, OR-1, and EV-1 read its fields.
 
 ## Examples
 

@@ -16,15 +16,18 @@ aliases: ["C1"]
 ## Solution
 
 1. Inspect the proposed parts — C-4 Persistent Structure Map, C-17 Typed Item, C-7 Attached Evidence, C-8 Confidence Cue
-   - *User:* opens the rationale of a link.
-   - *System:* proposes a hierarchy of parts from the claim. States what a node and a link
-     mean. Gives each part the same fields: what varies, what is measured, and what is assumed.
-     Attaches the rationale, the sources, and a score to each parent-child link.
+   - *User:* opens the rationale of a link on the map.
+   - *System:* proposes a hierarchy of parts from the claim, on the [persistent structure
+     map](C-4). States what a node and a link mean. Shows each part as a [typed item](C-17) with
+     the same fields: what varies, what is measured, and what is assumed. To each parent-child
+     link, attaches the rationale and the sources as [attached evidence](C-7), and a score with
+     a [confidence cue](C-8).
 2. Discuss a part — C-9 Scoped Conversation
-   - *User:* selects a part, and opens a conversation about it.
+   - *User:* selects a part, and opens a [scoped conversation](C-9) about it.
    - *System:* answers about that part and its neighbors.
 3. Edit the parts — C-4 Persistent Structure Map
-   - *User:* edits parts, adds parts, and requests a further split of one part.
+   - *User:* edits parts on the [persistent structure map](C-4), adds parts, and requests a
+     further split of one part.
    - *System:* adds the new parts to the map.
 
 ## Examples

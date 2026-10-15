@@ -16,12 +16,13 @@ aliases: ["A3"]
 
 1. Get grouped candidates — C-3 Candidate Groups, C-5 Multi-Criteria Encoding, C-4 Persistent Structure Map
    - *User:* —
-   - *System:* groups the candidates by a signature from the criteria, not by generation order.
-     Labels and summarizes each group, marks it by its result on each criterion, and shows it
-     on the map.
+   - *System:* sorts the candidates into [candidate groups](C-3) by a signature from the
+     criteria, not by generation order. Labels and summarizes each group. Marks each group by
+     its result on each criterion, in a [multi-criteria encoding](C-5). Shows the groups on the
+     [persistent structure map](C-4).
 2. Open a group — C-6 Detail on Demand
    - *User:* selects a group.
-   - *System:* lists the candidates of the group.
+   - *System:* opens the [detail](C-6) of the group: a list of its candidates.
 
 ## Examples
 

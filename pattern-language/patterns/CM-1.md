@@ -16,14 +16,15 @@ aliases: ["A6"]
 ## Solution
 
 1. Keep a candidate — C-12 Shortlist, C-14 Provenance Link
-   - *User:* keeps a candidate.
+   - *User:* keeps a candidate in the [shortlist](C-12).
    - *System:* gives every candidate a keep action. Shows the shortlist as its own view. It is
-     the deliverable. Keeps the link on each kept candidate.
+     the deliverable. Keeps the [provenance link](C-14) on each kept candidate.
 2. Filter the shortlist — C-12 Shortlist
-   - *User:* filters the shortlist by group.
+   - *User:* filters the [shortlist](C-12) by group.
    - *System:* —
 3. Start the next round — C-1 Inquiry Frame
-   - *User:* sends a kept candidate to EX-1 as the next starting point.
+   - *User:* sends a kept candidate to the [inquiry frame](C-1) of EX-1 as the next starting
+     point.
    - *System:* —
 
 ## Examples

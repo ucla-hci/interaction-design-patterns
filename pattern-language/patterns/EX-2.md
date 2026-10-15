@@ -16,14 +16,16 @@ aliases: ["B1"]
 
 1. Get the viewpoints — C-3 Candidate Groups, C-17 Typed Item
    - *User:* —
-   - *System:* retrieves source material for the claim, and groups it. Builds one viewpoint per
-     group. Gives every viewpoint the same fields.
+   - *System:* retrieves source material for the claim, and sorts it into [candidate
+     groups](C-3). Builds one viewpoint per group, as a [typed item](C-17): every viewpoint has
+     the same fields.
 2. Open the sources — C-7 Attached Evidence
-   - *User:* opens the sources of a field.
+   - *User:* opens the [attached evidence](C-7) of a field.
    - *System:* attaches evidence to each field. Links it to its source passage.
 3. Keep a working set — C-12 Shortlist, C-4 Persistent Structure Map
-   - *User:* compares the viewpoints field by field, then keeps a working set.
-   - *System:* shows the working set on the map.
+   - *User:* compares the viewpoints field by field, then keeps a working set in a
+     [shortlist](C-12).
+   - *System:* shows the working set on the [persistent structure map](C-4).
 
 ## Examples
 

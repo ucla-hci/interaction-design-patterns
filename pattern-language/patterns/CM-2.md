@@ -15,15 +15,15 @@ aliases: ["S2"]
 ## Solution
 
 1. Select an option — C-11 Reviewable Revision, C-10 Proposal Set
-   - *User:* compares the options and selects one.
-   - *System:* when the previous subtask implies one change, drafts it. Shows before, after,
-     and the reason. Applies nothing. When several directions are open, shows each option with
-     a label and its rationale.
+   - *User:* compares the options in the [proposal set](C-10) and selects one.
+   - *System:* when the previous subtask implies one change, drafts it as a [reviewable
+     revision](C-11): before, after, and the reason. Applies nothing. When several directions
+     are open, shows each option with a label and its rationale.
 2. Accept or reject changes — C-11 Reviewable Revision, C-14 Provenance Link
-   - *User:* accepts, edits, or rejects each change.
-   - *System:* changes the work only when the user accepts or edits. Keeps the replaced
-     content, and links it to its successor. When the item changed after the draft, rejects
-     the draft.
+   - *User:* accepts, edits, or rejects each [reviewable revision](C-11).
+   - *System:* changes the work only when the user accepts or edits. Keeps the replaced content,
+     with a [provenance link](C-14) to its successor. When the item changed after the draft,
+     rejects the draft.
 
 ## Examples
 

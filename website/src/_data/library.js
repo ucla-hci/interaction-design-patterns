@@ -222,6 +222,10 @@ function render(mdText) {
 function renderInline(mdText) {
   return linkIds(md.renderInline(mdText || ""));
 }
+// Step text names a component as a link to its ID: "[scoped conversation](C-9)" renders "scoped conversation [C-9]".
+function stepInline(mdText) {
+  return renderInline(mdText).replace(/<a href="(C-\d+)">([^<]*)<\/a>/g, '<a class="pid" data-pid="$1" href="/p/$1/">$2 <span class="pidn">[$1]</span></a>');
+}
 
 // Glossary terms: mark the first use of each term in a sentence, for a hover definition.
 const termList = glossary
@@ -235,8 +239,8 @@ function markTerms(text, seen) {
   for (const t of termList) {
     if (seen.has(t) || actionTerms.has(t)) continue;
     const re = new RegExp(`\\b(${t.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}s?)\\b`, "i");
-    // Only the text between tags: a definition already inserted must not be marked again.
-    const parts = out.split(/(<[^>]+>[^<]*<\/span>)/);
+    // Only the text between tags: a definition already inserted, or a link, must not be marked.
+    const parts = out.split(/(<[^>]+>[^<]*<\/span>|<a [^>]*>[\s\S]*?<\/a>)/);
     const i = parts.findIndex((p, k) => k % 2 === 0 && re.test(p));
     if (i < 0) continue;
     const def = glossary.find((g) => g.term === t).meaning.replace(/"/g, "&quot;");
@@ -273,7 +277,7 @@ for (const r of live) {
   r.examplesHtml = render(r.sections.Examples);
   r.statesHtml = r.sections.States ? render(r.sections.States) : "";
   if (r.level === "component") r.solutionHtml = render(r.solutionList);
-  if (r.steps) for (const s of r.steps) { s.userHtml = markTerms(renderInline(s.user), seen); s.systemHtml = markTerms(renderInline(s.system), seen); }
+  if (r.steps) for (const s of r.steps) { s.userHtml = markTerms(stepInline(s.user), seen); s.systemHtml = markTerms(stepInline(s.system), seen); }
   if (r.list) r.listHtml = r.list.map((l) => renderInline(l));
   r.json = JSON.stringify(
     {

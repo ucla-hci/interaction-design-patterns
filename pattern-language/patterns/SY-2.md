@@ -17,10 +17,10 @@ aliases: ["B3"]
 1. Request a record — C-7 Attached Evidence
    - *User:* requests a record.
    - *System:* records what holds, what conflicts, and what stays open. Keeps a conflict as a
-     conflict. Links each entry to its contributions and evidence.
+     conflict. Links each entry to its contributions, and attaches the [evidence](C-7).
 2. Open an entry — C-6 Detail on Demand
    - *User:* selects an entry.
-   - *System:* opens the contributions of the entry.
+   - *System:* opens the [detail](C-6) of the entry: its contributions.
 3. Continue and record again — (no component)
    - *User:* continues the discussion, and requests another record.
    - *System:* keeps both records.

@@ -8,7 +8,7 @@ permalink: "/p/{{ r.id }}/"
 eleventyComputed:
   title: "{{ r.id }} {{ r.name }}"
 ---
-{% from "macros.njk" import thumb, plink, role, attr, chain %}
+{% from "macros.njk" import plink, role, attr, chain %}
 <nav class="trail" id="trail" aria-label="Path"><a href="/">Home</a> <span>›</span> <span>{{ r.id }}</span></nav>
 
 <article class="card level-{{ r.level }}" data-id="{{ r.id }}">
@@ -35,11 +35,6 @@ eleventyComputed:
       {% for s in r.steps %}
         <li class="step">
           <span class="step-n">{{ loop.index }}</span><span class="step-name">{{ s.name }}</span>
-          {% for c in s.components %}
-          <a class="step-c" data-pid="{{ c.id }}" href="/p/{{ c.id }}/">{{ thumb(library, c.id) }}<span class="step-label"><span class="pidn">{{ c.id }}</span> {{ c.label }}</span></a>
-          {% else %}
-          <span class="step-c none">{{ thumb(library, null) }}<span class="step-label">no component</span></span>
-          {% endfor %}
           <p class="who u"><b>User</b> {{ s.userHtml | safe }}</p>
           <p class="who s"><b>System</b> {{ s.systemHtml | safe }}</p>
         </li>
