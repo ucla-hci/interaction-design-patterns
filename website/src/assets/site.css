@@ -129,6 +129,7 @@ a.pid { text-decoration-color: #bbb; text-underline-offset: 3px; }
   padding: 10px 12px; box-shadow: 0 8px 28px rgba(0,0,0,.12); font-size: 13px; }
 .preview p { margin: 0 0 6px; } .preview p:last-child { margin: 0; }
 .pv-k { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; } .pv-n { font-weight: 600; font-size: 14px; }
+.pv-thumb { margin: 0 0 8px; }
 .preview b { font: 600 10.5px var(--mono); text-transform: uppercase; color: var(--muted); margin-right: 4px; }
 
 /* Catalog. */

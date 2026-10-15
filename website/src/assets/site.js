@@ -58,13 +58,13 @@
     show();
   });
 
-  // 5. Previews: name, Situation, and Problem of a linked pattern.
+  // 5. Previews: eigen-UI (a component that has one), name, Situation, and Problem of a linked pattern.
   const box = document.getElementById("preview");
   let timer;
   function showPreview(a) {
     const r = index[a.dataset.pid];
     if (!r || a.dataset.pid === current) return;
-    box.innerHTML = `<p class="pv-k">${a.dataset.pid} · ${r.level}</p><p class="pv-n">${r.name}</p>` +
+    box.innerHTML = (r.svg ? `<span class="thumb thumb-m pv-thumb" aria-hidden="true">${r.svg}</span>` : "") + `<p class="pv-k">${a.dataset.pid} · ${r.level}</p><p class="pv-n">${r.name}</p>` +
       `<p><b>Situation</b> ${r.situation}</p><p><b>Problem</b> ${r.problem}</p>`;
     box.hidden = false;
     const rect = a.getBoundingClientRect();

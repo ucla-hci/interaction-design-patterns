@@ -251,9 +251,9 @@ function markTerms(text, seen) {
   return out;
 }
 
-// What a page needs for link previews: a small index of every live pattern.
+// What a page needs for link previews: a small index of every live pattern, with the eigen-UI of a component that has one.
 const previewIndex = Object.fromEntries(
-  live.map((r) => [r.id, { name: r.name, level: r.level, situation: r.situation, problem: r.problem }])
+  live.map((r) => [r.id, { name: r.name, level: r.level, situation: r.situation, problem: r.problem, svg: r.svg || null }])
 );
 
 // Each subtask narrative, by system: "- *HALO.* text".
