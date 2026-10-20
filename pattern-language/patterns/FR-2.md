@@ -4,10 +4,10 @@ name: "State the Claim"
 level: "subtask"
 role: "Frame"
 status: "active"
-context: ["WF-2", "WF-3"]
+context: ["WF-2", "WF-3", "WF-4"]
 situation: "At the start of a round, the user has a claim to develop or to check."
 problem: "The claim stays in the mind of the user, so later work drifts and cannot be checked against it."
-systems: ["PerspectEvolver", "THESEUS"]
+systems: ["PerspectEvolver", "THESEUS", "IdeaSynth"]
 references: ["C-1", "C-11"]
 aliases: ["S1"]
 ---
@@ -36,3 +36,9 @@ aliases: ["S1"]
   decomposition depth (§4.1). The hypothesis becomes the root of the map, and stays visible
   with its sub-hypotheses (§4.1). Each sub-hypothesis keeps the conditions that it inherits
   from its parent (§4.1).
+- *IdeaSynth.* A researcher creates a "Problem Description and RQ" node, and enters the
+  research question (§4.1.2, Fig. 4 ①). The facet type is chosen from a drop-down, and the
+  researcher can start with any type (§4.2). "Get AI Suggestions" asks a clarifying question, and
+  "Regenerate Current Research Component" rewrites the node (§4.1.3, Fig. 5 ③ ④). Every
+  generation reads the nodes on the canvas (§4.2, §4.3). The paper shows no before and after
+  for a rewrite.

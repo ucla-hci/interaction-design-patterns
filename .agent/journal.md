@@ -8,7 +8,28 @@
 ## next-up
 <!-- what we should work on next time -->
 - continue to review mvp--create a more structured list of reviewable samples
-- add some other groups' papers (e.g., AI2's)
+- (once stablized after add a few more papers) derive a set of rules for extracting patterns given a set of papers (or new papers added to a set of existing papers)
+
+## 10/20/2026
+- [xac] add some other groups' papers (e.g., AI2's)
+- "The user checks a claim with evidence that arrives one piece at a time." => improve the wording to emphasize "decompose", e.g., "The user decomposes a claim into smaller sub-claims and check them one at a time after collecting evidence."
+
+### Add paper: IdeaSynth
+**Approach** First run of `/add-paper`, and the first paper from another group (AI2; the 10/20 item asks for more than one). Source: `data/ideasynth.pdf` (CHI '25, 31 pages, published with author names), text in `data-text/ideasynth.txt`; system section §4, lines 507–1036. Analysis and proposals: `pattern-language/refs/analysis-ideasynth.md`.
+- Match against 31 patterns: 5 yes (C-4, C-7, C-8, C-10, C-14), 12 partial, 14 no. 5 unmatched steps, each with a role.
+- Applied: WF-4 Decompose, Vary, and Compose (new). New single-system subtasks FR-3, EX-4, EV-5, OR-2, SY-3. EX-3 is now "Split the Claim into Parts", active with THESEUS and IdeaSynth. IdeaSynth added to FR-2, C-4, C-6, C-7, C-8, C-10, C-14, C-17; C-6 and C-17 gain one variation each. Four glossary terms: source, collection, alternative, composition. "part" no longer requires a check.
+- EX-4 is "Generate Alternatives to a Part", not "Branch a Part" as proposed: with EX-3 generalized, the split into other kinds belongs to EX-3, and EX-4 keeps the same-kind alternatives.
+- Figures: `tools/extract_figures.py` now includes ideasynth (8 figures; the other 35 index entries are unchanged). New crops: `figures/C-4/5-ideasynth.png` (Fig. 4), `figures/C-6/5-ideasynth.png` (Fig. 5, callout 6).
+- Checks: 0 unresolved IDs, 0 old IDs, 0 Situation or Problem with more than one sentence, 49 steps with 0 missing *User:* or *System:*. Site: 37/37 cards, 1086 links with 0 broken, 25 diagram nodes with 0 mismatched, 0 files that refer to `data/`, check 8 passes on 49 steps.
+- The text recipe removes lines that hold only a number, so top-level section numbers ("4") are lost; subsection numbers stay. The analysis maps them from the raw `pdftotext` output.
+
+**Decisions settled**
+- WF-4, the five subtasks, and the instances, as above. EX-3 generalized and promoted. Frame widened to include the material that later subtasks can use.
+
+**Open**
+- Author review of the WF-4 diagram: SY-3 sits a little right of FR-3, and the loop label is close to EX-3.
+- Partials recorded only (no text change): EX-1, CM-1, CM-2, CN-1, C-1, C-9, C-12. A second paper of this kind can turn some into instances.
+- WF-4 rests on one system, like WF-2 and WF-3.
 
 ## 10/15/2026
 - [x] when hovering over an inline citation of a component pattern, the popup tooltip can show a thumbnail preview

@@ -48,6 +48,11 @@
 - 10/15/2026 — A workflow ID is "WF-" and a number in the order of first use: WF-A, WF-B, WF-C become WF-1, WF-2, WF-3. Letters stop at 26 workflows. The old ID is kept in `aliases`, and the site redirects it. Journal entries, decisions, and `refs/` before 10/15 keep the letters.
 - 10/15/2026 — The User and System text of a step names each component of the step, as a markdown link to its ID: "[scoped conversation](C-9)". On the site, the step cards show no eigen-UI thumbnails, for now.
 - 10/15/2026 — A step card on the site lists no components under the step name. It shows each component inline, where the text names it: "scoped conversation [C-9]". The step heading in the source keeps "— C-n Name"; the catalog tiles and the counts read it.
+- 10/20/2026 — IdeaSynth is the fifth exemplar (first `/add-paper` run). It adds WF-4 Decompose, Vary, and Compose, and five single-system subtasks: FR-3, EX-4, EV-5, OR-2, SY-3. Analysis: `pattern-language/refs/analysis-ideasynth.md`.
+- 10/20/2026 — EX-3 is now "Split the Claim into Parts", status active (THESEUS, IdeaSynth). The user or the system can propose the parts. A part no longer has to be checkable.
+- 10/20/2026 — The Frame role now reads "states the goal, the criteria, and the material that later subtasks can use". This replaces "states the goal and the criteria" (10/6). FR-3 Collect the Sources is Frame (also Expand).
+- 10/20/2026 — C-6 adds a variation: the detail opens from the item itself. C-17 adds a variation: the user chooses the kind of each item from a fixed list.
+- 10/20/2026 — Glossary adds source, collection, alternative, composition. "alternative" is not "variant", which stays a copy of a procedure.
 
 ## Grounding in the exemplar figures
 - 9/29/2026 — The figures of the exemplar papers are a dataset. The pipeline converts each PDF to page images, crops each figure, indexes the figures, and locates each CP instance in a figure.

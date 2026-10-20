@@ -17,7 +17,7 @@ Support this sequence of subtasks:
 
 ```mermaid
 flowchart LR
-FR2["FR-2 State the Claim"] --> EX3["EX-3 Split the Claim into Checkable Parts"]
+FR2["FR-2 State the Claim"] --> EX3["EX-3 Split the Claim into Parts"]
 EX3 --> EV3["EV-3 Collect Evidence for Each Part"]
 EV3 --> EV4["EV-4 Judge Each Part Against Its Evidence"]
 EV4 --> CM2["CM-2 Accept or Reject Proposed Revisions"]
@@ -28,7 +28,7 @@ EX3 -- "part too broad to check → sub-parts" --> EX3
 ```
 
 1. FR-2 State the Claim. The user states the claim to check.
-2. EX-3 Split the Claim into Checkable Parts. The system proposes parts with rationale. The user
+2. EX-3 Split the Claim into Parts. The system proposes parts with rationale. The user
    edits the structure.
 3. EV-3 Collect Evidence for Each Part. The user edits a procedure per part, runs it, and reports
    outcomes.
