@@ -10,9 +10,18 @@
 - continue to review mvp--create a more structured list of reviewable samples
 - (once stablized after add a few more papers) derive a set of rules for extracting patterns given a set of papers (or new papers added to a set of existing papers)
 
+## 10/22/2026
+- [xac] review the PR #1 preview (IdeaSynth): WF-4, EX-3, EX-4 pages, and the WF-4 diagram layout; then merge
+- [xac] check the IdeaSynth partials recorded only (EX-1, CM-1, CM-2, CN-1, C-1, C-9, C-12) in `refs/analysis-ideasynth.md`
+- [xac] pick the next exemplar paper and run `/add-paper` on it
+
 ## 10/20/2026
-- [xac] add some other groups' papers (e.g., AI2's)
-- "The user checks a claim with evidence that arrives one piece at a time." => improve the wording to emphasize "decompose", e.g., "The user decomposes a claim into smaller sub-claims and check them one at a time after collecting evidence."
+- [x] add some other groups' papers (e.g., AI2's)
+- [x] "The user checks a claim with evidence that arrives one piece at a time." => improve the wording to emphasize "decompose", e.g., "The user decomposes a claim into smaller sub-claims and check them one at a time after collecting evidence."
+
+### WF-3 Situation
+- `patterns/WF-3.md` Situation now reads "The user splits a claim into parts, collects evidence for each part, and checks the parts one at a time." It uses "part" (glossary), not "sub-claim". One sentence, 20 words.
+- `npm run build` and `npm run check` pass. Committed on branch `paper/ideasynth`, so it joins PR #1.
 
 ### Add paper: IdeaSynth
 **Approach** First run of `/add-paper`, and the first paper from another group (AI2; the 10/20 item asks for more than one). Source: `data/ideasynth.pdf` (CHI '25, 31 pages, published with author names), text in `data-text/ideasynth.txt`; system section §4, lines 507–1036. Analysis and proposals: `pattern-language/refs/analysis-ideasynth.md`.

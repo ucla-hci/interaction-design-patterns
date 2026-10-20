@@ -4,7 +4,7 @@ name: "Decompose and Verify"
 level: "workflow"
 status: "active"
 context: []
-situation: "The user checks a claim with evidence that arrives one piece at a time."
+situation: "The user splits a claim into parts, collects evidence for each part, and checks the parts one at a time."
 problem: "One check does not settle the claim, and the user loses which check applies to which part, and why it ran."
 systems: ["THESEUS"]
 references: ["FR-2", "EX-3", "EV-3", "EV-4", "CM-2", "CN-1"]
