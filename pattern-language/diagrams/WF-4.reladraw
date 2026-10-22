@@ -1,0 +1,26 @@
+// WF-4 Decompose, Vary, and Compose. Layout only: the graph is the mermaid block in patterns/WF-4.md.
+// Top row: the claim, the sources, the parts, their alternatives. Bottom row, right to left: sources against parts, links, composition.
+diagram  theme: light  background: #ffffff
+default edge  line: (path: curved)  text: (size: large)
+default node  text: (size: large)
+style FR  border: #899aaf  fill: #f2f4f6
+style EX  border: #739b85  fill: #f0f3f1
+style OR  border: #a3915f  fill: #f2f0ec
+style EV  border: #b28f8a  fill: #f6f2f1
+style SY  border: #9b92aa  fill: #f4f3f5
+
+node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-4"
+node FR3 "FR-3 / Collect the Sources"  right of FR2  style: FR  url: "/p/FR-3/?via=WF-4"
+node EX3 "EX-3 / Split the Claim / into Parts"  right of FR3  style: EX  url: "/p/EX-3/?via=WF-4"
+node EX4 "EX-4 / Generate Alternatives / to a Part"  right of EX3  style: EX  url: "/p/EX-4/?via=WF-4"
+node EV5 "EV-5 / Relate the Sources / to the Parts"  below EX4  style: EV  url: "/p/EV-5/?via=WF-4"
+node OR2 "OR-2 / Link Parts and / Check Each Link"  below EX3  level with EV5  style: OR  url: "/p/OR-2/?via=WF-4"
+node SY3 "SY-3 / Compose / Selected Parts"  below FR3  level with OR2  style: SY  url: "/p/SY-3/?via=WF-4"
+
+edge FR2 -> FR3
+edge FR3 -> EX3
+edge EX3 <-> EX4
+edge EX4 <-> EV5
+edge EV5 <-> OR2
+edge OR2 -> SY3
+edge SY3 -> EX3 "user wants another composition / → the parts"

@@ -16,7 +16,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
-PAPERS = ["halo", "happier", "perspectevolver", "theseus"]
+PAPERS = ["halo", "happier", "perspectevolver", "theseus", "ideasynth"]
 CAPTION = re.compile(r"^(Figure|Fig\.)\s*(\d+)[.:]")
 PAGE_DPI, FIG_DPI = 150, 400
 GAP = 36  # pt: the largest vertical gap inside one figure

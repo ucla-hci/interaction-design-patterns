@@ -33,9 +33,13 @@ this meaning. When a pattern needs a new term, add it here first.*
 | **criterion** | A condition that an item must satisfy. A criterion can be measured or judged |
 | **item** | Any unit of the work that the user can select: a candidate, a part, a viewpoint, a group, or a record |
 | **candidate** | An item that can satisfy the criteria. The user keeps it or rejects it |
-| **part** | An item that comes from the split of a claim. One check can test it |
+| **part** | An item that comes from the split of a claim. The user can check it or develop it alone |
 | **viewpoint** | An item that argues from one position, with its sources |
 | **group** | A set of items that share a signature. It has a label and a summary |
+| **source** | Material outside the work that the system reads: a paper, a page, or a dataset |
+| **collection** | The sources that the user adds. The system cites no source outside it |
+| **alternative** | An item of the same kind as another item, that the system proposes beside it |
+| **composition** | A document that the system writes from parts that the user selects. It keeps a link to each part |
 | **evidence** | Material that supports or contradicts an item: a source, a score, or an outcome |
 | **outcome** | The result of a check that the user ran |
 | **record** | A stored summary of what a subtask found: what holds, what conflicts, and what stays open |

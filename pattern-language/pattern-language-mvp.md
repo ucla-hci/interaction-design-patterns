@@ -1,7 +1,7 @@
 # Pattern Language — MVP (9/22)
 
-> Goal: a minimal pattern language that abstracts the four exemplar systems in `data/` (HALO,
-> HAPPIER, PerspectEvolver, THESEUS). Nothing beyond that scope. Source readings:
+> Goal: a minimal pattern language that abstracts the five exemplar systems in `data/` (HALO,
+> HAPPIER, PerspectEvolver, THESEUS, IdeaSynth). Nothing beyond that scope. Source readings:
 > `exemplar-systems-review.md`; structure from Borchers (`borchers-translation.md`).
 > § numbers refer to each paper's system section.
 
@@ -26,7 +26,7 @@ the moved subtasks. -->
 to one exemplar system or its domain. Domain terms appear in Examples only. Test: put a system
 from another domain in the pattern. Only the Examples change.
 
-**No assumption of AI.** A pattern states what the system does. The four exemplars use AI models
+**No assumption of AI.** A pattern states what the system does. The five exemplars use AI models
 to generate, to score, and to interpret. A pattern also holds when a solver, a database, or a
 person produces the content. AI appears in Examples only.
 
@@ -66,7 +66,7 @@ workflows share. The roles can change when more papers are added.
 
 | Code | Role | The subtask… |
 |---|---|---|
-| FR | Frame | states the goal and the criteria |
+| FR | Frame | states the goal, the criteria, and the material that later subtasks can use |
 | EX | Expand | adds new items to the work |
 | OR | Organize | gives the items a structure |
 | EV | Evaluate | tests items against criteria or evidence |
@@ -92,23 +92,25 @@ A subtask in two roles takes its main role. The number gives the order of first 
 | **References** | The child patterns that implement this pattern |
 
 **A component serves two or more subtasks.** When a need occurs in one subtask only, the step
-states the action and says "(no component)". The step leaves the UI open. Three needs are like
-this: a record of a discussion (SY-2), an editable procedure (EV-3), and a verdict (EV-4).
+states the action and says "(no component)". The step leaves the UI open. Six needs are like
+this: a record of a discussion (SY-2), an editable procedure (EV-3), a verdict (EV-4), a
+collection of sources (FR-3), a question about the sources (EV-5), and several compositions (SY-3).
 
 (Deferred for the MVP: Borchers's tradeoff/forces, diagram, picture, and ranking.)
 
 ---
 
-## How the four systems divide
+## How the five systems divide
 
-Three workflow patterns. WF-2 and WF-3 share half of their subtasks. WF-1 stands apart.
+Four workflow patterns. WF-2 and WF-3 share half of their subtasks. WF-1 stands apart. WF-4
+shares FR-2 with WF-2 and WF-3, and EX-3 with WF-3.
 
-| | WF-1 Guided Candidate Search | WF-2 Multi-Viewpoint Refinement | WF-3 Decompose and Verify |
-|---|---|---|---|
-| Systems | HALO, HAPPIER | PerspectEvolver | THESEUS |
-| The user works on | a population of candidates | one position, against contrasting viewpoints | one claim, in checkable parts |
-| New input comes from | generated candidates and their scores | viewpoints that argue from source material | evidence the user collects outside the system |
-| Progress is | fewer candidates, each one stronger | a sharper position, or a named disagreement | evidence per part, and a revised structure |
+| | WF-1 Guided Candidate Search | WF-2 Multi-Viewpoint Refinement | WF-3 Decompose and Verify | WF-4 Decompose, Vary, and Compose |
+|---|---|---|---|---|
+| Systems | HALO, HAPPIER | PerspectEvolver | THESEUS | IdeaSynth |
+| The user works on | a population of candidates | one position, against contrasting viewpoints | one claim, in checkable parts | one claim, in parts of fixed kinds |
+| New input comes from | generated candidates and their scores | viewpoints that argue from source material | evidence the user collects outside the system | alternatives and new parts, from a collection of sources |
+| Progress is | fewer candidates, each one stronger | a sharper position, or a named disagreement | evidence per part, and a revised structure | parts that fit together, and a composition |
 
 **Alternatives considered.** One workflow for all four systems puts two different activities in
 one shape: to screen a population, and to revise a claim. Two workflows, with PerspectEvolver
@@ -129,8 +131,10 @@ the body holds Solution and Examples. The files are the source of truth for the 
 | [WF-1](patterns/WF-1.md) | Guided Candidate Search | workflow | — | active | HALO, HAPPIER |
 | [WF-2](patterns/WF-2.md) | Multi-Viewpoint Refinement | workflow | — | active | PerspectEvolver |
 | [WF-3](patterns/WF-3.md) | Decompose and Verify | workflow | — | active | THESEUS |
+| [WF-4](patterns/WF-4.md) | Decompose, Vary, and Compose | workflow | — | active | IdeaSynth |
 | [FR-1](patterns/FR-1.md) | State the Start and the Criteria | subtask | Frame | active | HALO, HAPPIER |
-| [FR-2](patterns/FR-2.md) | State the Claim | subtask | Frame | active | PerspectEvolver, THESEUS |
+| [FR-2](patterns/FR-2.md) | State the Claim | subtask | Frame | active | PerspectEvolver, THESEUS, IdeaSynth |
+| [EX-3](patterns/EX-3.md) | Split the Claim into Parts | subtask | Expand | active | THESEUS, IdeaSynth |
 | [EX-1](patterns/EX-1.md) | Generate Candidates | subtask | Expand | active | HALO, HAPPIER |
 | [OR-1](patterns/OR-1.md) | Group Candidates by Criteria | subtask | Organize | active | HALO, HAPPIER |
 | [EV-1](patterns/EV-1.md) | Check Candidates Against Every Criterion | subtask | Evaluate | active | HALO, HAPPIER |
@@ -138,25 +142,29 @@ the body holds Solution and Examples. The files are the source of truth for the 
 | [CM-2](patterns/CM-2.md) | Accept or Reject Proposed Revisions | subtask | Commit | active | PerspectEvolver, THESEUS |
 | [CN-1](patterns/CN-1.md) | Propose Next Steps from Open Items | subtask | Continue | active | PerspectEvolver, THESEUS |
 | [EX-2](patterns/EX-2.md) | Build Contrasting Viewpoints | subtask | Expand | single-system | PerspectEvolver |
-| [EX-3](patterns/EX-3.md) | Split the Claim into Checkable Parts | subtask | Expand | single-system | THESEUS |
 | [EV-2](patterns/EV-2.md) | Discuss One Question Across Viewpoints | subtask | Evaluate | single-system | PerspectEvolver |
 | [EV-3](patterns/EV-3.md) | Collect Evidence for Each Part | subtask | Evaluate | single-system | THESEUS |
 | [EV-4](patterns/EV-4.md) | Judge Each Part Against Its Evidence | subtask | Evaluate | single-system | THESEUS |
 | [SY-1](patterns/SY-1.md) | Combine Partial Candidates | subtask | Synthesize | single-system | HALO |
 | [SY-2](patterns/SY-2.md) | Summarize the Discussion | subtask | Synthesize | single-system | PerspectEvolver |
+| [FR-3](patterns/FR-3.md) | Collect the Sources | subtask | Frame | single-system | IdeaSynth |
+| [EX-4](patterns/EX-4.md) | Generate Alternatives to a Part | subtask | Expand | single-system | IdeaSynth |
+| [EV-5](patterns/EV-5.md) | Relate the Sources to the Parts | subtask | Evaluate | single-system | IdeaSynth |
+| [OR-2](patterns/OR-2.md) | Link Parts and Check Each Link | subtask | Organize | single-system | IdeaSynth |
+| [SY-3](patterns/SY-3.md) | Compose Selected Parts | subtask | Synthesize | single-system | IdeaSynth |
 | [C-1](patterns/C-1.md) | Inquiry Frame | component | — | active | HALO, HAPPIER, PerspectEvolver, THESEUS |
 | [C-3](patterns/C-3.md) | Candidate Groups | component | — | active | HALO, HAPPIER, PerspectEvolver |
-| [C-4](patterns/C-4.md) | Persistent Structure Map | component | — | active | HALO, HAPPIER, PerspectEvolver, THESEUS |
+| [C-4](patterns/C-4.md) | Persistent Structure Map | component | — | active | HALO, HAPPIER, PerspectEvolver, THESEUS, IdeaSynth |
 | [C-5](patterns/C-5.md) | Multi-Criteria Encoding | component | — | active | HALO, HAPPIER |
-| [C-6](patterns/C-6.md) | Detail on Demand | component | — | active | HALO, HAPPIER, THESEUS |
-| [C-7](patterns/C-7.md) | Attached Evidence | component | — | active | HALO, HAPPIER, PerspectEvolver, THESEUS |
-| [C-8](patterns/C-8.md) | Confidence Cue | component | — | active | HAPPIER, THESEUS |
+| [C-6](patterns/C-6.md) | Detail on Demand | component | — | active | HALO, HAPPIER, THESEUS, IdeaSynth |
+| [C-7](patterns/C-7.md) | Attached Evidence | component | — | active | HALO, HAPPIER, PerspectEvolver, THESEUS, IdeaSynth |
+| [C-8](patterns/C-8.md) | Confidence Cue | component | — | active | HAPPIER, THESEUS, IdeaSynth |
 | [C-9](patterns/C-9.md) | Scoped Conversation | component | — | active | PerspectEvolver, THESEUS |
-| [C-10](patterns/C-10.md) | Proposal Set | component | — | active | HALO, PerspectEvolver, THESEUS |
+| [C-10](patterns/C-10.md) | Proposal Set | component | — | active | HALO, PerspectEvolver, THESEUS, IdeaSynth |
 | [C-11](patterns/C-11.md) | Reviewable Revision | component | — | active | PerspectEvolver, THESEUS |
 | [C-12](patterns/C-12.md) | Shortlist | component | — | active | HAPPIER, PerspectEvolver |
-| [C-14](patterns/C-14.md) | Provenance Link | component | — | active | HALO, PerspectEvolver, THESEUS |
-| [C-17](patterns/C-17.md) | Typed Item | component | — | active | PerspectEvolver, THESEUS |
+| [C-14](patterns/C-14.md) | Provenance Link | component | — | active | HALO, PerspectEvolver, THESEUS, IdeaSynth |
+| [C-17](patterns/C-17.md) | Typed Item | component | — | active | PerspectEvolver, THESEUS, IdeaSynth |
 
 Retired IDs keep a short file with their successor: C-2, C-13 (→ C-10), C-15, C-16.
 
@@ -184,7 +192,7 @@ nothing. Specs are in `refs/component-specs.md`.
 
 The component patterns are in `patterns/C-<n>.md`, listed under Patterns above.
 
-## Check: does the language abstract all four systems?
+## Check: does the language abstract all five systems?
 
 | System | Workflow | Subtasks | Components |
 |---|---|---|---|
@@ -192,6 +200,7 @@ The component patterns are in `patterns/C-<n>.md`, listed under Patterns above.
 | HAPPIER | WF-1 | FR-1, EX-1, OR-1, EV-1, CM-1 (no SY-1) | C-1, C-3, C-4, C-5, C-6, C-7, C-8, C-12, C-14 |
 | PerspectEvolver | WF-2 | FR-2, EX-2, EV-2, SY-2, CM-2, CN-1 | C-1, C-3, C-4, C-6, C-7, C-9, C-10, C-11, C-12, C-14, C-17 |
 | THESEUS | WF-3 | FR-2, EX-3, EV-3, EV-4, CM-2, CN-1 | C-1, C-4, C-6, C-7, C-8, C-9, C-10, C-11, C-14, C-17 |
+| IdeaSynth | WF-4 | FR-2, FR-3, EX-3, EX-4, EV-5, OR-2, SY-3 | C-1, C-4, C-6, C-7, C-8, C-9, C-10, C-11, C-14, C-17 |
 
 The Components column is computed from the subtask Solutions. It lists every component of the
 subtasks that the system performs. A system can lack one of them in its paper.
@@ -199,4 +208,4 @@ subtasks that the system performs. A system can lack one of them in its paper.
 **Open for your judgment.**
 - HALO and HAPPIER differ at SY-1. The two can be an optimization variant and a screening variant
   of WF-1, and not one workflow.
-- WF-2 and WF-3 each rest on one system. A system outside `data/` must confirm them.
+- WF-2, WF-3, and WF-4 each rest on one system. A system outside `data/` must confirm them.

@@ -10,7 +10,7 @@ style CM  border: #5e9799  fill: #eef2f2
 style CN  border: #a78fa0  fill: #f4f1f3
 
 node FR2 "FR-2 / State the Claim"  style: FR  url: "/p/FR-2/?via=WF-3"
-node EX3 "EX-3 / Split the Claim into / Checkable Parts"  right of FR2  style: EX  url: "/p/EX-3/?via=WF-3"
+node EX3 "EX-3 / Split the Claim / into Parts"  right of FR2  style: EX  url: "/p/EX-3/?via=WF-3"
 node EV3 "EV-3 / Collect Evidence / for Each Part"  right of EX3  style: EV  url: "/p/EV-3/?via=WF-3"
 node EV4 "EV-4 / Judge Each Part / Against Its Evidence"  right of EV3  style: EV  url: "/p/EV-4/?via=WF-3"
 node CM2 "CM-2 / Accept or Reject / Proposed Revisions"  below EV4  style: CM  url: "/p/CM-2/?via=WF-3"
