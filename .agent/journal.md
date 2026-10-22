@@ -9,11 +9,26 @@
 <!-- what we should work on next time -->
 - continue to review mvp--create a more structured list of reviewable samples
 - (once stablized after add a few more papers) derive a set of rules for extracting patterns given a set of papers (or new papers added to a set of existing papers)
+- [xac] pick the next exemplar paper and run `/add-paper` on it
 
 ## 10/22/2026
-- [xac] review the PR #1 preview (IdeaSynth): WF-4, EX-3, EX-4 pages, and the WF-4 diagram layout; then merge
-- [xac] check the IdeaSynth partials recorded only (EX-1, CM-1, CM-2, CN-1, C-1, C-9, C-12) in `refs/analysis-ideasynth.md`
-- [xac] pick the next exemplar paper and run `/add-paper` on it
+- [x] pick 2-3 recurring component patterns and generate their eigen UI
+- [x] review the PR #1 preview (IdeaSynth): WF-4, EX-3, EX-4 pages, and the WF-4 diagram layout; then merge
+- ~~[xac] check the IdeaSynth partials recorded only (EX-1, CM-1, CM-2, CN-1, C-1, C-9, C-12) in `refs/analysis-ideasynth.md`~~
+
+### Eigen-UIs for C-7, C-10, C-14
+**Approach** The author chose C-7 Attached Evidence, C-10 Proposal Set, and C-14 Provenance Link: each is used by 8 subtasks, the most of any component. Same pipeline as C-4 and C-6: boxes in `refs/cp-figures.yaml`, crops by `tools/crop_cp.py`, drawings in `eigen-ui/C-{7,10,14}.svg`, crops in `figures/C-{7,10,14}/` (13 crops, 3.7 MB). Each pattern file gains `eigen_ui` and a Figures list. Findings and the differences from the spec: `eigen-ui/README.md`, section 10/22.
+- `data/` was rebuilt on this machine: HALO and THESEUS and PerspectEvolver from the author's copies (HALO is the anonymous submission `uist26a-sub2653-i7`, from Drive; the camera-ready renumbers the figures), HAPPIER and IdeaSynth from Zotero. `extract_figures.py`: 5 papers, 144 pages, 43 figures, as on 10/20. The C-4 and C-6 crops re-made from these PDFs match the tracked ones (mean pixel difference 0.32 of 255 or less), except HAPPIER: Zotero has the published version, a few pixels off from the submission.
+- Checks: `npm run build` and `npm run check` pass all 7 checks (1112 links, 0 broken). Screenshots of the built C-7, C-10, C-14 pages show the drawing and the crops.
+
+- Spec edits the author chose: C-10 adds a variation (all options go on the map; the user deletes the ones not wanted) and lists C-14 in `references`. C-14 adds a variation (a composed item marks the items it uses).
+
+**Open**
+- The spec text of all three is one or two sentences; C-4 and C-6 have numbered Solution steps. The author edits the spec.
+- Eight active components still have no eigen-UI.
+
+**Next**
+- Rewrite the C-7, C-10, C-14 Solution as numbered steps from the drawings, as C-4 and C-6 have; the author approves the text.
 
 ## 10/20/2026
 - [x] add some other groups' papers (e.g., AI2's)
