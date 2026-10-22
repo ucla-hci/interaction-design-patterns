@@ -1,0 +1,59 @@
+<svg viewBox="0 0 940 560" role="img" aria-label="Wireframe of a set of proposals, each with a label, a rationale, and an apply action">
+  <!-- the set -->
+  <rect x="10" y="10" width="920" height="540" class="all" />
+  <text x="22" y="30" class="id">#set</text>
+  <text x="60" y="30" class="lab">a few options shown together, three in most instances (4 of 4)</text>
+
+  <text x="22" y="58" class="id">#from</text>
+  <line x1="70" y1="54" x2="250" y2="54" class="line" />
+  <text x="262" y="58" class="lab">what the options answer: an item, a result, a question (3 of 4)</text>
+  <rect x="780" y="42" width="136" height="24" class="some" /><text x="792" y="58">↻ regenerate</text>
+  <text x="720" y="58" class="lab">(1 of 4)</text>
+
+  <!-- group heading -->
+  <rect x="22" y="90" width="300" height="22" class="some" /><text x="32" y="105">kind 1</text>
+  <text x="332" y="105" class="lab">options grouped or tagged by kind (3 of 4)</text>
+
+  <!-- option 1: opened / applied -->
+  <rect x="22" y="122" width="290" height="250" class="sel" />
+  <text x="34" y="144" class="id">#option</text><text x="94" y="144">label</text>
+  <rect x="220" y="130" width="80" height="20" class="some" /><text x="228" y="144">source ↗</text>
+  <line x1="34" y1="172" x2="296" y2="172" class="line" />
+  <line x1="34" y1="188" x2="296" y2="188" class="line" />
+  <line x1="34" y1="204" x2="240" y2="204" class="line" />
+  <text x="34" y="226" class="lab">a summary or a rationale (4 of 4)</text>
+  <rect x="34" y="240" width="110" height="54" class="some" /><text x="152" y="272">→</text>
+  <rect x="170" y="240" width="110" height="54" class="some" />
+  <text x="34" y="312" class="lab">before → after (1 of 4)</text>
+  <rect x="34" y="330" width="100" height="28" class="all" /><text x="44" y="349" class="id">#apply</text>
+  <text x="144" y="349" class="lab">add, choose, edit</text>
+
+  <!-- option 2 -->
+  <rect x="325" y="122" width="290" height="250" class="all" />
+  <text x="337" y="144" class="id">#option</text><text x="397" y="144">label</text>
+  <rect x="523" y="130" width="80" height="20" class="some" /><text x="531" y="144">source ↗</text>
+  <line x1="337" y1="172" x2="599" y2="172" class="line" />
+  <line x1="337" y1="188" x2="599" y2="188" class="line" />
+  <line x1="337" y1="204" x2="520" y2="204" class="line" />
+  <rect x="337" y="330" width="100" height="28" class="all" /><text x="347" y="349" class="id">#apply</text>
+
+  <!-- option 3: unopened -->
+  <rect x="628" y="122" width="290" height="250" class="some" />
+  <text x="640" y="144" class="id">#option</text><text x="700" y="144">label</text>
+  <rect x="826" y="130" width="80" height="20" class="some" /><text x="834" y="144">pending</text>
+  <line x1="640" y1="172" x2="902" y2="172" class="line" />
+  <line x1="640" y1="188" x2="840" y2="188" class="line" />
+  <rect x="640" y="330" width="100" height="28" class="all" /><text x="650" y="349" class="id">#apply</text>
+
+  <text x="22" y="394" class="lab">an option opened or applied (left), an option not opened yet (right): the unopened state is drawn apart (3 of 4)</text>
+  <text x="22" y="412" class="lab">each option links to what it came from, C-14 (3 of 4) · an apply action on each option (3 of 4)</text>
+
+  <!-- variation: options placed as items -->
+  <rect x="22" y="430" width="896" height="108" class="some" />
+  <text x="34" y="450" class="lab">variation: the options are placed as items on the map, linked to their origin; the user deletes the ones not wanted (1 of 4)</text>
+  <rect x="380" y="458" width="180" height="26" class="all" /><line x1="392" y1="471" x2="540" y2="471" class="line" />
+  <path d="M470 484 L470 496 M200 496 L740 496 M200 496 L200 506 M470 496 L470 506 M740 496 L740 506" class="edge" />
+  <rect x="120" y="506" width="160" height="26" class="all" /><line x1="132" y1="519" x2="260" y2="519" class="line" />
+  <rect x="390" y="506" width="160" height="26" class="all" /><line x1="402" y1="519" x2="530" y2="519" class="line" />
+  <rect x="660" y="506" width="160" height="26" class="some" /><text x="700" y="523">✕ delete</text>
+</svg>

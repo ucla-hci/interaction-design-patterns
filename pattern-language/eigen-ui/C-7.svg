@@ -1,0 +1,65 @@
+<svg viewBox="0 0 940 560" role="img" aria-label="Wireframe of an item with its rationale and sources attached">
+  <!-- the item that the evidence justifies -->
+  <rect x="10" y="10" width="360" height="540" class="all" />
+  <text x="22" y="30" class="lab">the evidence opens from the item that it justifies (5 of 5)</text>
+
+  <rect x="40" y="70" width="140" height="54" class="all" /><line x1="52" y1="100" x2="160" y2="100" class="line" />
+  <path d="M110 124 L110 200" class="edge" />
+  <path d="M110 124 C110 160, 290 160, 290 200" class="edge" />
+  <rect x="40" y="200" width="150" height="96" class="sel" />
+  <text x="52" y="222" class="id">#item</text><text x="96" y="222">selected</text>
+  <line x1="52" y1="246" x2="176" y2="246" class="line" />
+  <line x1="52" y1="262" x2="150" y2="262" class="line" />
+  <rect x="152" y="254" width="14" height="16" class="some" />
+  <text x="40" y="314" class="lab">a node (4 of 5) · a citation mark in its text (1 of 5)</text>
+  <rect x="230" y="200" width="120" height="54" class="all" /><line x1="242" y1="230" x2="330" y2="230" class="line" />
+
+  <rect x="40" y="380" width="140" height="54" class="all" /><line x1="52" y1="410" x2="160" y2="410" class="line" />
+  <rect x="230" y="380" width="120" height="54" class="all" /><line x1="242" y1="410" x2="330" y2="410" class="line" />
+  <path d="M180 407 L230 407" stroke="#000" stroke-width="3.5" fill="none" />
+  <text x="40" y="456" class="lab">or a link: the evidence for the relation (1 of 5)</text>
+  <line x1="190" y1="248" x2="385" y2="248" stroke="#333" stroke-width="1.5" stroke-dasharray="3 3" />
+
+  <!-- attached evidence -->
+  <rect x="385" y="10" width="545" height="540" class="all" />
+  <text x="397" y="30" class="id">#evidence</text>
+  <text x="466" y="30" class="lab">stored on the item; opens from it, beside the item (C-6)</text>
+
+  <text x="397" y="58" class="id">#for</text>
+  <line x1="436" y1="54" x2="600" y2="54" class="line" />
+  <text x="616" y="58" class="lab">names the item it justifies (5 of 5)</text>
+
+  <rect x="397" y="72" width="521" height="96" class="all" />
+  <text x="407" y="90" class="id">#rationale</text><text x="476" y="90">▾ why the item holds</text>
+  <line x1="407" y1="110" x2="900" y2="110" class="line" />
+  <line x1="407" y1="126" x2="900" y2="126" class="line" />
+  <line x1="407" y1="142" x2="760" y2="142" class="line" />
+  <text x="397" y="184" class="lab">the rationale in prose (4 of 5)</text>
+
+  <rect x="397" y="194" width="521" height="74" class="some" />
+  <text x="407" y="214">field 1</text><line x1="500" y1="210" x2="900" y2="210" class="line" />
+  <text x="407" y="236">field 2</text><line x1="500" y1="232" x2="860" y2="232" class="line" />
+  <text x="407" y="258">field 3</text><line x1="500" y1="254" x2="880" y2="254" class="line" />
+  <text x="397" y="284" class="lab">the rationale in labelled fields: strengths, weaknesses; scope, approach (2 of 5)</text>
+
+  <rect x="397" y="294" width="521" height="146" class="some" />
+  <text x="407" y="312" class="id">#sources</text><text x="470" y="312">▾ sources</text>
+  <rect x="540" y="299" width="70" height="18" class="some" /><text x="550" y="312">n used</text>
+  <rect x="616" y="299" width="94" height="18" class="some" /><text x="624" y="312">m retrieved</text>
+  <text x="720" y="312" class="lab">a count (2 of 5)</text>
+  <rect x="407" y="324" width="501" height="50" class="all" />
+  <line x1="417" y1="340" x2="700" y2="340" class="line" />
+  <text x="417" y="364" class="lab">year · kind</text>
+  <rect x="520" y="352" width="160" height="16" class="some" /><text x="526" y="364">how it was found</text>
+  <rect x="820" y="333" width="76" height="22" class="all" /><text x="830" y="348" class="id">#open</text>
+  <rect x="407" y="380" width="501" height="50" class="all" />
+  <line x1="417" y1="396" x2="660" y2="396" class="line" />
+  <text x="417" y="420" class="lab">year · kind</text>
+  <rect x="820" y="389" width="76" height="22" class="all" /><text x="830" y="404" class="id">#open</text>
+  <text x="397" y="456" class="lab">a list of sources: title, metadata, and an open control (3 of 5) · how each was found (1 of 5)</text>
+
+  <rect x="397" y="466" width="521" height="62" class="some" />
+  <text x="407" y="484">▸ evidence that is not a source: a table of members, a simulation</text>
+  <rect x="407" y="494" width="120" height="26" class="all" /><rect x="537" y="494" width="120" height="26" class="all" />
+  <text x="397" y="544" class="lab">data as evidence (2 of 5) · sections collapse (3 of 5)</text>
+</svg>

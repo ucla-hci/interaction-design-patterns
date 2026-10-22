@@ -179,8 +179,8 @@ Result Entry served one subtask each. They are now steps with no component. C-13
 Steps is merged into C-10 Proposal Set. A retired ID is not used again.
 
 **Card** (9/29): at the component level the spec is an eigen-UI card, one HTML page per component
-in `cards/`. It shows what the exemplar instances share, and the fields of the template. C-4 and
-C-6 have cards. The other components keep the earlier YAML spec until they have a card. Since 10/6 the drawings are
+in `cards/`. It shows what the exemplar instances share, and the fields of the template. C-4,
+C-6, C-7, C-10, and C-14 have eigen-UIs. The other components keep the earlier YAML spec until they have a card. Since 10/6 the drawings are
 `eigen-ui/C-<n>.svg`, and the website shows them on the card.
 
 **Spec** links an abstract representation of the component: an element tree with data bindings,
