@@ -154,6 +154,9 @@ a.pid { text-decoration-color: #bbb; text-underline-offset: 3px; }
 .prose { max-width: 820px; }
 dl.defs { display: grid; grid-template-columns: 150px 1fr; gap: 10px 18px; margin: 8px 0; }
 dl.defs dt { font-weight: 600; } dl.defs dd { margin: 0; }
+sup.fn { font-size: 11px; margin-left: 2px; }
+ol.footnotes { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 14px; }
+ol.footnotes li { margin-bottom: 6px; }
 .prose h2 { margin-top: 22px; }
 
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--FR); outline-offset: 2px; }

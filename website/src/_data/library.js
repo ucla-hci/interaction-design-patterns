@@ -180,12 +180,12 @@ const glossary = glossaryText
     const group = sec.split("\n")[0].trim();
     return table(sec).map(([term, meaning]) => ({ term: stripMd(term), meaning, group }));
   });
-// The About page shows the whole definition; a tooltip leaves out the note on workflows.
-const attributes = table(sectionOf(mvp, "Pattern Attributes")).map(([a, h]) => ({
+// A tooltip shows the one-sentence definition; the About page adds the notes as footnotes.
+const attributes = table(sectionOf(mvp, "Pattern Attributes")).map(([a, d, n]) => ({
   name: stripMd(a),
-  holds: stripMd(h),
-  tip: stripMd(h).replace(/\s*A workflow has none: "[^"]*"\.?/, ""),
-  holdsHtml: md.renderInline(h),
+  tip: stripMd(d),
+  defHtml: md.renderInline(d),
+  notesHtml: n ? md.renderInline(n) : "",
 }));
 // The roles table sits under a bold paragraph, not a heading.
 const rolesTable = mvp.match(/\*\*Subtask roles\*\*[\s\S]*?\n(\|[\s\S]*?)\n\n/);

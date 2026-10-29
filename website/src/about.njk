@@ -15,7 +15,10 @@ eleventyComputed:
   {% if m.html %}{{ m.html | safe }}{% endif %}
   {% if m.attributes %}<h2>Attributes of a pattern</h2>
     <p>Every pattern has the same attributes, in this order.</p>
-    <dl class="defs">{% for a in m.attributes %}<dt>{{ a.name }}</dt><dd>{{ a.holdsHtml | safe }}</dd>{% endfor %}</dl>{% endif %}
+    {% set fn = 0 %}
+    <dl class="defs">{% for a in m.attributes %}<dt>{{ a.name }}</dt><dd>{{ a.defHtml | safe }}{% if a.notesHtml %}{% set fn = fn + 1 %}<sup class="fn"><a id="fnref-{{ fn }}" href="#fn-{{ fn }}">{{ fn }}</a></sup>{% endif %}</dd>{% endfor %}</dl>
+    {% set fn = 0 %}
+    <ol class="footnotes">{% for a in m.attributes %}{% if a.notesHtml %}{% set fn = fn + 1 %}<li id="fn-{{ fn }}"><b>{{ a.name }}.</b> {{ a.notesHtml | safe }} <a href="#fnref-{{ fn }}" aria-label="Back to {{ a.name }}">↩</a></li>{% endif %}{% endfor %}</ol>{% endif %}
   {% if m.roles %}<p>A subtask ID starts with its role code. The roles follow the loop that all workflows share.</p>
     <dl class="defs">{% for ro in m.roles %}<dt>{{ role(library, ro.code) }}</dt><dd>{{ ro.does }}.</dd>{% endfor %}</dl>{% endif %}
   {% if m.glossary %}{% for g in m.glossary %}{% if loop.first or g.group != loop.previtem.group %}<h2>{{ g.group }}</h2>{% endif %}
