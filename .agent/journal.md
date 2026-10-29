@@ -10,6 +10,69 @@
 - continue to review mvp--create a more structured list of reviewable samples
 - (once stablized after add a few more papers) derive a set of rules for extracting patterns given a set of papers (or new papers added to a set of existing papers)
 - [xac] pick the next exemplar paper and run `/add-paper` on it
+- Example rollout, batch 3: the 3 workflows without an Example (after the author reviews batch 2). The 8 components with no crops wait for figures
+
+## 10/29/2026
+- /about/patterns/ each definition should be one sentence, which will appear on a tooltip. additional notes (e.g., "For a workflow") should appear as footnotes and not to appear on a tooltip. the definition for Solution is way too long.
+- each workflow/subtask/component page starts with an example before solution. the example should be based on figure(s) (or a redraw of it into a neutral, low/mid-fi style) of an example paper. let's try with one workflow/subtask/component.
+- for the example figure description, use consistent general terms as the ones in Solution but use the figure's specifics as example, e.g., for EX-3, "A researcher enters a claim (e.g., a main hypothesis)"
+- for subtasks, the figure description should mirror the steps in Solution section
+- 
+
+### Example before Solution: WF-3, EX-3, C-4
+**Approach** The author chose one page per level, all with THESEUS, and a crop of the paper figure (not a redraw). A pattern file can have an `## Example` section before `## Solution`: one figure line in the format of `## Figures`, then a short text on what the user does in the figure. The site shows it as a panel between the header and Solution (`website/src/p.njk`, `figureLines()` in `website/src/_data/library.js`, `.ex-fig` in `site.css`).
+- WF-3: THESEUS Fig. 1, whole figure, `figures/WF-3/1-theseus.png`. EX-3: THESEUS Fig. 2, whole figure, `figures/EX-3/1-theseus.png`. C-4: the crop `figures/C-4/4-theseus.png` that exists. The whole figures are copies of `data/figures/theseus/fig-{1,2}.png`; `crop_cp.py` does not make them.
+- Checks: `npm run build` passes; `npm run check` passes 7 of 7 (1119 links, 0 broken; 0 files refer to `data/`). The Example panel is in the built WF-3, EX-3, C-4 pages and not in the others. Headless-Chrome screenshots of the three pages show the figure, the caption, and the text above Solution.
+
+**Open**
+- C-4 shows the THESEUS crop twice: in Example, and again under Examples.
+- WF-3 and EX-3 use whole figures. Fig. 1 is a schematic that the authors drew, not a screen of the system.
+- The author approved the three pilots and the layout for all pages (10/29). The rollout is in batches; see below.
+
+### Example text: general terms, figure specifics in parentheses
+**Approach** The three Example texts are rewritten. Each one uses the terms of its Solution (claim, part, check, outcome, map, item, link, score), and puts the THESEUS name or value in parentheses, e.g., "The user enters a claim (e.g., a main hypothesis on mutant KRAS, A)".
+- EX-3: the text is a numbered list with the three step names of the Solution (Get the parts, Discuss a part, Edit the parts). Fig. 2 shows step 1 only. Steps 2 and 3 cite THESEUS §4.4 (a discussion drawer scoped to a node; drafted field edits) and say "not in the figure".
+- Checks: `npm run build` passes; `npm run check` passes 7 of 7 (1119 links, 0 broken). A screenshot of the built EX-3 page shows the list under the figure.
+
+**Open**
+- A figure can show fewer steps than the Solution has. EX-3 names the missing steps from the paper text. The author can prefer a second figure, or a shorter list.
+
+### Numbered Solution steps for C-7, C-10, C-14 (from 10/22 Next)
+**Approach** Drafted from the eigen-UI drawings and `eigen-ui/README.md` (10/22), as C-4 and C-6 have them: 6, 6, and 5 steps. A step keeps a feature that 2 or more instances show; features in 1 instance stay only in the drawing (C-7 "how each source was found", C-10 "regenerate"). The variations the author added on 10/22 are unchanged.
+- The author approved the text, and the batch-1 Examples and the attribute definitions (10/29).
+
+### Example rollout, batch 1: C-6, C-7, C-10, C-14
+**Approach** The author chose batches, components first. Each Example uses one crop that exists, picked for how many Solution steps it shows: C-6 HAPPIER Fig. 3 (map, mark, panel, prose, collapsing evidence, keep control), C-7 THESEUS Fig. 2 C, C-10 HALO Fig. 2 C, C-14 THESEUS Fig. 3 H, I. The text uses the Solution terms, with the figure's specifics in parentheses.
+- C-10: HALO puts the apply action on the item (Edit molecule), not on each option; the text says so.
+- Checks: `npm run build` passes; `npm run check` passes 7 of 7 (1129 links, 0 broken). 7 built pages have the Example panel. Screenshots of the four pages.
+
+**Open**
+- Batch 2 is done (below). Batch 3: the 3 workflows. The 8 components with no crops wait for figures.
+- Each Example crop also shows under Examples on its page (as C-4).
+
+### Attribute definitions: one sentence, notes as footnotes
+**Approach** The Pattern Attributes table in `pattern-language-mvp.md` has three columns now: Attribute, Definition (one sentence), Notes. The old "Holds" text moved to Notes unchanged, except for the parts the new Definition states. Solution: "How to build the pattern into a design, from the patterns of the next level down." A tooltip shows the Definition only (`attributes` in `website/src/_data/library.js`). `/about/patterns/` shows the Definition, with a numbered footnote marker when the attribute has notes, and the notes in a list under the definitions (`about.njk`, `.footnotes` in `site.css`).
+- Checks: `npm run build` passes; `npm run check` passes 7 of 7 (check 5: 0 labels without a definition). The Solution tooltip on EX-3 is the one sentence. A screenshot of `/about/patterns/` shows 9 definitions and 7 footnotes (10 and 8 with the Example row).
+
+- The author chose to add an Example row (10/29): Definition "One figure from one exemplar system, and what the user does in it.", with the Example rules as Notes. The Example heading on a page shows it as a tooltip. Check 5 still passes.
+
+### Example rollout, batch 2: the 19 subtasks
+**Approach** One figure per subtask, two for FR-2 (one per step). The figure is the one that shows the most Solution steps; the system is one that the subtask lists. The crops come from a new list, `refs/example-figures.yaml`, and a new script, `tools/crop_examples.py` (as `crop_cp.py`). They are in `figures/<ID>/`. The list also covers WF-3 and EX-3 (whole figures), so the copies of 10/29 are now made by the script. 21 new crops, 11 MB.
+- Each text is a numbered list with the step names of the Solution. A step that the figure does not show says "not in the figure", with the § from the Examples narrative when the paper describes it. 15 of the 19 have at least one such step.
+- Two texts say where the system departs from the Solution: CM-1 step 3 is not in HAPPIER (HALO has it), and CM-2 in PerspectEvolver applies Perspective revisions without a review; only the brief proposals are reviewed.
+- Checks: `npm run build` passes; `npm run check` passes 7 of 7 (1169 links, 0 broken). 26 built pages have the Example panel. A contact sheet of the 21 crops was checked by eye (the OR-2 box was narrowed once); screenshots of FR-2 (two figures) and EV-4.
+
+**Open**
+- `.claude/commands/add-paper.md` does not mention the Example section or `example-figures.yaml`.
+- EV-5 uses all of IdeaSynth Fig. 3 (2.4 MB), the largest crop.
+
+### Wrap-up 10/29
+**Open**
+- Batch 2 (19 subtask Examples) waits for the author's review. 15 of 19 name a step "not in the figure".
+- `/add-paper` does not yet ask for an Example or an entry in `refs/example-figures.yaml`.
+
+**Next**
+- After the review: batch 3, the Examples of WF-1, WF-2, WF-4 (about 30 minutes); then add the Example step to `.claude/commands/add-paper.md`.
 
 ## 10/22/2026
 - [x] pick 2-3 recurring component patterns and generate their eigen UI
