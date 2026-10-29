@@ -1,0 +1,50 @@
+# The figure of each page's Example section (10/29): one figure, or two when the steps need it.
+#
+# figure: an id in data/figures/index.yaml (made by tools/extract_figures.py).
+# box: [x0, y0, x1, y1], each a fraction of the figure width or height.
+# A component Example uses a crop that exists in figures/C-<n>/, so components are not listed here.
+# Crop: python3 tools/crop_examples.py  ->  pattern-language/figures/<ID>/<n>-<paper>.png
+
+WF-3:
+  - {figure: theseus/fig-1, box: [0, 0, 1, 1]}
+EX-3:
+  - {figure: theseus/fig-2, box: [0, 0, 1, 1]}
+FR-1:
+  - {figure: happier/fig-2, callout: a, box: [0.01, 0.025, 0.33, 0.49]}
+EX-1:
+  - {figure: happier/fig-2, callout: b, box: [0.34, 0.025, 0.66, 0.49]}
+OR-1:
+  - {figure: halo/fig-2, callout: A-C, box: [0.00, 0.055, 0.96, 0.50]}
+EV-1:
+  - {figure: happier/fig-2, callout: b-c, box: [0.34, 0.025, 0.99, 0.49]}
+CM-1:
+  - {figure: happier/fig-4, box: [0, 0, 1, 1]}
+SY-1:
+  - {figure: halo/fig-2, callout: D-E, box: [0.00, 0.505, 0.96, 0.99]}
+FR-2:
+  - {figure: perspectevolver/fig-2, callout: 1, box: [0.00, 0.00, 0.335, 0.99]}
+  - {figure: perspectevolver/fig-1, callout: 3, box: [0.68, 0.09, 0.97, 0.38]}
+EX-2:
+  - {figure: perspectevolver/fig-2, callout: 2-3, box: [0.335, 0.04, 0.995, 0.98]}
+EV-2:
+  - {figure: perspectevolver/fig-3, callout: 1-2, box: [0.00, 0.00, 0.615, 0.92]}
+SY-2:
+  - {figure: perspectevolver/fig-1, callout: 2, box: [0.335, 0.09, 0.62, 0.98]}
+CM-2:
+  - {figure: perspectevolver/fig-3, callout: 3, box: [0.645, 0.03, 0.985, 0.88]}
+CN-1:
+  - {figure: theseus/fig-3, callout: I, box: [0.575, 0.02, 0.975, 0.97]}
+EV-3:
+  - {figure: theseus/fig-3, callout: F-H, box: [0.02, 0.03, 0.575, 0.97]}
+EV-4:
+  - {figure: theseus/fig-3, callout: H, box: [0.435, 0.52, 0.575, 0.97]}
+FR-3:
+  - {figure: ideasynth/fig-3, callout: 1-2, box: [0.00, 0.00, 0.50, 0.36]}
+EV-5:
+  - {figure: ideasynth/fig-3, box: [0, 0, 1, 1]}
+EX-4:
+  - {figure: ideasynth/fig-5, box: [0, 0, 1, 1]}
+OR-2:
+  - {figure: ideasynth/fig-4, callout: "1, 4", box: [0.26, 0.00, 0.54, 0.66]}
+SY-3:
+  - {figure: ideasynth/fig-6, box: [0, 0, 1, 1]}

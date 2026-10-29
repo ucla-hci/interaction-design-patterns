@@ -12,6 +12,18 @@ references: ["C-10"]
 aliases: ["C2"]
 ---
 
+## Example
+
+- `figures/EV-3/1-theseus.png` THESEUS Fig. 3, callouts F to H: experiment selector, details, and result upload
+
+1. Edit the procedure. The system attaches a procedure to the part (an experiment: protocol steps,
+   variables, measurements, materials, G). The user can edit any field (§4.2).
+2. Choose a procedure. The user selects one procedure from the options (the base experiment or a
+   variant, F).
+3. Report outcomes. The user reports outcomes in a template tied to the procedure (Download
+   template, Upload CSV result, H). The system attaches the outcome to that procedure (Saved
+   analysis: completed).
+
 ## Solution
 
 1. Edit the procedure — (no component)

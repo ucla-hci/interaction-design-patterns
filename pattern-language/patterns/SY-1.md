@@ -12,6 +12,19 @@ references: ["C-10", "C-14"]
 aliases: ["A5"]
 ---
 
+## Example
+
+- `figures/SY-1/1-halo.png` HALO Fig. 2, callouts D and E: strategies within and across clusters; the edited molecule
+
+1. Apply an option. The system shows options within one group and across groups (intra-cluster and
+   inter-cluster strategies, D). The user applies one. The system edits the candidate (the
+   molecule, E), and shows the gain and the loss on every criterion (DRD2, DILI, pLogP, QED, in
+   green or red).
+2. Choose a direction. The user chooses a direction, and the open options become fewer (not in the
+   figure).
+3. Save the candidate. The user saves the candidate (Save). The system adds it to the map, with a
+   link to its source (an edit edge, §4.3; not in the figure).
+
 ## Solution
 
 1. Apply an option — C-10 Proposal Set

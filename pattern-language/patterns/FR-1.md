@@ -12,6 +12,15 @@ references: ["C-1"]
 aliases: ["A1"]
 ---
 
+## Example
+
+- `figures/FR-1/1-happier.png` HAPPIER Fig. 2, panel a: three inputs; one per criterion
+
+1. Enter the start and criteria. The user enters the starting point (an initial protein, MAPT.pdb),
+   and one value per criterion (a therapeutic impact, "To phosphorylate MAPT"; a ligand,
+   Roscovitine.sdf). The system shows one field for each, in the format of the domain (a PDB file,
+   text, an SDF file).
+
 ## Solution
 
 1. Enter the start and criteria — C-1 Inquiry Frame

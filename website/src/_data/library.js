@@ -78,6 +78,15 @@ function parseWorkflow(solution) {
   return { mermaid: m ? m[1].trim() : "", list };
 }
 
+// "- `figures/C-4/1-halo.png` HALO Fig. 2, callout A: what it shows" -> { src, where, what }
+const FIGURE_LINE = /^- `([^`]+)` (.+)$/gm;
+function figureLines(text) {
+  return [...text.matchAll(FIGURE_LINE)].map((m) => {
+    const [where, what] = m[2].split(/:\s(.+)/);
+    return { src: "/" + m[1], where, what: what || "" };
+  });
+}
+
 function loadPatterns() {
   const dir = path.join(LANG, "patterns");
   const recs = {};
@@ -101,11 +110,9 @@ function loadPatterns() {
     if (rec.level === "workflow" && sec.Solution) Object.assign(rec, parseWorkflow(sec.Solution));
     if (rec.level === "component" && sec.Solution) rec.solutionList = sec.Solution;
     if (rec.eigen_ui) rec.svg = read(rec.eigen_ui).trim();
-    if (sec.Figures)
-      rec.figures = [...sec.Figures.matchAll(/^- `([^`]+)` (.+)$/gm)].map((m) => {
-        const [where, what] = m[2].split(/:\s(.+)/);
-        return { src: "/" + m[1], where, what: what || "" };
-      });
+    if (sec.Figures) rec.figures = figureLines(sec.Figures);
+    // Example: figure lines, then the text that tells what the user does in the figure.
+    if (sec.Example) rec.example = { figures: figureLines(sec.Example), text: sec.Example.replace(FIGURE_LINE, "").trim() };
     recs[rec.id] = rec;
   }
   return recs;
@@ -275,6 +282,7 @@ for (const r of live) {
   r.situationHtml = markTerms(r.situation || "", seen);
   r.problemHtml = markTerms(r.problem || "", seen);
   r.examplesHtml = render(r.sections.Examples);
+  if (r.example) r.example.html = render(r.example.text);
   r.statesHtml = r.sections.States ? render(r.sections.States) : "";
   if (r.level === "component") r.solutionHtml = render(r.solutionList);
   if (r.steps) for (const s of r.steps) { s.userHtml = markTerms(stepInline(s.user), seen); s.systemHtml = markTerms(stepInline(s.system), seen); }

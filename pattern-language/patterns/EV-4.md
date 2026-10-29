@@ -12,6 +12,16 @@ references: ["C-6", "C-7", "C-8"]
 aliases: ["C3"]
 ---
 
+## Example
+
+- `figures/EV-4/1-theseus.png` THESEUS Fig. 3, callout H: the verdict on one hypothesis, and the vote
+
+1. Get a verdict. The system judges the outcome against the part, and reports one verdict (Not
+   approved by result). The reasoning stays beside the verdict (the hypothesis text). The vote
+   shows how far the verdict can be trusted (0 approve, 3 not approve).
+2. Contest the verdict. The user opens the reasoning (Observed outcome, Submitted observation), and
+   contests the verdict (not in the figure).
+
 ## Solution
 
 1. Get a verdict — C-7 Attached Evidence, C-8 Confidence Cue

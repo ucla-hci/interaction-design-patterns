@@ -12,6 +12,16 @@ references: ["C-10", "C-11", "C-14"]
 aliases: ["S2"]
 ---
 
+## Example
+
+- `figures/CM-2/1-perspectevolver.png` PerspectEvolver Fig. 3, callout 3: revision cards; before and now, by field
+
+1. Select an option. After a discussion, the system shows each change as a revision: before and
+   after (Before, Now), only for the fields that changed (Explanation, Approach).
+2. Accept or reject changes. The system keeps the replaced text, with the reason and the thread
+   (History, §4.3.1; not in the figure). For the brief, the user accepts, edits, or rejects each
+   proposal (§4.3.2).
+
 ## Solution
 
 1. Select an option — C-11 Reviewable Revision, C-10 Proposal Set

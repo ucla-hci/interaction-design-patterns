@@ -12,6 +12,18 @@ references: ["C-4", "C-7", "C-10", "C-14", "C-17"]
 aliases: []
 ---
 
+## Example
+
+- `figures/EX-4/1-ideasynth.png` IdeaSynth Fig. 5: an idea node, its suggestion, and Generate Alternatives
+
+1. Request alternatives. The user selects a part (a Problem Design and Solution node, 1), and
+   requests alternatives (Generate Alternatives, 5), with an optional instruction (Additional
+   prompt). The system adds parts of the same kind, linked to the part (§4.2; not in the figure).
+2. Apply a proposal. The user moves through the proposals of the part (the arrows, 4), and applies
+   one (Regenerate Current Research Component). A proposal cites its sources (a paper, 3).
+3. Remove alternatives. The user removes the alternatives that do not fit (§4.1.4; not in the
+   figure).
+
 ## Solution
 
 1. Request alternatives — C-4 Persistent Structure Map, C-17 Typed Item, C-14 Provenance Link

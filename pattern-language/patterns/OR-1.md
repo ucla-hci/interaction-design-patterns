@@ -12,6 +12,16 @@ references: ["C-3", "C-4", "C-5", "C-6"]
 aliases: ["A3"]
 ---
 
+## Example
+
+- `figures/OR-1/1-halo.png` HALO Fig. 2, callouts A to C: clusters of the generated molecules; one cluster open
+
+1. Get grouped candidates. The system sorts the candidates on the map (generated molecules, A) into
+   groups by the criteria (clusters by the properties that improved, B). Each group shows its
+   result on each criterion (a check per property: DRD2, DILI, PLOGP, QED), and its size.
+2. Open a group. The user selects a group (Cluster 3). The system opens its detail (MolStrategy,
+   C): a summary, and tabs for the overview, the candidates, and the strategies.
+
 ## Solution
 
 1. Get grouped candidates — C-3 Candidate Groups, C-5 Multi-Criteria Encoding, C-4 Persistent Structure Map

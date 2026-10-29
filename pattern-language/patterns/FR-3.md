@@ -13,6 +13,15 @@ references: ["C-10"]
 aliases: []
 ---
 
+## Example
+
+- `figures/FR-3/1-ideasynth.png` IdeaSynth Fig. 3, callouts 1 and 2: paper search, and the collection
+
+1. Add sources. The user searches for sources (Search Papers, 1), and adds them to the collection
+   (Collected Papers: 5 papers collected, 2). Each source shows its metadata and a summary (TLDR).
+2. Get recommended sources. The user requests more sources (Recommend Papers). The system proposes
+   sources like the ones in the collection (§4.3; not in the figure).
+
 ## Solution
 
 1. Add sources — (no component)

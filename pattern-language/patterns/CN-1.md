@@ -12,6 +12,16 @@ references: ["C-10", "C-14"]
 aliases: ["S3"]
 ---
 
+## Example
+
+- `figures/CN-1/1-theseus.png` THESEUS Fig. 3, callout I: follow-up paths from a rejected hypothesis, and three candidates
+
+1. See the open items. For an open item (the hypothesis H3, not approved), the system shows options
+   (follow-up paths: Replacement hypothesis, Further experiment). Each option links to the items
+   that raised it (2 source experiments).
+2. Open an option. The user opens one option (choose). The system starts the work that it needs
+   (three replacement candidates, pending).
+
 ## Solution
 
 1. See the open items — C-10 Proposal Set, C-14 Provenance Link

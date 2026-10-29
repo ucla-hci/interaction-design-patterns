@@ -12,6 +12,16 @@ references: ["C-1", "C-4", "C-14"]
 aliases: ["A2"]
 ---
 
+## Example
+
+- `figures/EX-1/1-happier.png` HAPPIER Fig. 2, panel b: candidate interactions in ranked subgraphs
+
+1. Request candidates. From the starting point (MAPT), the system returns a batch, not one answer
+   (the protein interactions in Subgraphs 1 to 3). The candidates are on a map (a graph centered on
+   MAPT).
+2. Refine and request again. The user edits the criteria, and requests another batch (not in the
+   figure).
+
 ## Solution
 
 1. Request candidates — C-1 Inquiry Frame, C-4 Persistent Structure Map, C-14 Provenance Link

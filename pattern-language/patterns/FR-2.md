@@ -12,6 +12,17 @@ references: ["C-1", "C-11"]
 aliases: ["S1"]
 ---
 
+## Example
+
+- `figures/FR-2/1-perspectevolver.png` PerspectEvolver Fig. 2, callout 1: the Investigation Brief
+- `figures/FR-2/2-perspectevolver.png` PerspectEvolver Fig. 1, callout 3: a proposed revision of one field
+
+1. State the claim. The user fills one field of the frame per aspect of the claim (the
+   Investigation Brief: Problem, Framing, Previous work, Methodology, Expected results). The frame
+   stays visible beside the work.
+2. Review changes to the claim. When later work implies a change, the system shows a revision of
+   one field (Framing). The user accepts, edits, or rejects it (Accept, Edit, Reject).
+
 ## Solution
 
 1. State the claim — C-1 Inquiry Frame

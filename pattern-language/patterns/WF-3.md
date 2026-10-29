@@ -11,6 +11,17 @@ references: ["FR-2", "EX-3", "EV-3", "EV-4", "CM-2", "CN-1"]
 aliases: ["WF-C"]
 ---
 
+## Example
+
+- `figures/WF-3/1-theseus.png` THESEUS Fig. 1: overview; split, evidence on each link, and next steps
+
+The user states a claim (e.g., a main hypothesis: KRAS G12D inhibition reduces pancreatic organoid
+growth). The system splits the claim into parts (sub-hypotheses), each with its rationale (A). For
+each part, the user runs a check (an experiment) and reports the outcome (uploads the results).
+The system judges each part against its outcome (supported, not supported, or no result yet). For
+a part that cannot hold, the user picks a next step (replace the hypothesis, or run another
+experiment). The system then proposes candidates (three) for review.
+
 ## Solution
 
 Support this sequence of subtasks:

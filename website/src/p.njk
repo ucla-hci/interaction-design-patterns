@@ -24,6 +24,16 @@ eleventyComputed:
     </dl>
   </header>
 
+  {% if r.example %}
+  <section class="panel example">
+    <h2><span class="attr term" tabindex="0" data-def="{{ library.attrByName.Example.tip }}">Example</span></h2>
+    {% for f in r.example.figures %}
+    <figure class="ex-fig"><a href="{{ f.src }}"><img src="{{ f.src }}" alt="{{ f.where }}: {{ f.what }}"></a>
+      <figcaption><b>{{ f.where }}</b> {{ f.what }}</figcaption></figure>{% endfor %}
+    <div class="ex-text">{{ r.example.html | safe }}</div>
+  </section>
+  {% endif %}
+
   <section class="panel">
     <h2><span class="attr term" tabindex="0" data-def="{{ library.attrByName.Solution.tip }}">Solution</span></h2>
     {% if r.level == "workflow" %}

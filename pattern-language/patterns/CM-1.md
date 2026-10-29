@@ -13,6 +13,17 @@ references: ["C-1", "C-12", "C-14"]
 aliases: ["A6"]
 ---
 
+## Example
+
+- `figures/CM-1/1-happier.png` HAPPIER Fig. 4: Bookmark Mode; the kept interactions, filtered by subgraph
+
+1. Keep a candidate. The user keeps candidates (bookmarks interactions in the detail panel, §5.2).
+   The system shows the shortlist as its own view (Bookmark Mode: a graph of the kept
+   interactions). The shortlist is the deliverable (Export Bookmarks).
+2. Filter the shortlist. The user filters the shortlist by group (a checkbox per subgraph).
+3. Start the next round. The user sends a kept candidate to the frame as the next starting point
+   (not in HAPPIER; in HALO, a saved molecule starts the next round, §4.3).
+
 ## Solution
 
 1. Keep a candidate — C-12 Shortlist, C-14 Provenance Link

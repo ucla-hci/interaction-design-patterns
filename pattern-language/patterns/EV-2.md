@@ -12,6 +12,17 @@ references: ["C-7", "C-9"]
 aliases: ["B2"]
 ---
 
+## Example
+
+- `figures/EV-2/1-perspectevolver.png` PerspectEvolver Fig. 3, callouts 1 and 2: threads, and one open discussion
+
+1. Open a conversation. The user opens one conversation per question (a thread, 1), with its
+   participants (3 Perspectives). The system names the viewpoint of each contribution, and the
+   contribution that it answers (Answering @AI-Mediated Collective Sensemaking). An empirical claim
+   carries its evidence (references 4 and 5).
+2. Steer the conversation. The user requests more turns (Discuss, 4 turns, 2), or asks a question in
+   the same conversation.
+
 ## Solution
 
 1. Open a conversation — C-9 Scoped Conversation, C-7 Attached Evidence

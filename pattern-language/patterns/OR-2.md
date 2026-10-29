@@ -13,6 +13,16 @@ references: ["C-4", "C-6", "C-8", "C-10"]
 aliases: []
 ---
 
+## Example
+
+- `figures/OR-2/1-ideasynth.png` IdeaSynth Fig. 4, callouts 1 and 4: a link between two nodes, and its suggestion
+
+1. Link two parts. The user links two parts (the research question, and a proposed design). The
+   system scores how well they fit, and shows the score on the link (the edge colour: "The
+   connection is strong").
+2. Strengthen a link. The user opens the detail of the link (the edge suggestion, 4). The system
+   proposes a change that makes the two parts fit better.
+
 ## Solution
 
 1. Link two parts — C-4 Persistent Structure Map, C-8 Confidence Cue

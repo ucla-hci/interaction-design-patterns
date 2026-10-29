@@ -12,6 +12,17 @@ references: ["C-5", "C-6", "C-7", "C-8"]
 aliases: ["A4"]
 ---
 
+## Example
+
+- `figures/EV-1/1-happier.png` HAPPIER Fig. 2, panels b and c: criteria toggled on, one at a time
+
+1. Toggle criteria. The user turns criteria on (C1, then C2). The system shows them on one view, with
+   one visual channel each (edge thickness for interaction potential, b; edge colour for
+   therapeutic impact, c).
+2. Inspect a candidate. The user selects a candidate (the interaction BRSK1 > MAPT). The system
+   opens its detail, with the evidence for the score (an explanation and reference papers, c).
+3. Reject candidates. The user rejects candidates, and goes to the next group (not in the figure).
+
 ## Solution
 
 1. Toggle criteria — C-5 Multi-Criteria Encoding, C-8 Confidence Cue

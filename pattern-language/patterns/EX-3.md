@@ -13,6 +13,20 @@ references: ["C-4", "C-7", "C-8", "C-9", "C-17"]
 aliases: ["C1"]
 ---
 
+## Example
+
+- `figures/EX-3/1-theseus.png` THESEUS Fig. 2: hypothesis graph, a selected sub-hypothesis, and its rationale
+
+1. Get the parts. The user enters a claim (e.g., a main hypothesis on mutant KRAS, A). The system
+   proposes parts on a map (sub-hypotheses), each linked to the claim with a score (e.g., 87%).
+   The user selects a part (B), and opens the rationale and the sources of its link (decomposition
+   rationale, papers used, C). The user can request parts from one part (a further split of an
+   approved leaf, E).
+2. Discuss a part. The user opens a conversation about the selected part (a discussion drawer,
+   §4.4; not in the figure). The system answers about that part and its branch.
+3. Edit the parts. The user edits a part (applies a drafted edit from the discussion, §4.4; not in
+   the figure). The system updates the map.
+
 ## Solution
 
 1. Get the parts — C-4 Persistent Structure Map, C-17 Typed Item, C-7 Attached Evidence, C-8 Confidence Cue

@@ -12,6 +12,18 @@ references: ["C-6", "C-7", "C-10", "C-14"]
 aliases: []
 ---
 
+## Example
+
+- `figures/EV-5/1-ideasynth.png` IdeaSynth Fig. 3: Q&A, summary, and analysis with next steps
+
+1. Get the analysis. The user requests the analysis of the whole work (Generate). The system links
+   sections of sources to the parts (Overall Summary, 4; Analysis and Suggestions, 5: Key Section,
+   Connection to Ideas). A source opens from its mark (the document icon).
+2. Ask about the sources. The user asks a question ("How did these papers conduct their human
+   evaluation?", 3). The system answers from the collection only (AI Response).
+3. Turn a proposal into parts. The user drags a next step to the map (Next Steps, 5). The system adds
+   a chain of new parts (Fig. 4, callout 5; not in this figure).
+
 ## Solution
 
 1. Get the analysis — C-6 Detail on Demand, C-7 Attached Evidence

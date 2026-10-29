@@ -12,6 +12,19 @@ references: ["C-4", "C-14"]
 aliases: []
 ---
 
+## Example
+
+- `figures/SY-3/1-ideasynth.png` IdeaSynth Fig. 6: selected nodes on the canvas, and the research brief
+
+1. Select parts. The user selects linked parts on the map (a path of facet nodes). The system marks
+   them (an orange border).
+2. Get the composition. The user requests a composition (Generate Research Brief). The system
+   writes one document from the parts (a research brief: Problem Description, Proposed Design,
+   Evaluation Method). When the document has focus, its parts and links are marked on the map
+   (green links).
+3. Keep several compositions. The user composes again from other parts. Each brief stays in its own
+   tab (§4.1.5; not in the figure).
+
 ## Solution
 
 1. Select parts — C-4 Persistent Structure Map
